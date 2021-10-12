@@ -33,47 +33,6 @@ std::unique_ptr<Material> mat_ducky, mat_unselected, mat_selected, mat_line;
 // Keep our main cleaner
 void LoadDefaultResources();
 
-// Templated LERP function
-template<typename T>
-T Lerp(const T& p0, const T& p1, float t)
-{
-	return (1.0f - t) * p0 + t * p1;
-}
-
-// **DO NOT RENAME THE CATMULL OR BEZIER FUNCTIONS (things will break)**
-
-// TODO: Templated Catmull-Rom function.
-template<typename T>
-T Catmull(const T& p0, const T& p1, const T& p2, const T& p3, float t)
-{
-	float t2 = t * t;
-	float t3 = t2 * t;
-
-	T a = p1;
-	T b = 0.5f * (-p0 + p2);
-	T c = 0.5f * (2.0f * p0 - 5.0f * p1 + 4.0f * p2 - p3);
-	T d = 0.5f * (-p0 + 3.0f * p1 - 3.0f * p2 + p3);
-
-	return a + b * t + c * t2 + d * t3;
-}
-
-// TODO: Templated Bezier function
-template<typename T>
-T Bezier(const T& p0, const T& p1, const T& p2, const T& p3, float t)
-{
-	float t2 = t * t;
-	float t3 = t2 * t;
-	float a2 = (1.0f - t) * (1.0f - t);
-	float a3 = a2 * (1.0f - t);
-
-	T a = a3 * p0;
-	T b = 3 * t * a2 * p1;
-	T c = 3 * t2 * (1 - t) * p2;
-	T d = t3 * p3;
-
-	return a + b + c + d;
-}
-
 int main()
 {
 	// Create window and set clear color

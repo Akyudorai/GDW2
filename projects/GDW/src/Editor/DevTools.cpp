@@ -2,6 +2,7 @@
 #include "DevTools.h"
 #include "Hierarchy.h"
 #include "../../NOU/include/NOU/App.h"
+#include <stdlib.h>
 using namespace nou;
 
 namespace OMG
@@ -12,7 +13,7 @@ namespace OMG
 		
 		// Draw the panel here	
 		ImGui::SetNextWindowSize(ImVec2(1400, 700), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin("Editor", &displayPanel, ImGuiWindowFlags_MenuBar))
+		if (ImGui::Begin("Editor", NULL, ImGuiWindowFlags_MenuBar))
 		{
 			// Menubar
 			if (ImGui::BeginMenuBar())
@@ -22,7 +23,7 @@ namespace OMG
 					if (ImGui::MenuItem("New Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Open Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Save Scene")) { /* Do stuff */ }
-					if (ImGui::MenuItem("Exit")) { /* Do stuff */ }
+					if (ImGui::MenuItem("Exit")) { exit(0); }
 
 					ImGui::EndMenu();
 				}
