@@ -197,4 +197,8 @@ namespace nou
 	{
 		glClearColor(clearColor.r, clearColor.g, clearColor.b, clearColor.a);		
 	}
+
+	GLFWwindow* App::GetWindow() {
+		return m_window;
+	}
 }

@@ -43,6 +43,7 @@ namespace nou
 
 		static float GetDeltaTime();
 		static bool IsClosing();
+		static GLFWwindow* GetWindow();
 
 		static void SetClearColor(const glm::vec4& clearColor);
 

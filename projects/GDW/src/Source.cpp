@@ -10,8 +10,6 @@ Quinn Daggett 2021
 #include "NOU/CMeshRenderer.h"
 #include "NOU/Shader.h"
 #include "NOU/GLTFLoader.h"
-#include "Tools/PathUtility.h"
-#include "CPathAnimator.h"
 
 #include <iostream>
 
@@ -20,11 +18,12 @@ Quinn Daggett 2021
 #include <memory>
 #include <cmath>
 
-#include "DevTools.h"
-#include "Hierarchy.h"
+#include "Editor/DevTools.h"
+#include "Game/FPS_Controller.h"
 
 using namespace nou;
 using namespace OMG;
+using namespace GAME;
 
 std::unique_ptr<ShaderProgram> prog_texLit, prog_lit, prog_unlit;
 std::unique_ptr<Mesh> mesh_ducky, mesh_box;
@@ -78,7 +77,7 @@ T Bezier(const T& p0, const T& p1, const T& p2, const T& p3, float t)
 int main()
 {
 	// Create window and set clear color
-	App::Init("Week 3 tutorial - LERP plus paths", 800, 600);
+	App::Init("Game", 800, 600);
 	App::SetClearColor(glm::vec4(0.0f, 0.27f, 0.4f, 1.0f));
 
 	// Initialize ImGui
@@ -86,10 +85,6 @@ int main()
 
 	// Load in our model/texture resources
 	LoadDefaultResources();
-
-	PathSampler::Lerp = Lerp<glm::vec3>;
-	PathSampler::Catmull = Catmull<glm::vec3>;
-	PathSampler::Bezier = Bezier<glm::vec3>;
 
 	// Create and set up camera
 	Entity ent_camera = Entity::Create("Camera");
@@ -102,38 +97,17 @@ int main()
 	Entity ent_ducky = Entity::Create("Ducky");
 	//ent_ducky.m_name = "Ducky";
 	ent_ducky.Add<CMeshRenderer>(ent_ducky, *mesh_ducky, *mat_ducky);
-	ent_ducky.Add<CPathAnimator>(ent_ducky);
 	ent_ducky.transform.m_scale = glm::vec3(0.005f, 0.005f, 0.005f);
 	ent_ducky.transform.m_pos = glm::vec3(0.0f, -1.0f, 0.0f);
 	ent_ducky.transform.m_rotation = glm::angleAxis(glm::radians(-30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 
+	ent_camera.Add<FPS_Controller>(ent_camera, cam);
+
 	// Set up waypoint container
 	std::vector<std::unique_ptr<Entity>> points;
 
-	// Set up path sampler utility for drawing the path
-	PathSampler sampler = PathSampler();
-
-	Entity ent_pathDrawUtility = Entity::Create("Path Draw Utility");
-	//ent_pathDrawUtility.m_name = "Path Draw Utility";
-	ent_pathDrawUtility.Add<CLineRenderer>(ent_pathDrawUtility, sampler, *mat_line);
-
 	// Interpolation mode value
 	static int interp_type = 0;
-
-	// Preload points
-	for (int i = 0; i < 4; i++) {
-		points.push_back(Entity::Allocate("Point"));
-		auto& p = points.back();
-		p->Add<CMeshRenderer>(*p, *mesh_box, *mat_unselected);
-		p->transform.m_scale = glm::vec3(0.1f, 0.1f, 0.1f);
-	}
-	points[0].get()->transform.m_pos = glm::vec3(-2.0f, 2.0f, 0.0f);
-	points[1].get()->transform.m_pos = glm::vec3(-1.2f, -1.2f, 0.0f);
-	points[2].get()->transform.m_pos = glm::vec3(1.2f, -1.2f, 0.0f);
-	points[3].get()->transform.m_pos = glm::vec3(2.0f, 2.0f, 0.0f);
-
-	// Dev Tools
-	DevTools dt = DevTools::DevTools();
 
 	App::Tick();
 
@@ -147,9 +121,6 @@ int main()
 
 		// Update camera
 		ent_camera.Get<CCamera>().Update();
-
-		// Update duck path animator
-		ent_ducky.Get<CPathAnimator>().Update(points, deltaTime);
 
 		// Update transforms on all our points
 		for (int i = 0; i < points.size(); i++)
@@ -169,98 +140,25 @@ int main()
 		// Draw duck
 		ent_ducky.Get<CMeshRenderer>().Draw();
 
-		// Draw path using line renderer
-		ent_pathDrawUtility.Get<CLineRenderer>().Draw(points);
+
+		////////////////////////////////////////////////
+		////////////////////////////////////////////////
+
+		// Update FPS Controller
+		ent_camera.Get<FPS_Controller>().UpdateMotion(deltaTime);
+		ent_camera.Get<FPS_Controller>().UpdateCamera(deltaTime);
 
 		App::StartImgui();
-
-		// Render Dev Tools
-		dt.Render();
-
-		static bool listPanel = true;
-		ImGui::Begin("Waypoint editor", &listPanel, ImVec2(300, 200));
-
-		// Button for adding waypoints
-		if (ImGui::Button("Add"))
-		{
-			points.push_back(Entity::Allocate("New Point"));
-			auto& p = points.back();
-			p->Add<CMeshRenderer>(*p, *mesh_box, *mat_unselected);
-			p->transform.m_scale = glm::vec3(0.1f, 0.1f, 0.1f);
-
-			if (points.size() > 1)
-			{
-				auto& lastP = points[points.size() - 2];
-				p->transform.m_pos = lastP->transform.m_pos + glm::vec3(0.2f, 0.0f, 0.0f);
-			}
-		}
-
-		if (ImGui::Button("Remove") && points.size() > 0)
-		{
-			points.pop_back();
-		}
-
-		if (ImGui::RadioButton("LERP", &interp_type, 0))
-		{
-			ent_ducky.Get<CPathAnimator>().SetMode(PathSampler::PathMode::LERP);
-		}
-		if (ImGui::RadioButton("Catmull", &interp_type, 1))
-		{
-			ent_ducky.Get<CPathAnimator>().SetMode(PathSampler::PathMode::CATMULL);
-		}
-		if (ImGui::RadioButton("Bezier", &interp_type, 2))
-		{
-			ent_ducky.Get<CPathAnimator>().SetMode(PathSampler::PathMode::BEZIER);
-		}
-
-		//Interface for selecting a waypoint.
-		static size_t pointSelected = 0;
-		static std::string pointLabel = "";
-
-		if (pointSelected >= points.size())
-			pointSelected = points.size() - 1;
-
-		for (size_t i = 0; i < points.size(); ++i)
-		{
-			pointLabel = "Point " + std::to_string(i);
-
-			if (ImGui::Selectable(pointLabel.c_str(), i == pointSelected))
-			{
-				if (pointSelected < points.size())
-					points[pointSelected]->Get<CMeshRenderer>().SetMaterial(*mat_unselected);
-
-				pointSelected = i;
-			}
-		}
-
-		ImGui::End();
-
-		//Interface for moving a selected component.
-		if (pointSelected < points.size())
-		{
-			auto& transform = points[pointSelected]->transform;
-
-			points[pointSelected]->Get<CMeshRenderer>().SetMaterial(*mat_selected);
-			static bool transformPanel = true;
-
-			ImGui::Begin("Point Coordinates", &transformPanel, ImVec2(300, 100));
-
-			//This will tie the position of the selected
-			//waypoint to input fields rendered with Imgui.
-			ImGui::DragFloat("X", &(transform.m_pos.x), 0.1f);
-			ImGui::DragFloat("Y", &(transform.m_pos.y), 0.1f);
-			ImGui::DragFloat("Z", &(transform.m_pos.z), 0.1f);
-
-			ImGui::End();
-		}
-
-		Hierarchy::getInstance().Render();
-
+	
+		DevTools::GetInstance().Render();
+		
 		App::EndImgui();		
 
 		// Draw everything we queued up to the screen
 		App::SwapBuffers();
 	}
+
+	
 
 	// Destroy window
 	App::Cleanup();
