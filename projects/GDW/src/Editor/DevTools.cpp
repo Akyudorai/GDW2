@@ -2,8 +2,9 @@
 #include "DevTools.h"
 #include "Hierarchy.h"
 #include "../../NOU/include/NOU/App.h"
+#include <stdlib.h>
+#include "Utilities.h"
 using namespace nou;
-
 namespace OMG
 {
 	
@@ -68,17 +69,22 @@ namespace OMG
 				ImGui::EndMenuBar();
 			}
 
-			// Hierarchy			
-			ImGui::BeginChild("Hierarchy", ImVec2(200, 500), true);			
-			for (auto const& i : Hierarchy::GetInstance().entities) {
-				//FIXME: Good candidate to use ImGuiSelectableFlags_SelectOnNav				
-				if (ImGui::Selectable(i->m_name.c_str()))
-				{
-					// Do something with the selected item
+			// Hierarchy	
+			static int selected = 0;
+			{
+				ImGui::BeginChild("Hierarchy", ImVec2(200, 500), true);
+
+				for (int i = 0; i < Hierarchy::GetInstance().entities.size(); i++) {
+					Entity* e = Utilities::GetAtIndex(Hierarchy::GetInstance().entities, i);
+					if (ImGui::Selectable(e->m_name.c_str(), selected == i))
+					{
+						selected = i;
+					}
 				}
-					
+
+				ImGui::EndChild();
 			}
-			ImGui::EndChild();
+			
 
 			// Scene
 			ImGui::SameLine();

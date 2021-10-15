@@ -45,7 +45,7 @@
     <LinkIncremental>true</LinkIncremental>
     <OutDir>..\..\bin\Debug-windows-x86_64\GDW\</OutDir>
     <IntDir>..\..\obj\Debug-windows-x86_64\GDW\</IntDir>
-    <TargetName>Week 4 (starter)</TargetName>
+    <TargetName>GDW</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -112,11 +112,13 @@
   <ItemGroup>
     <ClInclude Include="src\Editor\DevTools.h" />
     <ClInclude Include="src\Editor\Hierarchy.h" />
+    <ClInclude Include="src\Editor\Utilities.h" />
     <ClInclude Include="src\Game\FPS_Controller.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Editor\DevTools.cpp" />
     <ClCompile Include="src\Editor\Hierarchy.cpp" />
+    <ClCompile Include="src\Editor\Utilities.cpp" />
     <ClCompile Include="src\Game\FPS_Controller.cpp" />
     <ClCompile Include="src\Source.cpp" />
   </ItemGroup>

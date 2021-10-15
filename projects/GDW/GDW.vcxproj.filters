@@ -18,6 +18,9 @@
     <ClInclude Include="src\Editor\Hierarchy.h">
       <Filter>Editor</Filter>
     </ClInclude>
+    <ClInclude Include="src\Editor\Utilities.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Source.cpp" />
@@ -28,6 +31,9 @@
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Hierarchy.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Editor\Utilities.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
   </ItemGroup>
