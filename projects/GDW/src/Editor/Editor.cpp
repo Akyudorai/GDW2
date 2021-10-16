@@ -1,15 +1,14 @@
 
-#include "DevTools.h"
+#include "Editor.h"
 #include "Hierarchy.h"
 #include "../../NOU/include/NOU/App.h"
 #include <stdlib.h>
 #include "Utilities.h"
 using namespace nou;
+
 namespace OMG
 {
-	
-
-	void DevTools::Render() {
+	void Editor::Render() {
 		
 		// Draw the panel here	
 		ImGui::SetNextWindowSize(ImVec2(1400, 700), ImGuiCond_FirstUseEver);
@@ -20,48 +19,70 @@ namespace OMG
 			{
 				if (ImGui::BeginMenu("File"))
 				{
+					ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
 					if (ImGui::MenuItem("New Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Open Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Save Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Exit")) { /* Do stuff */ }
+					ImGui::PopStyleColor();
 
 					ImGui::EndMenu();
 				}
 
 				if (ImGui::BeginMenu("Edit"))
 				{
+					ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
 					if (ImGui::MenuItem("Undo")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Redo")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Cut")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Copy")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Paste")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Duplicate")) { /* Do stuff */ }
-					if (ImGui::MenuItem("Rename")) { /* Do stuff */ }
-					if (ImGui::MenuItem("Delete")) { /* Do stuff */ }					
+					
+					if (ImGui::MenuItem("Rename")) 
+					{						
+
+					}
+
+					if (ImGui::MenuItem("Delete"))
+					{
+						/*
+						Entity* selected = Hierarchy::GetInstance().GetEntity(selectedEntity);
+						selected->~Entity();
+						*/
+					}
+					ImGui::PopStyleColor();
 
 					ImGui::EndMenu();
-				}				
+				}
 
 				if (ImGui::BeginMenu("Create"))
 				{
-					if (ImGui::MenuItem("Empty Object")) { /* Do stuff */ }
+					ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
+					if (ImGui::MenuItem("Empty Object")) 
+					{
+						//Hierarchy::GetInstance().AddEntity(Entity::Allocate("Test"));																			
+					}
 					if (ImGui::MenuItem("Prefab")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Camera")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Light")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Audio")) { /* Do stuff */ }
-					if (ImGui::MenuItem("UI")) { /* Do stuff */ }	
+					if (ImGui::MenuItem("UI")) { /* Do stuff */ }
+					ImGui::PopStyleColor();
 
 					ImGui::EndMenu();
-				}				
+				}
 
 				if (ImGui::BeginMenu("Window"))
 				{
+					ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
 					if (ImGui::MenuItem("Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Game")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Hierarchy")) { /* Do stuff */ }
-					if (ImGui::MenuItem("Inspector")) { /* Do stuff */ }					
+					if (ImGui::MenuItem("Inspector")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Assets")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Console")) { /* Do stuff */ }
+					ImGui::PopStyleColor();
 
 					ImGui::EndMenu();
 				}
@@ -69,21 +90,21 @@ namespace OMG
 				ImGui::EndMenuBar();
 			}
 
-			// Hierarchy	
-			static int selected = 0;
+			// Hierarchy				
+
+			ImGui::BeginChild("Hierarchy", ImVec2(200, 500), true);
+
+			for (auto const& e : Hierarchy::GetInstance().entities)
 			{
-				ImGui::BeginChild("Hierarchy", ImVec2(200, 500), true);
-
-				for (int i = 0; i < Hierarchy::GetInstance().entities.size(); i++) {
-					Entity* e = Utilities::GetAtIndex(Hierarchy::GetInstance().entities, i);
-					if (ImGui::Selectable(e->m_name.c_str(), selected == i))
-					{
-						selected = i;
-					}
+				int index = Hierarchy::GetInstance().GetIndex(e);
+				if (ImGui::Selectable(const_cast<char*>(e->m_name.c_str()), selectedEntity == index))
+				{
+					selectedEntity = index;
 				}
-
-				ImGui::EndChild();
 			}
+
+			ImGui::EndChild();
+		
 			
 
 			// Scene

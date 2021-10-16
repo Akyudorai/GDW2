@@ -18,7 +18,7 @@ Quinn Daggett 2021
 #include <memory>
 #include <cmath>
 
-#include "Editor/DevTools.h"
+#include "Editor/Editor.h"
 #include "Game/FPS_Controller.h"
 
 using namespace nou;
@@ -120,26 +120,13 @@ int main()
 		float deltaTime = App::GetDeltaTime();
 
 		// Update camera
-		ent_camera.Get<CCamera>().Update();
-
-		// Update transforms on all our points
-		for (int i = 0; i < points.size(); i++)
-		{
-			points[i]->transform.RecomputeGlobal();
-		}
+		ent_camera.Get<CCamera>().Update();		
 
 		// Update duck transform
 		ent_ducky.transform.RecomputeGlobal();
 
-		// Draw our points
-		for (int i = 0; i < points.size(); i++)
-		{
-			points[i]->Get<CMeshRenderer>().Draw();
-		}
-
 		// Draw duck
-		ent_ducky.Get<CMeshRenderer>().Draw();
-
+		ent_ducky.Get<CMeshRenderer>().Draw();		
 
 		////////////////////////////////////////////////
 		////////////////////////////////////////////////
@@ -150,7 +137,7 @@ int main()
 
 		App::StartImgui();
 	
-		DevTools::GetInstance().Render();
+		Editor::GetInstance().Render();
 		
 		App::EndImgui();		
 

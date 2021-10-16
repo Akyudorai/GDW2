@@ -3,6 +3,7 @@
 
 namespace OMG
 {
+	/*
 	template<typename T>
 	T* Utilities::GetAtIndex(list<T*> _list, int _index)
 	{
@@ -12,5 +13,7 @@ namespace OMG
 		}
 
 		return *it;		
-	}
+		
+	}*/
+
 }

@@ -21,6 +21,9 @@ namespace OMG
 		void AddEntity(Entity* entity);
 		void RemoveEntity(Entity* entity);
 
+		Entity* GetEntity(int index);
+		int GetIndex(Entity* e);
+
 		std::list<Entity*> entities;
 
 	private:		

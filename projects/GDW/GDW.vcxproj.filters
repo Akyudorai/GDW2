@@ -12,7 +12,7 @@
     <ClInclude Include="src\Game\FPS_Controller.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\DevTools.h">
+    <ClInclude Include="src\Editor\Editor.h">
       <Filter>Editor</Filter>
     </ClInclude>
     <ClInclude Include="src\Editor\Hierarchy.h">
@@ -27,7 +27,7 @@
     <ClCompile Include="src\Game\FPS_Controller.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\Editor\DevTools.cpp">
+    <ClCompile Include="src\Editor\Editor.cpp">
       <Filter>Editor</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Hierarchy.cpp">
