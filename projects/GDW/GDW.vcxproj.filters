@@ -4,22 +4,49 @@
     <Filter Include="Tools">
       <UniqueIdentifier>{16CF2D0E-82E3-55BF-4B65-F91EB73852F0}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\CPathAnimator.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\DevTools.h" />
+    <ClInclude Include="src\Hierarchy.h" />
+    <ClInclude Include="src\IBuffer.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Tools\PathUtility.h">
       <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="src\DevTools.h" />
-    <ClInclude Include="src\Hierarchy.h" />
+    <ClInclude Include="src\Utils\MeshBuilder.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\MeshFactory.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\ObjLoader.h">
+      <Filter>Utils</Filter>
+    </ClInclude>
+    <ClInclude Include="src\VertexArrayObject.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CPathAnimator.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\DevTools.cpp" />
+    <ClCompile Include="src\Hierarchy.cpp" />
+    <ClCompile Include="src\IBuffer.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Tools\PathUtility.cpp">
       <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="src\DevTools.cpp" />
-    <ClCompile Include="src\Hierarchy.cpp" />
+    <ClCompile Include="src\Utils\ObjLoader.cpp">
+      <Filter>Utils</Filter>
+    </ClCompile>
+    <ClCompile Include="src\VertexArrayObject.cpp" />
+    <ClCompile Include="src\VertexTypes.cpp" />
   </ItemGroup>
 </Project>

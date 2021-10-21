@@ -8,7 +8,7 @@ Minimal and lightly OOP wrapper for the ENTT framework.
 
 #include "NOU/Entity.h"
 
-#include "../../projects/Week 4 (starter)/src/Hierarchy.h"
+#include "../../projects/GDW/src/Hierarchy.h"
 using namespace OMG;
 
 namespace nou

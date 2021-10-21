@@ -11,12 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1B7AA8B3-0773-C705-30A5-AC8A1CFDA611}</ProjectGuid>
+    <ProjectGuid>{07EA870B-73F3-877C-FC6E-9E7C6877937C}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Week 4 (starter)</RootNamespace>
+    <RootNamespace>GDW</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>GDW</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -43,16 +42,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\bin\Debug-windows-x86_64\Week 4 (starter)\</OutDir>
-    <IntDir>..\..\obj\Debug-windows-x86_64\Week 4 (starter)\</IntDir>
-    <TargetName>Week 4 (starter)</TargetName>
+    <OutDir>..\..\bin\Debug-windows-x86_64\GDW\</OutDir>
+    <IntDir>..\..\obj\Debug-windows-x86_64\GDW\</IntDir>
+    <TargetName>GDW</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\bin\Release-windows-x86_64\Week 4 (starter)\</OutDir>
-    <IntDir>..\..\obj\Release-windows-x86_64\Week 4 (starter)\</IntDir>
-    <TargetName>Week 4 (starter)</TargetName>
+    <OutDir>..\..\bin\Release-windows-x86_64\GDW\</OutDir>
+    <IntDir>..\..\obj\Release-windows-x86_64\GDW\</IntDir>
+    <TargetName>GDW</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -111,16 +110,32 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="src\CPathAnimator.h" />
+    <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\DevTools.h" />
     <ClInclude Include="src\Hierarchy.h" />
+    <ClInclude Include="src\IBuffer.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Tools\PathUtility.h" />
+    <ClInclude Include="src\Utils\MeshBuilder.h" />
+    <ClInclude Include="src\Utils\MeshFactory.h" />
+    <ClInclude Include="src\Utils\ObjLoader.h" />
+    <ClInclude Include="src\VertexArrayObject.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\CPathAnimator.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\DevTools.cpp" />
     <ClCompile Include="src\Hierarchy.cpp" />
+    <ClCompile Include="src\IBuffer.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Tools\PathUtility.cpp" />
+    <ClCompile Include="src\Utils\ObjLoader.cpp" />
+    <ClCompile Include="src\VertexArrayObject.cpp" />
+    <ClCompile Include="src\VertexTypes.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\glfw3\GLFW.vcxproj">
