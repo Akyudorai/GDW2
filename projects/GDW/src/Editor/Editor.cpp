@@ -1,10 +1,13 @@
 
 #include "Editor.h"
 #include "Hierarchy.h"
+#include "Inspector.h"
 #include "../../NOU/include/NOU/App.h"
 #include <stdlib.h>
 #include "Utilities.h"
 using namespace nou;
+
+using namespace Editor;
 
 namespace OMG
 {
@@ -23,8 +26,13 @@ namespace OMG
 					if (ImGui::MenuItem("New Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Open Scene")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Save Scene")) { /* Do stuff */ }
-					if (ImGui::MenuItem("Exit")) { /* Do stuff */ }
 					ImGui::PopStyleColor();
+					
+					if (ImGui::MenuItem("Exit")) 
+					{ 
+						glfwSetWindowShouldClose(App::GetWindow(), 1);
+					}
+					
 
 					ImGui::EndMenu();
 				}
@@ -38,18 +46,13 @@ namespace OMG
 					if (ImGui::MenuItem("Copy")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Paste")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Duplicate")) { /* Do stuff */ }
-					
-					if (ImGui::MenuItem("Rename")) 
-					{						
-
-					}
-
+										
 					if (ImGui::MenuItem("Delete"))
 					{
-						/*
-						Entity* selected = Hierarchy::GetInstance().GetEntity(selectedEntity);
-						selected->~Entity();
-						*/
+						if (selectedEntity != NULL)
+						{
+							// Destroy the selected object
+						}
 					}
 					ImGui::PopStyleColor();
 
@@ -60,8 +63,13 @@ namespace OMG
 				{
 					ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
 					if (ImGui::MenuItem("Empty Object")) 
-					{
-						//Hierarchy::GetInstance().AddEntity(Entity::Allocate("Test"));																			
+					{						
+						// The issue that is occurring is that the object is created in the current frame and the pointer is saved in hierarchy, not the object itself.
+						// So when the next frame arrives, the object no longer exists and we have a pointer to something that doesnt exist anymore.
+						// EDIT :: I tried restructuring the code to use list<Entity> instead of list<Entity*> and ran into an error I could solve within 5 hours.
+						//		I have returned back to using pointer reference list rather than an object reference list.
+
+						//Entity::Create("New Object");
 					}
 					if (ImGui::MenuItem("Prefab")) { /* Do stuff */ }
 					if (ImGui::MenuItem("Camera")) { /* Do stuff */ }
@@ -109,7 +117,7 @@ namespace OMG
 
 			// Scene
 			ImGui::SameLine();
-			ImGui::BeginChild("Scene", ImVec2(965, 500), true);
+			ImGui::BeginChild("Scene", ImVec2(865, 500), true);
 
 			// Render the scene to this child frame
 			
@@ -118,9 +126,14 @@ namespace OMG
 
 			// Inspector
 			ImGui::SameLine();			
-			ImGui::BeginChild("Inspector", ImVec2(200, 500), true);
+			ImGui::BeginChild("Inspector", ImVec2(300, 500), true);
 				
 			// Draw all the components that are attached to the selected object, including their modifiable variables
+			if (selectedEntity != NULL)
+			{
+				Entity* selected = Hierarchy::GetInstance().GetEntity(selectedEntity);				
+				Inspector::GetInstance().Render(selected);
+			}
 
 			ImGui::EndChild();
 

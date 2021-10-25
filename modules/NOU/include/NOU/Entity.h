@@ -29,12 +29,13 @@ namespace nou
 		//in a hierarchy with transforms storing pointers to parent/child objects.
 		Transform transform;
 		std::string m_name;
+		
 
 		static Entity Create(std::string name);
 		static std::unique_ptr<Entity> Allocate(std::string name);
 
 		Entity(entt::entity id, std::string name);
-		Entity(Entity&&) = delete;
+		//Entity(Entity&&) = delete;
 
 		virtual ~Entity();
 
@@ -51,6 +52,12 @@ namespace nou
 		}
 
 		template<typename T>
+		bool Has()
+		{
+			return ecs.has<T>(m_id);
+		}
+
+		template<typename T>
 		void Remove()
 		{
 			ecs.remove<T>(m_id);
@@ -59,6 +66,6 @@ namespace nou
 		protected:
 
 		static entt::registry ecs;
-		entt::entity m_id;	
+		entt::entity m_id;
 	};
 }

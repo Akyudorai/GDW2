@@ -3,6 +3,7 @@
 #include <list>
 #include "NOU/Entity.h"
 #include "imgui.h"
+#include <string>
 
 using namespace nou;
 
@@ -15,9 +16,7 @@ namespace OMG
 			static Hierarchy instance;
 			return instance;
 		}
-
-		Hierarchy Initialize();
-		void Render();
+	
 		void AddEntity(Entity* entity);
 		void RemoveEntity(Entity* entity);
 

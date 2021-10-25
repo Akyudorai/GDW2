@@ -19,6 +19,10 @@ namespace nou
 	{
 		public:
 
+		enum class CameraMode { Perspective, Orthographic };
+		CameraMode mode;
+
+
 		//The entity that owns the camera currently being used.
 		//Especially useful if you plan to have more than one camera.
 		//(e.g., for UI, portals, security cameras, etc.)
@@ -41,6 +45,10 @@ namespace nou
 
 		//Sets up a 3D perspective projection using GLM.
 		void Perspective(float fovYDegrees, float aspect, float near, float far);
+
+		float left = 0, right = 0, bottom = 0, top = 0;
+		float fov = 60, aspect = 1;
+		float nearPlane = 0.1f, farPlane = 100.0f;
 
 		protected:
 

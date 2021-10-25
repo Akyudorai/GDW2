@@ -21,17 +21,12 @@ Quinn Daggett 2021
 #include "Editor/Editor.h"
 #include "Game/FPS_Controller.h"
 
+#include "Editor/Resources.h"
+
 using namespace nou;
 using namespace OMG;
 using namespace GAME;
 
-std::unique_ptr<ShaderProgram> prog_texLit, prog_lit, prog_unlit;
-std::unique_ptr<Mesh> mesh_ducky, mesh_box;
-std::unique_ptr<Texture2D> tex2D_ducky;
-std::unique_ptr<Material> mat_ducky, mat_unselected, mat_selected, mat_line;
-
-// Keep our main cleaner
-void LoadDefaultResources();
 
 // Templated LERP function
 template<typename T>
@@ -84,7 +79,7 @@ int main()
 	App::InitImgui();
 
 	// Load in our model/texture resources
-	LoadDefaultResources();
+	Resources::GetInstance().LoadResources();
 
 	// Create and set up camera
 	Entity ent_camera = Entity::Create("Camera");
@@ -96,7 +91,7 @@ int main()
 	// Creating duck entity
 	Entity ent_ducky = Entity::Create("Ducky");
 	//ent_ducky.m_name = "Ducky";
-	ent_ducky.Add<CMeshRenderer>(ent_ducky, *mesh_ducky, *mat_ducky);
+	ent_ducky.Add<CMeshRenderer>(ent_ducky, *Resources::GetInstance().Meshes["Duck"], *Resources::GetInstance().mat_ducky);
 	ent_ducky.transform.m_scale = glm::vec3(0.005f, 0.005f, 0.005f);
 	ent_ducky.transform.m_pos = glm::vec3(0.0f, -1.0f, 0.0f);
 	ent_ducky.transform.m_rotation = glm::angleAxis(glm::radians(-30.0f), glm::vec3(0.0f, 1.0f, 0.0f));
@@ -139,7 +134,7 @@ int main()
 	
 		Editor::GetInstance().Render();
 		
-		App::EndImgui();		
+		App::EndImgui();	
 
 		// Draw everything we queued up to the screen
 		App::SwapBuffers();
@@ -151,49 +146,4 @@ int main()
 	App::Cleanup();
 
 	return 0;
-}
-
-void LoadDefaultResources()
-{
-	// Load in the shaders we will need and activate them
-	// Textured lit shader
-	std::unique_ptr vs_texLitShader = std::make_unique<Shader>("shaders/texturedlit.vert", GL_VERTEX_SHADER);
-	std::unique_ptr fs_texLitShader = std::make_unique<Shader>("shaders/texturedlit.frag", GL_FRAGMENT_SHADER);
-	std::vector<Shader*> texLit = { vs_texLitShader.get(), fs_texLitShader.get() };
-	prog_texLit = std::make_unique<ShaderProgram>(texLit);
-
-	// Untextured lit shader
-	std::unique_ptr vs_litShader = std::make_unique<Shader>("shaders/lit.vert", GL_VERTEX_SHADER);
-	std::unique_ptr fs_litShader = std::make_unique<Shader>("shaders/lit.frag", GL_FRAGMENT_SHADER);
-	std::vector<Shader*> lit = { vs_litShader.get(), fs_litShader.get() };
-	prog_lit = std::make_unique<ShaderProgram>(lit);
-
-	// Untextured unlit shader
-	std::unique_ptr vs_unlitShader = std::make_unique<Shader>("shaders/unlit.vert", GL_VERTEX_SHADER);
-	std::unique_ptr fs_unlitShader = std::make_unique<Shader>("shaders/unlit.frag", GL_FRAGMENT_SHADER);
-	std::vector<Shader*> unlit = { vs_unlitShader.get(), vs_unlitShader.get() };
-	prog_unlit = std::make_unique<ShaderProgram>(unlit);
-
-	// Set up duck
-	mesh_ducky = std::make_unique<Mesh>();
-	GLTF::LoadMesh("duck/Duck.gltf", *mesh_ducky);
-	tex2D_ducky = std::make_unique<Texture2D>("duck/DuckCM.png");
-
-	// Set up box
-	mesh_box = std::make_unique<Mesh>();
-	GLTF::LoadMesh("box/Box.gltf", *mesh_box);
-
-	// Set up duck material
-	mat_ducky = std::make_unique<Material>(*prog_texLit);
-	mat_ducky->AddTexture("albedo", *tex2D_ducky);
-
-	// Set up point and line materials
-	mat_unselected = std::make_unique<Material>(*prog_lit);
-	mat_unselected->m_color = glm::vec3(0.5f, 0.5f, 0.5f);
-
-	mat_selected = std::make_unique<Material>(*prog_lit);
-	mat_selected->m_color = glm::vec3(1.0f, 0.0f, 0.0f);
-
-	mat_line = std::make_unique<Material>(*prog_unlit);
-	mat_line->m_color = glm::vec3(1.0f, 1.0f, 1.0f);
 }
