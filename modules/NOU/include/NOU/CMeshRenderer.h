@@ -18,6 +18,7 @@ that we intend the class for use as a component with the ENTT framework.
 #include "Entity.h"
 
 #include <memory>
+#include <string>
 
 namespace nou
 {
@@ -45,6 +46,8 @@ namespace nou
 
 		void SetMesh(const Mesh& mesh);
 		void SetMaterial(Material& mat);
+		Material* GetMaterial();
+
 		virtual void Draw();
 
 		protected:

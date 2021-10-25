@@ -61,13 +61,16 @@ namespace nou
 
 	void CCamera::Ortho(float left, float right, float bottom, float top, float near, float far)
 	{
+	
 		m_projection = glm::ortho(left, right, bottom, top, near, far);
+		mode = CameraMode::Orthographic;
 		Update();
 	}
 
 	void CCamera::Perspective(float fovYDegrees, float aspect, float near, float far)
 	{
 		m_projection = glm::perspective(glm::radians(fovYDegrees), aspect, near, far);
+		mode = CameraMode::Perspective;
 		Update();
 	}
 }

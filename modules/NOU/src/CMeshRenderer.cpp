@@ -13,6 +13,9 @@ that we intend the class for use as a component with the ENTT framework.
 #include "NOU/CMeshRenderer.h"
 #include "NOU/CCamera.h"
 
+#include "../../projects/GDW/src/Editor/Resources.h"
+using namespace OMG;
+
 namespace nou
 {
 	CMeshRenderer::CMeshRenderer()
@@ -39,7 +42,7 @@ namespace nou
 	void CMeshRenderer::SetMesh(const Mesh& mesh)
 	{
 		const VertexBuffer* vbo;
-
+		
 		if ((vbo = mesh.GetVBO(Mesh::Attrib::POSITION)) != nullptr)
 			m_vao->BindAttrib(*vbo, (GLint)Mesh::Attrib::POSITION);
 
@@ -53,6 +56,11 @@ namespace nou
 	void CMeshRenderer::SetMaterial(Material& mat)
 	{
 		m_mat = &mat;
+	}
+	
+	Material* CMeshRenderer::GetMaterial()
+	{
+		return m_mat;
 	}
 
 	void CMeshRenderer::Draw()
