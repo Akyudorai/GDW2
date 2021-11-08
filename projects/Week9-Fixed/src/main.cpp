@@ -284,6 +284,7 @@ int main() {
 		});
 
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
+		MeshResource::Sptr characterMesh = ResourceManager::CreateAsset<MeshResource>("Character.obj");
 		Texture2D::Sptr    boxTexture = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
 		Texture2D::Sptr    monkeyTex  = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");  
 
@@ -390,14 +391,16 @@ int main() {
 		GameObject::Sptr monkey1 = scene->CreateGameObject("Monkey 1");
 		{
 			// Set position in the scene
-			monkey1->SetPostion(glm::vec3(1.5f, 0.0f, 1.0f));
+			monkey1->SetPostion(glm::vec3(1.9f, 1.18f, -2.43f));
+			monkey1->SetRotation(glm::vec3(90.f, 0.0f, 50.0f));
+			monkey1->SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
 
 			// Add some behaviour that relies on the physics body
 			monkey1->Add<JumpBehaviour>();
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = monkey1->Add<RenderComponent>();
-			renderer->SetMesh(monkeyMesh);
+			renderer->SetMesh(characterMesh);
 			renderer->SetMaterial(monkeyMaterial);
 
 			// Add a dynamic rigid body to this monkey
