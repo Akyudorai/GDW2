@@ -18,7 +18,10 @@ namespace nou
 	class Entity
 	{
 		public:
-
+		std::string m_name;
+		
+		public:
+			
 		//We're giving every entity its own transform explicitly, rather than
 		//as an ENTT component.
 		//This is because pointers in ENTT are NOT stable - they can change
@@ -28,9 +31,7 @@ namespace nou
 		//we make sure that our pointers will be stable - which is important
 		//in a hierarchy with transforms storing pointers to parent/child objects.
 		Transform transform;
-		std::string m_name;
 		
-
 		static Entity Create(std::string name);
 		static std::unique_ptr<Entity> Allocate(std::string name);
 
