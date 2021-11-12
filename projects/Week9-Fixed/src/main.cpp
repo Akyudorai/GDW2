@@ -285,8 +285,17 @@ int main() {
 
 		MeshResource::Sptr monkeyMesh = ResourceManager::CreateAsset<MeshResource>("Monkey.obj");
 		MeshResource::Sptr characterMesh = ResourceManager::CreateAsset<MeshResource>("Character.obj");
+		MeshResource::Sptr treeMesh = ResourceManager::CreateAsset<MeshResource>("DarkPineTree.obj");
+		MeshResource::Sptr potMesh = ResourceManager::CreateAsset<MeshResource>("Pot.obj");
+		MeshResource::Sptr rockMesh = ResourceManager::CreateAsset<MeshResource>("Rocks.obj");
+		MeshResource::Sptr pressurePlateMesh = ResourceManager::CreateAsset<MeshResource>("PressurePlate.obj");
+
 		Texture2D::Sptr    boxTexture = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
-		Texture2D::Sptr    monkeyTex  = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");  
+		Texture2D::Sptr    monkeyTex  = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");
+		Texture2D::Sptr    treeTex  = ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTree.png");
+		Texture2D::Sptr    potTex  = ResourceManager::CreateAsset<Texture2D>("textures/Pot.png");
+		Texture2D::Sptr    rockTex  = ResourceManager::CreateAsset<Texture2D>("textures/RockTexture.png");
+		Texture2D::Sptr    pressurePlateTex  = ResourceManager::CreateAsset<Texture2D>("textures/BrushedDarkMetal.png");
 
 		// Here we'll load in the cubemap, as well as a special shader to handle drawing the skybox
 		TextureCube::Sptr testCubemap = ResourceManager::CreateAsset<TextureCube>("cubemaps/ocean/ocean.jpg");
@@ -324,11 +333,47 @@ int main() {
 
 		}
 
+		Material::Sptr treeMaterial = ResourceManager::CreateAsset<Material>();
+		{
+			treeMaterial->Name = "Tree";
+			treeMaterial->MatShader = basicShader;
+			treeMaterial->Texture = treeTex;
+			treeMaterial->Shininess = 1.0f;
+
+		}
+
+		Material::Sptr potMaterial = ResourceManager::CreateAsset<Material>();
+		{
+			potMaterial->Name = "Pot";
+			potMaterial->MatShader = basicShader;
+			potMaterial->Texture = potTex;
+			potMaterial->Shininess = 1.0f;
+
+		}
+
+		Material::Sptr rockMaterial = ResourceManager::CreateAsset<Material>();
+		{
+			rockMaterial->Name = "Rock";
+			rockMaterial->MatShader = basicShader;
+			rockMaterial->Texture = rockTex;
+			rockMaterial->Shininess = 1.0f;
+
+		}
+
+		Material::Sptr pressurePlateMaterial = ResourceManager::CreateAsset<Material>();
+		{
+			pressurePlateMaterial->Name = "Pressure Plate";
+			pressurePlateMaterial->MatShader = basicShader;
+			pressurePlateMaterial->Texture = pressurePlateTex;
+			pressurePlateMaterial->Shininess = 1.0f;
+
+		}
+
 		// Create some lights for our scene
 		scene->Lights.resize(3);
-		scene->Lights[0].Position = glm::vec3(0.0f, 1.0f, 3.0f);
+		scene->Lights[0].Position = glm::vec3(0.0f, 12.0f, 13.0f);
 		scene->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
-		scene->Lights[0].Range = 100.0f;
+		scene->Lights[0].Range = 200.0f;
 
 		scene->Lights[1].Position = glm::vec3(1.0f, 0.0f, 3.0f);
 		scene->Lights[1].Color = glm::vec3(0.2f, 0.8f, 0.1f);
@@ -344,8 +389,9 @@ int main() {
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->CreateGameObject("Main Camera");
 		{
-			camera->SetPostion(glm::vec3(5.0f));
-			camera->LookAt(glm::vec3(0.0f));
+			camera->SetPostion(glm::vec3(0.0f, 0.0f, 10.0f));
+			camera->SetRotation(glm::vec3(45.0f, 0.0f, 0.0f));
+			//camera->LookAt(glm::vec3(0.0f));
 
 			camera->Add<SimpleCameraControl>();
 
@@ -388,46 +434,80 @@ int main() {
 			// physics bodies attached!
 		}
 
-		GameObject::Sptr monkey1 = scene->CreateGameObject("Monkey 1");
+		GameObject::Sptr character = scene->CreateGameObject("Character");
 		{
 			// Set position in the scene
-			monkey1->SetPostion(glm::vec3(1.9f, 1.18f, -2.43f));
-			monkey1->SetRotation(glm::vec3(90.f, 0.0f, 50.0f));
-			monkey1->SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
+			character->SetPostion(glm::vec3(-4.0f, 17.0f, -2.0f));
+			character->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			character->SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
 
 			// Add some behaviour that relies on the physics body
-			monkey1->Add<JumpBehaviour>();
+			character->Add<JumpBehaviour>();
 
 			// Create and attach a renderer for the monkey
-			RenderComponent::Sptr renderer = monkey1->Add<RenderComponent>();
+			RenderComponent::Sptr renderer = character->Add<RenderComponent>();
 			renderer->SetMesh(characterMesh);
 			renderer->SetMaterial(monkeyMaterial);
 
 			// Add a dynamic rigid body to this monkey
-			RigidBody::Sptr physics = monkey1->Add<RigidBody>(RigidBodyType::Dynamic);
+			RigidBody::Sptr physics = character->Add<RigidBody>(RigidBodyType::Static);
 			physics->AddCollider(ConvexMeshCollider::Create());
 		}
 
-		GameObject::Sptr monkey2 = scene->CreateGameObject("Complex Object");
+		GameObject::Sptr pot = scene->CreateGameObject("Pot");
 		{
 			// Set and rotation position in the scene
-			monkey2->SetPostion(glm::vec3(-1.5f, 0.0f, 1.0f));
-			monkey2->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			pot->SetPostion(glm::vec3(0.0f, 18.0f, 2.0f));
+			pot->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			pot->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
 			// Add a render component
-			RenderComponent::Sptr renderer = monkey2->Add<RenderComponent>();
-			renderer->SetMesh(monkeyMesh);
-			renderer->SetMaterial(boxMaterial);
+			RenderComponent::Sptr renderer = pot->Add<RenderComponent>();
+			renderer->SetMesh(potMesh);
+			renderer->SetMaterial(potMaterial);
 
 			// This is an example of attaching a component and setting some parameters
-			RotatingBehaviour::Sptr behaviour = monkey2->Add<RotatingBehaviour>();
-			behaviour->RotationSpeed = glm::vec3(0.0f, 0.0f, -90.0f);
+			RotatingBehaviour::Sptr behaviour = pot->Add<RotatingBehaviour>();
+			//behaviour->RotationSpeed = glm::vec3(0.0f, 0.0f, -90.0f);
 		}
-
 		// Kinematic rigid bodies are those controlled by some outside controller
 		// and ONLY collide with dynamic objects
-		RigidBody::Sptr physics = monkey2->Add<RigidBody>(RigidBodyType::Kinematic);
+		RigidBody::Sptr physics = pot->Add<RigidBody>(RigidBodyType::Kinematic);
 		physics->AddCollider(ConvexMeshCollider::Create());
+
+		GameObject::Sptr rock = scene->CreateGameObject("Rock");
+		{
+			// Set position in the scene
+			rock->SetPostion(glm::vec3(-3.0f, 15.0f, -0.3f));
+			rock->SetRotation(glm::vec3(-45.f, -19.0f, -5.0f));
+			rock->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = rock->Add<RenderComponent>();
+			renderer->SetMesh(rockMesh);
+			renderer->SetMaterial(rockMaterial);
+
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr rockPhysics = rock->Add<RigidBody>(RigidBodyType::Static);
+			rockPhysics->AddCollider(ConvexMeshCollider::Create());
+		}
+
+		GameObject::Sptr pressurePlate = scene->CreateGameObject("Pressure Plate");
+		{
+			// Set position in the scene
+			pressurePlate->SetPostion(glm::vec3(9.0f, 19.0f, 0.0f));
+			pressurePlate->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			pressurePlate->SetScale(glm::vec3(0.6f, 0.6f, 0.6f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = pressurePlate->Add<RenderComponent>();
+			renderer->SetMesh(pressurePlateMesh);
+			renderer->SetMaterial(pressurePlateMaterial);
+
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr pressurePlatePhysics = pressurePlate->Add<RigidBody>(RigidBodyType::Static);
+			pressurePlatePhysics->AddCollider(ConvexMeshCollider::Create());
+		}
 
 		// Create a trigger volume for testing how we can detect collisions with objects!
 		GameObject::Sptr trigger = scene->CreateGameObject("Trigger"); 
