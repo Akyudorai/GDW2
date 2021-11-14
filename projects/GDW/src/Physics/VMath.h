@@ -4,19 +4,25 @@
 #include <math.h>
 #include "../Editor/Debug.h"
 using namespace OMG;
+using namespace glm;
 
 namespace MATH 
 {
 	class VMath 
 	{
 	public:	
-		inline static float mag(const glm::vec3& v) {			
+
+		inline static float dot(const vec3& a, const vec3& b) {
+			return (a.x * b.x + a.y * b.y * a.z * b.z);
+		}
+
+		inline static float mag(const vec3& v) {			
 			return (sqrt(v.x * v.x + v.y * v.y + v.z * v.z));
 		}
 
-		inline static glm::vec3 normalize(const glm::vec3& v) {
+		inline static vec3 normalize(const vec3& v) {
 			float magnitude;
-			glm::vec3 result;
+			vec3 result;
 
 			magnitude = mag(v);
 
@@ -30,6 +36,7 @@ namespace MATH
 			return result;
 		}
 
-		static float distance(const glm::vec3& v1, const glm::vec3& v2);
+		static float distance(const vec3& v1, const vec3& v2);
+		static vec3 reflect(const vec3& v1, const vec3& v2);
 	};
 }

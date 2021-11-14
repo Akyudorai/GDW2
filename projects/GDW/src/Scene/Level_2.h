@@ -30,6 +30,9 @@ namespace GAME
 		virtual void OnResizeWindow(const int, const int);
 
 	private:
+		void LoadLevel();
+
+	private:
 
 		Entity camera;
 		Entity body;
@@ -37,6 +40,7 @@ namespace GAME
 		Entity wall_1;
 		Entity wall_2;
 		Entity wall_3;
+		Entity winBox;
 
 		PlayerController pc;
 

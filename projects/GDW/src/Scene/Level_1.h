@@ -36,7 +36,8 @@ namespace GAME
 		Entity shadow;
 		Entity wall_1;
 		Entity wall_2;
-		Entity wall_3;
+		Entity damageBox;
+		Entity winBox;
 
 		PlayerController pc;
 

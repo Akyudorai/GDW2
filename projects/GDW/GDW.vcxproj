@@ -11,7 +11,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1B7AA8B3-0773-C705-30A5-AC8A1CFDA611}</ProjectGuid>
+    <ProjectGuid>{07EA870B-73F3-877C-FC6E-9E7C6877937C}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
     <RootNamespace>Week 4 (starter)</RootNamespace>
@@ -60,7 +60,7 @@
       <PrecompiledHeader>NotUsing</PrecompiledHeader>
       <WarningLevel>Level3</WarningLevel>
       <PreprocessorDefinitions>_CRT_SECURE_NO_WARNINGS;GLFW_INCLUDE_NONE;WINDOWS;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories>src;..\..\dependencies\glfw3\include;..\..\dependencies\glad\include;..\..\dependencies\imgui;..\..\dependencies\GLM\include;..\..\dependencies\stbs;..\..\dependencies\fmod\include;..\..\dependencies\spdlog\include;..\..\dependencies\entt;..\..\dependencies\cereal;..\..\dependencies\gzip;..\..\dependencies\tinyGLTF;..\..\dependencies\json;..\..\dependencies\bullet3\include;..\..\modules\NOU\include;..\..\modules\sampleModule\include;..\..\modules\toolkit\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>src;..\..\dependencies\glfw3\include;..\..\dependencies\glad\include;..\..\dependencies\imgui;..\..\dependencies\GLM\include;..\..\dependencies\stbs;..\..\dependencies\fmod\include;..\..\dependencies\spdlog\include;..\..\dependencies\entt;..\..\dependencies\cereal;..\..\dependencies\gzip;..\..\dependencies\tinyGLTF;..\..\dependencies\json;..\..\dependencies\bullet3\include;..\..\modules\NOU\include;..\..\modules\sampleModule\include;..\..\modules\toolkit\include;D:\Taskbar\Projects\Active\GDW2_main\GDW2\dependencies\freetype;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <DebugInformationFormat>EditAndContinue</DebugInformationFormat>
       <Optimization>Disabled</Optimization>
       <RuntimeLibrary>MultiThreadedDebug</RuntimeLibrary>
@@ -119,9 +119,12 @@
     <ClInclude Include="src\Editor\Resources.h" />
     <ClInclude Include="src\Editor\Utilities.h" />
     <ClInclude Include="src\GameSceneManager.h" />
+    <ClInclude Include="src\Game\Health.h" />
     <ClInclude Include="src\Game\PlayerController.h" />
+    <ClInclude Include="src\Physics\BoxCollider.h" />
     <ClInclude Include="src\Physics\Physics.h" />
     <ClInclude Include="src\Physics\SphereCollider.h" />
+    <ClInclude Include="src\Physics\Vector.h" />
     <ClInclude Include="src\Physics\VMath.h" />
     <ClInclude Include="src\Scene\Dev_Stage.h" />
     <ClInclude Include="src\Scene\Level_1.h" />
@@ -137,7 +140,9 @@
     <ClCompile Include="src\Editor\Resources.cpp" />
     <ClCompile Include="src\Editor\Utilities.cpp" />
     <ClCompile Include="src\GameSceneManager.cpp" />
+    <ClCompile Include="src\Game\Health.cpp" />
     <ClCompile Include="src\Game\PlayerController.cpp" />
+    <ClCompile Include="src\Physics\BoxCollider.cpp" />
     <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Physics\SphereCollider.cpp" />
     <ClCompile Include="src\Physics\VMath.cpp" />

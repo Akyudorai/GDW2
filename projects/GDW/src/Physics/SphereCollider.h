@@ -11,6 +11,8 @@ public:
 	float r;
 	bool isTrigger = false;
 
+	std::function<void()> onTriggerEvent;
+
 protected:
 	
 
@@ -24,4 +26,6 @@ public:
 
 	SphereCollider(SphereCollider&&) = default;
 	SphereCollider& operator=(SphereCollider&&) = default;
+
+	
 };

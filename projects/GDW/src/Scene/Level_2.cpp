@@ -10,6 +10,7 @@
 
 #include "Editor/Resources.h"
 
+#include "GameSceneManager.h"
 #include "Game/PlayerController.h"
 
 #include "Physics/Physics.h"
@@ -20,7 +21,7 @@ using namespace GAME;
 Level_2::Level_2() : Scene(), camera(Entity::Create("Camera")),
 body(Entity::Create("Body")), shadow(Entity::Create("Shadow")),
 wall_1(Entity::Create("Wall")), wall_2(Entity::Create("Wall 2")),
-wall_3(Entity::Create("Wall 3"))
+wall_3(Entity::Create("Wall 3")), winBox(Entity::Create("Win Condition"))
 {
 
 }
@@ -75,11 +76,24 @@ bool Level_2::OnCreate()
 	wall_3.transform.m_pos = glm::vec3(0.5f, 0.5f, 2.0f);
 	//entities.push_back(*wall_3);
 
+	winBox.Add<CMeshRenderer>(winBox, *Resources::GetInstance().Meshes["Box"], *Resources::GetInstance().mat_ducky);
+	winBox.transform.m_scale = glm::vec3(0.5f, 0.5f, 0.5f);
+	winBox.transform.m_pos = glm::vec3(-1.0f, 0.5f, 1.0f);
+	winBox.Add<SphereCollider>(winBox, 0.25f);
+	winBox.Get<SphereCollider>().isTrigger = true;
+	winBox.Get<SphereCollider>().onTriggerEvent = []
+	{
+		Debug::Log("Switching Scene to Level 3");
+		GameSceneManager::GetInstance()->LoadScene(3);
+	};
+
 	// Initialize Player Controller
 	pc = PlayerController(body, shadow, camera);
 
 	return true;
 }
+
+
 
 void Level_2::Update(const float deltaTime)
 {
@@ -92,6 +106,9 @@ void Level_2::Update(const float deltaTime)
 	wall_1.Get<CMeshRenderer>().Draw();
 	wall_2.Get<CMeshRenderer>().Draw();
 	wall_3.Get<CMeshRenderer>().Draw();
+
+	winBox.transform.RecomputeGlobal();
+	winBox.Get<CMeshRenderer>().Draw();
 
 	// Update Controller
 	pc.Update(deltaTime);
@@ -107,6 +124,12 @@ void Level_2::Update(const float deltaTime)
 	if (Physics::SphereSphereCollision(body.Get<SphereCollider>(), wall_2.Get<SphereCollider>()))
 	{
 		Physics::SphereSphereCollisionResponse(body.Get<SphereCollider>(), wall_2.Get<SphereCollider>());
+	}
+
+	// Win Condition
+	if (Physics::SphereSphereCollision(body.Get<SphereCollider>(), winBox.Get<SphereCollider>()))
+	{
+		Physics::SphereSphereCollisionResponse(body.Get<SphereCollider>(), winBox.Get<SphereCollider>());
 	}
 }
 

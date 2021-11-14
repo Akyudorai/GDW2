@@ -37,6 +37,7 @@ namespace GAME
 		Entity wall_1;
 		Entity wall_2;
 		Entity wall_3;
+		Entity winBox;
 
 		PlayerController pc;
 

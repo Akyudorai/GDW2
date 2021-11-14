@@ -30,6 +30,9 @@ namespace GAME
 		virtual void OnResizeWindow(const int, const int);
 
 	private:
+		void LoadScene();
+
+	private:
 
 		Entity camera;
 		Entity body;
@@ -37,10 +40,11 @@ namespace GAME
 		Entity wall_1;
 		Entity wall_2;
 		Entity wall_3;
+		std::vector<Entity> entities;
 
 		PlayerController pc;
 
-		std::vector<Entity*> entities;
+		//std::vector<Entity*> entities;
 	};
 }
 

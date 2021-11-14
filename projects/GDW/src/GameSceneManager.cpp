@@ -5,13 +5,16 @@
 
 #include "Editor/Debug.h"
 #include "Editor/Resources.h"
+#include "Editor/Editor.h"
 #include "Scene/Level_1.h"
 #include "Scene/Level_2.h"
 #include "Scene/Level_3.h"
 #include "Scene/Dev_Stage.h"
 
+
 using namespace GAME;
 using namespace nou;
+using namespace OMG;
 
 std::unique_ptr<GameSceneManager> GameSceneManager::instance(nullptr);
 
@@ -36,7 +39,7 @@ GameSceneManager* GameSceneManager::GetInstance()
 
 bool GameSceneManager::Initialize()
 {
-	currentScene = new Level_1();
+	currentScene = new Dev_Stage();
 	if (currentScene == nullptr) {
 		Debug::LogError("FATAL ERROR: Failed to initalize the Scene.");
 		return false;
@@ -56,7 +59,7 @@ void GameSceneManager::Run()
 	App::InitImgui();
 
 	// Load in our model/texture resources
-	Resources::GetInstance().LoadResources();
+	Resources::GetInstance().LoadResources();	
 
 	App::Tick();
 	isRunning = Initialize();
@@ -66,13 +69,15 @@ void GameSceneManager::Run()
 		App::FrameStart();
 		float deltaTime = App::GetDeltaTime();
 
-		HandleEvents();
+		HandleEvents();		
 		Update(deltaTime);
 		Render();
 
-		//App::StartImgui();	
-		//Editor::GetInstance().Render();
-		//App::EndImgui();	
+		/*App::StartImgui();	
+		Editor::GetInstance().Render();
+		App::EndImgui();*/	
+
+		
 
 		App::SwapBuffers();
 	}
@@ -86,30 +91,22 @@ void GameSceneManager::HandleEvents()
 {
 	// Load Level 1
 	if (Input::GetKeyDown(GLFW_KEY_F1)) {
-		if (currentScene) delete currentScene;
-		currentScene = new Level_1();
-		currentScene->OnCreate();		
+		LoadScene(1);
 	}
 
 	// Load Level 2
 	if (Input::GetKeyDown(GLFW_KEY_F2)) {
-		if (currentScene) delete currentScene;
-		currentScene = new Level_2();
-		currentScene->OnCreate();
+		LoadScene(2);
 	}
 
 	// Load Level 3
 	if (Input::GetKeyDown(GLFW_KEY_F3)) {
-		if (currentScene) delete currentScene;
-		currentScene = new Level_3();
-		currentScene->OnCreate();
+		LoadScene(3);
 	}
 
 	// Load Development Stage
 	if (Input::GetKeyDown(GLFW_KEY_F4)) {
-		if (currentScene) delete currentScene;
-		currentScene = new Dev_Stage();
-		currentScene->OnCreate();
+		LoadScene(0);
 	}
 
 	if (Input::GetKeyDown(GLFW_KEY_ESCAPE)) {
@@ -128,6 +125,33 @@ void GameSceneManager::Render() const
 {
 	assert(currentScene);
 	currentScene->Render();
+}
+
+void GameSceneManager::LoadScene(int index)
+{	
+	if (index == 1) {
+		if (currentScene) delete currentScene;
+		currentScene = new Level_1();
+		currentScene->OnCreate();
+	}
+	else if (index == 2) {
+		if (currentScene) delete currentScene;
+		currentScene = new Level_2();
+		currentScene->OnCreate();
+	}
+	else if (index == 3) {
+		if (currentScene) delete currentScene;
+		currentScene = new Level_3();
+		currentScene->OnCreate();
+	}
+	else if (index == 0) {
+		if (currentScene) delete currentScene;
+		currentScene = new Dev_Stage();
+		currentScene->OnCreate();
+	}
+	else {
+		Debug::LogError("No scene with that index found.");
+	}
 }
 
 

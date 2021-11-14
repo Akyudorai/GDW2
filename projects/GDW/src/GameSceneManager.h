@@ -32,5 +32,6 @@ namespace GAME
 		void Update(const float deltaTime);
 		void Render() const;
 		void HandleEvents();
+		void LoadScene(int index);
 	};
 }

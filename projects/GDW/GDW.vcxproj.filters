@@ -7,9 +7,6 @@
     <Filter Include="Source FIles">
       <UniqueIdentifier>{4c675865-b108-4349-9557-9695b0f4cc73}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Header Files\Math">
-      <UniqueIdentifier>{56ccf444-77f0-4529-a9a3-7d5227966f86}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Scenes">
       <UniqueIdentifier>{04b925b8-8d52-4351-8a23-0c0715ac03c5}</UniqueIdentifier>
     </Filter>
@@ -25,23 +22,26 @@
     <Filter Include="Source FIles\Editor">
       <UniqueIdentifier>{190d56b5-07a0-4530-be5d-3f2cf5e0b7f5}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source FIles\Math">
-      <UniqueIdentifier>{ffee93c9-c006-496f-bf2e-98c656c01f80}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Source FIles\Scenes">
       <UniqueIdentifier>{feaa6084-43cb-462c-8e4c-cdb175726e0c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source FIles\Physics">
+      <UniqueIdentifier>{ffee93c9-c006-496f-bf2e-98c656c01f80}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\Physics">
+      <UniqueIdentifier>{56ccf444-77f0-4529-a9a3-7d5227966f86}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="resource.h" />
     <ClInclude Include="src\Physics\VMath.h">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\SphereCollider.h">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\Physics\Physics.h">
-      <Filter>Header Files\Math</Filter>
+      <Filter>Header Files\Physics</Filter>
     </ClInclude>
     <ClInclude Include="src\Game\PlayerController.h">
       <Filter>Header Files\Game</Filter>
@@ -85,6 +85,15 @@
     <ClInclude Include="src\Scene\Dev_Stage.h">
       <Filter>Header Files\Scenes</Filter>
     </ClInclude>
+    <ClInclude Include="src\Game\Health.h">
+      <Filter>Header Files\Game</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\BoxCollider.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Physics\Vector.h">
+      <Filter>Header Files\Physics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Source.cpp" />
@@ -92,13 +101,13 @@
       <Filter>Source FIles\Game</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\Physics.cpp">
-      <Filter>Source FIles\Math</Filter>
+      <Filter>Source FIles\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\SphereCollider.cpp">
-      <Filter>Source FIles\Math</Filter>
+      <Filter>Source FIles\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Physics\VMath.cpp">
-      <Filter>Source FIles\Math</Filter>
+      <Filter>Source FIles\Physics</Filter>
     </ClCompile>
     <ClCompile Include="src\Editor\Inspector.cpp">
       <Filter>Source FIles\Editor</Filter>
@@ -135,6 +144,12 @@
     </ClCompile>
     <ClCompile Include="src\Scene\Dev_Stage.cpp">
       <Filter>Source FIles\Scenes</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Game\Health.cpp">
+      <Filter>Source FIles\Game</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Physics\BoxCollider.cpp">
+      <Filter>Source FIles\Physics</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
