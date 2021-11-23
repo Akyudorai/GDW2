@@ -1,158 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="Header Files">
-      <UniqueIdentifier>{90bf644f-eb61-4be3-aa30-6df2ea6b804d}</UniqueIdentifier>
+    <Filter Include="Tools">
+      <UniqueIdentifier>{16CF2D0E-82E3-55BF-4B65-F91EB73852F0}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source FIles">
-      <UniqueIdentifier>{4c675865-b108-4349-9557-9695b0f4cc73}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Scenes">
-      <UniqueIdentifier>{04b925b8-8d52-4351-8a23-0c0715ac03c5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Editor">
-      <UniqueIdentifier>{7908822c-97b0-45ef-b6f9-195c682474a5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Game">
-      <UniqueIdentifier>{1f0423e0-366c-49fd-919c-77666018deb5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source FIles\Game">
-      <UniqueIdentifier>{b1c038c9-51d1-4f92-918c-1da56a8157af}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source FIles\Editor">
-      <UniqueIdentifier>{190d56b5-07a0-4530-be5d-3f2cf5e0b7f5}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source FIles\Scenes">
-      <UniqueIdentifier>{feaa6084-43cb-462c-8e4c-cdb175726e0c}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Source FIles\Physics">
-      <UniqueIdentifier>{ffee93c9-c006-496f-bf2e-98c656c01f80}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Header Files\Physics">
-      <UniqueIdentifier>{56ccf444-77f0-4529-a9a3-7d5227966f86}</UniqueIdentifier>
+    <Filter Include="Utils">
+      <UniqueIdentifier>{F68B420E-62A0-6ABF-2B22-0E1F97F566F0}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
-    <ClInclude Include="src\Physics\VMath.h">
-      <Filter>Header Files\Physics</Filter>
+    <ClInclude Include="src\CPathAnimator.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\DevTools.h" />
+    <ClInclude Include="src\Hierarchy.h" />
+    <ClInclude Include="src\IBuffer.h" />
+    <ClInclude Include="src\IndexBuffer.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Tools\PathUtility.h">
+      <Filter>Tools</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\SphereCollider.h">
-      <Filter>Header Files\Physics</Filter>
+    <ClInclude Include="src\Utils\MeshBuilder.h">
+      <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Physics\Physics.h">
-      <Filter>Header Files\Physics</Filter>
+    <ClInclude Include="src\Utils\MeshFactory.h">
+      <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Game\PlayerController.h">
-      <Filter>Header Files\Game</Filter>
+    <ClInclude Include="src\Utils\ObjLoader.h">
+      <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Editor\Hierarchy.h">
-      <Filter>Header Files\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Editor\Inspector.h">
-      <Filter>Header Files\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Editor\Editor.h">
-      <Filter>Header Files\Editor</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Editor\Utilities.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Editor\Resources.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Editor\Debug.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Editor\ConsoleColors.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene\Scene.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene\Level_1.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene\Level_2.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene\Level_3.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\GameSceneManager.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Scene\Dev_Stage.h">
-      <Filter>Header Files\Scenes</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Game\Health.h">
-      <Filter>Header Files\Game</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Physics\BoxCollider.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Physics\Vector.h">
-      <Filter>Header Files\Physics</Filter>
-    </ClInclude>
+    <ClInclude Include="src\VertexArrayObject.h" />
+    <ClInclude Include="src\VertexBuffer.h" />
+    <ClInclude Include="src\VertexTypes.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\CPathAnimator.cpp" />
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\DevTools.cpp" />
+    <ClCompile Include="src\Hierarchy.cpp" />
+    <ClCompile Include="src\IBuffer.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
-    <ClCompile Include="src\Game\PlayerController.cpp">
-      <Filter>Source FIles\Game</Filter>
+    <ClCompile Include="src\Tools\PathUtility.cpp">
+      <Filter>Tools</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\Physics.cpp">
-      <Filter>Source FIles\Physics</Filter>
+    <ClCompile Include="src\Utils\ObjLoader.cpp">
+      <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\Physics\SphereCollider.cpp">
-      <Filter>Source FIles\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics\VMath.cpp">
-      <Filter>Source FIles\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Editor\Inspector.cpp">
-      <Filter>Source FIles\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Editor\Hierarchy.cpp">
-      <Filter>Source FIles\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Editor\Editor.cpp">
-      <Filter>Source FIles\Editor</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Editor\Debug.cpp">
-      <Filter>Source FIles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Editor\Resources.cpp">
-      <Filter>Source FIles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Editor\Utilities.cpp">
-      <Filter>Source FIles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene\Scene.cpp">
-      <Filter>Source FIles\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene\Level_1.cpp">
-      <Filter>Source FIles\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene\Level_2.cpp">
-      <Filter>Source FIles\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene\Level_3.cpp">
-      <Filter>Source FIles\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\GameSceneManager.cpp">
-      <Filter>Source FIles</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Scene\Dev_Stage.cpp">
-      <Filter>Source FIles\Scenes</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Game\Health.cpp">
-      <Filter>Source FIles\Game</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Physics\BoxCollider.cpp">
-      <Filter>Source FIles\Physics</Filter>
-    </ClCompile>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GDW.rc" />
+    <ClCompile Include="src\VertexArrayObject.cpp" />
+    <ClCompile Include="src\VertexTypes.cpp" />
   </ItemGroup>
 </Project>
