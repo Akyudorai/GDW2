@@ -10,6 +10,8 @@
 
 #include "Graphics/UniformBuffer.h"
 
+#include "Gameplay/PlayerController.h"
+
 struct GLFWwindow;
 
 class TextureCube;
@@ -48,6 +50,8 @@ namespace Gameplay {
 
 		// Whether the application is in "play mode", lets us leverage editors!
 		bool                       IsPlaying;
+
+		PlayerController PC;
 
 
 		Scene();

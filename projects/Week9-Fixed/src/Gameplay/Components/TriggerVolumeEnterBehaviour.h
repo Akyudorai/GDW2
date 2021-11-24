@@ -16,7 +16,11 @@ public:
 	virtual ~TriggerVolumeEnterBehaviour();
 
 	// Inherited from IComponent
+	std::function<void()> onTriggerEnterEvent;
+	std::function<void()> onTriggerStayEvent;
+	std::function<void()> onTriggerExitEvent;
 
+	virtual void Update(float dt) override;
 	virtual void OnTriggerVolumeEntered(const std::shared_ptr<Gameplay::Physics::RigidBody>& body) override;
 	virtual void OnTriggerVolumeLeaving(const std::shared_ptr<Gameplay::Physics::RigidBody>& body) override;
 	virtual void RenderImGui() override;

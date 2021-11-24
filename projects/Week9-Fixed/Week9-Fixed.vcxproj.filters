@@ -180,6 +180,9 @@
     <ClInclude Include="src\Utils\TypeHelpers.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\HealthComponent.h" />
+    <ClInclude Include="src\Gameplay\Components\UpdatedBoxCollider.h" />
+    <ClInclude Include="src\Gameplay\PlayerController.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\Camera.cpp">
@@ -306,5 +309,8 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Gameplay\Components\HealthComponent.cpp" />
+    <ClCompile Include="src\Gameplay\Components\UpdatedBoxCollider.cpp" />
+    <ClCompile Include="src\Gameplay\PlayerController.cpp" />
   </ItemGroup>
 </Project>

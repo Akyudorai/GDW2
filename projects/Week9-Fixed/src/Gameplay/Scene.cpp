@@ -27,7 +27,8 @@ namespace Gameplay {
 		_skyboxMesh(nullptr),
 		_skyboxTexture(nullptr),
 		_skyboxRotation(glm::mat3(1.0f)),
-		_gravity(glm::vec3(0.0f, 0.0f, -9.81f))
+		_gravity(glm::vec3(0.0f, 0.0f, -9.81f)),
+		PC(PlayerController())
 	{
 		_lightingUbo = std::make_shared<UniformBuffer<LightingUboStruct>>();
 		_lightingUbo->GetData().AmbientCol = glm::vec3(0.1f);
@@ -162,8 +163,11 @@ namespace Gameplay {
 	void Scene::Update(float dt) {
 		_FlushDeleteQueue();
 		if (IsPlaying) {
+			
+			PC.Update(dt);		
+
 			for (auto& obj : _objects) {
-				obj->Update(dt);
+				obj->Update(dt);				
 			}
 		}
 		_FlushDeleteQueue();

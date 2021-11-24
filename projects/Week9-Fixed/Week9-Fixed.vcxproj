@@ -111,6 +111,7 @@
   <ItemGroup>
     <ClInclude Include="src\Gameplay\Components\Camera.h" />
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h" />
+    <ClInclude Include="src\Gameplay\Components\HealthComponent.h" />
     <ClInclude Include="src\Gameplay\Components\IComponent.h" />
     <ClInclude Include="src\Gameplay\Components\JumpBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h" />
@@ -118,6 +119,7 @@
     <ClInclude Include="src\Gameplay\Components\RotatingBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\SimpleCameraControl.h" />
     <ClInclude Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.h" />
+    <ClInclude Include="src\Gameplay\Components\UpdatedBoxCollider.h" />
     <ClInclude Include="src\Gameplay\GameObject.h" />
     <ClInclude Include="src\Gameplay\Light.h" />
     <ClInclude Include="src\Gameplay\Material.h" />
@@ -134,6 +136,7 @@
     <ClInclude Include="src\Gameplay\Physics\PhysicsBase.h" />
     <ClInclude Include="src\Gameplay\Physics\RigidBody.h" />
     <ClInclude Include="src\Gameplay\Physics\TriggerVolume.h" />
+    <ClInclude Include="src\Gameplay\PlayerController.h" />
     <ClInclude Include="src\Gameplay\Scene.h" />
     <ClInclude Include="src\Graphics\DebugDraw.h" />
     <ClInclude Include="src\Graphics\GlEnums.h" />
@@ -164,6 +167,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\Camera.cpp" />
+    <ClCompile Include="src\Gameplay\Components\HealthComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\IComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\JumpBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp" />
@@ -171,6 +175,7 @@
     <ClCompile Include="src\Gameplay\Components\RotatingBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\SimpleCameraControl.cpp" />
     <ClCompile Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.cpp" />
+    <ClCompile Include="src\Gameplay\Components\UpdatedBoxCollider.cpp" />
     <ClCompile Include="src\Gameplay\GameObject.cpp" />
     <ClCompile Include="src\Gameplay\Material.cpp" />
     <ClCompile Include="src\Gameplay\MeshResource.cpp" />
@@ -186,6 +191,7 @@
     <ClCompile Include="src\Gameplay\Physics\PhysicsBase.cpp" />
     <ClCompile Include="src\Gameplay\Physics\RigidBody.cpp" />
     <ClCompile Include="src\Gameplay\Physics\TriggerVolume.cpp" />
+    <ClCompile Include="src\Gameplay\PlayerController.cpp" />
     <ClCompile Include="src\Gameplay\Scene.cpp" />
     <ClCompile Include="src\Graphics\DebugDraw.cpp" />
     <ClCompile Include="src\Graphics\IBuffer.cpp" />

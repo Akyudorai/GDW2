@@ -15,6 +15,12 @@
 #include "Physics/Physics.h"
 #include "Physics/SphereCollider.h"
 
+#include "GLFW/glfw3.h"
+#include <iostream>
+#include <GLFW/glfw3.h>
+
+#include <stb_image.h>
+
 using namespace GAME;
 
 Dev_Stage::Dev_Stage() : Scene(), camera(Entity::Create("Camera")),
@@ -42,6 +48,32 @@ wall_3(Entity::Create("Wall 3"))
 
 bool Dev_Stage::OnCreate()
 {
+	// Texture
+	int widthImg, heightImg, numColCh;
+	unsigned char* bytes = stbi_load("bot.png", &widthImg, &heightImg, &numColCh, 0);
+	
+	GLuint texture;
+	glGenTextures(1, &texture);
+	glActiveTexture(GL_TEXTURE0);
+	glBindTexture(GL_TEXTURE_2D, texture);
+
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_NEAREST);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT);
+	glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT);
+
+	glTexImage2D(GL_TEXTURE_2D, 0, GL_RGBA, widthImg, heightImg, 0, GL_RGBA, GL_UNSIGNED_BYTE, bytes);
+	glGenerateMipmap(GL_TEXTURE_2D);
+
+	stbi_image_free(bytes);
+	glBindTexture(GL_TEXTURE_2D, 0);
+
+	/*GLuint tex0Uni = glGetUniformLocation(shaderProgram.ID, "tex0");
+	shaderProgram.Activate();
+	glUniform1i(tex0Uni, 0);*/
+
+	glBindTexture(GL_TEXTURE_2D, texture);
+
 	// Initialize Camera
 	//camera = Entity::Create("Camera");
 	CCamera& c_cam = camera.Add<CCamera>(camera);
@@ -141,7 +173,7 @@ void Dev_Stage::Update(const float deltaTime)
 		e.transform.RecomputeGlobal();
 		
 		// Cant load component?
-		e.Get<CMeshRenderer>().Draw();
+		//e.Get<CMeshRenderer>().Draw();
 		
 	}
 

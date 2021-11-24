@@ -52,6 +52,9 @@ namespace Gameplay::Physics {
 	public:
 		typedef std::shared_ptr<ICollider> Sptr;
 
+		
+		std::function<void()> onTriggerEvent;
+
 		virtual ~ICollider();
 
 		/// <summary>

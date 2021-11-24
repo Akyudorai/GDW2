@@ -43,6 +43,7 @@
 #include "Gameplay/Material.h"
 #include "Gameplay/GameObject.h"
 #include "Gameplay/Scene.h"
+#include "Gameplay/PlayerController.h"
 
 // Components
 #include "Gameplay/Components/IComponent.h"
@@ -51,6 +52,8 @@
 #include "Gameplay/Components/JumpBehaviour.h"
 #include "Gameplay/Components/RenderComponent.h"
 #include "Gameplay/Components/MaterialSwapBehaviour.h"
+#include "Gameplay/Components/HealthComponent.h"
+#include "Gameplay/Components/UpdatedBoxCollider.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -102,7 +105,7 @@ GLFWwindow* window;
 // The current size of our window in pixels
 glm::ivec2 windowSize = glm::ivec2(800, 800);
 // The title of our GLFW window
-std::string windowTitle = "INFR-1350U";
+std::string windowTitle = "Into The Abyss";
 
 // using namespace should generally be avoided, and if used, make sure it's ONLY in cpp files
 using namespace Gameplay;
@@ -252,6 +255,8 @@ int main() {
 	ComponentManager::RegisterType<MaterialSwapBehaviour>();
 	ComponentManager::RegisterType<TriggerVolumeEnterBehaviour>();
 	ComponentManager::RegisterType<SimpleCameraControl>();
+	ComponentManager::RegisterType<HealthComponent>();
+	ComponentManager::RegisterType<UpdatedBoxCollider>();
 
 	// GL states, we'll enable depth testing and backface fulling
 	glEnable(GL_DEPTH_TEST);
@@ -389,18 +394,15 @@ int main() {
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->CreateGameObject("Main Camera");
 		{
-			camera->SetPostion(glm::vec3(0.0f, 0.0f, 10.0f));
+			camera->SetPosition(glm::vec3(0.0f, 0.0f, 10.0f));
 			camera->SetRotation(glm::vec3(45.0f, 0.0f, 0.0f));
 			//camera->LookAt(glm::vec3(0.0f));
-
-			camera->Add<SimpleCameraControl>();
 
 			Camera::Sptr cam = camera->Add<Camera>();
 			// Make sure that the camera is set as the scene's main camera!
 			scene->MainCamera = cam;
 		}
 
-		// Set up all our sample objects
 		GameObject::Sptr plane = scene->CreateGameObject("Plane");
 		{
 			// Make a big tiled mesh
@@ -415,110 +417,161 @@ int main() {
 
 			// Attach a plane collider that extends infinitely along the X/Y axis
 			RigidBody::Sptr physics = plane->Add<RigidBody>(/*static by default*/);
-			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({0,0,-1});
+			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
 		}
 
-		GameObject::Sptr square = scene->CreateGameObject("Square");
+		GameObject::Sptr body = scene->CreateGameObject("Body");
 		{
 			// Set position in the scene
-			square->SetPostion(glm::vec3(0.0f, 0.0f, 2.0f));
-			// Scale down the plane
-			square->SetScale(glm::vec3(0.5f));
-
-			// Create and attach a render component
-			RenderComponent::Sptr renderer = square->Add<RenderComponent>();
-			renderer->SetMesh(planeMesh);
-			renderer->SetMaterial(boxMaterial);
-
-			// This object is a renderable only, it doesn't have any behaviours or
-			// physics bodies attached!
-		}
-
-		GameObject::Sptr character = scene->CreateGameObject("Character");
-		{
-			// Set position in the scene
-			character->SetPostion(glm::vec3(-4.0f, 17.0f, -2.0f));
-			character->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-			character->SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
-
-			// Add some behaviour that relies on the physics body
-			character->Add<JumpBehaviour>();
+			body->SetPosition(glm::vec3(-4.0f, 17.0f, 0.0f));
+			body->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			body->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
 			// Create and attach a renderer for the monkey
-			RenderComponent::Sptr renderer = character->Add<RenderComponent>();
-			renderer->SetMesh(characterMesh);
-			renderer->SetMaterial(monkeyMaterial);
-
-			// Add a dynamic rigid body to this monkey
-			RigidBody::Sptr physics = character->Add<RigidBody>(RigidBodyType::Static);
-			physics->AddCollider(ConvexMeshCollider::Create());
-		}
-
-		GameObject::Sptr pot = scene->CreateGameObject("Pot");
-		{
-			// Set and rotation position in the scene
-			pot->SetPostion(glm::vec3(0.0f, 18.0f, 2.0f));
-			pot->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-			pot->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
-
-			// Add a render component
-			RenderComponent::Sptr renderer = pot->Add<RenderComponent>();
+			RenderComponent::Sptr renderer = body->Add<RenderComponent>();
 			renderer->SetMesh(potMesh);
-			renderer->SetMaterial(potMaterial);
-
-			// This is an example of attaching a component and setting some parameters
-			RotatingBehaviour::Sptr behaviour = pot->Add<RotatingBehaviour>();
-			//behaviour->RotationSpeed = glm::vec3(0.0f, 0.0f, -90.0f);
-		}
-		// Kinematic rigid bodies are those controlled by some outside controller
-		// and ONLY collide with dynamic objects
-		RigidBody::Sptr physics = pot->Add<RigidBody>(RigidBodyType::Kinematic);
-		physics->AddCollider(ConvexMeshCollider::Create());
-
-		GameObject::Sptr rock = scene->CreateGameObject("Rock");
-		{
-			// Set position in the scene
-			rock->SetPostion(glm::vec3(-3.0f, 15.0f, -0.3f));
-			rock->SetRotation(glm::vec3(-45.f, -19.0f, -5.0f));
-			rock->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
-
-			// Create and attach a renderer for the monkey
-			RenderComponent::Sptr renderer = rock->Add<RenderComponent>();
-			renderer->SetMesh(rockMesh);
 			renderer->SetMaterial(rockMaterial);
 
 			// Add a dynamic rigid body to this monkey
-			RigidBody::Sptr rockPhysics = rock->Add<RigidBody>(RigidBodyType::Static);
-			rockPhysics->AddCollider(ConvexMeshCollider::Create());
+			RigidBody::Sptr physics = body->Add<RigidBody>(RigidBodyType::Dynamic);
+			physics->AddCollider(BoxCollider::Create());
+
+			body->Add<HealthComponent>(100.0f);
 		}
 
-		GameObject::Sptr pressurePlate = scene->CreateGameObject("Pressure Plate");
+		GameObject::Sptr shadow = scene->CreateGameObject("Shadow");
 		{
 			// Set position in the scene
-			pressurePlate->SetPostion(glm::vec3(9.0f, 19.0f, 0.0f));
-			pressurePlate->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			pressurePlate->SetScale(glm::vec3(0.6f, 0.6f, 0.6f));
+			shadow->SetPosition(glm::vec3(4.0f, 17.0f, 0.0f));
+			shadow->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			shadow->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
 			// Create and attach a renderer for the monkey
-			RenderComponent::Sptr renderer = pressurePlate->Add<RenderComponent>();
+			RenderComponent::Sptr renderer = shadow->Add<RenderComponent>();
+			renderer->SetMesh(potMesh);
+			renderer->SetMaterial(potMaterial);
+
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr physics = shadow->Add<RigidBody>(RigidBodyType::Dynamic);			
+			BoxCollider::Sptr collider = BoxCollider::Create();			
+			physics->AddCollider(collider);
+		
+
+			shadow->Add<HealthComponent>(100.0f);
+		}
+
+		GameObject::Sptr doorway = scene->CreateGameObject("Door");
+		{
+			doorway->SetPosition(glm::vec3(0, 30.0f, 0.0f));
+			doorway->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			doorway->SetScale(glm::vec3(1.0f, 10.0f, 5.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = doorway->Add<RenderComponent>();
+			renderer->SetMesh(pressurePlateMesh);
+			renderer->SetMaterial(pressurePlateMaterial);
+			
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr physics = doorway->Add<RigidBody>(RigidBodyType::Static);
+			physics->AddCollider(BoxCollider::Create());
+		}
+
+		GameObject::Sptr pressure_plate = scene->CreateGameObject("Pressure Plate");
+		{
+			pressure_plate->SetPosition(glm::vec3(-12.0f, 25.0f, 0.0f));
+			pressure_plate->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			pressure_plate->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = pressure_plate->Add<RenderComponent>();
 			renderer->SetMesh(pressurePlateMesh);
 			renderer->SetMaterial(pressurePlateMaterial);
 
 			// Add a dynamic rigid body to this monkey
-			RigidBody::Sptr pressurePlatePhysics = pressurePlate->Add<RigidBody>(RigidBodyType::Static);
-			pressurePlatePhysics->AddCollider(ConvexMeshCollider::Create());
-		}
-
-		// Create a trigger volume for testing how we can detect collisions with objects!
-		GameObject::Sptr trigger = scene->CreateGameObject("Trigger"); 
-		{
-			TriggerVolume::Sptr volume = trigger->Add<TriggerVolume>();
-			BoxCollider::Sptr collider = BoxCollider::Create(glm::vec3(3.0f, 3.0f, 1.0f));
-			collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.5f));
+			TriggerVolume::Sptr volume = pressure_plate->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
 			volume->AddCollider(collider);
-
-			trigger->Add<TriggerVolumeEnterBehaviour>();
+			TriggerVolumeEnterBehaviour::Sptr trigger = pressure_plate->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent = [doorway] {							
+				doorway->Get<RenderComponent>()->IsEnabled = false;
+				//doorway->Get<RigidBody>()->IsEnabled = false;				
+			};
+			trigger->onTriggerExitEvent = [doorway] {				
+				doorway->Get<RenderComponent>()->IsEnabled = true;
+				//doorway->Get<RigidBody>()->IsEnabled = true;
+			};
 		}
+
+		GameObject::Sptr spike_trap = scene->CreateGameObject("Spike Trap");
+		{
+			spike_trap->SetPosition(glm::vec3(-6.0f, 25.0f, 0.0f));
+			spike_trap->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			spike_trap->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = spike_trap->Add<RenderComponent>();
+			renderer->SetMesh(pressurePlateMesh);
+			renderer->SetMaterial(pressurePlateMaterial);
+
+			// Add a dynamic rigid body to this monkey
+			TriggerVolume::Sptr volume = spike_trap->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			volume->AddCollider(collider);
+			TriggerVolumeEnterBehaviour::Sptr trigger = spike_trap->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent = [body] {
+				if (!scene->PC.isShadow) {
+					body->Get<HealthComponent>()->DealDamage(10.0f);
+				}
+			};
+		}
+
+		GameObject::Sptr light_trap = scene->CreateGameObject("Light Trap");
+		{
+			light_trap->SetPosition(glm::vec3(0.0f, 25.0f, 0.0f));
+			light_trap->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			light_trap->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = light_trap->Add<RenderComponent>();
+			renderer->SetMesh(pressurePlateMesh);
+			renderer->SetMaterial(pressurePlateMaterial);
+
+			// Add a dynamic rigid body to this monkey
+			TriggerVolume::Sptr volume = light_trap->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			volume->AddCollider(collider);
+			TriggerVolumeEnterBehaviour::Sptr trigger = light_trap->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerStayEvent = [shadow] {
+				if (scene->PC.isShadow) {
+					shadow->Get<HealthComponent>()->DealDamage(0.01f);
+				}
+			};
+		}
+
+		GameObject::Sptr gas_trap = scene->CreateGameObject("Gas Trap");
+		{
+			gas_trap->SetPosition(glm::vec3(6.0f, 25.0f, 0.0f));
+			gas_trap->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			gas_trap->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = gas_trap->Add<RenderComponent>();
+			renderer->SetMesh(pressurePlateMesh);
+			renderer->SetMaterial(pressurePlateMaterial);
+
+			// Add a dynamic rigid body to this monkey
+			TriggerVolume::Sptr volume = gas_trap->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();			
+			volume->AddCollider(collider);
+			TriggerVolumeEnterBehaviour::Sptr trigger = gas_trap->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerStayEvent = [body] {
+				if (!scene->PC.isShadow) {
+					body->Get<HealthComponent>()->DealDamage(0.01f);
+				}
+			};
+		}
+
+		scene->PC.Initialize(*body, *shadow, *camera, scene->Lights[0]);		
 
 		// Call scene awake to start up all of our components
 		scene->Window = window;
@@ -545,7 +598,7 @@ int main() {
 
 
 	BulletDebugMode physicsDebugMode = BulletDebugMode::None;
-	float playbackSpeed = 1.0f;
+	float playbackSpeed = 0.2f;
 
 	nlohmann::json editorSceneState;
 
@@ -553,6 +606,8 @@ int main() {
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
 		ImGuiHelper::StartFrame();
+
+		
 
 		// Calculate the time since our last frame (dt)
 		double thisFrame = glfwGetTime();
@@ -705,6 +760,8 @@ int main() {
 
 		// Use our cubemap to draw our skybox
 		scene->DrawSkybox();
+
+		
 
 
 		// End our ImGui window

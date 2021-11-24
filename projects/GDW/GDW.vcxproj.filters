@@ -9,12 +9,9 @@
     </Filter>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\CPathAnimator.h" />
     <ClInclude Include="src\Camera.h" />
     <ClInclude Include="src\DevTools.h" />
     <ClInclude Include="src\Hierarchy.h" />
-    <ClInclude Include="src\IBuffer.h" />
-    <ClInclude Include="src\IndexBuffer.h" />
     <ClInclude Include="src\Shader.h" />
     <ClInclude Include="src\Tools\PathUtility.h">
       <Filter>Tools</Filter>
@@ -28,16 +25,24 @@
     <ClInclude Include="src\Utils\ObjLoader.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\VertexArrayObject.h" />
-    <ClInclude Include="src\VertexBuffer.h" />
-    <ClInclude Include="src\VertexTypes.h" />
+    <ClInclude Include="src\GameSceneManager.h" />
+    <ClInclude Include="src\Scene\Dev_Stage.h" />
+    <ClInclude Include="src\Scene\Level_1.h" />
+    <ClInclude Include="src\Scene\Level_2.h" />
+    <ClInclude Include="src\Scene\Level_3.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\Physics\BoxCollider.h" />
+    <ClInclude Include="src\Physics\Physics.h" />
+    <ClInclude Include="src\Physics\SphereCollider.h" />
+    <ClInclude Include="src\Physics\Vector.h" />
+    <ClInclude Include="src\Physics\VMath.h" />
+    <ClInclude Include="src\Game\Health.h" />
+    <ClInclude Include="src\Game\PlayerController.h" />
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\CPathAnimator.cpp" />
     <ClCompile Include="src\Camera.cpp" />
     <ClCompile Include="src\DevTools.cpp" />
     <ClCompile Include="src\Hierarchy.cpp" />
-    <ClCompile Include="src\IBuffer.cpp" />
     <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
     <ClCompile Include="src\Tools\PathUtility.cpp">
@@ -46,7 +51,17 @@
     <ClCompile Include="src\Utils\ObjLoader.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\VertexArrayObject.cpp" />
-    <ClCompile Include="src\VertexTypes.cpp" />
+    <ClCompile Include="src\GameSceneManager.cpp" />
+    <ClCompile Include="src\Scene\Dev_Stage.cpp" />
+    <ClCompile Include="src\Scene\Level_1.cpp" />
+    <ClCompile Include="src\Scene\Level_2.cpp" />
+    <ClCompile Include="src\Scene\Level_3.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Physics\BoxCollider.cpp" />
+    <ClCompile Include="src\Physics\Physics.cpp" />
+    <ClCompile Include="src\Physics\SphereCollider.cpp" />
+    <ClCompile Include="src\Physics\VMath.cpp" />
+    <ClCompile Include="src\Game\Health.cpp" />
+    <ClCompile Include="src\Game\PlayerController.cpp" />
   </ItemGroup>
 </Project>
