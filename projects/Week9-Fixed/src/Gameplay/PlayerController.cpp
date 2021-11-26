@@ -4,10 +4,12 @@
 #include "Gameplay/Components/RenderComponent.h"
 #include "Gameplay/Physics/RigidBody.h"
 #include "Gameplay/Physics/Colliders/BoxCollider.h"
+#include "Gameplay/Physics/TriggerVolume.h"
+#include "Gameplay/Components/InteractableComponent.h"
 
 
 PlayerController::PlayerController() : 
-	m_body(nullptr), m_shadow(nullptr), m_camera(nullptr), m_light(nullptr)
+	m_body(nullptr), m_shadow(nullptr), m_camera(nullptr), m_light(nullptr), m_interaction(nullptr)
 { }
 
 PlayerController::~PlayerController()
@@ -15,12 +17,14 @@ PlayerController::~PlayerController()
 
 void PlayerController::Initialize(
 	Gameplay::GameObject& body, Gameplay::GameObject& shadow, 
-	Gameplay::GameObject& camera, Gameplay::Light& light)
+	Gameplay::GameObject& camera, Gameplay::Light& light,
+	Gameplay::Physics::TriggerVolume& interaction)
 {
 	m_body = &body;
 	m_shadow = &shadow;
 	m_camera = &camera;
 	m_light = &light;
+	m_interaction = &interaction;
 }
 
 void PlayerController::Update(float deltaTime)
@@ -42,6 +46,7 @@ void PlayerController::HandleInput(float deltaTime)
 	if (motion != glm::vec3(0)) {
 		if (!isShadow) {
 			m_body->SetPosition(m_body->GetPosition() + motion * movSpeed * deltaTime);
+			m_body->LookAt(m_body->GetPosition() + motion);
 			if (glm::distance(m_body->GetPosition(), m_shadow->GetPosition()) >= 21.0f) {						
 				m_shadow->Get<RenderComponent>()->IsEnabled = false;
 				m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;
@@ -49,6 +54,7 @@ void PlayerController::HandleInput(float deltaTime)
 		}
 		else if (isShadow && glm::distance(m_shadow->GetPosition() + motion, m_body->GetPosition()) <= 20.0f) {
 			m_shadow->SetPosition(m_shadow->GetPosition() + motion * movSpeed * deltaTime);
+			m_shadow->LookAt(m_shadow->GetPosition() + motion);
 		}
 	}
 
@@ -65,6 +71,8 @@ void PlayerController::HandleInput(float deltaTime)
 			m_shadow->SetPosition(m_body->GetPosition());
 			m_shadow->Get<RenderComponent>()->IsEnabled = true;	
 			m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = true;
+			m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionGroup(0x02);			// SHADOW COLLISION
+			m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionMask(0xFFFFFFFE);	// SHADOW COLLISION
 			shadowIsExtended = true;
 		}
 
@@ -72,13 +80,20 @@ void PlayerController::HandleInput(float deltaTime)
 		{
 			m_shadow->Get<RenderComponent>()->IsEnabled = false;	
 			m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;
+			m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionGroup(0x03);			// NO COLLISION
+			m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionMask(0xFFFFFFFD);	// NO COLLISION
 			shadowIsExtended = false;
 		}
 	}
 
 	if (glfwGetKey(windowRef, GLFW_KEY_E)) {
-		// Ability 
-		LOG_INFO("Ability Activated");		
+		// Ability 				
+		for (auto& object : m_interaction->_currentCollisions) {			
+			bool interactable = object.lock()->GetGameObject()->Has<InteractableComponent>();
+			if (interactable && object.lock()->GetGameObject()->Get<InteractableComponent>()->onInteractionEvent) {				
+				object.lock()->GetGameObject()->Get<InteractableComponent>()->onInteractionEvent();
+			}
+		}
 	}
 
 	if (glfwGetKey(windowRef, GLFW_KEY_F)) {
@@ -96,6 +111,8 @@ void PlayerController::HandleInput(float deltaTime)
 		if (!isShadow) {
 			m_shadow->Get<RenderComponent>()->IsEnabled = false;
 			m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;
+			m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionGroup(0x03);			// NO COLLISION
+			m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionMask(0xFFFFFFFD);	// NO COLLISION
 			shadowIsExtended = false;
 		}		
 	}

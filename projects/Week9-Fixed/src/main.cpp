@@ -54,6 +54,7 @@
 #include "Gameplay/Components/MaterialSwapBehaviour.h"
 #include "Gameplay/Components/HealthComponent.h"
 #include "Gameplay/Components/UpdatedBoxCollider.h"
+#include "Gameplay/Components/InteractableComponent.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -257,6 +258,7 @@ int main() {
 	ComponentManager::RegisterType<SimpleCameraControl>();
 	ComponentManager::RegisterType<HealthComponent>();
 	ComponentManager::RegisterType<UpdatedBoxCollider>();
+	ComponentManager::RegisterType<InteractableComponent>();
 
 	// GL states, we'll enable depth testing and backface fulling
 	glEnable(GL_DEPTH_TEST);
@@ -429,13 +431,22 @@ int main() {
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = body->Add<RenderComponent>();
-			renderer->SetMesh(potMesh);
+			renderer->SetMesh(characterMesh);
 			renderer->SetMaterial(rockMaterial);
 
 			// Add a dynamic rigid body to this monkey
 			RigidBody::Sptr physics = body->Add<RigidBody>(RigidBodyType::Dynamic);
-			physics->AddCollider(BoxCollider::Create());
+			
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
 
+			// Add a dynamic rigid body to this monkey
+			TriggerVolume::Sptr volume = body->Add<TriggerVolume>();
+			BoxCollider::Sptr i_collider = BoxCollider::Create();
+			i_collider->SetPosition(i_collider->GetPosition() + glm::vec3(0.0f, 0.0f, -2.5f));
+			volume->AddCollider(i_collider);
+			TriggerVolumeEnterBehaviour::Sptr trigger = body->Add<TriggerVolumeEnterBehaviour>();
+			
 			body->Add<HealthComponent>(100.0f);
 		}
 
@@ -448,7 +459,7 @@ int main() {
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = shadow->Add<RenderComponent>();
-			renderer->SetMesh(potMesh);
+			renderer->SetMesh(characterMesh);
 			renderer->SetMaterial(potMaterial);
 
 			// Add a dynamic rigid body to this monkey
@@ -458,6 +469,50 @@ int main() {
 		
 
 			shadow->Add<HealthComponent>(100.0f);
+		}
+
+		GameObject::Sptr interact_doorway = scene->CreateGameObject("Door");
+		{
+			interact_doorway->SetPosition(glm::vec3(-25.0f, 16.0f, 0.0f));
+			interact_doorway->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			interact_doorway->SetScale(glm::vec3(1.0f, 5.0f, 1.0f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = interact_doorway->Add<RenderComponent>();
+			renderer->SetMesh(pressurePlateMesh);
+			renderer->SetMaterial(pressurePlateMaterial);
+			
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr physics = interact_doorway->Add<RigidBody>(RigidBodyType::Static);
+			physics->AddCollider(BoxCollider::Create());
+		}
+
+		GameObject::Sptr interact = scene->CreateGameObject("Pot");
+		{
+			interact->SetPosition(glm::vec3(-16.0f, 16.0f, 0.0f));
+			interact->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			interact->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = interact->Add<RenderComponent>();
+			renderer->SetMesh(potMesh);
+			renderer->SetMaterial(potMaterial);
+
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr physics = interact->Add<RigidBody>(RigidBodyType::Dynamic);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+
+			// Add Interactable Component
+			InteractableComponent::Sptr interactable = interact->Add<InteractableComponent>();
+			interactable->onInteractionEvent = [interact_doorway] {
+				bool isEnabled = interact_doorway->Get<RenderComponent>()->IsEnabled;
+
+				interact_doorway->Get<RenderComponent>()->IsEnabled = !isEnabled;
+				interact_doorway->Get<RigidBody>()->IsEnabled = !isEnabled;
+				interact_doorway->Get<RigidBody>()->SetCollisionGroup((isEnabled) ? 0x01 : 0x03);				// DEFAULT COLLISION | NO COLLISION
+				interact_doorway->Get<RigidBody>()->SetCollisionMask((isEnabled) ? 0xFFFFFFFF : 0xFFFFFFFD);	// DEFAULT COLLISION | NO COLLISION
+			};
 		}
 
 		GameObject::Sptr doorway = scene->CreateGameObject("Door");
@@ -470,7 +525,7 @@ int main() {
 			RenderComponent::Sptr renderer = doorway->Add<RenderComponent>();
 			renderer->SetMesh(pressurePlateMesh);
 			renderer->SetMaterial(pressurePlateMaterial);
-			
+
 			// Add a dynamic rigid body to this monkey
 			RigidBody::Sptr physics = doorway->Add<RigidBody>(RigidBodyType::Static);
 			physics->AddCollider(BoxCollider::Create());
@@ -571,7 +626,7 @@ int main() {
 			};
 		}
 
-		scene->PC.Initialize(*body, *shadow, *camera, scene->Lights[0]);		
+		scene->PC.Initialize(*body, *shadow, *camera, scene->Lights[0], *body->Get<TriggerVolume>());		
 
 		// Call scene awake to start up all of our components
 		scene->Window = window;

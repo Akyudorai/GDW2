@@ -29,5 +29,5 @@ public:
 	MAKE_TYPENAME(TriggerVolumeEnterBehaviour);
 
 protected:
-	bool _playerInTrigger;
+	bool _playerInTrigger = false;
 };

@@ -113,6 +113,7 @@
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h" />
     <ClInclude Include="src\Gameplay\Components\HealthComponent.h" />
     <ClInclude Include="src\Gameplay\Components\IComponent.h" />
+    <ClInclude Include="src\Gameplay\Components\InteractableComponent.h" />
     <ClInclude Include="src\Gameplay\Components\JumpBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h" />
@@ -169,6 +170,7 @@
     <ClCompile Include="src\Gameplay\Components\Camera.cpp" />
     <ClCompile Include="src\Gameplay\Components\HealthComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\IComponent.cpp" />
+    <ClCompile Include="src\Gameplay\Components\InteractableComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\JumpBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp" />

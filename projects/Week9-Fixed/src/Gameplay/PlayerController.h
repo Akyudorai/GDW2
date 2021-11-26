@@ -19,7 +19,8 @@ public:
 	~PlayerController();
 	void Initialize(
 		Gameplay::GameObject& body, Gameplay::GameObject& shadow, 
-		Gameplay::GameObject& camera, Gameplay::Light& light);
+		Gameplay::GameObject& camera, Gameplay::Light& light, 
+		Gameplay::Physics::TriggerVolume& interaction);
 	void Update(float deltaTime);	
 
 protected:
@@ -27,6 +28,7 @@ protected:
 	Gameplay::GameObject* m_shadow = nullptr;
 	Gameplay::GameObject* m_camera = nullptr;
 	Gameplay::Light* m_light = nullptr;
+	Gameplay::Physics::TriggerVolume* m_interaction = nullptr;
 
 	float cameraLerpT = 1.0f;	
 	float movSpeed = 15.0f;

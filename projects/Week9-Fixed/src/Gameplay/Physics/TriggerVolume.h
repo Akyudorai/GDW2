@@ -41,10 +41,12 @@ namespace Gameplay::Physics {
 
 	protected:
 		btPairCachingGhostObject*   _ghost;
+		virtual btBroadphaseProxy* _GetBroadphaseHandle() override;
 
+	public:
 		std::vector<std::weak_ptr<RigidBody>> _currentCollisions;
 
-		virtual btBroadphaseProxy* _GetBroadphaseHandle() override;
+		
 
 	};
 }

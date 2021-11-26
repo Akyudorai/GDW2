@@ -183,6 +183,7 @@
     <ClInclude Include="src\Gameplay\Components\HealthComponent.h" />
     <ClInclude Include="src\Gameplay\Components\UpdatedBoxCollider.h" />
     <ClInclude Include="src\Gameplay\PlayerController.h" />
+    <ClInclude Include="src\Gameplay\Components\InteractableComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\Camera.cpp">
@@ -312,5 +313,6 @@
     <ClCompile Include="src\Gameplay\Components\HealthComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\UpdatedBoxCollider.cpp" />
     <ClCompile Include="src\Gameplay\PlayerController.cpp" />
+    <ClCompile Include="src\Gameplay\Components\InteractableComponent.cpp" />
   </ItemGroup>
 </Project>
