@@ -296,13 +296,19 @@ int main() {
 		MeshResource::Sptr potMesh = ResourceManager::CreateAsset<MeshResource>("Pot.obj");
 		MeshResource::Sptr rockMesh = ResourceManager::CreateAsset<MeshResource>("Rocks.obj");
 		MeshResource::Sptr pressurePlateMesh = ResourceManager::CreateAsset<MeshResource>("PressurePlate.obj");
+		MeshResource::Sptr stoneWallMesh = ResourceManager::CreateAsset<MeshResource>("StoneWall.obj");
+		MeshResource::Sptr sCageMesh = ResourceManager::CreateAsset<MeshResource>("SCage.obj");
 
 		Texture2D::Sptr    boxTexture = ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png");
 		Texture2D::Sptr    monkeyTex  = ResourceManager::CreateAsset<Texture2D>("textures/monkey-uvMap.png");
 		Texture2D::Sptr    treeTex  = ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTree.png");
 		Texture2D::Sptr    potTex  = ResourceManager::CreateAsset<Texture2D>("textures/Pot.png");
 		Texture2D::Sptr    rockTex  = ResourceManager::CreateAsset<Texture2D>("textures/RockTexture.png");
-		Texture2D::Sptr    pressurePlateTex  = ResourceManager::CreateAsset<Texture2D>("textures/BrushedDarkMetal.png");
+		Texture2D::Sptr    pressurePlateTex  = ResourceManager::CreateAsset<Texture2D>("textures/PressurePlateUVS.png");
+		Texture2D::Sptr	   stoneWallTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png");
+		Texture2D::Sptr	   stoneSlabTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabUVS.png");
+		Texture2D::Sptr	   sCageTex = ResourceManager::CreateAsset<Texture2D>("textures/SmallCageUVS.png");
+		Texture2D::Sptr	   stoneSlabTex2 = ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabsTexture.png");
 
 		// Here we'll load in the cubemap, as well as a special shader to handle drawing the skybox
 		TextureCube::Sptr testCubemap = ResourceManager::CreateAsset<TextureCube>("cubemaps/ocean/ocean.jpg");
@@ -376,6 +382,30 @@ int main() {
 
 		}
 
+		Material::Sptr stoneWallMaterial = ResourceManager::CreateAsset<Material>();
+		{
+			stoneWallMaterial->Name = "Stone Wall";
+			stoneWallMaterial->MatShader = basicShader;
+			stoneWallMaterial->Texture = stoneWallTex;
+			stoneWallMaterial->Shininess = 1.0f;
+		}
+
+		Material::Sptr stoneSlabMaterial = ResourceManager::CreateAsset<Material>();
+		{
+			stoneSlabMaterial->Name = "Stone Slab";
+			stoneSlabMaterial->MatShader = basicShader;
+			stoneSlabMaterial->Texture = stoneSlabTex2;
+			stoneSlabMaterial->Shininess = 1.0f;
+		}
+
+		Material::Sptr sCageMaterial = ResourceManager::CreateAsset<Material>();
+		{
+			sCageMaterial->Name = "Small Cage";
+			sCageMaterial->MatShader = basicShader;
+			sCageMaterial->Texture = sCageTex;
+			sCageMaterial->Shininess = 1.0f;
+		}
+
 		// Create some lights for our scene
 		scene->Lights.resize(3);
 		scene->Lights[0].Position = glm::vec3(0.0f, 12.0f, 13.0f);
@@ -405,7 +435,7 @@ int main() {
 			scene->MainCamera = cam;
 		}
 
-		GameObject::Sptr plane = scene->CreateGameObject("Plane");
+		GameObject::Sptr floor = scene->CreateGameObject("Floor");
 		{
 			// Make a big tiled mesh
 			MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
@@ -413,14 +443,34 @@ int main() {
 			tiledMesh->GenerateMesh();
 
 			// Create and attach a RenderComponent to the object to draw our mesh
-			RenderComponent::Sptr renderer = plane->Add<RenderComponent>();
+			RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
 			renderer->SetMesh(tiledMesh);
-			renderer->SetMaterial(boxMaterial);
+			renderer->SetMaterial(stoneSlabMaterial);
 
 			// Attach a plane collider that extends infinitely along the X/Y axis
-			RigidBody::Sptr physics = plane->Add<RigidBody>(/*static by default*/);
+			RigidBody::Sptr physics = floor->Add<RigidBody>(/*static by default*/);
 			physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
+			//physics->SetCollisionGroup(0x02);
+			//physics->SetCollisionMask(0xFFFFFFFE);
+			physics->SetCollisionGroupMulti(0x01|0x02);
 		}
+
+		//GameObject::Sptr floor2 = scene->CreateGameObject("Floor");
+		//{
+		//	// Make a big tiled mesh
+		//	MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		//	tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(20.0f)));
+		//	tiledMesh->GenerateMesh();
+
+		//	// Create and attach a RenderComponent to the object to draw our mesh
+		//	RenderComponent::Sptr renderer = floor2->Add<RenderComponent>();
+		//	renderer->SetMesh(tiledMesh);
+		//	renderer->SetMaterial(boxMaterial);
+
+		//	// Attach a plane collider that extends infinitely along the X/Y axis
+		//	RigidBody::Sptr physics = floor2->Add<RigidBody>(/*static by default*/);
+		//	physics->AddCollider(BoxCollider::Create(glm::vec3(50.0f, 50.0f, 1.0f)))->SetPosition({ 0,0,-1 });
+		//}
 
 		GameObject::Sptr body = scene->CreateGameObject("Body");
 		{
@@ -471,16 +521,33 @@ int main() {
 			shadow->Add<HealthComponent>(100.0f);
 		}
 
-		GameObject::Sptr interact_doorway = scene->CreateGameObject("Door");
+		GameObject::Sptr sCage = scene->CreateGameObject("S_Cage");
+		{
+			sCage->SetPosition(glm::vec3(0, 2, 0));
+			sCage->SetRotation(glm::vec3(90, 0, 90));
+			sCage->SetScale(glm::vec3(0.25f, 0.125f, 0.125f));
+
+			RenderComponent::Sptr renderer = sCage->Add<RenderComponent>();
+			renderer->SetMesh(sCageMesh);
+			renderer->SetMaterial(sCageMaterial);
+
+			RigidBody::Sptr physics = sCage->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(0.25f, 2.75f, 3.0f));
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0, 3.25f, 0));
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr interact_doorway = scene->CreateGameObject("Interact Door");
 		{
 			interact_doorway->SetPosition(glm::vec3(-25.0f, 16.0f, 0.0f));
 			interact_doorway->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-			interact_doorway->SetScale(glm::vec3(1.0f, 5.0f, 1.0f));
+			interact_doorway->SetScale(glm::vec3(1.0f, 12.0f, 1.0f));
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = interact_doorway->Add<RenderComponent>();
 			renderer->SetMesh(pressurePlateMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(rockMaterial);
 			
 			// Add a dynamic rigid body to this monkey
 			RigidBody::Sptr physics = interact_doorway->Add<RigidBody>(RigidBodyType::Static);
@@ -489,7 +556,7 @@ int main() {
 
 		GameObject::Sptr interact = scene->CreateGameObject("Pot");
 		{
-			interact->SetPosition(glm::vec3(-16.0f, 16.0f, 0.0f));
+			interact->SetPosition(glm::vec3(-20.0f, 22.0f, 0.0f));
 			interact->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 			interact->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
@@ -510,32 +577,303 @@ int main() {
 
 				interact_doorway->Get<RenderComponent>()->IsEnabled = !isEnabled;
 				interact_doorway->Get<RigidBody>()->IsEnabled = !isEnabled;
-				interact_doorway->Get<RigidBody>()->SetCollisionGroup((isEnabled) ? 0x01 : 0x03);				// DEFAULT COLLISION | NO COLLISION
+				//interact_doorway->Get<RigidBody>()->SetCollisionGroup((isEnabled) ? 0x01 : 0x03);				// DEFAULT COLLISION | NO COLLISION
 				interact_doorway->Get<RigidBody>()->SetCollisionMask((isEnabled) ? 0xFFFFFFFF : 0xFFFFFFFD);	// DEFAULT COLLISION | NO COLLISION
 			};
 		}
 
-		GameObject::Sptr doorway = scene->CreateGameObject("Door");
+		/// WALLS
 		{
-			doorway->SetPosition(glm::vec3(0, 30.0f, 0.0f));
-			doorway->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-			doorway->SetScale(glm::vec3(1.0f, 10.0f, 5.0f));
+			GameObject::Sptr wall1 = scene->CreateGameObject("Wall");
+			{
+				wall1->SetPosition(glm::vec3(0, 30.0f, 0.0f));
+				wall1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+				wall1->SetScale(glm::vec3(1.0f, 1.0f, 1.5f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall1->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall1->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall2 = scene->CreateGameObject("Wall");
+			{
+				wall2->SetPosition(glm::vec3(-24.0f, 35.0f, 0.0f));
+				wall2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall2->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall2->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall3 = scene->CreateGameObject("Wall");
+			{
+				wall3->SetPosition(glm::vec3(-24.0f, 8.0f, 0.0f));
+				wall3->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall3->SetScale(glm::vec3(1.0f, 1.0f, 0.3f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall3->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall3->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall4 = scene->CreateGameObject("Wall");
+			{
+				wall4->SetPosition(glm::vec3(-28.0f, 2.0f, 0.0f));
+				wall4->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+				wall4->SetScale(glm::vec3(1.0f, 1.0f, 1.5f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall4->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall4->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall5 = scene->CreateGameObject("Wall");
+			{
+				wall5->SetPosition(glm::vec3(28.0f, 2.0f, 0.0f));
+				wall5->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+				wall5->SetScale(glm::vec3(1.0f, 1.0f, 1.5f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall5->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall5->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall6 = scene->CreateGameObject("Wall");
+			{
+				wall6->SetPosition(glm::vec3(24.0f, 8.0f, 0.0f));
+				wall6->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall6->SetScale(glm::vec3(1.0f, 1.0f, 0.3f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall6->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall6->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall7 = scene->CreateGameObject("Wall");
+			{
+				wall7->SetPosition(glm::vec3(24.0f, 35.0f, 0.0f));
+				wall7->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall7->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall7->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall7->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall8 = scene->CreateGameObject("Wall");
+			{
+				wall8->SetPosition(glm::vec3(-50, 26.5f, 0.0f));
+				wall8->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall8->SetScale(glm::vec3(1.0f, 1.0f, 1.55f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall8->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall8->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall9 = scene->CreateGameObject("Wall");
+			{
+				wall9->SetPosition(glm::vec3(-37, 48.5f, 0.0f));
+				wall9->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+				wall9->SetScale(glm::vec3(1.0f, 1.0f, 0.75f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall9->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall9->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall10 = scene->CreateGameObject("Wall");
+			{
+				wall10->SetPosition(glm::vec3(50, -26.5f, 0.0f));
+				wall10->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall10->SetScale(glm::vec3(1.0f, 1.0f, 1.55f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall10->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall10->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+			GameObject::Sptr wall11 = scene->CreateGameObject("Wall");
+			{
+				wall11->SetPosition(glm::vec3(37.0f, 48.5f, 0.0f));
+				wall11->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+				wall11->SetScale(glm::vec3(1.0f, 1.0f, 0.75f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall11->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall11->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall12 = scene->CreateGameObject("Wall");
+			{
+				wall12->SetPosition(glm::vec3(-50.0f, -15.0f, 0.0f));
+				wall12->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall12->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall12->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall12->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall13 = scene->CreateGameObject("Wall");
+			{
+				wall13->SetPosition(glm::vec3(50.0f, -15.0f, 0.0f));
+				wall13->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				wall13->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall13->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall13->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+
+			GameObject::Sptr wall14 = scene->CreateGameObject("Door");
+			{
+				wall14->SetPosition(glm::vec3(0, -31.5f, 0.0f));
+				wall14->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+				wall14->SetScale(glm::vec3(1.0f, 1.0f, 3.35f));
+
+				// Create and attach a renderer for the monkey
+				RenderComponent::Sptr renderer = wall14->Add<RenderComponent>();
+				renderer->SetMesh(stoneWallMesh);
+				renderer->SetMaterial(stoneWallMaterial);
+
+				// Add a dynamic rigid body to this monkey
+				RigidBody::Sptr physics = wall14->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(glm::vec3(1, 4, 15));
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+				physics->AddCollider(collider);
+			}
+		}
+
+		GameObject::Sptr pressure_door = scene->CreateGameObject("Pressure Door");
+		{
+			pressure_door->SetPosition(glm::vec3(24.0f, 16.0f, 0.0f));
+			pressure_door->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			pressure_door->SetScale(glm::vec3(1.0f, 1.0f, 0.25f));
 
 			// Create and attach a renderer for the monkey
-			RenderComponent::Sptr renderer = doorway->Add<RenderComponent>();
-			renderer->SetMesh(pressurePlateMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			RenderComponent::Sptr renderer = pressure_door->Add<RenderComponent>();
+			renderer->SetMesh(stoneWallMesh);
+			renderer->SetMaterial(boxMaterial);
 
 			// Add a dynamic rigid body to this monkey
-			RigidBody::Sptr physics = doorway->Add<RigidBody>(RigidBodyType::Static);
-			physics->AddCollider(BoxCollider::Create());
+			RigidBody::Sptr physics = pressure_door->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1, 4, 15));
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+			physics->AddCollider(collider);			
 		}
 
 		GameObject::Sptr pressure_plate = scene->CreateGameObject("Pressure Plate");
 		{
-			pressure_plate->SetPosition(glm::vec3(-12.0f, 25.0f, 0.0f));
+			pressure_plate->SetPosition(glm::vec3(20.0f, 16.0f, 0.0f));
 			pressure_plate->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-			pressure_plate->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+			pressure_plate->SetScale(glm::vec3(1.25f, 0.5f, 0.75f));
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = pressure_plate->Add<RenderComponent>();
@@ -547,13 +885,15 @@ int main() {
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			volume->AddCollider(collider);
 			TriggerVolumeEnterBehaviour::Sptr trigger = pressure_plate->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = [doorway] {							
-				doorway->Get<RenderComponent>()->IsEnabled = false;
-				//doorway->Get<RigidBody>()->IsEnabled = false;				
+			trigger->onTriggerEnterEvent = [pressure_door] {							
+				pressure_door->Get<RenderComponent>()->IsEnabled = false;
+				//doorway->Get<RigidBody>()->IsEnabled = false;		
+				pressure_door->Get<RigidBody>()->SetCollisionMask(0xFFFFFFFE);
 			};
-			trigger->onTriggerExitEvent = [doorway] {				
-				doorway->Get<RenderComponent>()->IsEnabled = true;
+			trigger->onTriggerExitEvent = [pressure_door] {
+				pressure_door->Get<RenderComponent>()->IsEnabled = true;
 				//doorway->Get<RigidBody>()->IsEnabled = true;
+				pressure_door->Get<RigidBody>()->SetCollisionMask(0xFFFFFFFF);
 			};
 		}
 
@@ -596,6 +936,7 @@ int main() {
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			volume->AddCollider(collider);
 			TriggerVolumeEnterBehaviour::Sptr trigger = light_trap->Add<TriggerVolumeEnterBehaviour>();
+			volume->SetCollisionGroup(0x02);
 			trigger->onTriggerStayEvent = [shadow] {
 				if (scene->PC.isShadow) {
 					shadow->Get<HealthComponent>()->DealDamage(0.01f);
