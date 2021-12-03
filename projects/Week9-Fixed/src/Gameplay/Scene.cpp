@@ -95,7 +95,7 @@ namespace Gameplay {
 		return it == _objects.end() ? nullptr : *it;
 	}
 
-	GameObject::Sptr Scene::FindObjectByGUID(Guid id) {
+	GameObject::Sptr Scene::FindObjectByGUID(Guid id) const {
 		auto it = std::find_if(_objects.begin(), _objects.end(), [&](const GameObject::Sptr& obj) {
 			return obj->GUID == id;
 		});

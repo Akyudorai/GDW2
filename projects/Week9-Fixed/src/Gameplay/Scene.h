@@ -100,7 +100,7 @@ namespace Gameplay {
 		/// is found
 		/// </summary>
 		/// <param name="id">The guid of the object to find</param>
-		GameObject::Sptr FindObjectByGUID(Guid id);
+		GameObject::Sptr FindObjectByGUID(Guid id) const;
 
 		/// <summary>
 		/// Sets the ambient light color for this scene

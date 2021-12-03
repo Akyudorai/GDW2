@@ -27,6 +27,8 @@
 #include "Graphics/Texture2D.h"
 #include "Graphics/TextureCube.h"
 #include "Graphics/VertexTypes.h"
+#include "Graphics/Font.h"
+#include "Graphics/GuiBatcher.h"
 
 // Utilities
 #include "Utils/MeshBuilder.h"
@@ -66,6 +68,12 @@
 #include "Graphics/DebugDraw.h"
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
+
+// UI
+#include "Gameplay/Components/GUI/RectTransform.h"
+#include "Gameplay/Components/GUI/GuiPanel.h"
+#include "Gameplay/Components/GUI/GuiText.h"
+#include "Gameplay/InputEngine.h"
 
 //#define LOG_GL_NOTIFICATIONS
 
@@ -423,6 +431,37 @@ int main() {
 		planeMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(1.0f)));
 		planeMesh->GenerateMesh();
 
+		
+		// Setup UI
+		GameObject::Sptr canvas = scene->CreateGameObject("UI Canvas");
+		{
+			RectTransform::Sptr transform = canvas->Add<RectTransform>();
+			transform->SetMin({ 16, 16 });
+			transform->SetMax({ 256, 256 });
+
+			GameObject::Sptr subPanel = scene->CreateGameObject("Sub Item");
+			{
+				RectTransform::Sptr transform = subPanel->Add<RectTransform>();
+				transform->SetMin({ 10,10 });
+				transform->SetMax({ 128,128 });
+
+				GuiPanel::Sptr panel = subPanel->Add<GuiPanel>();
+				panel->SetColor(glm::vec4(1.0f, 0.0f, 0.0f, 1.0f));
+
+				Font::Sptr font = ResourceManager::CreateAsset<Font>("fonts/Roboto-Medium.ttf", 16.0f);
+				font->Bake();
+
+				GuiText::Sptr text = subPanel->Add<GuiText>();
+				text->SetText("Hello World!");
+				text->SetFont(font);
+			}
+
+			canvas->AddChild(subPanel);
+		}
+
+		GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
+		GuiBatcher::SetDefaultBorderRadius(8);
+
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->CreateGameObject("Main Camera");
 		{
@@ -432,6 +471,7 @@ int main() {
 
 			Camera::Sptr cam = camera->Add<Camera>();
 			// Make sure that the camera is set as the scene's main camera!
+			cam->SetFovDegrees(60.0f);
 			scene->MainCamera = cam;
 		}
 
@@ -773,6 +813,7 @@ int main() {
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
 				physics->AddCollider(collider);
 			}
+
 			GameObject::Sptr wall11 = scene->CreateGameObject("Wall");
 			{
 				wall11->SetPosition(glm::vec3(37.0f, 48.5f, 0.0f));
@@ -813,9 +854,9 @@ int main() {
 
 			GameObject::Sptr wall13 = scene->CreateGameObject("Wall");
 			{
-				wall13->SetPosition(glm::vec3(50.0f, -15.0f, 0.0f));
+				wall13->SetPosition(glm::vec3(50.0f, 26.5f, 0.0f));
 				wall13->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-				wall13->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+				wall13->SetScale(glm::vec3(1.0f, 1.0f, 1.55f));
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = wall13->Add<RenderComponent>();
@@ -859,7 +900,7 @@ int main() {
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = pressure_door->Add<RenderComponent>();
 			renderer->SetMesh(stoneWallMesh);
-			renderer->SetMaterial(boxMaterial);
+			renderer->SetMaterial(stoneSlabMaterial);
 
 			// Add a dynamic rigid body to this monkey
 			RigidBody::Sptr physics = pressure_door->Add<RigidBody>(RigidBodyType::Static);
