@@ -296,14 +296,15 @@ void CreateScene() {
 		// Load in the meshes
 		MeshResource::Sptr characterMesh = ResourceManager::CreateAsset<MeshResource>("Character.obj");
 
-		MeshResource::Sptr treeMesh = ResourceManager::CreateAsset<MeshResource>("DarkPineTree.obj");
-		MeshResource::Sptr tree2Mesh = ResourceManager::CreateAsset<MeshResource>("LightPineTree.obj");
-		MeshResource::Sptr GS = ResourceManager::CreateAsset<MeshResource>("GraveStone.obj");
+		MeshResource::Sptr darkTreeMesh = ResourceManager::CreateAsset<MeshResource>("DarkPineTree.obj");
+		MeshResource::Sptr lightTreeMesh = ResourceManager::CreateAsset<MeshResource>("LightPineTree.obj");
+		MeshResource::Sptr graveStoneMesh = ResourceManager::CreateAsset<MeshResource>("GraveStone.obj");
 		MeshResource::Sptr keymesh = ResourceManager::CreateAsset<MeshResource>("key.obj");
 		MeshResource::Sptr rockMesh = ResourceManager::CreateAsset<MeshResource>("Rock.obj");
 		MeshResource::Sptr stoneWallMesh = ResourceManager::CreateAsset<MeshResource>("StoneWall.obj");
 		MeshResource::Sptr TurretProj = ResourceManager::CreateAsset<MeshResource>("TurretProjectile.obj");
 		MeshResource::Sptr TorchMesh = ResourceManager::CreateAsset<MeshResource>("StandingTorch.obj");
+		MeshResource::Sptr stoneSlabMesh = ResourceManager::CreateAsset<MeshResource>("stoneslabs.obj");
 		MeshResource::Sptr EnemyMesh = ResourceManager::CreateAsset<MeshResource>("Enemy.obj");
 
 		//Cages
@@ -319,7 +320,7 @@ void CreateScene() {
 		MeshResource::Sptr S3 = ResourceManager::CreateAsset<MeshResource>("Symbol3.obj");
 		MeshResource::Sptr S4 = ResourceManager::CreateAsset<MeshResource>("Symbol4.obj");
 		MeshResource::Sptr S5 = ResourceManager::CreateAsset<MeshResource>("Symbol5.obj");
-		
+
 		//Animated Props
 		MeshResource::Sptr pressurePlateMesh = ResourceManager::CreateAsset<MeshResource>("PressurePlate.obj");
 		MeshResource::Sptr turretMesh = ResourceManager::CreateAsset<MeshResource>("Turret.obj");
@@ -329,16 +330,37 @@ void CreateScene() {
 		// Load in some textures
 		Texture2D::Sptr    stoneWallTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png");
 		Texture2D::Sptr    stoneSlabTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabUVs.png");
-		Texture2D::Sptr    sCageTex		= ResourceManager::CreateAsset<Texture2D>("textures/SmallCageUVs.png");
 		Texture2D::Sptr    stoneSlabTex2 = ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabsTexture.png");
-		Texture2D::Sptr    turrettex = ResourceManager::CreateAsset<Texture2D>("textures/TurretUVS.png");
+		Texture2D::Sptr    darkTreeTex = ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTreeUVS.png");
+		Texture2D::Sptr    lightTreeTex = ResourceManager::CreateAsset<Texture2D>("textures/LightTreeTextureUVS.png");
 		Texture2D::Sptr    tprojtex = ResourceManager::CreateAsset<Texture2D>("textures/TurretProjectileUVS.png");
+		Texture2D::Sptr    keyTex = ResourceManager::CreateAsset<Texture2D>("textures/KeyTextureUVS.png");
+		Texture2D::Sptr    rockTex = ResourceManager::CreateAsset<Texture2D>("textures/RockUVS.png");
+		Texture2D::Sptr    torchTex = ResourceManager::CreateAsset<Texture2D>("textures/TorchUVS.png");
+		Texture2D::Sptr    graveStoneTex = ResourceManager::CreateAsset<Texture2D>("textures/GraveStoneUVS.png");
 		Texture2D::Sptr    enemyTex = ResourceManager::CreateAsset<Texture2D>("textures/EnemyUVS.png");
 		Texture2D::Sptr    characterTex = ResourceManager::CreateAsset<Texture2D>("textures/CharacterUVS.png");
 		Texture2D::Sptr    shadowTex = ResourceManager::CreateAsset<Texture2D>("textures/ShadowUVS.png");
 
+		//Cages Textures
+		Texture2D::Sptr    circleCageTex = ResourceManager::CreateAsset<Texture2D>("textures/CircleCageUVS.png");
+		Texture2D::Sptr    boxCageTex = ResourceManager::CreateAsset<Texture2D>("textures/BoxcageUVS.png");
+		Texture2D::Sptr    longCageTex = ResourceManager::CreateAsset<Texture2D>("textures/LongCageUVS.png");
+		Texture2D::Sptr    smallCageTex = ResourceManager::CreateAsset<Texture2D>("textures/SmallCageUVS.png");
+		Texture2D::Sptr    uCageTex = ResourceManager::CreateAsset<Texture2D>("textures/UCageUVS.png");
+
+		//Animated Prop Textures
 		Texture2D::Sptr    pressurePlateTex = ResourceManager::CreateAsset<Texture2D>("textures/PressurePlateUVs.png");
+		Texture2D::Sptr    turretTex = ResourceManager::CreateAsset<Texture2D>("textures/TurretUVS.png");
 		Texture2D::Sptr    doorTex = ResourceManager::CreateAsset<Texture2D>("textures/DoorUVs.png");
+		Texture2D::Sptr    spikeTrapTex = ResourceManager::CreateAsset<Texture2D>("textures/SpikedTrapUVS.png");
+
+		//Symbols
+		Texture2D::Sptr    firstSymbolTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet1UVS.png");
+		Texture2D::Sptr    secondSymbolTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet2UVS.png");
+		Texture2D::Sptr    thirdSymbolTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet3UVS.png");
+		Texture2D::Sptr    fourthSymbolTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet4UVS.png");
+		Texture2D::Sptr    fifthSymbolTex = ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet5UVS.png");
 
 		//U.I Assets
 		Texture2D::Sptr    menuGlossTex = ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png");
@@ -372,7 +394,7 @@ void CreateScene() {
 		Material::Sptr sCageMaterial = ResourceManager::CreateAsset<Material>(basicShader);
 		{
 			sCageMaterial->Name = "Small Cage";
-			sCageMaterial->Set("u_Material.Diffuse", sCageTex);
+			sCageMaterial->Set("u_Material.Diffuse", smallCageTex);
 			sCageMaterial->Set("u_Material.Shininess", 0.1f);
 		}
 
@@ -381,6 +403,13 @@ void CreateScene() {
 			TurretProjMat->Name = "Turret Projectile";
 			TurretProjMat->Set("u_Material.Diffuse", tprojtex);
 			TurretProjMat->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr turretMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			turretMat->Name = "Turret";
+			turretMat->Set("u_Material.Diffuse", turretTex);
+			turretMat->Set("u_Material.Shininess", 0.1f);
 		}
 
 		Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(basicShader);
@@ -395,14 +424,112 @@ void CreateScene() {
 			characterMat->Name = "Character";
 			characterMat->Set("u_Material.Diffuse", characterTex);
 			characterMat->Set("u_Material.Shininess", 0.1f);
+		}		
+
+		//Symbol Materials
+		Material::Sptr symbol1Mat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			symbol1Mat->Name = "Symbol 1";
+			symbol1Mat->Set("u_Material.Diffuse", firstSymbolTex);
+			symbol1Mat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr symbol2Mat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			symbol2Mat->Name = "Symbol 2";
+			symbol2Mat->Set("u_Material.Diffuse", secondSymbolTex);
+			symbol2Mat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr symbol3Mat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			symbol3Mat->Name = "Symbol 3";
+			symbol3Mat->Set("u_Material.Diffuse", thirdSymbolTex);
+			symbol3Mat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr symbol4Mat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			symbol4Mat->Name = "Symbol 4";
+			symbol4Mat->Set("u_Material.Diffuse", fourthSymbolTex);
+			symbol4Mat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr symbol5Mat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			symbol5Mat->Name = "Symbol 5";
+			symbol5Mat->Set("u_Material.Diffuse", fifthSymbolTex);
+			symbol5Mat->Set("u_Material.Shininess", 0.1f);
 		}
 
 		Material::Sptr shadowMat = ResourceManager::CreateAsset<Material>(basicShader);
 		{
 			shadowMat->Name = "Shadow";
-			shadowMat->Set("u_Material.Diffuse", characterTex);
+			shadowMat->Set("u_Material.Diffuse", shadowTex);
 			shadowMat->Set("u_Material.Shininess", 0.1f);
 		}
+		//Tree Materials
+		Material::Sptr darkTreeMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			darkTreeMat->Name = "Dark Pine Tree";
+			darkTreeMat->Set("u_Material.Diffuse", darkTreeTex);
+			darkTreeMat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr lightTreeMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			lightTreeMat->Name = "Light Pine Tree";
+			lightTreeMat->Set("u_Material.Diffuse", lightTreeTex);
+			lightTreeMat->Set("u_Material.Shininess", 0.1f);
+		}
+
+		//Environment Object Materials
+		Material::Sptr torchMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			torchMat->Name = "Torch";
+			torchMat->Set("u_Material.Diffuse", torchTex);
+			torchMat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr rockMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			torchMat->Name = "Rock";
+			torchMat->Set("u_Material.Diffuse", rockTex);
+			torchMat->Set("u_Material.Shininess", 0.1f);
+		}
+
+		//Cage Materials
+		Material::Sptr boxCageMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			boxCageMat->Name = "Box Cage";
+			boxCageMat->Set("u_Material.Diffuse", boxCageTex);
+			boxCageMat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr circleCageMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			circleCageMat->Name = "Circle Cage";
+			circleCageMat->Set("u_Material.Diffuse", circleCageTex);
+			circleCageMat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr longCageMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			longCageMat->Name = "Long Cage";
+			longCageMat->Set("u_Material.Diffuse", longCageTex);
+			longCageMat->Set("u_Material.Shininess", 0.1f);
+		}
+		Material::Sptr uCageMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			uCageMat->Name = "U Cage";
+			uCageMat->Set("u_Material.Diffuse", uCageTex);
+			uCageMat->Set("u_Material.Shininess", 0.1f);
+		}
+
+		Material::Sptr graveStoneMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			graveStoneMat->Name = "Grave Stone";
+			graveStoneMat->Set("u_Material.Diffuse", graveStoneTex);
+			graveStoneMat->Set("u_Material.Shininess", 0.1f);
+		}
+
+		// Create some lights for our scene
+		scene->Lights.resize(3);
+		scene->Lights[0].Position = glm::vec3(0.0f, 12.0f, 13.0f);
+		scene->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
+		scene->Lights[0].Range = 200.0f;
 
 		Material::Sptr enemyMat = ResourceManager::CreateAsset<Material>(basicShader);
 		{
@@ -461,7 +588,7 @@ scene->Lights[0].Range = 100.0f;
 			//camera->LookAt(glm::vec3(0.0f));			
 
 			Camera::Sptr cam = camera->Add<Camera>();
-			cam->SetFovDegrees(120.0f);
+			cam->SetFovDegrees(60.0f);
 			scene->MainCamera = cam;
 		}
 		
@@ -946,7 +1073,7 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 		GameObject::Sptr torch3 = scene->CreateGameObject("Torch 3");
 		{
-			torch3->SetPosition(glm::vec3(25.0f, -15.0f, 0.0f));
+			torch3->SetPosition(glm::vec3(35.0f, -15.0f, 0.0f));
 			torch3->SetRotation(glm::vec3(90, 0, 90));
 			torch3->SetScale(glm::vec3(1.0f, 0.3f, 1.0f));
 
@@ -1464,6 +1591,236 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 		}
 
 		/////////////////////////////////////////////////////////
+		//					ENVIRONMENT - DECORATIONS
+		/////////////////////////////////////////////////////////
+		//Cages
+
+		GameObject::Sptr darkPineTree1 = scene->CreateGameObject("Dark Tree 1");
+		{
+			darkPineTree1->SetPosition(glm::vec3(-17.91f, 8.05f, 0.55f));
+			darkPineTree1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			darkPineTree1->SetScale(glm::vec3(0.15f, 0.15f, 0.15f));
+
+			RenderComponent::Sptr renderer = darkPineTree1->Add<RenderComponent>();
+			renderer->SetMesh(darkTreeMesh);
+			renderer->SetMaterial(darkTreeMat);
+
+			RigidBody::Sptr physics = darkPineTree1->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr lightPineTree1 = scene->CreateGameObject("Light Tree 1");
+		{
+			lightPineTree1->SetPosition(glm::vec3(37.04f, 7.43f, 0.55f));
+			lightPineTree1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			lightPineTree1->SetScale(glm::vec3(0.15f, 0.15f, 0.15f));
+
+			RenderComponent::Sptr renderer = lightPineTree1->Add<RenderComponent>();
+			renderer->SetMesh(lightTreeMesh);
+			renderer->SetMaterial(lightTreeMat);
+
+			RigidBody::Sptr physics = lightPineTree1->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr symbol1 = scene->CreateGameObject("Symbol 1");
+		{
+			symbol1->SetPosition(glm::vec3(0, 28.24f, 3.85f));
+			symbol1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			symbol1->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			RenderComponent::Sptr renderer = symbol1->Add<RenderComponent>();
+			renderer->SetMesh(S1);
+			renderer->SetMaterial(symbol1Mat);
+
+			RigidBody::Sptr physics = symbol1->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr symbol2 = scene->CreateGameObject("Symbol 2");
+		{
+			symbol2->SetPosition(glm::vec3(5.0f, 28.24f, 3.85f));
+			symbol2->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			symbol2->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			RenderComponent::Sptr renderer = symbol2->Add<RenderComponent>();
+			renderer->SetMesh(S2);
+			renderer->SetMaterial(symbol2Mat);
+
+			RigidBody::Sptr physics = symbol2->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr symbol3 = scene->CreateGameObject("Symbol 3");
+		{
+			symbol3->SetPosition(glm::vec3(-5.0f, 28.24f, 3.85f));
+			symbol3->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			symbol3->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			RenderComponent::Sptr renderer = symbol3->Add<RenderComponent>();
+			renderer->SetMesh(S3);
+			renderer->SetMaterial(symbol3Mat);
+
+			RigidBody::Sptr physics = symbol3->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr symbol4 = scene->CreateGameObject("Symbol 4");
+		{
+			symbol4->SetPosition(glm::vec3(10.0f, 28.24f, 3.85f));
+			symbol4->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			symbol4->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			RenderComponent::Sptr renderer = symbol4->Add<RenderComponent>();
+			renderer->SetMesh(S4);
+			renderer->SetMaterial(symbol4Mat);
+
+			RigidBody::Sptr physics = symbol4->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr symbol5 = scene->CreateGameObject("Symbol 5");
+		{
+			symbol5->SetPosition(glm::vec3(-10.0f, 28.24f, 3.85f));
+			symbol5->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			symbol5->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			RenderComponent::Sptr renderer = symbol5->Add<RenderComponent>();
+			renderer->SetMesh(S5);
+			renderer->SetMaterial(symbol5Mat);
+
+			RigidBody::Sptr physics = symbol5->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr torch = scene->CreateGameObject("Torch");
+		{
+			torch->SetPosition(glm::vec3(20.43f, 26.59f, 2.6f));
+			torch->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			torch->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			RenderComponent::Sptr renderer = torch->Add<RenderComponent>();
+			renderer->SetMesh(TorchMesh);
+			renderer->SetMaterial(torchMat);
+
+			RigidBody::Sptr physics = torch->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr rock = scene->CreateGameObject("Rock");
+		{
+			rock->SetPosition(glm::vec3(32.34f, 5.71f, 0.85f));
+			rock->SetRotation(glm::vec3(-74.f, 0.0f, -90.0f));
+			rock->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+			RenderComponent::Sptr renderer = rock->Add<RenderComponent>();
+			renderer->SetMesh(rockMesh);
+			renderer->SetMaterial(rockMat);
+
+			RigidBody::Sptr physics = rock->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr turret = scene->CreateGameObject("Turret");
+		{
+			turret->SetPosition(glm::vec3(-36.72f, 40.79f, 0.5f));
+			turret->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			turret->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+			RenderComponent::Sptr renderer = turret->Add<RenderComponent>();
+			renderer->SetMesh(turretMesh);
+			renderer->SetMaterial(turretMat);
+
+			RigidBody::Sptr physics = turret->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr boxCage = scene->CreateGameObject("Box Cage");
+		{
+			boxCage->SetPosition(glm::vec3(31.01f, 38.56f, 0.14f));
+			boxCage->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			boxCage->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+			RenderComponent::Sptr renderer = boxCage->Add<RenderComponent>();
+			renderer->SetMesh(boxCageMesh);
+			renderer->SetMaterial(boxCageMat);
+
+			RigidBody::Sptr physics = boxCage->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr circleCage = scene->CreateGameObject("Circle Cage");
+		{
+			circleCage->SetPosition(glm::vec3(42.0f, 42.0f, 0.14f));
+			circleCage->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			circleCage->SetScale(glm::vec3(0.075f, 0.075f, 0.075f));
+
+			RenderComponent::Sptr renderer = circleCage->Add<RenderComponent>();
+			renderer->SetMesh(circleCageMesh);
+			renderer->SetMaterial(circleCageMat);
+
+			RigidBody::Sptr physics = circleCage->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr longCage = scene->CreateGameObject("Long Cage");
+		{
+			longCage->SetPosition(glm::vec3(20, -11.75f, 0.14f));
+			longCage->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			longCage->SetScale(glm::vec3(0.1f, 0.1f, 0.225f));
+
+			RenderComponent::Sptr renderer = longCage->Add<RenderComponent>();
+			renderer->SetMesh(LongCageMesh);
+			renderer->SetMaterial(longCageMat);
+
+			RigidBody::Sptr physics = longCage->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr uCage = scene->CreateGameObject("U Cage");
+		{
+			uCage->SetPosition(glm::vec3(-36.77f, 37.03f, 0.14f));
+			uCage->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			uCage->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+			RenderComponent::Sptr renderer = uCage->Add<RenderComponent>();
+			renderer->SetMesh(UCageMesh);
+			renderer->SetMaterial(uCageMat);
+
+			RigidBody::Sptr physics = uCage->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		GameObject::Sptr graveStone = scene->CreateGameObject("Grave Stone");
+		{
+			graveStone->SetPosition(glm::vec3(-12.43f, 11.08f, 0.33f));
+			graveStone->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+			graveStone->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+			RenderComponent::Sptr renderer = graveStone->Add<RenderComponent>();
+			renderer->SetMesh(graveStoneMesh);
+			renderer->SetMaterial(graveStoneMat);
+
+			RigidBody::Sptr physics = graveStone->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+		}
+
+		/////////////////////////////////////////////////////////
 		//				   USER INTERFACE - GAME
 		/////////////////////////////////////////////////////////
 
@@ -1517,23 +1874,23 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			menuTitle->Get<RectTransform>()->SetPosition({ 280.0f, 175 });					
 			pauseMenu->AddChild(menuTitle);
 
-			GameObject::Sptr button1 = UIHelper::CreateButton("Button 1");
+			GameObject::Sptr button1 = UIHelper::CreateButton("Resume Game");
 			button1->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 150 });
 			pauseMenu->AddChild(button1);
 
-			GameObject::Sptr button2 = UIHelper::CreateButton("Button 2");
+			GameObject::Sptr button2 = UIHelper::CreateButton("Restart Level");
 			button2->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 200 });
 			pauseMenu->AddChild(button2);
 
-			GameObject::Sptr button3 = UIHelper::CreateButton("Button 3");
+			GameObject::Sptr button3 = UIHelper::CreateButton("Options");
 			button3->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 250 });
 			pauseMenu->AddChild(button3);
 
-			GameObject::Sptr button4 = UIHelper::CreateButton("Button 4");
+			GameObject::Sptr button4 = UIHelper::CreateButton("Quit to Menu");
 			button4->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 300 });
 			pauseMenu->AddChild(button4);
 
-			GameObject::Sptr button5 = UIHelper::CreateButton("Button 5");
+			GameObject::Sptr button5 = UIHelper::CreateButton("Quit Game");
 			button5->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 350 });
 			pauseMenu->AddChild(button5);			
 

@@ -35,12 +35,19 @@ void PlayerController::Initialize(
 void PlayerController::Update(float deltaTime)
 {
 	// If the player presses the Tab key, it pauses the game.  See Scene.cpp at line 
-	if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_TAB)) {
+	if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_TAB) == GLFW_PRESS) {
+		
+		if (tabPressed) return;
+		tabPressed = true;
+
 		// Pause
 		if (m_pauseMenu != nullptr) {
 			m_pauseMenu->IsActive = !m_pauseMenu->IsActive;
 			Gameplay::Scene::IsPaused = !Gameplay::Scene::IsPaused;
 		}
+	}
+	else if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_TAB) == GLFW_RELEASE) {
+		tabPressed = false;
 	}
 
 	// If we're paused, we dont want our player to be able to do anything else after this point

@@ -75,6 +75,7 @@ private:
 	bool rPressed = false;
 	bool fPressed = false;
 	bool ePressed = false;
+	bool tabPressed = false;
 
 protected:
 	void HandleInput(float deltaTime);
