@@ -11,7 +11,8 @@
 
 PlayerController::PlayerController() :
 	m_body(nullptr), m_shadow(nullptr), m_camera(nullptr), m_light(nullptr), m_interaction(nullptr),
-	m_bodyHealthText(nullptr), m_shadowHealthText(nullptr), m_pauseMenu(nullptr), m_guideCanvas(nullptr)
+	m_bodyHealthText(nullptr), m_shadowHealthText(nullptr), m_pauseMenu(nullptr), m_guideCanvas(nullptr),
+	m_mainCanvas(nullptr), m_loseCanvas(nullptr)
 { 
 
 
@@ -34,6 +35,33 @@ void PlayerController::Initialize(
 
 void PlayerController::Update(float deltaTime)
 {
+	if (lerpT < 1.0f)
+		lerpT += deltaTime;
+	else
+		lerpT = 1.0f;
+
+	if (m_body->Get<HealthComponent>()->GetCurrentHealth() <= 0 || m_shadow->Get<HealthComponent>()->GetCurrentHealth() <= 0)
+	{
+		// turn on lose 
+		if (m_loseCanvas != nullptr) {
+			if (!m_loseCanvas->IsActive) {
+				m_loseCanvas->IsActive = true;
+				Gameplay::Scene::IsPaused = true;
+			}
+		}
+	}
+
+	// Start Game by closing main menu and setting paused to false
+	if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_P) == GLFW_PRESS) {
+
+		if (gameStarted) return;
+
+		if (m_mainCanvas != nullptr) {
+			m_mainCanvas->IsActive = false;
+			Gameplay::Scene::IsPaused = false;
+		}
+	}
+
 	// If the player presses the Tab key, it pauses the game.  See Scene.cpp at line 
 	if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_TAB) == GLFW_PRESS) {
 		
@@ -87,7 +115,7 @@ void PlayerController::HandleInput(float deltaTime)
 			m_body->SetPosition(m_body->GetPosition() + motion * movSpeed * deltaTime);
 
 
-			m_body->LookAt(m_body->GetPosition() + motion);
+			m_body->LookAt(m_body->GetPosition() + motion);			
 			if (glm::distance(m_body->GetPosition(), m_shadow->GetPosition()) >= 21.0f) {						
 				m_shadow->Get<RenderComponent>()->IsEnabled = false;
 				//m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;

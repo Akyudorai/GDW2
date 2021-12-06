@@ -51,6 +51,14 @@ public:
 		m_guideCanvas = &object;
 	}
 
+	void SetMainMenuCanvas(Gameplay::GameObject& object) {
+		m_mainCanvas = &object;
+	}
+
+	void SetLoseCanvas(Gameplay::GameObject& object) {
+		m_loseCanvas = &object;
+	}
+
 protected:
 
 	// All our references that our Player Controller manipulates.
@@ -63,6 +71,8 @@ protected:
 	GuiText* m_shadowHealthText = nullptr;
 	Gameplay::GameObject* m_pauseMenu = nullptr;
 	Gameplay::GameObject* m_guideCanvas = nullptr;
+	Gameplay::GameObject* m_mainCanvas = nullptr;
+	Gameplay::GameObject* m_loseCanvas = nullptr;
 
 	float cameraLerpT = 1.0f;	
 	float movSpeed = 15.0f;
@@ -75,7 +85,11 @@ private:
 	bool rPressed = false;
 	bool fPressed = false;
 	bool ePressed = false;
-	bool tabPressed = false;
+	bool tabPressed = false;	
+	bool gameStarted = false;
+
+	float lerpT = 0.0f;
+	glm::vec3 targetEuler = glm::vec3(0.0f, 0.0f, 0.0f);
 
 protected:
 	void HandleInput(float deltaTime);

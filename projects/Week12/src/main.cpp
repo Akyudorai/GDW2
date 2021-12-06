@@ -1722,7 +1722,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			physics->AddCollider(collider);
 		}
 
-
 		GameObject::Sptr rock = scene->CreateGameObject("Rock");
 		{
 			rock->SetPosition(glm::vec3(32.34f, 5.71f, 0.85f));
@@ -1855,6 +1854,56 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 		}
 
 		/////////////////////////////////////////////////////////
+		//				   USER INTERFACE - Main Menu
+		/////////////////////////////////////////////////////////
+
+		GameObject::Sptr mainMenu = scene->CreateGameObject("UI Menu Canvas");
+		{
+			RectTransform::Sptr transform = mainMenu->Add<RectTransform>();
+			transform->SetMin({ 16, 16 });
+			transform->SetMax({ 900, 900 });
+			transform->SetPosition({ 400, 400 });
+
+			GuiPanel::Sptr backgroundPanel = mainMenu->Add<GuiPanel>();
+			backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+
+			GameObject::Sptr menuTitle = UIHelper::CreateText("Main Menu");
+			menuTitle->Get<GuiText>()->SetTextScale(2);
+			menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
+			mainMenu->AddChild(menuTitle);
+
+			GameObject::Sptr button1 = UIHelper::CreateButton("Press 'P' to Start Game");
+			button1->Get<RectTransform>()->SetPosition({ 425, 400 });
+			mainMenu->AddChild(button1);
+
+			mainMenu->IsActive = true;
+			scene->PC.SetMainMenuCanvas(*mainMenu);
+		}
+
+		/////////////////////////////////////////////////////////
+		//				   USER INTERFACE - Lose Screen
+		/////////////////////////////////////////////////////////
+
+		GameObject::Sptr loseCanvas = scene->CreateGameObject("UI Menu Canvas");
+		{
+			RectTransform::Sptr transform = loseCanvas->Add<RectTransform>();
+			transform->SetMin({ 16, 16 });
+			transform->SetMax({ 900, 900 });
+			transform->SetPosition({ 400, 400 });
+
+			GuiPanel::Sptr backgroundPanel = loseCanvas->Add<GuiPanel>();
+			backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+
+			GameObject::Sptr menuTitle = UIHelper::CreateText("You Died!");
+			menuTitle->Get<GuiText>()->SetTextScale(2);
+			menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
+			loseCanvas->AddChild(menuTitle);			
+
+			loseCanvas->IsActive = false;
+			scene->PC.SetLoseCanvas(*loseCanvas);
+		}
+
+		/////////////////////////////////////////////////////////
 		//				   USER INTERFACE - MENU
 		/////////////////////////////////////////////////////////
 
@@ -1866,7 +1915,7 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			RectTransform::Sptr transform = pauseMenu->Add<RectTransform>();
 			transform->SetMin({ 16, 16 });
 			transform->SetMax({ 350, 500 });
-			transform->SetPosition({ 400, 300 });
+			transform->SetPosition({ 400, 500 });
 
 			GuiPanel::Sptr backgroundPanel = pauseMenu->Add<GuiPanel>();
 			backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));			
@@ -1909,11 +1958,9 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
 			pauseMenu->AddChild(lowerGraphic);
 
-
 			pauseMenu->IsActive = false;
 			scene->PC.SetPauseMenu(*pauseMenu);
-		}	
-
+		}					
 
 		/////////////////////////////////////////////////////////
 		//				USER INTERFACE - Guide
@@ -2234,7 +2281,7 @@ int main() {
 			auto& instanceData = instanceUniforms->GetData();
 			instanceData.u_Model = object->GetTransform();
 			instanceData.u_ModelViewProjection = viewProj * object->GetTransform();
-			instanceData.u_NormalMatrix = glm::mat3(glm::transpose(glm::inverse(object->GetTransform())));
+			instanceData.u_NormalMatrix = glm::mat3(glm::transpose(glm::inverse(object->GetTransform())));			
 			
 			instanceUniforms->Update();  
 

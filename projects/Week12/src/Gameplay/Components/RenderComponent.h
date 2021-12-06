@@ -58,6 +58,8 @@ protected:
 	// The object's material
 	Gameplay::Material::Sptr      _material;
 
+	float m_t;
+
 	// If we want to use MeshFactory, we can populate this list
 	std::vector<MeshBuilderParam> _meshBuilderParams;
 };

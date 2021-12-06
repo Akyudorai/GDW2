@@ -1,6 +1,7 @@
 #include "Gameplay/Components/RenderComponent.h"
 
 #include "Utils/ResourceManager/ResourceManager.h"
+#include "Gameplay/Scene.h"
 
 
 RenderComponent::RenderComponent(const Gameplay::MeshResource::Sptr& mesh, const Gameplay::Material::Sptr& material) :
@@ -36,7 +37,7 @@ const Gameplay::Material::Sptr& RenderComponent::GetMaterial() const {
 }
 
 void RenderComponent::Animate(const Gameplay::MeshResource::Sptr frame0, const Gameplay::MeshResource::Sptr frame2, float t)
-{
+{	
 	SetMesh(frame0);
 }
 
