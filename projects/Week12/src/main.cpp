@@ -561,6 +561,16 @@ void CreateScene() {
 			file.append(".obj");
 			IdleAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
+
+		std::vector<MeshResource::Sptr> TurretAnimation;
+		for (int i = 0; i < 8; ++i)
+		{
+			std::string file;
+			file.append("models/turret/Turret");
+			file.append(std::to_string((i + 1)));
+			file.append(".obj");
+			TurretAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
+		}
 		
 
 int PHYSICAL_MASK = 0xFFFFFFFF;
@@ -1746,6 +1756,16 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			RenderComponent::Sptr renderer = turret->Add<RenderComponent>();
 			renderer->SetMesh(turretMesh);
 			renderer->SetMaterial(turretMat);
+
+			AnimatorComponent::Sptr animator = turret->Add<AnimatorComponent>();
+			animator->AddAnimation("Turret", TurretAnimation);
+
+			animator->SetRenderer(*renderer);
+			animator->SetAnimation("Turret");
+			//animator->SetFrames(std::move(frames));
+			animator->SetLooping(true);
+			animator->SetPause(false);
+			animator->SetSpeed(5);
 
 			RigidBody::Sptr physics = turret->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
