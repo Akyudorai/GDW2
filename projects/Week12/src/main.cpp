@@ -424,7 +424,14 @@ void CreateScene() {
 			characterMat->Name = "Character";
 			characterMat->Set("u_Material.Diffuse", characterTex);
 			characterMat->Set("u_Material.Shininess", 0.1f);
-		}		
+		}	
+
+		Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(basicShader);
+		{
+			spikeTrapMat->Name = "Spike Trap";
+			spikeTrapMat->Set("u_Material.Diffuse", spikeTrapTex);
+			spikeTrapMat->Set("u_Material.Shininess", 0.1f);
+		}
 
 		//Symbol Materials
 		Material::Sptr symbol1Mat = ResourceManager::CreateAsset<Material>(basicShader);
@@ -1491,8 +1498,8 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = spike_trap->Add<RenderComponent>();
-			renderer->SetMesh(pressurePlateMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMesh(spikeMesh);
+			renderer->SetMaterial(spikeTrapMat);
 
 			AnimatorComponent::Sptr animator = spike_trap->Add<AnimatorComponent>();
 			std::vector<MeshResource::Sptr> frames;
