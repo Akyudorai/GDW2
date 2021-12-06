@@ -623,7 +623,7 @@ scene->Lights[0].Range = 100.0f;
 			//animator->SetFrames(std::move(frames));
 			animator->SetLooping(true);
 			animator->SetPause(false);
-			animator->SetSpeed(10.0f);
+			animator->SetSpeed(4.0f);
 
 			//std::cout << std::to_string(frames.size()) << std::endl;
 			
@@ -663,7 +663,7 @@ scene->Lights[0].Range = 100.0f;
 			//animator->SetFrames(std::move(frames));
 			animator->SetLooping(true);
 			animator->SetPause(false);
-			animator->SetSpeed(10.0f);
+			animator->SetSpeed(4.0f);
 
 			// Add a dynamic rigid body to this monkey
 			RigidBody::Sptr physics = shadow->Add<RigidBody>(RigidBodyType::Dynamic);
@@ -1559,7 +1559,7 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			
 			trigger->onTriggerStayEvent = [shadow] {
 				if (scene->PC.isShadow) {
-					shadow->Get<HealthComponent>()->DealDamage(0.01f);
+					shadow->Get<HealthComponent>()->DealDamage(0.1f);
 				}
 			};
 		}
@@ -1611,7 +1611,7 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			trigger->onTriggerStayEvent = [body, animator] {
 				if (!scene->PC.isShadow) {
-					body->Get<HealthComponent>()->DealDamage(0.01f);
+					body->Get<HealthComponent>()->DealDamage(0.1f);
 				}
 			};
 
@@ -1757,15 +1757,15 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			renderer->SetMesh(turretMesh);
 			renderer->SetMaterial(turretMat);
 
-			AnimatorComponent::Sptr animator = turret->Add<AnimatorComponent>();
-			animator->AddAnimation("Turret", TurretAnimation);
+			//AnimatorComponent::Sptr animator = turret->Add<AnimatorComponent>();
+			//animator->AddAnimation("Turret", TurretAnimation);
 
-			animator->SetRenderer(*renderer);
-			animator->SetAnimation("Turret");
-			//animator->SetFrames(std::move(frames));
-			animator->SetLooping(true);
-			animator->SetPause(false);
-			animator->SetSpeed(5);
+			//animator->SetRenderer(*renderer);
+			//animator->SetAnimation("Turret");
+			////animator->SetFrames(std::move(frames));
+			//animator->SetLooping(true);
+			//animator->SetPause(false);
+			//animator->SetSpeed(5);
 
 			RigidBody::Sptr physics = turret->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
