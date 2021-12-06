@@ -47,6 +47,10 @@ public:
 		m_pauseMenu = &object;		
 	}
 
+	void SetGuideCanvas(Gameplay::GameObject& object) {
+		m_guideCanvas = &object;
+	}
+
 protected:
 
 	// All our references that our Player Controller manipulates.
@@ -58,6 +62,7 @@ protected:
 	GuiText* m_bodyHealthText = nullptr;
 	GuiText* m_shadowHealthText = nullptr;
 	Gameplay::GameObject* m_pauseMenu = nullptr;
+	Gameplay::GameObject* m_guideCanvas = nullptr;
 
 	float cameraLerpT = 1.0f;	
 	float movSpeed = 15.0f;
@@ -65,9 +70,17 @@ protected:
 	glm::vec3 cameraRotation = glm::vec3(30.0f, 0.0f, 0.0f);
 	glm::vec3 lightOffset = glm::vec3(0.0f, 0.0f, 10.0f);	
 
+private:
+	bool qPressed = false;
+	bool rPressed = false;
+	bool fPressed = false;
+	bool ePressed = false;
+
 protected:
 	void HandleInput(float deltaTime);
 	void HandleCamera(float deltaTime);
+
+
 
 	template<typename T>
 	T Lerp(const T& p0, const T& p1, float t) {

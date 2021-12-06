@@ -42,13 +42,7 @@
     <ClInclude Include="src\Gameplay\Components\GUI\RectTransform.h">
       <Filter>Gameplay\Components\GUI</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\HealthComponent.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\IComponent.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\InteractableComponent.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\JumpBehaviour.h">
@@ -64,12 +58,6 @@
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\SimpleCameraControl.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\UpdatedBoxCollider.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\GameObject.h">
@@ -122,9 +110,6 @@
     </ClInclude>
     <ClInclude Include="src\Gameplay\Physics\TriggerVolume.h">
       <Filter>Gameplay\Physics</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\PlayerController.h">
-      <Filter>Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Scene.h">
       <Filter>Gameplay</Filter>
@@ -233,13 +218,7 @@
     <ClCompile Include="src\Gameplay\Components\GUI\RectTransform.cpp">
       <Filter>Gameplay\Components\GUI</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\HealthComponent.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\IComponent.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\InteractableComponent.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\JumpBehaviour.cpp">
@@ -255,12 +234,6 @@
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\SimpleCameraControl.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\UpdatedBoxCollider.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\GameObject.cpp">
@@ -310,9 +283,6 @@
     </ClCompile>
     <ClCompile Include="src\Gameplay\Physics\TriggerVolume.cpp">
       <Filter>Gameplay\Physics</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\PlayerController.cpp">
-      <Filter>Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Scene.cpp">
       <Filter>Gameplay</Filter>

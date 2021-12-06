@@ -368,7 +368,6 @@ namespace Gameplay {
 		delete _collisionConfig;
 	}
 
-
 	void Scene::_FlushDeleteQueue() {
 		for (auto& weakPtr : _deletionQueue) {
 			if (weakPtr.expired()) continue;
