@@ -216,12 +216,6 @@
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\AnimatorComponent.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\Enemy.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\Camera.cpp">
@@ -372,11 +366,5 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Gameplay\Components\AnimatorComponent.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\Enemy.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
