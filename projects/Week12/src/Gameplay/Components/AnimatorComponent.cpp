@@ -63,8 +63,6 @@ namespace Gameplay
 				m_renderer->Animate(animations[currentAnimation][0], animations[currentAnimation][animations[currentAnimation].size()-1], m_timer);
 		}
 		
-
-
 	}
 
 	// DEPRECIATED

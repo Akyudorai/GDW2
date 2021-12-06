@@ -487,9 +487,9 @@ void CreateScene() {
 		}
 		Material::Sptr rockMat = ResourceManager::CreateAsset<Material>(basicShader);
 		{
-			torchMat->Name = "Rock";
-			torchMat->Set("u_Material.Diffuse", rockTex);
-			torchMat->Set("u_Material.Shininess", 0.1f);
+			rockMat->Name = "Rock";
+			rockMat->Set("u_Material.Diffuse", rockTex);
+			rockMat->Set("u_Material.Shininess", 0.1f);
 		}
 
 		//Cage Materials
@@ -534,7 +534,7 @@ void CreateScene() {
 		Material::Sptr enemyMat = ResourceManager::CreateAsset<Material>(basicShader);
 		{
 			enemyMat->Name = "Enemy";
-			enemyMat->Set("u_Material.Diffuse", characterTex);
+			enemyMat->Set("u_Material.Diffuse", enemyTex);
 			enemyMat->Set("u_Material.Shininess", 0.1f);
 		}
 
@@ -754,7 +754,7 @@ scene->Lights[0].Range = 100.0f;
 		GameObject::Sptr floor = scene->CreateGameObject("Floor");
 		{
 			MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(20.0f)));
+			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
 			tiledMesh->GenerateMesh();
 
 			// Create and attach a RenderComponent to the object to draw our mesh
@@ -1048,11 +1048,16 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RenderComponent::Sptr renderer = torch1->Add<RenderComponent>();
 			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(torchMat);
 
 			scene->Lights[1].Position = torch1->GetPosition() + glm::vec3(0.0f, 0.0f, 10.5f);
 			scene->Lights[1].Color = glm::vec3(0.89f, 0.345f, 0.13f);
 			scene->Lights[1].Range = 100.0f;
+			
+			RigidBody::Sptr physics = torch1->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.0f, 8.0f, 1.0f));
+			physics->AddCollider(collider);
 		}
 
 		GameObject::Sptr torch2 = scene->CreateGameObject("Torch 2");
@@ -1063,11 +1068,16 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RenderComponent::Sptr renderer = torch2->Add<RenderComponent>();
 			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(torchMat);
 
 			scene->Lights[2].Position = torch2->GetPosition() + glm::vec3(0.0f, 0.0f, 10.5f);
 			scene->Lights[2].Color = glm::vec3(0.89f, 0.345f, 0.13f);
 			scene->Lights[2].Range = 100.0f;
+
+			RigidBody::Sptr physics = torch2->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.0f, 8.0f, 1.0f));
+			physics->AddCollider(collider);
 
 		}
 
@@ -1079,11 +1089,17 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RenderComponent::Sptr renderer = torch3->Add<RenderComponent>();
 			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(torchMat);
 
 			scene->Lights[3].Position = torch3->GetPosition() + glm::vec3(0.0f, 0.0f, 10.5f);
 			scene->Lights[3].Color = glm::vec3(0.89f, 0.345f, 0.13f);
 			scene->Lights[3].Range = 100.0f;
+
+
+			RigidBody::Sptr physics = torch3->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.0f, 8.0f, 1.0f));
+			physics->AddCollider(collider);
 
 		}
 
@@ -1095,11 +1111,17 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RenderComponent::Sptr renderer = torch4->Add<RenderComponent>();
 			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(torchMat);
 
 			scene->Lights[4].Position = torch4->GetPosition() + glm::vec3(0.0f, 0.0f, 10.5f);
 			scene->Lights[4].Color = glm::vec3(0.89f, 0.345f, 0.13f);
 			scene->Lights[4].Range = 100.0f;
+
+
+			RigidBody::Sptr physics = torch4->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.0f, 8.0f, 1.0f));
+			physics->AddCollider(collider);
 
 		}
 
@@ -1111,12 +1133,16 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RenderComponent::Sptr renderer = torch5->Add<RenderComponent>();
 			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(torchMat);
 
 			scene->Lights[5].Position = torch5->GetPosition() + glm::vec3(0.0f, 0.0f, 10.5f);
 			scene->Lights[5].Color = glm::vec3(0.89f, 0.345f, 0.13f);
 			scene->Lights[5].Range = 100.0f;
 
+			RigidBody::Sptr physics = torch5->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.0f, 8.0f, 1.0f));
+			physics->AddCollider(collider);
 		}
 
 		GameObject::Sptr torch6 = scene->CreateGameObject("Torch 6");
@@ -1127,11 +1153,17 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RenderComponent::Sptr renderer = torch6->Add<RenderComponent>();
 			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(torchMat);
 
 			scene->Lights[6].Position = torch6->GetPosition() + glm::vec3(0.0f, 0.0f, 10.5f);
 			scene->Lights[6].Color = glm::vec3(0.89f, 0.345f, 0.13f);
 			scene->Lights[6].Range = 100.0f;
+
+
+			RigidBody::Sptr physics = torch6->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.0f, 8.0f, 1.0f));
+			physics->AddCollider(collider);
 
 		}
 
@@ -1143,12 +1175,17 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RenderComponent::Sptr renderer = torch7->Add<RenderComponent>();
 			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(pressurePlateMaterial);
+			renderer->SetMaterial(torchMat);
 
 			scene->Lights[7].Position = torch7->GetPosition() + glm::vec3(0.0f, 0.0f, 10.5f);
 			scene->Lights[7].Color = glm::vec3(0.89f, 0.345f, 0.13f);
 			scene->Lights[7].Range = 100.0f;
 
+
+			RigidBody::Sptr physics = torch7->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.0f, 8.0f, 1.0f));
+			physics->AddCollider(collider);
 		}
 
 		/////////////////// END OF Lights ///////////////////////////
@@ -1157,9 +1194,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 		/////////////////////////////////////////////////////////
 		//					ENVIRONMENT
 		/////////////////////////////////////////////////////////		
-
-		
-
 		GameObject::Sptr sCage = scene->CreateGameObject("S_Cage");
 		{
 			sCage->SetPosition(glm::vec3(0, 2, 0));
@@ -1223,12 +1257,10 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			interact->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 			interact->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
 
-			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = interact->Add<RenderComponent>();
 			renderer->SetMesh(TurretProj);
 			renderer->SetMaterial(TurretProjMat);
 
-			// Add a dynamic rigid body to this monkey
 			RigidBody::Sptr physics = interact->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			physics->AddCollider(collider);
@@ -1263,7 +1295,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			pressure_door->SetRotation(glm::vec3(90.0f, 0.0f, 180.0f));
 			pressure_door->SetScale(glm::vec3(1.0f, 0.5f, 0.65f));
 
-			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = pressure_door->Add<RenderComponent>();
 			renderer->SetMesh(doorMesh);
 			renderer->SetMaterial(doorMat);
@@ -1285,8 +1316,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			animator->SetLooping(false);
 			animator->SetPause(true);
 			
-
-			// Add a dynamic rigid body to this monkey
 			RigidBody::Sptr physics = pressure_door->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.0f, 0.0f));
@@ -1307,7 +1336,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			pressure_plate->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 			pressure_plate->SetScale(glm::vec3(1.25f, 0.5f, 1.25f));
 
-			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = pressure_plate->Add<RenderComponent>();
 			renderer->SetMesh(pressurePlateMesh);
 			renderer->SetMaterial(pressurePlateMaterial);
@@ -1332,7 +1360,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 				animator->SetPause(true);
 			};
 
-			// Add a dynamic rigid body to this monkey
 			TriggerVolume::Sptr volume = pressure_plate->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.5f, 0.0f));
@@ -1381,7 +1408,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			pressure_plate2->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 			pressure_plate2->SetScale(glm::vec3(1.25f, 0.5f, 1.25f));
 
-			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = pressure_plate2->Add<RenderComponent>();
 			renderer->SetMesh(pressurePlateMesh);
 			renderer->SetMaterial(pressurePlateMaterial);
@@ -1405,8 +1431,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			animator->onAnimationCompleted = [animator] {
 				animator->SetPause(true);
 			};
-
-			// Add a dynamic rigid body to this monkey
 			TriggerVolume::Sptr volume = pressure_plate2->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.5f, 0.0f));
@@ -1485,7 +1509,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 				animator->SetReverse(!animator->IsReversed());
 			};
 
-			// Add a dynamic rigid body to this monkey
 			TriggerVolume::Sptr volume = spike_trap->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.5f, 0.0f));
@@ -1562,7 +1585,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 				animator->SetPause(true);
 			};
 
-			// Add a dynamic rigid body to this monkey
 			TriggerVolume::Sptr volume = gas_trap->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.5f, 0.0f));
@@ -1700,20 +1722,6 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			physics->AddCollider(collider);
 		}
 
-		GameObject::Sptr torch = scene->CreateGameObject("Torch");
-		{
-			torch->SetPosition(glm::vec3(20.43f, 26.59f, 2.6f));
-			torch->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-			torch->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
-
-			RenderComponent::Sptr renderer = torch->Add<RenderComponent>();
-			renderer->SetMesh(TorchMesh);
-			renderer->SetMaterial(torchMat);
-
-			RigidBody::Sptr physics = torch->Add<RigidBody>(RigidBodyType::Static);
-			BoxCollider::Sptr collider = BoxCollider::Create();
-			physics->AddCollider(collider);
-		}
 
 		GameObject::Sptr rock = scene->CreateGameObject("Rock");
 		{
@@ -1817,6 +1825,7 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 
 			RigidBody::Sptr physics = graveStone->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(glm::vec3(1.5f, 3.7f, 2.0f));
 			physics->AddCollider(collider);
 		}
 
@@ -1863,11 +1872,11 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));			
 		
 
-			/*GameObject::Sptr upperGraphic = UIHelper::CreateImage(menuGlossTex, "Upper Graphic");
+			GameObject::Sptr upperGraphic = UIHelper::CreateImage(menuGlossTex, "Upper Graphic");
 			upperGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });
 			upperGraphic->Get<RectTransform>()->SetSize({ 80, 30 });
 			upperGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-			pauseMenu->AddChild(upperGraphic);*/
+			pauseMenu->AddChild(upperGraphic);
 
 			GameObject::Sptr menuTitle = UIHelper::CreateText("Paused");
 			menuTitle->Get<GuiText>()->SetTextScale(2);			
@@ -1894,11 +1903,11 @@ GameObject::Sptr wall14 = scene->CreateGameObject("Wall 14");
 			button5->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 350 });
 			pauseMenu->AddChild(button5);			
 
-			/*GameObject::Sptr lowerGraphic = UIHelper::CreateImage(menuGlossReverseTex, "Lower Graphic");
+			GameObject::Sptr lowerGraphic = UIHelper::CreateImage(menuGlossReverseTex, "Lower Graphic");
 			lowerGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 400 });
 			lowerGraphic->Get<RectTransform>()->SetSize({ 40, 17.5f });	
 			lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-			pauseMenu->AddChild(lowerGraphic);*/
+			pauseMenu->AddChild(lowerGraphic);
 
 
 			pauseMenu->IsActive = false;
