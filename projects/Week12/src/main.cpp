@@ -744,7 +744,7 @@ scene->Lights[0].Range = 100.0f;
 		GameObject::Sptr enemy = scene->CreateGameObject("Enemy");
 		{
 			enemy->SetPosition(glm::vec3(-20.0f, -25.0f, 0.0f));
-			enemy->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			enemy->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
 			enemy->SetScale(glm::vec3(1.0f, 1.0f, 1.0));
 
 			// Create and attach a renderer for the monkey
@@ -752,15 +752,24 @@ scene->Lights[0].Range = 100.0f;
 			renderer->SetMesh(EnemyMesh);
 			renderer->SetMaterial(enemyMat);	
 
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr physics = enemy->Add<RigidBody>(RigidBodyType::Dynamic);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+			physics->SetCollisionGroup(PHYSICAL_GROUP);
+			physics->SetCollisionMask(PHYSICAL_MASK);
+
 			// Enemy Navigation
 			Enemy::Sptr enemyScript = enemy->Add<Enemy>();
 			enemyScript->SetOwner(enemy);
-			std::vector<GameObject> navPts;
+			enemyScript->SetTarget(body);
+			enemyScript->SetFleeTarget(shadow);
+			/*std::vector<GameObject> navPts;
 			navPts.push_back(*nav1);
 			navPts.push_back(*nav2);
 			navPts.push_back(*nav3);
 			navPts.push_back(*nav4);
-			enemyScript->SetNavPoints(navPts);
+			enemyScript->SetNavPoints(navPts);*/
 		}
 
 		/////////////////////////////////////////////////////////

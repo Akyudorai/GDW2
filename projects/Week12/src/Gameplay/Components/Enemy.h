@@ -22,11 +22,25 @@ namespace Gameplay
 	public:
 		void SetNavPoints(std::vector<GameObject> nP);
 		void SetOwner(GameObject::Sptr object);
+		void SetTarget(GameObject::Sptr object);
+		void SetFleeTarget(GameObject::Sptr object);
+		
+	protected:
+		void Steering(float deltaTime);		
+		glm::vec3 GenerateWanderCoordinate();
 	protected:
 		
 		GameObject::Sptr m_owner;
-		float m_speed = 1.0f;
+		GameObject::Sptr m_target;
+		GameObject::Sptr m_fleeTarget;
 
+		float m_speed = 50.0f;
+
+		glm::vec3 m_wanderTarget;
+		float m_wanderTime = 0.0f;
+
+		float m_detectionRange = 10.0f;
+		
 		int navIndex = 0;
 		std::vector<GameObject> navPoints;
 	};
