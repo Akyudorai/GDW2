@@ -10,7 +10,7 @@
 #include "Gameplay/Material.h";
 
 #include "Utils/GUID.hpp"
-#include "Utils/ResourceManager/IResource.h"
+#include "Utils/ResourceManagement/IResource.h"
 #include "Utils/StringUtils.h"
 
 /// <summary>

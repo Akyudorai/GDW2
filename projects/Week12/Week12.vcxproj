@@ -127,6 +127,7 @@
     <ClInclude Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\UpdatedBoxCollider.h" />
     <ClInclude Include="src\Gameplay\GameObject.h" />
+    <ClInclude Include="src\Gameplay\InputManagement\InputHandler.h" />
     <ClInclude Include="src\Gameplay\Light.h" />
     <ClInclude Include="src\Gameplay\Material.h" />
     <ClInclude Include="src\Gameplay\MeshResource.h" />
@@ -144,6 +145,15 @@
     <ClInclude Include="src\Gameplay\Physics\TriggerVolume.h" />
     <ClInclude Include="src\Gameplay\PlayerController.h" />
     <ClInclude Include="src\Gameplay\Scene.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Boss_Level.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_One.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Three.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Two.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Sandbox_Level.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\SceneData.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\SceneManager.h" />
+    <ClInclude Include="src\Gameplay\UI\GameInterfaceManager.h" />
+    <ClInclude Include="src\Gameplay\UI\MenuInterfaceManager.h" />
     <ClInclude Include="src\Graphics\DebugDraw.h" />
     <ClInclude Include="src\Graphics\Font.h" />
     <ClInclude Include="src\Graphics\GlEnums.h" />
@@ -160,6 +170,7 @@
     <ClInclude Include="src\Graphics\VertexBuffer.h" />
     <ClInclude Include="src\Graphics\VertexParamMap.h" />
     <ClInclude Include="src\Graphics\VertexTypes.h" />
+    <ClInclude Include="src\Utils\Editor\Editor.h" />
     <ClInclude Include="src\Utils\FileHelpers.h" />
     <ClInclude Include="src\Utils\GUID.hpp" />
     <ClInclude Include="src\Utils\GlmBulletConversions.h" />
@@ -169,8 +180,9 @@
     <ClInclude Include="src\Utils\MeshBuilder.h" />
     <ClInclude Include="src\Utils\MeshFactory.h" />
     <ClInclude Include="src\Utils\ObjLoader.h" />
-    <ClInclude Include="src\Utils\ResourceManager\IResource.h" />
-    <ClInclude Include="src\Utils\ResourceManager\ResourceManager.h" />
+    <ClInclude Include="src\Utils\ResourceManagement\Resources.h" />
+    <ClInclude Include="src\Utils\ResourceManagement\IResource.h" />
+    <ClInclude Include="src\Utils\ResourceManagement\ResourceManager.h" />
     <ClInclude Include="src\Utils\StringUtils.h" />
     <ClInclude Include="src\Utils\TypeHelpers.h" />
     <ClInclude Include="src\Utils\UIHelper.h" />
@@ -209,6 +221,12 @@
     <ClCompile Include="src\Gameplay\Physics\TriggerVolume.cpp" />
     <ClCompile Include="src\Gameplay\PlayerController.cpp" />
     <ClCompile Include="src\Gameplay\Scene.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Boss_Level.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_One.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Three.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Two.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Sandbox_Level.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\SceneManager.cpp" />
     <ClCompile Include="src\Graphics\DebugDraw.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />
     <ClCompile Include="src\Graphics\GuiBatcher.cpp" />
@@ -220,12 +238,13 @@
     <ClCompile Include="src\Graphics\UniformBuffer.cpp" />
     <ClCompile Include="src\Graphics\VertexArrayObject.cpp" />
     <ClCompile Include="src\Graphics\VertexTypes.cpp" />
+    <ClCompile Include="src\Utils\Editor\Editor.cpp" />
     <ClCompile Include="src\Utils\FileHelpers.cpp" />
     <ClCompile Include="src\Utils\GUID.cpp" />
     <ClCompile Include="src\Utils\GlmDefines.cpp" />
     <ClCompile Include="src\Utils\ImGuiHelper.cpp" />
     <ClCompile Include="src\Utils\MeshFactory.cpp" />
-    <ClCompile Include="src\Utils\ResourceManager\ResourceManager.cpp" />
+    <ClCompile Include="src\Utils\ResourceManagement\ResourceManager.cpp" />
     <ClCompile Include="src\Utils\StringUtils.cpp" />
     <ClCompile Include="src\main.cpp" />
   </ItemGroup>

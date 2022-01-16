@@ -11,7 +11,7 @@
 // Others
 #include "Gameplay/Components/IComponent.h"
 #include "Gameplay/Components/ComponentManager.h"
-#include "Utils/ResourceManager/IResource.h"
+#include "Utils/ResourceManagement/IResource.h"
 
 namespace Gameplay {
 // Predeclaration for Scene

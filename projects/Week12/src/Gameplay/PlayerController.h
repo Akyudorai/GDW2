@@ -35,7 +35,7 @@ public:
 
 	/*template<typename T>
 	void SetComponent(Component pcComponent, T* ref);*/
-	void SetBodyHealthUI(GuiText& text) {
+	/*void SetBodyHealthUI(GuiText& text) {
 		m_bodyHealthText = &text;
 	}
 
@@ -57,7 +57,7 @@ public:
 
 	void SetLoseCanvas(Gameplay::GameObject& object) {
 		m_loseCanvas = &object;
-	}
+	}*/
 
 protected:
 
@@ -67,12 +67,12 @@ protected:
 	Gameplay::GameObject* m_camera = nullptr;
 	Gameplay::Light* m_light = nullptr;
 	Gameplay::Physics::TriggerVolume* m_interaction = nullptr;
-	GuiText* m_bodyHealthText = nullptr;
+	/*GuiText* m_bodyHealthText = nullptr;
 	GuiText* m_shadowHealthText = nullptr;
 	Gameplay::GameObject* m_pauseMenu = nullptr;
 	Gameplay::GameObject* m_guideCanvas = nullptr;
 	Gameplay::GameObject* m_mainCanvas = nullptr;
-	Gameplay::GameObject* m_loseCanvas = nullptr;
+	Gameplay::GameObject* m_loseCanvas = nullptr;*/
 
 	float cameraLerpT = 1.0f;	
 	float movSpeed = 15.0f;
@@ -80,12 +80,7 @@ protected:
 	glm::vec3 cameraRotation = glm::vec3(30.0f, 0.0f, 0.0f);
 	glm::vec3 lightOffset = glm::vec3(0.0f, 0.0f, 10.0f);	
 
-private:
-	bool qPressed = false;
-	bool rPressed = false;
-	bool fPressed = false;
-	bool ePressed = false;
-	bool tabPressed = false;	
+private:	
 	bool gameStarted = false;
 
 	float lerpT = 0.0f;

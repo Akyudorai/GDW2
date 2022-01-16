@@ -7,10 +7,17 @@ namespace Gameplay
 	Enemy::Enemy() :
 		navIndex(0), m_speed(5.0f), m_wanderTarget(0.0f)
 	{ }
+	
+	Enemy::~Enemy() = default;
+
+	void Enemy::Awake()
+	{
+
+	}
 
 	void Enemy::Update(float deltaTime)
 	{
-		Steering(deltaTime);
+		//Steering(deltaTime);
 
 				
 
@@ -57,6 +64,7 @@ namespace Gameplay
 			glm::vec3 direction = m_target->GetPosition() - m_owner->GetPosition();
 			direction = glm::normalize(direction);
 
+			// Arrival Behavior
 			glm::vec3 velocity;
 			velocity = direction * m_speed * (pursuitDist / 10.0f);
 

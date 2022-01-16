@@ -1,6 +1,6 @@
 #include "Gameplay/Components/RenderComponent.h"
 
-#include "Utils/ResourceManager/ResourceManager.h"
+#include "Utils/ResourceManagement/ResourceManager.h"
 #include "Gameplay/Scene.h"
 
 

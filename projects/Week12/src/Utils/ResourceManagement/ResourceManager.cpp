@@ -1,4 +1,4 @@
-#include "Utils/ResourceManager/ResourceManager.h"
+#include "Utils/ResourceManagement/ResourceManager.h"
 
 #include "Utils/ObjLoader.h"
 #include "Utils/FileHelpers.h"

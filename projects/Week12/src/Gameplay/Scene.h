@@ -51,8 +51,7 @@ namespace Gameplay {
 		// Whether the application is in "play mode", lets us leverage editors!
 		bool                       IsPlaying;
 
-		PlayerController PC;
-		static Scene::Sptr currentScene;
+		PlayerController PC;		
 		static bool IsPaused;
 
 

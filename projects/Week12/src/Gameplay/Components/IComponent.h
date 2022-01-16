@@ -3,8 +3,8 @@
 #include "json.hpp"
 #include <imgui.h>
 #include "Utils/StringUtils.h"
-#include "Utils/ResourceManager/ResourceManager.h"
-#include "Utils/ResourceManager/IResource.h"
+#include "Utils/ResourceManagement/ResourceManager.h"
+#include "Utils/ResourceManagement/IResource.h"
 #include "Utils/TypeHelpers.h"
 
 namespace Gameplay {

@@ -7,7 +7,7 @@
 #include <GLM/gtc/type_ptr.hpp> // for glm::value_ptr
 #include <Logging.h>            // for the logging functions
 #include <EnumToString.h>
-#include "Utils/ResourceManager/IResource.h"
+#include "Utils/ResourceManagement/IResource.h"
 #include "Graphics/GlEnums.h"
 
 // We can use an enum to make our code more readable and restrict

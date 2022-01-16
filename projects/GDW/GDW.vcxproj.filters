@@ -49,7 +49,6 @@
     <ClInclude Include="src\Game\PlayerController.h">
       <Filter>Game</Filter>
     </ClInclude>
-    <ClInclude Include="src\GameSceneManager.h" />
     <ClInclude Include="src\Physics\BoxCollider.h">
       <Filter>Physics</Filter>
     </ClInclude>
@@ -120,7 +119,6 @@
     <ClCompile Include="src\Game\PlayerController.cpp">
       <Filter>Game</Filter>
     </ClCompile>
-    <ClCompile Include="src\GameSceneManager.cpp" />
     <ClCompile Include="src\Physics\BoxCollider.cpp">
       <Filter>Physics</Filter>
     </ClCompile>

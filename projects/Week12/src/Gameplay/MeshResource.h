@@ -1,5 +1,5 @@
 #pragma once
-#include "Utils/ResourceManager/IResource.h"
+#include "Utils/ResourceManagement/IResource.h"
 #include "Graphics/VertexArrayObject.h"
 #include "Utils/MeshFactory.h"
 

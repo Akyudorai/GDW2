@@ -8,15 +8,17 @@
 #include "Gameplay/Components/InteractableComponent.h"
 #include "Gameplay/Components/AnimatorComponent.h"
 
+#include "Logging.h"
+
+#include "InputManagement/InputHandler.h"
+#include "SceneManagement/SceneManager.h"
+
 
 PlayerController::PlayerController() :
-	m_body(nullptr), m_shadow(nullptr), m_camera(nullptr), m_light(nullptr), m_interaction(nullptr),
-	m_bodyHealthText(nullptr), m_shadowHealthText(nullptr), m_pauseMenu(nullptr), m_guideCanvas(nullptr),
-	m_mainCanvas(nullptr), m_loseCanvas(nullptr)
-{ 
-
-
-}
+	m_body(nullptr), m_shadow(nullptr), m_camera(nullptr), m_light(nullptr), m_interaction(nullptr)
+	/*m_bodyHealthText(nullptr), m_shadowHealthText(nullptr), m_pauseMenu(nullptr), m_guideCanvas(nullptr),
+	m_mainCanvas(nullptr), m_loseCanvas(nullptr)*/
+{ }
 
 PlayerController::~PlayerController()
 { }
@@ -40,19 +42,27 @@ void PlayerController::Update(float deltaTime)
 	else
 		lerpT = 1.0f;
 
+	// Detect for Death
 	if (m_body->Get<HealthComponent>()->GetCurrentHealth() <= 0 || m_shadow->Get<HealthComponent>()->GetCurrentHealth() <= 0)
 	{
-		// turn on lose 
-		if (m_loseCanvas != nullptr) {
-			if (!m_loseCanvas->IsActive) {
-				m_loseCanvas->IsActive = true;
-				Gameplay::Scene::IsPaused = true;
-			}
+		if (SceneManager::GameInterface.m_LosePanel != nullptr)
+		{
+			SceneManager::GameInterface.ToggleLosePanel(true);
+			Gameplay::Scene::IsPaused = true;
 		}
+		
+
+		//// turn on lose 
+		//if (m_loseCanvas != nullptr) {
+		//	if (!m_loseCanvas->IsActive) {
+		//		m_loseCanvas->IsActive = true;
+		//		Gameplay::Scene::IsPaused = true;
+		//	}
+		//}
 	}
 
 	// Start Game by closing main menu and setting paused to false
-	if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_P) == GLFW_PRESS) {
+	/*if (InputHandler::GetKeyDown(GLFW_KEY_P)) {
 
 		if (gameStarted) return;
 
@@ -60,23 +70,23 @@ void PlayerController::Update(float deltaTime)
 			m_mainCanvas->IsActive = false;
 			Gameplay::Scene::IsPaused = false;
 		}
-	}
+	}*/
 
 	// If the player presses the Tab key, it pauses the game.  See Scene.cpp at line 
-	if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_TAB) == GLFW_PRESS) {
+	if (InputHandler::GetKeyDown(GLFW_KEY_TAB)) {
 		
-		if (tabPressed) return;
-		tabPressed = true;
-
+		if (SceneManager::GameInterface.m_PauseMenuPanel != nullptr) {
+			Gameplay::Scene::IsPaused = !Gameplay::Scene::IsPaused;
+			SceneManager::GameInterface.TogglePausePanel(Gameplay::Scene::IsPaused);
+		}
+		
 		// Pause
-		if (m_pauseMenu != nullptr) {
+		/*if (m_pauseMenu != nullptr) {
 			m_pauseMenu->IsActive = !m_pauseMenu->IsActive;
 			Gameplay::Scene::IsPaused = !Gameplay::Scene::IsPaused;
-		}
+		}*/
 	}
-	else if (glfwGetKey(m_camera->GetScene()->Window, GLFW_KEY_TAB) == GLFW_RELEASE) {
-		tabPressed = false;
-	}
+	
 
 	// If we're paused, we dont want our player to be able to do anything else after this point
 	if (Gameplay::Scene::IsPaused) return;
@@ -85,14 +95,24 @@ void PlayerController::Update(float deltaTime)
 	HandleCamera(deltaTime);	
 
 	// Change the Health Text on screen if we have a reference to it
-	if (m_bodyHealthText != nullptr && m_body != nullptr) {	
-		m_bodyHealthText->SetText(("Body: " + std::to_string(m_body->Get<HealthComponent>()->GetCurrentHealth())));
+	if (SceneManager::GameInterface.m_bodyHealthDisplay != nullptr && m_body != nullptr)
+	{
+		SceneManager::GameInterface.m_bodyHealthDisplay->SetText(("Body: " + std::to_string(m_body->Get<HealthComponent>()->GetCurrentHealth())));
 	}
 
-	// Change the Health Text on screen if we have a reference to it
-	if (m_shadowHealthText != nullptr && m_shadow != nullptr) {
-		m_shadowHealthText->SetText(("Shadow: " + std::to_string(m_shadow->Get<HealthComponent>()->GetCurrentHealth())));
+	if (SceneManager::GameInterface.m_shadowHealthDisplay != nullptr && m_body != nullptr)
+	{
+		SceneManager::GameInterface.m_shadowHealthDisplay->SetText(("Shadow: " + std::to_string(m_shadow->Get<HealthComponent>()->GetCurrentHealth())));
 	}
+
+	//if (m_bodyHealthText != nullptr && m_body != nullptr) {	
+	//	m_bodyHealthText->SetText(("Body: " + std::to_string(m_body->Get<HealthComponent>()->GetCurrentHealth())));
+	//}
+
+	//// Change the Health Text on screen if we have a reference to it
+	//if (m_shadowHealthText != nullptr && m_shadow != nullptr) {
+	//	m_shadowHealthText->SetText(("Shadow: " + std::to_string(m_shadow->Get<HealthComponent>()->GetCurrentHealth())));
+	//}
 }
 
 void PlayerController::HandleInput(float deltaTime)
@@ -100,11 +120,11 @@ void PlayerController::HandleInput(float deltaTime)
 	GLFWwindow* windowRef = m_camera->GetScene()->Window;
 
 	glm::vec3 motion = glm::vec3(0);	
-	if (glfwGetKey(windowRef, GLFW_KEY_W)) { motion += glm::vec3(0, 0.5, 0); }
-	if (glfwGetKey(windowRef, GLFW_KEY_S)) { motion -= glm::vec3(0, 0.5, 0); }
-	if (glfwGetKey(windowRef, GLFW_KEY_A)) { motion -= glm::vec3(0.5, 0, 0); }
-	if (glfwGetKey(windowRef, GLFW_KEY_D)) { motion += glm::vec3(0.5, 0, 0); }
 
+	if (InputHandler::GetKey(GLFW_KEY_W)) { motion += glm::vec3(0, 0.5, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_S)) { motion -= glm::vec3(0, 0.5, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_A)) { motion -= glm::vec3(0.5, 0, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_D)) { motion += glm::vec3(0.5, 0, 0); }
 
 	if (motion != glm::vec3(0)) {
 		if (!isShadow) {
@@ -143,11 +163,9 @@ void PlayerController::HandleInput(float deltaTime)
 		}
 	}
 
-	if (glfwGetKey(windowRef, GLFW_KEY_Q) == GLFW_PRESS)
-	{		
-		if (qPressed) return;
-		qPressed = true;
-
+	// SHADOW EXTENSION
+	if (InputHandler::GetKeyDown(GLFW_KEY_Q))
+	{				
 		// Extend Shadow		
 		isShadow = !isShadow;
 		cameraLerpT = 0;
@@ -173,15 +191,9 @@ void PlayerController::HandleInput(float deltaTime)
 			shadowIsExtended = false;
 		}
 	}
-	else if (glfwGetKey(windowRef, GLFW_KEY_Q) == GLFW_RELEASE)
-	{
-		qPressed = false;
-	}
 
-	if (glfwGetKey(windowRef, GLFW_KEY_E) == GLFW_PRESS) {
-
-		if (ePressed) return;
-		ePressed = true;
+	// INTERACT
+	if (InputHandler::GetKeyDown(GLFW_KEY_E)) {
 
 		// Ability 				
 		for (auto& object : m_interaction->_currentCollisions) {			
@@ -191,15 +203,9 @@ void PlayerController::HandleInput(float deltaTime)
 			}
 		}
 	}
-	else if (glfwGetKey(windowRef, GLFW_KEY_E) == GLFW_RELEASE)
-	{
-		ePressed = false;
-	}
 
-	if (glfwGetKey(windowRef, GLFW_KEY_F) == GLFW_PRESS) {
-
-		if (fPressed) return;
-		fPressed = true;
+	// SHADOW SWAP
+	if (InputHandler::GetKeyDown(GLFW_KEY_F)) {
 
 		// Shadow Swap
 		if (shadowIsExtended) {
@@ -208,16 +214,10 @@ void PlayerController::HandleInput(float deltaTime)
 			m_shadow->SetPosition(temp);
 		}		
 	}
-	else if (glfwGetKey(windowRef, GLFW_KEY_F) == GLFW_RELEASE)
-	{
-		fPressed = false;
-	}
-
-	if (glfwGetKey(windowRef, GLFW_KEY_R) == GLFW_PRESS) {
-
-		if (rPressed) return;
-		rPressed = true;
-
+	
+	// SHADOW RECALL
+	if (InputHandler::GetKeyDown(GLFW_KEY_R)) {
+		
 		// Recall
 		if (!isShadow) {
 			m_shadow->Get<RenderComponent>()->IsEnabled = false;
@@ -227,10 +227,7 @@ void PlayerController::HandleInput(float deltaTime)
 			shadowIsExtended = false;
 		}		
 	}
-	else if (glfwGetKey(windowRef, GLFW_KEY_R) == GLFW_RELEASE)
-	{
-		rPressed = false;
-	}
+	
 }
 
 void PlayerController::HandleCamera(float deltaTime)

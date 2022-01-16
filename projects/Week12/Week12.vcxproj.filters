@@ -207,10 +207,10 @@
     <ClInclude Include="src\Utils\ObjLoader.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils\ResourceManager\IResource.h">
+    <ClInclude Include="src\Utils\ResourceManagement\IResource.h">
       <Filter>Utils\ResourceManager</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils\ResourceManager\ResourceManager.h">
+    <ClInclude Include="src\Utils\ResourceManagement\ResourceManager.h">
       <Filter>Utils\ResourceManager</Filter>
     </ClInclude>
     <ClInclude Include="src\Utils\StringUtils.h">
@@ -222,6 +222,18 @@
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Utils\ResourceManagement\Resources.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\SceneData.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Sandbox_Level.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\SceneManager.h" />
+    <ClInclude Include="src\Utils\Editor\Editor.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_One.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Two.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Three.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Boss_Level.h" />
+    <ClInclude Include="src\Gameplay\InputManagement\InputHandler.h" />
+    <ClInclude Include="src\Gameplay\UI\GameInterfaceManager.h" />
+    <ClInclude Include="src\Gameplay\UI\MenuInterfaceManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\AnimatorComponent.cpp">
@@ -371,12 +383,19 @@
     <ClCompile Include="src\Utils\MeshFactory.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
-    <ClCompile Include="src\Utils\ResourceManager\ResourceManager.cpp">
+    <ClCompile Include="src\Utils\ResourceManagement\ResourceManager.cpp">
       <Filter>Utils\ResourceManager</Filter>
     </ClCompile>
     <ClCompile Include="src\Utils\StringUtils.cpp">
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Sandbox_Level.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\SceneManager.cpp" />
+    <ClCompile Include="src\Utils\Editor\Editor.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_One.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Two.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Three.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Boss_Level.cpp" />
   </ItemGroup>
 </Project>

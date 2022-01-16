@@ -10,6 +10,8 @@
 #include "Gameplay/Scene.h"
 #include "Graphics/Texture2D.h"
 
+#include "Gameplay/SceneManagement/SceneManager.h"
+
 using namespace Gameplay;
 
 class UIHelper
@@ -18,7 +20,7 @@ public:
 	static GameObject::Sptr CreateButton(std::string name) 
 	{
 		std::string objectName = (name + " Button");
-		GameObject::Sptr buttonObject = Scene::currentScene->CreateGameObject(objectName);
+		GameObject::Sptr buttonObject = SceneManager::GetCurrentScene()->CreateGameObject(objectName);
 		{
 			RectTransform::Sptr transform = buttonObject->Add<RectTransform>();
 			transform->SetMin({ 15, 15 });
@@ -28,7 +30,7 @@ public:
 			image->SetColor(glm::vec4(0.7f, 0.7f, 0.7f, 1.0f));
 		}
 
-		GameObject::Sptr buttonTextObject = Scene::currentScene->CreateGameObject("Text Component");
+		GameObject::Sptr buttonTextObject = SceneManager::GetCurrentScene()->CreateGameObject("Text Component");
 		{
 			RectTransform::Sptr transform = buttonTextObject->Add<RectTransform>();
 			transform->SetMin({ 15,15 });
@@ -51,7 +53,7 @@ public:
 
 	static GameObject::Sptr CreateText(std::string _text, std::string name = "New Text")
 	{
-		GameObject::Sptr textObject = Scene::currentScene->CreateGameObject(name);
+		GameObject::Sptr textObject = SceneManager::GetCurrentScene()->CreateGameObject(name);
 		{
 			RectTransform::Sptr transform = textObject->Add<RectTransform>();
 			transform->SetMin({ 15, 15 });
@@ -72,7 +74,7 @@ public:
 
 	static GameObject::Sptr CreateImage(Texture2D::Sptr texture, std::string name = "Image")
 	{
-		GameObject::Sptr imageObject = Scene::currentScene->CreateGameObject(name);
+		GameObject::Sptr imageObject = SceneManager::GetCurrentScene()->CreateGameObject(name);
 		{
 			RectTransform::Sptr transform = imageObject->Add<RectTransform>();
 			transform->SetMin({ 15, 15 });

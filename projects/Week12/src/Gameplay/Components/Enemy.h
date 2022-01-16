@@ -11,8 +11,10 @@ namespace Gameplay
 		typedef std::shared_ptr<Enemy> Sptr;
 
 		Enemy();
+		virtual ~Enemy();
 
 		// IComponent		
+		virtual void Awake() override;
 		virtual void Update(float deltaTime);
 		virtual void RenderImGui() override;
 		virtual nlohmann::json ToJson() const override;

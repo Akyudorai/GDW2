@@ -17,7 +17,7 @@
 
 namespace Gameplay {
 
-	Scene::Sptr Scene::currentScene = nullptr;
+	//Scene::Sptr SceneManager::GetCurrentScene() = nullptr;
 	bool Scene::IsPaused = false;
 
 	Scene::Scene() :
@@ -128,7 +128,7 @@ namespace Gameplay {
 			_skyboxMesh->AddParam(MeshBuilderParam::CreateCube(glm::vec3(0.0f), glm::vec3(1.0f)));
 			_skyboxMesh->AddParam(MeshBuilderParam::CreateInvert());
 			_skyboxMesh->GenerateMesh();
-		}
+		}		
 
 		// Call awake on all gameobjects
 		for (auto& obj : _objects) {
@@ -167,6 +167,7 @@ namespace Gameplay {
 
 	void Scene::Update(float dt) {
 		_FlushDeleteQueue();
+
 		if (IsPlaying) {			
 
 			// Our scene updates our player controller, allowing us to pause the game this way

@@ -1,7 +1,7 @@
 #include "Graphics/GuiBatcher.h"
 #include <GLM/gtc/matrix_transform.hpp>
 #include <GLM/gtc/matrix_inverse.hpp>
-#include "Utils/ResourceManager/ResourceManager.h"
+#include "Utils/ResourceManagement/ResourceManager.h"
 #include <locale>
 #include <codecvt>
 
@@ -309,7 +309,7 @@ void GuiBatcher::__StaticInit()
 			desc.MinificationFilter = MinFilter::Nearest;
 			desc.MagnificationFilter = MagFilter::Nearest;
 			desc.Format = InternalFormat::RGBA8;
-
+			
 			__defaultUITexture = ResourceManager::CreateAsset<Texture2D>(desc);
 			glm::u8vec4 data[16 * 16];
 			// Set everything to white by default
