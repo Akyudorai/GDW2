@@ -11,12 +11,11 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{1B7AA8B3-0773-C705-30A5-AC8A1CFDA611}</ProjectGuid>
+    <ProjectGuid>{07EA870B-73F3-877C-FC6E-9E7C6877937C}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Week 4 (starter)</RootNamespace>
+    <RootNamespace>GDW</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
-    <ProjectName>GDW</ProjectName>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
@@ -50,9 +49,9 @@
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\bin\Release-windows-x86_64\Week 4 (starter)\</OutDir>
-    <IntDir>..\..\obj\Release-windows-x86_64\Week 4 (starter)\</IntDir>
-    <TargetName>Week 4 (starter)</TargetName>
+    <OutDir>..\..\bin\Release-windows-x86_64\GDW\</OutDir>
+    <IntDir>..\..\obj\Release-windows-x86_64\GDW\</IntDir>
+    <TargetName>GDW</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -110,22 +109,55 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClInclude Include="resource.h" />
+    <ClInclude Include="src\Camera.h" />
+    <ClInclude Include="src\Editor\ConsoleColors.h" />
+    <ClInclude Include="src\Editor\Debug.h" />
     <ClInclude Include="src\Editor\Editor.h" />
     <ClInclude Include="src\Editor\Hierarchy.h" />
     <ClInclude Include="src\Editor\Inspector.h" />
+    <ClInclude Include="src\Editor\RenderingSystem.h" />
     <ClInclude Include="src\Editor\Resources.h" />
     <ClInclude Include="src\Editor\Utilities.h" />
-    <ClInclude Include="src\Game\FPS_Controller.h" />
+    <ClInclude Include="src\Game\Health.h" />
+    <ClInclude Include="src\Game\PlayerController.h" />
+    <ClInclude Include="src\Physics\BoxCollider.h" />
+    <ClInclude Include="src\Physics\Physics.h" />
+    <ClInclude Include="src\Physics\SphereCollider.h" />
+    <ClInclude Include="src\Physics\VMath.h" />
+    <ClInclude Include="src\Physics\Vector.h" />
+    <ClInclude Include="src\Scene\Dev_Stage.h" />
+    <ClInclude Include="src\Scene\Level_1.h" />
+    <ClInclude Include="src\Scene\Level_2.h" />
+    <ClInclude Include="src\Scene\Level_3.h" />
+    <ClInclude Include="src\Scene\Scene.h" />
+    <ClInclude Include="src\Shader.h" />
+    <ClInclude Include="src\Utils\MeshBuilder.h" />
+    <ClInclude Include="src\Utils\MeshFactory.h" />
+    <ClInclude Include="src\Utils\ObjLoader.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Camera.cpp" />
+    <ClCompile Include="src\Editor\Debug.cpp" />
     <ClCompile Include="src\Editor\Editor.cpp" />
     <ClCompile Include="src\Editor\Hierarchy.cpp" />
     <ClCompile Include="src\Editor\Inspector.cpp" />
+    <ClCompile Include="src\Editor\RenderingSystem.cpp" />
     <ClCompile Include="src\Editor\Resources.cpp" />
     <ClCompile Include="src\Editor\Utilities.cpp" />
-    <ClCompile Include="src\Game\FPS_Controller.cpp" />
+    <ClCompile Include="src\Game\Health.cpp" />
+    <ClCompile Include="src\Game\PlayerController.cpp" />
+    <ClCompile Include="src\Physics\BoxCollider.cpp" />
+    <ClCompile Include="src\Physics\Physics.cpp" />
+    <ClCompile Include="src\Physics\SphereCollider.cpp" />
+    <ClCompile Include="src\Physics\VMath.cpp" />
+    <ClCompile Include="src\Scene\Dev_Stage.cpp" />
+    <ClCompile Include="src\Scene\Level_1.cpp" />
+    <ClCompile Include="src\Scene\Level_2.cpp" />
+    <ClCompile Include="src\Scene\Level_3.cpp" />
+    <ClCompile Include="src\Scene\Scene.cpp" />
+    <ClCompile Include="src\Shader.cpp" />
     <ClCompile Include="src\Source.cpp" />
+    <ClCompile Include="src\Utils\ObjLoader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\..\dependencies\glfw3\GLFW.vcxproj">
@@ -152,9 +184,6 @@
     <ProjectReference Include="..\..\modules\toolkit\toolkit.vcxproj">
       <Project>{AB7025F0-1750-A48B-2068-2F628CC60AED}</Project>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <ResourceCompile Include="GDW.rc" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
