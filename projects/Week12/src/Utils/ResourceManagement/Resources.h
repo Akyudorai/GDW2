@@ -329,6 +329,22 @@ public:
 				enemyMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Enemy", std::move(enemyMat));
 			}
+
+			Material::Sptr kegStandMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				kegStandMat->Name = "Keg Stand";
+				kegStandMat->Set("u_Material.Diffuse", GetTexture("Turret Projectile"));
+				kegStandMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Keg Stand", std::move(kegStandMat));
+			}
+
+			Material::Sptr bucketMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				bucketMat->Name = "Bucket";
+				bucketMat->Set("u_Material.Diffuse", GetTexture("Turret Projectile"));
+				bucketMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Bucket", std::move(bucketMat));
+			}
 		}
 
 
@@ -359,7 +375,8 @@ public:
 			meshes.emplace("Turret", ResourceManager::CreateAsset<MeshResource>("Turret.obj"));
 			meshes.emplace("Door", ResourceManager::CreateAsset<MeshResource>("door.obj"));
 			meshes.emplace("Spike Trap", ResourceManager::CreateAsset<MeshResource>("SpikedTrap.obj"));
-			meshes.emplace("Rock", ResourceManager::CreateAsset<MeshResource>("Rock.obj"));						
+			meshes.emplace("Keg Stand", ResourceManager::CreateAsset<MeshResource>("KegStand.obj"));
+			meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("Bucket.obj"));
 			meshes.emplace("Intact Pillar", ResourceManager::CreateAsset<MeshResource>("IntactPillar.obj"));			
 			meshes.emplace("Damaged Pillar", ResourceManager::CreateAsset<MeshResource>("DamagedPillar.obj"));
 			meshes.emplace("Destroyed Pillar", ResourceManager::CreateAsset<MeshResource>("DestroyedPillar.obj"));
