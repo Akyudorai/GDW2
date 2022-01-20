@@ -1354,6 +1354,28 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		physics->AddCollider(collider);
 	}
 
+	GameObject::Sptr kegStand = SceneManager::GetCurrentScene()->CreateGameObject("Keg Stand");
+	{
+		kegStand->SetPosition(glm::vec3(-12.43f, 11.08f, 0.33f));
+		kegStand->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+		kegStand->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+		RenderComponent::Sptr renderer = kegStand->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Keg Stand"));
+		renderer->SetMaterial(Resources::GetMaterial("Keg Stand"));
+	}
+
+	GameObject::Sptr bucket = SceneManager::GetCurrentScene()->CreateGameObject("Bucket");
+	{
+		bucket->SetPosition(glm::vec3(-12.43f, 11.08f, 0.33f));
+		bucket->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+		bucket->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+		RenderComponent::Sptr renderer = bucket->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Bucket"));
+		renderer->SetMaterial(Resources::GetMaterial("Bucket"));
+	}
+
 #pragma endregion
 
 
