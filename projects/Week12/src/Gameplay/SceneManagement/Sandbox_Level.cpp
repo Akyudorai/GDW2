@@ -713,6 +713,63 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		physics->AddCollider(collider);
 	}
 
+	GameObject::Sptr intactPillar = SceneManager::GetCurrentScene()->CreateGameObject("Intact Pillar");
+	{
+		intactPillar->SetPosition(glm::vec3(0.0f, 10.0f, 0.0f));
+		intactPillar->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+		intactPillar->SetScale(glm::vec3(0.8f, 0.8f, 0.8f));
+
+		RenderComponent::Sptr renderer = intactPillar->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+
+		RigidBody::Sptr physics = intactPillar->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		//collider->SetScale(glm::vec3(3.0, 4, 15.5));
+		collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr damagedPillar = SceneManager::GetCurrentScene()->CreateGameObject("Damaged Pillar");
+	{
+		damagedPillar->SetPosition(glm::vec3(5.0f, 10.0f, 0.0f));
+		damagedPillar->SetRotation(glm::vec3(90.f, 0.0f, 180.0f));
+		damagedPillar->SetScale(glm::vec3(0.8f, 0.8f, 0.8f));
+
+		RenderComponent::Sptr renderer = damagedPillar->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Damaged Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+
+		RigidBody::Sptr physics = damagedPillar->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		//collider->SetScale(glm::vec3(3.0, 4, 15.5));
+		collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr destroyedPillar = SceneManager::GetCurrentScene()->CreateGameObject("Destroyed Pillar");
+	{
+		destroyedPillar->SetPosition(glm::vec3(-5.0f, 10.0f, 0.0f));
+		destroyedPillar->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+		destroyedPillar->SetScale(glm::vec3(0.8f, 0.8f, 0.8f));
+
+		RenderComponent::Sptr renderer = destroyedPillar->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Destroyed Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+
+		RigidBody::Sptr physics = destroyedPillar->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		//collider->SetScale(glm::vec3(3.0, 4, 15.5));
+		collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 4.0f, 0.0f));
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
 #pragma endregion
 
 #pragma region OBSTACLES

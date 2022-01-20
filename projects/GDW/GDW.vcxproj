@@ -120,6 +120,7 @@
     <ClInclude Include="src\Editor\Utilities.h" />
     <ClInclude Include="src\Game\Health.h" />
     <ClInclude Include="src\Game\PlayerController.h" />
+    <ClInclude Include="src\GameSceneManager.h" />
     <ClInclude Include="src\Physics\BoxCollider.h" />
     <ClInclude Include="src\Physics\Physics.h" />
     <ClInclude Include="src\Physics\SphereCollider.h" />
@@ -146,6 +147,7 @@
     <ClCompile Include="src\Editor\Utilities.cpp" />
     <ClCompile Include="src\Game\Health.cpp" />
     <ClCompile Include="src\Game\PlayerController.cpp" />
+    <ClCompile Include="src\GameSceneManager.cpp" />
     <ClCompile Include="src\Physics\BoxCollider.cpp" />
     <ClCompile Include="src\Physics\Physics.cpp" />
     <ClCompile Include="src\Physics\SphereCollider.cpp" />

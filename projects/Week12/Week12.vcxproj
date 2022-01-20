@@ -180,9 +180,9 @@
     <ClInclude Include="src\Utils\MeshBuilder.h" />
     <ClInclude Include="src\Utils\MeshFactory.h" />
     <ClInclude Include="src\Utils\ObjLoader.h" />
-    <ClInclude Include="src\Utils\ResourceManagement\Resources.h" />
     <ClInclude Include="src\Utils\ResourceManagement\IResource.h" />
     <ClInclude Include="src\Utils\ResourceManagement\ResourceManager.h" />
+    <ClInclude Include="src\Utils\ResourceManagement\Resources.h" />
     <ClInclude Include="src\Utils\StringUtils.h" />
     <ClInclude Include="src\Utils\TypeHelpers.h" />
     <ClInclude Include="src\Utils\UIHelper.h" />

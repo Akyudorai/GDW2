@@ -359,7 +359,10 @@ public:
 			meshes.emplace("Turret", ResourceManager::CreateAsset<MeshResource>("Turret.obj"));
 			meshes.emplace("Door", ResourceManager::CreateAsset<MeshResource>("door.obj"));
 			meshes.emplace("Spike Trap", ResourceManager::CreateAsset<MeshResource>("SpikedTrap.obj"));
-			meshes.emplace("Rock", ResourceManager::CreateAsset<MeshResource>("Rock.obj"));			
+			meshes.emplace("Rock", ResourceManager::CreateAsset<MeshResource>("Rock.obj"));						
+			meshes.emplace("Intact Pillar", ResourceManager::CreateAsset<MeshResource>("IntactPillar.obj"));			
+			meshes.emplace("Damaged Pillar", ResourceManager::CreateAsset<MeshResource>("DamagedPillar.obj"));
+			meshes.emplace("Destroyed Pillar", ResourceManager::CreateAsset<MeshResource>("DestroyedPillar.obj"));
 		}
 
 		// ANIMATIONS
