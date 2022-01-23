@@ -22,6 +22,8 @@
 
 Into the Abyss is a single player puzzle-platforming dungeon crawler experience where the player must navigate through a labyrinth of dangerous traps and enemies to uncover the secrets of the Abyss.  As the player goes deeper into the Abyss, strange things begin to happen.  The world begins to distort, and your shadow comes to life.  As your own shadow guides you deeper into the Abyss, will you be able to maintain your composure? 
 
+<a href="https://www.youtube.com/watch?v=zVMPAGrwtZk"> Elevator Pitch Video </a>
+
 <p align="right">(<a href="#top">back to top</a>)</p>
 
 
