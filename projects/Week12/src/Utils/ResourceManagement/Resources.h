@@ -133,6 +133,12 @@ public:
 			textures.emplace("Relic 5", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet5UVS.png"));
 			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
 			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
+			textures.emplace("Character Dagger", ResourceManager::CreateAsset<Texture2D>("textures/DaggerTextures.png"));
+			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTextures.png"));
+			textures.emplace("Wall Grate", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
+			textures.emplace("Floor Grate", ResourceManager::CreateAsset<Texture2D>("textures/FloorGrateUVS.png"));
+			textures.emplace("Small Candle", ResourceManager::CreateAsset<Texture2D>("textures/SmallCandleTexture.png"));
+			textures.emplace("Large Candle", ResourceManager::CreateAsset<Texture2D>("textures/LargeCandleTexture.png"));
 		}
 		
 		// MATERIALS
@@ -329,6 +335,56 @@ public:
 				enemyMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Enemy", std::move(enemyMat));
 			}
+
+			Material::Sptr dagger = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				dagger->Name = "Character Dagger";
+				dagger->Set("u_Material.Diffuse", GetTexture("Character Dagger"));
+				dagger->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Character Dagger", std::move(dagger));
+			}
+
+			Material::Sptr Orb = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				Orb->Name = "Health Orb";
+				Orb->Set("u_Material.Diffuse", GetTexture("Health Orb"));
+				Orb->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Health Orb", std::move(Orb));
+			}
+
+			Material::Sptr WGrate = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				WGrate->Name = "Wall Grate";
+				WGrate->Set("u_Material.Diffuse", GetTexture("Wall Grate"));
+				WGrate->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Wall Grate", std::move(WGrate));
+			}
+
+
+			Material::Sptr FGrate = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				FGrate->Name = "Floor Grate";
+				FGrate->Set("u_Material.Diffuse", GetTexture("Floor Grate"));
+				FGrate->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Floor Grate", std::move(FGrate));
+			}
+
+			Material::Sptr SCandle = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				SCandle->Name = "Small Candle";
+				SCandle->Set("u_Material.Diffuse", GetTexture("Small Candle"));
+				SCandle->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Small Candle", std::move(SCandle));
+			}
+
+			Material::Sptr LCandle = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				LCandle->Name = "Large Candle";
+				LCandle->Set("u_Material.Diffuse", GetTexture("Large Candle"));
+				LCandle->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Large Candle", std::move(LCandle));
+			}
+
 		}
 
 
@@ -359,7 +415,14 @@ public:
 			meshes.emplace("Turret", ResourceManager::CreateAsset<MeshResource>("Turret.obj"));
 			meshes.emplace("Door", ResourceManager::CreateAsset<MeshResource>("door.obj"));
 			meshes.emplace("Spike Trap", ResourceManager::CreateAsset<MeshResource>("SpikedTrap.obj"));
-			meshes.emplace("Rock", ResourceManager::CreateAsset<MeshResource>("Rock.obj"));			
+			meshes.emplace("Rock", ResourceManager::CreateAsset<MeshResource>("Rock.obj"));	
+			meshes.emplace("Character Dagger", ResourceManager::CreateAsset<MeshResource>("CharacterDagger.obj"));
+			meshes.emplace("Health Orb", ResourceManager::CreateAsset<MeshResource>("HealthOrb.obj"));
+			meshes.emplace("Wall Grate", ResourceManager::CreateAsset<MeshResource>("WallGrate.obj"));
+			meshes.emplace("Floor Grate", ResourceManager::CreateAsset<MeshResource>("FloorGrate.obj"));
+			meshes.emplace("Small Candle", ResourceManager::CreateAsset<MeshResource>("SmallCandle.obj"));
+			meshes.emplace("Large Candle", ResourceManager::CreateAsset<MeshResource>("LargeCandle.obj"));
+			meshes.emplace("Cube", ResourceManager::CreateAsset<MeshResource>("cube.obj"));
 		}
 
 		// ANIMATIONS
