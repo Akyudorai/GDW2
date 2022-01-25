@@ -13,9 +13,6 @@ that we intend the class for use as a component with the ENTT framework.
 #include "NOU/CMeshRenderer.h"
 #include "NOU/CCamera.h"
 
-#include "../../projects/GDW/src/Editor/Resources.h"
-using namespace OMG;
-
 namespace nou
 {
 	CMeshRenderer::CMeshRenderer()
