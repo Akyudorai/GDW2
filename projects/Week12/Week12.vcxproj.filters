@@ -270,6 +270,9 @@
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\SceneManagement\Main_Menu.h">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\AnimatorComponent.cpp">
@@ -447,5 +450,8 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Main_Menu.cpp">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

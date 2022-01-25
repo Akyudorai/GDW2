@@ -9,7 +9,7 @@ namespace Gameplay
 	{
 	public:
 		static enum class Scenes {
-			Sandbox, LevelOne, LevelTwo, LevelThree, BossLevel
+			Sandbox, LevelOne, LevelTwo, LevelThree, BossLevel, MainMenu
 		};
 
 		static void Initialize(GLFWwindow* window);

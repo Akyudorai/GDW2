@@ -37,6 +37,8 @@ void PlayerController::Initialize(
 
 void PlayerController::Update(float deltaTime)
 {
+	if (m_body == nullptr || m_shadow == nullptr || m_camera == nullptr) return;
+
 	if (lerpT < 1.0f)
 		lerpT += deltaTime;
 	else
