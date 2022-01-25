@@ -5,7 +5,9 @@
 #include "Level_Two.h"
 #include "Level_Three.h"
 #include "Boss_Level.h"
+#include "Main_Menu.h"
 
+#include "../InputManagement/InputHandler.h"
 
 namespace Gameplay
 {
@@ -51,6 +53,9 @@ namespace Gameplay
 				Boss_Level::Load(windowRef);
 				playOnLoad = Boss_Level::PlayOnLoad;
 				break;
+			case Scenes::MainMenu:
+				Main_Menu::Load(windowRef);
+				playOnLoad = Main_Menu::PlayOnLoad;
 		}
 
 		currentScene->IsPlaying = true;
@@ -66,29 +71,33 @@ namespace Gameplay
 		currentScene->DoPhysics(deltaTime);
 		currentScene->Update(deltaTime);
 
-		// Switch Scene to Sandbox
-		if (glfwGetKey(windowRef, GLFW_KEY_F5) == GLFW_PRESS) {
-			LoadScene(Scenes::Sandbox, true);
-		}
-
 		// Switch Scene to Level One
-		if (glfwGetKey(windowRef, GLFW_KEY_F1) == GLFW_PRESS) {
+		if (InputHandler::GetKeyDown(GLFW_KEY_F1)) {
 			LoadScene(Scenes::LevelOne, true);
 		}
 
 		// Switch Scene to Level Two
-		if (glfwGetKey(windowRef, GLFW_KEY_F2) == GLFW_PRESS) {
+		if (InputHandler::GetKeyDown(GLFW_KEY_F2)) {
 			LoadScene(Scenes::LevelTwo, true);
 		}
 
 		// Switch Scene to Level Three
-		if (glfwGetKey(windowRef, GLFW_KEY_F3) == GLFW_PRESS) {
+		if (InputHandler::GetKeyDown(GLFW_KEY_F3)) {
 			LoadScene(Scenes::LevelThree, true);
 		}
 
 		// Switch Scene to Boss Level
-		if (glfwGetKey(windowRef, GLFW_KEY_F4) == GLFW_PRESS) {
+		if (InputHandler::GetKeyDown(GLFW_KEY_F4)) {
 			LoadScene(Scenes::BossLevel, true);
+		}
+
+		// Switch Scene to Sandbox
+		if (InputHandler::GetKeyDown(GLFW_KEY_F5)) {
+			LoadScene(Scenes::Sandbox, true);
+		}
+
+		if (InputHandler::GetKeyDown(GLFW_KEY_F6)) {
+			LoadScene(Scenes::MainMenu, true);
 		}
 
 	}

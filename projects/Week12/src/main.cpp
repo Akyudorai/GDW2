@@ -83,6 +83,7 @@
 #include "Utils/ResourceManagement/Resources.h"
 #include "Gameplay/SceneManagement/SceneManager.h"
 #include "Gameplay/InputManagement/InputHandler.h"
+#include "Utils/Editor/Editor.h"
 
 //#define LOG_GL_NOTIFICATIONS 
 
@@ -292,7 +293,7 @@ int main() {
 	SceneManager::Initialize(window);
 
 	// Load our initial Scene
-	SceneManager::LoadScene(SceneManager::Scenes::Sandbox, true);
+	SceneManager::LoadScene(SceneManager::Scenes::MainMenu, true);
 	
 	// Initialize Input Manager
 	InputHandler::Initialize();
@@ -303,29 +304,22 @@ int main() {
 	// Editor / ImGUI
 	/////////////////////////////////////////////////////////
 	
-	// Initialize our ImGui helper
-	//ImGuiHelper::Init(window);
-	
-	// String storage for our editor scene input field
-	std::string scenePath = "scene.json";
-	scenePath.reserve(256);
+	Editor editor = Editor();
+	editor.Initialize(window);
 
 	/////////////////////////////////////////////////////////
 
 	// Our high-precision timer
 	double lastFrame = glfwGetTime();
 
-	BulletDebugMode physicsDebugMode = BulletDebugMode::None;
 	float playbackSpeed = 1.0f;
-
-	nlohmann::json editorSceneState;
 
 	SceneManager::GetCurrentScene()->IsPlaying = true;
 
 	///// Game loop /////
 	while (!glfwWindowShouldClose(window)) {
 		glfwPollEvents();
-		//ImGuiHelper::StartFrame();
+		ImGuiHelper::StartFrame();
 
 		// Calculate the time since our last frame (dt)
 		double thisFrame = glfwGetTime();
@@ -350,6 +344,9 @@ int main() {
 		SceneManager::Update(dt);
 		SceneManager::Draw();
 		InputHandler::Update(dt);
+
+		editor.Update(dt);
+		editor.Draw(dt);
 
 		/////////////////////////////////////////////////////////
 
@@ -455,16 +452,18 @@ int main() {
 		// Re-enable depth writing
 		glDepthMask(GL_TRUE);
 
-		
+		// End our ImGui window
+		ImGui::End();
 
 		VertexArrayObject::Unbind();
 
 		lastFrame = thisFrame;
+		ImGuiHelper::EndFrame();
 		glfwSwapBuffers(window);
 	}
 
 	// Clean up the ImGui library
-	//ImGuiHelper::Cleanup();
+	ImGuiHelper::Cleanup();
 
 	// Clean up the resource manager
 	ResourceManager::Cleanup();

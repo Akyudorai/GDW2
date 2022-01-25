@@ -133,11 +133,20 @@ public:
 			textures.emplace("Relic 5", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet5UVS.png"));
 			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
 			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
+			textures.emplace("Default", ResourceManager::CreateAsset<Texture2D>("textures/DefaultTexture.png"));
 		}
 		
 		// MATERIALS
 		//////////////////////////////////////	
 		{
+			Material::Sptr defaultMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				defaultMat->Name = "Default";
+				defaultMat->Set("u_Material.Diffuse", GetTexture("Default"));
+				defaultMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Default", std::move(defaultMat));
+			}
+
 			Material::Sptr stoneWallMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				stoneWallMat->Name = "Stone Wall";
@@ -333,7 +342,7 @@ public:
 			Material::Sptr kegStandMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				kegStandMat->Name = "Keg Stand";
-				kegStandMat->Set("u_Material.Diffuse", GetTexture("Turret Projectile"));
+				kegStandMat->Set("u_Material.Diffuse", GetTexture("Default"));
 				kegStandMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Keg Stand", std::move(kegStandMat));
 			}
@@ -341,10 +350,11 @@ public:
 			Material::Sptr bucketMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				bucketMat->Name = "Bucket";
-				bucketMat->Set("u_Material.Diffuse", GetTexture("Turret Projectile"));
+				bucketMat->Set("u_Material.Diffuse", GetTexture("Default"));
 				bucketMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Bucket", std::move(bucketMat));
 			}
+
 		}
 
 

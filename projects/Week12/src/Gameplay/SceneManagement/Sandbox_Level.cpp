@@ -721,7 +721,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = intactPillar->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
-		renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+		renderer->SetMaterial(Resources::GetMaterial("Default"));
 
 		RigidBody::Sptr physics = intactPillar->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -740,7 +740,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = damagedPillar->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Damaged Pillar"));
-		renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+		renderer->SetMaterial(Resources::GetMaterial("Default"));
 
 		RigidBody::Sptr physics = damagedPillar->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -759,7 +759,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = destroyedPillar->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Destroyed Pillar"));
-		renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+		renderer->SetMaterial(Resources::GetMaterial("Default"));
 
 		RigidBody::Sptr physics = destroyedPillar->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
