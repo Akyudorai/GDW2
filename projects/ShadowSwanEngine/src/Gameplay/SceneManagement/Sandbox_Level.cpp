@@ -1399,7 +1399,6 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	{
 		graveStone->SetPosition(glm::vec3(-12.43f, 11.08f, 0.33f));
 		graveStone->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		graveStone->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
 		RenderComponent::Sptr renderer = graveStone->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Grave Stone"));

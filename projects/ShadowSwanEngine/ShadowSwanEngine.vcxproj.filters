@@ -261,6 +261,12 @@
     <ClInclude Include="src\Utils\ResourceManagement\ResourceManager.h">
       <Filter>Utils\ResourceManagement</Filter>
     </ClInclude>
+    <ClInclude Include="src\Utils\ResourceManagement\Resources.h">
+      <Filter>Utils\ResourceManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Utils\ResourceManagement\Resourcesbackup.h">
+      <Filter>Utils\ResourceManagement</Filter>
+    </ClInclude>
     <ClInclude Include="src\Utils\StringUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>

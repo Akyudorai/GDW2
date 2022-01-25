@@ -11,10 +11,10 @@
     </ProjectConfiguration>
   </ItemGroup>
   <PropertyGroup Label="Globals">
-    <ProjectGuid>{54AE2CDA-4050-57B0-290B-6B04154CDE00}</ProjectGuid>
+    <ProjectGuid>{7AC4D06A-66BD-EFBC-8FEF-D4417B47CFC8}</ProjectGuid>
     <IgnoreWarnCompileDuplicatedFilename>true</IgnoreWarnCompileDuplicatedFilename>
     <Keyword>Win32Proj</Keyword>
-    <RootNamespace>Week12</RootNamespace>
+    <RootNamespace>ShadowSwanEngine</RootNamespace>
     <WindowsTargetPlatformVersion>10.0</WindowsTargetPlatformVersion>
   </PropertyGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
@@ -42,16 +42,16 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <LinkIncremental>true</LinkIncremental>
-    <OutDir>..\..\bin\Debug-windows-x86_64\Week12\</OutDir>
-    <IntDir>..\..\obj\Debug-windows-x86_64\Week12\</IntDir>
-    <TargetName>Week12</TargetName>
+    <OutDir>..\..\bin\Debug-windows-x86_64\ShadowSwanEngine\</OutDir>
+    <IntDir>..\..\obj\Debug-windows-x86_64\ShadowSwanEngine\</IntDir>
+    <TargetName>ShadowSwanEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <LinkIncremental>false</LinkIncremental>
-    <OutDir>..\..\bin\Release-windows-x86_64\Week12\</OutDir>
-    <IntDir>..\..\obj\Release-windows-x86_64\Week12\</IntDir>
-    <TargetName>Week12</TargetName>
+    <OutDir>..\..\bin\Release-windows-x86_64\ShadowSwanEngine\</OutDir>
+    <IntDir>..\..\obj\Release-windows-x86_64\ShadowSwanEngine\</IntDir>
+    <TargetName>ShadowSwanEngine</TargetName>
     <TargetExt>.exe</TargetExt>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
@@ -183,6 +183,8 @@
     <ClInclude Include="src\Utils\ObjLoader.h" />
     <ClInclude Include="src\Utils\ResourceManagement\IResource.h" />
     <ClInclude Include="src\Utils\ResourceManagement\ResourceManager.h" />
+    <ClInclude Include="src\Utils\ResourceManagement\Resources.h" />
+    <ClInclude Include="src\Utils\ResourceManagement\Resourcesbackup.h" />
     <ClInclude Include="src\Utils\StringUtils.h" />
     <ClInclude Include="src\Utils\TypeHelpers.h" />
     <ClInclude Include="src\Utils\UIHelper.h" />
