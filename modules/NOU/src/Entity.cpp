@@ -7,9 +7,6 @@ Minimal and lightly OOP wrapper for the ENTT framework.
 */
 
 #include "NOU/Entity.h"
-#include "../../projects/GDW/src/Editor/Hierarchy.h"
-
-using namespace OMG;
 
 namespace nou
 {
@@ -31,10 +28,6 @@ namespace nou
 	{
 		m_id = id;
 		m_name = name;
-
-		
-
-		Hierarchy::GetInstance().AddEntity(this);
 	}
 
 	Entity::~Entity()
