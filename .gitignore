@@ -1,5 +1,9 @@
 # Blacklist files/folders in same directory as the .gitignore file
 /*
+modules/toolkit/*
+*.vcxproj
+*.vcxproj.filters
+*.vcxproj.user
 
 # Whitelist some files
 !.gitignore
@@ -11,3 +15,5 @@
 !modules/*
 !projects/
 !projects/*
+!imgs/
+!imgs/*
