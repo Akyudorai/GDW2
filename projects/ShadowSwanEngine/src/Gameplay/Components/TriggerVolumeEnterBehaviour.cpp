@@ -8,29 +8,32 @@ TriggerVolumeEnterBehaviour::TriggerVolumeEnterBehaviour() :
 TriggerVolumeEnterBehaviour::~TriggerVolumeEnterBehaviour() = default;
 
 void TriggerVolumeEnterBehaviour::Awake()
-{
-	_playerInTrigger = false;
-}
+{ }
 
 void TriggerVolumeEnterBehaviour::Update(float dt)
 {
-	if (_playerInTrigger && onTriggerStayEvent) {
+	if (numberOfCollisions > 0 && onTriggerStayEvent) {
 		onTriggerStayEvent();
 	}
 }
 
 void TriggerVolumeEnterBehaviour::OnTriggerVolumeEntered(const std::shared_ptr<Gameplay::Physics::RigidBody>& body)
-{
-	//LOG_INFO("Body has entered our trigger volume: {}", body->GetGameObject()->Name);
+{	
+	numberOfCollisions += 1;
 	
-	if (onTriggerEnterEvent) onTriggerEnterEvent();
-	_playerInTrigger = true;
+	if (numberOfCollisions > 0 && onTriggerEnterEvent) {
+		onTriggerEnterEvent();
+	}
+	
+	
 }
 
 void TriggerVolumeEnterBehaviour::OnTriggerVolumeLeaving(const std::shared_ptr<Gameplay::Physics::RigidBody>& body) {
-	//LOG_INFO("Body has left our trigger volume: {}", body->GetGameObject()->Name);
-	if (onTriggerExitEvent) onTriggerExitEvent();
-	_playerInTrigger = false;
+	numberOfCollisions -= 1;
+
+	if (numberOfCollisions == 0 && onTriggerExitEvent) {
+		onTriggerExitEvent();
+	}	
 }
 
 void TriggerVolumeEnterBehaviour::RenderImGui() { }

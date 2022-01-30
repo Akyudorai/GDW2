@@ -30,5 +30,5 @@ public:
 	MAKE_TYPENAME(TriggerVolumeEnterBehaviour);
 
 protected:
-	bool _playerInTrigger = false;
+	int numberOfCollisions = 0;
 };

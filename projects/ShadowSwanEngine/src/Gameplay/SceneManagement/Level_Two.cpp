@@ -3,6 +3,7 @@
 
 // Gameplay
 #include "Gameplay/MeshResource.h"
+#include "Gameplay/GameManager.h"
 
 // Components
 #include "Gameplay/Components/RenderComponent.h"
@@ -162,10 +163,12 @@ Scene::Sptr Level_Two::Load(GLFWwindow* window)
 	SceneManager::GetCurrentScene()->Window = window;
 	SceneManager::GetCurrentScene()->Awake();
 
+	GameManager::GetInstance().Reset();
+
 	// Save the asset manifest for all the resources we just loaded
-	ResourceManager::SaveManifest("manifest.json");
+	//ResourceManager::SaveManifest("manifest.json");
 	// Save the SceneManager::GetCurrentScene() to a JSON file
-	SceneManager::GetCurrentScene()->Save("Level_Two.json");
+	//SceneManager::GetCurrentScene()->Save("Level_Two.json");
 
 	return nullptr;
 }

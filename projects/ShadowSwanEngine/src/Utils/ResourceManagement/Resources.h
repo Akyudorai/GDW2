@@ -133,8 +133,8 @@ public:
 			textures.emplace("Relic 5", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet5UVS.png"));
 			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
 			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
-			textures.emplace("Character Dagger", ResourceManager::CreateAsset<Texture2D>("textures/DaggerTextures.png"));
-			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTextures.png"));
+			textures.emplace("Character Dagger", ResourceManager::CreateAsset<Texture2D>("textures/DaggerTexture.png"));
+			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTexture.png"));
 			textures.emplace("Wall Grate", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
 			textures.emplace("Floor Grate", ResourceManager::CreateAsset<Texture2D>("textures/FloorGrateUVS.png"));
 			textures.emplace("Small Candle", ResourceManager::CreateAsset<Texture2D>("textures/SmallCandleTexture.png"));
@@ -385,6 +385,14 @@ public:
 				materials.emplace("Large Candle", std::move(LCandle));
 			}
 
+			Material::Sptr keyMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				keyMat->Name = "Key";
+				keyMat->Set("u_Material.Diffuse", GetTexture("Key"));
+				keyMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Key", std::move(keyMat));
+			}
+
 		}
 
 
@@ -423,6 +431,13 @@ public:
 			meshes.emplace("Small Candle", ResourceManager::CreateAsset<MeshResource>("SmallCandle.obj"));
 			meshes.emplace("Large Candle", ResourceManager::CreateAsset<MeshResource>("LargeCandle.obj"));
 			meshes.emplace("Cube", ResourceManager::CreateAsset<MeshResource>("cube.obj"));
+			meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("Bucket.obj"));
+			meshes.emplace("Keg", ResourceManager::CreateAsset<MeshResource>("KegStand.obj"));
+			meshes.emplace("Damaged Pillar", ResourceManager::CreateAsset<MeshResource>("DamagedPillar.obj"));
+			meshes.emplace("Destroyed Pillar", ResourceManager::CreateAsset<MeshResource>("DestroyedPillar.obj"));
+			meshes.emplace("Pillar", ResourceManager::CreateAsset<MeshResource>("IntactPillar.obj"));
+			meshes.emplace("Rock Pile", ResourceManager::CreateAsset<MeshResource>("RockPile3.obj"));
+			meshes.emplace("Sphere", ResourceManager::CreateAsset<MeshResource>("Sphere.obj"));
 		}
 
 		// ANIMATIONS
@@ -456,18 +471,32 @@ public:
 				animations.emplace("Character Idle", std::move(IdleAnimation));
 			}
 
-			std::vector<MeshResource::Sptr> TurretAnimation;
+			std::vector<MeshResource::Sptr> DoorAnimation;
 			{
-				for (int i = 0; i < 8; ++i)
+				for (int i = 0; i < 4; ++i)
 				{
 					std::string file;
-					file.append("models/turret/Turret");
+					file.append("models/door/door");
 					file.append(std::to_string((i + 1)));
 					file.append(".obj");
-					TurretAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
+					DoorAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 				}
 
-				animations.emplace("Turret", std::move(TurretAnimation));
+				animations.emplace("Door", std::move(DoorAnimation));
+			}
+
+			std::vector<MeshResource::Sptr> SpikeAnimation;
+			{
+				for (int i = 0; i < 3; ++i)
+				{
+					std::string file;
+					file.append("models/spikedTrap/SpikedTrap");
+					file.append(std::to_string((i + 1)));
+					file.append(".obj");
+					DoorAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
+				}
+
+				animations.emplace("Spikes", std::move(DoorAnimation));
 			}
 		}
 	

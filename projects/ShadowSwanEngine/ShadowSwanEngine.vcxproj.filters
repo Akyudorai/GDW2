@@ -276,6 +276,18 @@
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\GameManager.h">
+      <Filter>Gameplay</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\TurretBehavior.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\MovingPlatformBehavior.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\SpikeTrapBehavior.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\AnimatorComponent.cpp">
@@ -456,5 +468,17 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Gameplay\GameManager.cpp">
+      <Filter>Gameplay</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\MovingPlatformBehavior.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\TurretBehavior.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\SpikeTrapBehavior.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

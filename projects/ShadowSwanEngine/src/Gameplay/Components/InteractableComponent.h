@@ -17,4 +17,5 @@ public:
 
 public:
 	std::function<void()> onInteractionEvent;
+	bool isToggled;
 };

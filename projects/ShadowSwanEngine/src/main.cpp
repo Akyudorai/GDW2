@@ -59,6 +59,9 @@
 #include "Gameplay/Components/InteractableComponent.h"
 #include "Gameplay/Components/AnimatorComponent.h"
 #include "Gameplay/Components/Enemy.h"
+#include "Gameplay/Components/MovingPlatformBehavior.h"
+#include "Gameplay/Components/SpikeTrapBehavior.h"
+#include "Gameplay/Components/TurretBehavior.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -84,6 +87,7 @@
 #include "Gameplay/SceneManagement/SceneManager.h"
 #include "Gameplay/InputManagement/InputHandler.h"
 #include "Utils/Editor/Editor.h"
+#include "Gameplay/GameManager.h"
 
 //#define LOG_GL_NOTIFICATIONS 
 
@@ -278,6 +282,9 @@ int main() {
 	ComponentManager::RegisterType<InteractableComponent>();
 	ComponentManager::RegisterType<AnimatorComponent>();
 	ComponentManager::RegisterType<Enemy>();
+	ComponentManager::RegisterType<SpikeTrapBehavior>();
+	ComponentManager::RegisterType<MovingPlatformBehavior>();
+	ComponentManager::RegisterType<TurretBehavior>();
 
 	ComponentManager::RegisterType<RectTransform>();
 	ComponentManager::RegisterType<GuiPanel>();
@@ -344,6 +351,7 @@ int main() {
 		SceneManager::Update(dt);
 		SceneManager::Draw();
 		InputHandler::Update(dt);
+		GameManager::GetInstance().Update(dt);
 
 		editor.Update(dt);
 		editor.Draw(dt);
