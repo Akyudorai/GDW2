@@ -45,9 +45,9 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	/////////////////////////////////////////////////////////
 
 	SceneManager::GetCurrentScene()->Lights.resize(8);
-	SceneManager::GetCurrentScene()->Lights[0].Position = glm::vec3(0.0f, 12.0f, 13.0f);
+	SceneManager::GetCurrentScene()->Lights[0].Position = glm::vec3(0.0f, 0.0f, 13.0f);
 	SceneManager::GetCurrentScene()->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
-	SceneManager::GetCurrentScene()->Lights[0].Range = 100.0f;
+	SceneManager::GetCurrentScene()->Lights[0].Range = 500.0f;
 
 	/////////////////////////////////////////////////////////
 	//					  CONTROLLER
@@ -146,7 +146,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 		GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss"), "Upper Graphic");
 		upperGraphic->Get<RectTransform>()->SetPosition({ 170, 90 });
 		upperGraphic->Get<RectTransform>()->SetSize({ 80, 30 });
-		upperGraphic->Get<GuiPanel>()->SetBorderRadius(0);
+		upperGraphic->Get<GuiPanel>()->SetBorderRadius(1);
 		pauseMenu->AddChild(upperGraphic);
 
 		GameObject::Sptr menuTitle = UIHelper::CreateText("Into The Abyss");

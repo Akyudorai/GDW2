@@ -139,6 +139,9 @@ public:
 			textures.emplace("Floor Grate", ResourceManager::CreateAsset<Texture2D>("textures/FloorGrateUVS.png"));
 			textures.emplace("Small Candle", ResourceManager::CreateAsset<Texture2D>("textures/SmallCandleTexture.png"));
 			textures.emplace("Large Candle", ResourceManager::CreateAsset<Texture2D>("textures/LargeCandleTexture.png"));
+			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
+			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
+			textures.emplace("White", ResourceManager::CreateAsset<Texture2D>("textures/White.png"));
 		}
 		
 		// MATERIALS
@@ -391,6 +394,30 @@ public:
 				keyMat->Set("u_Material.Diffuse", GetTexture("Key"));
 				keyMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Key", std::move(keyMat));
+			}
+
+			Material::Sptr whiteMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				whiteMat->Name = "White";
+				whiteMat->Set("u_Material.Diffuse", GetTexture("White"));
+				whiteMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("White", std::move(whiteMat));
+			}
+
+			Material::Sptr grayMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				grayMat->Name = "Gray";
+				grayMat->Set("u_Material.Diffuse", GetTexture("Gray"));
+				grayMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Gray", std::move(grayMat));
+			}
+
+			Material::Sptr brownMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				brownMat->Name = "Brown";
+				brownMat->Set("u_Material.Diffuse", GetTexture("Brown"));
+				brownMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Brown", std::move(brownMat));
 			}
 
 		}

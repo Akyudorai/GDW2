@@ -152,23 +152,23 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	//					ENVIRONMENT
 	/////////////////////////////////////////////////////////
 
-	// Set up all our sample objects
-	GameObject::Sptr floor = SceneManager::GetCurrentScene()->CreateGameObject("Floor");
-	{
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
+	//// Set up all our sample objects
+	//GameObject::Sptr floor = SceneManager::GetCurrentScene()->CreateGameObject("Floor");
+	//{
+	//	MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+	//	tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+	//	tiledMesh->GenerateMesh();
 
-		// Create and attach a RenderComponent to the object to draw our mesh
-		RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
-		renderer->SetMesh(tiledMesh);
-		renderer->SetMaterial(Resources::GetMaterial("Stone Slab"));
+	//	// Create and attach a RenderComponent to the object to draw our mesh
+	//	RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
+	//	renderer->SetMesh(tiledMesh);
+	//	renderer->SetMaterial(Resources::GetMaterial("Stone Slab"));
 
-		RigidBody::Sptr physics = floor->Add<RigidBody>(/*static by default*/);
-		physics->AddCollider(BoxCollider::Create(glm::vec3(100.0f, 100.0f, 1.5f)))->SetPosition({ 0,0,-1 });
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
+	//	RigidBody::Sptr physics = floor->Add<RigidBody>(/*static by default*/);
+	//	physics->AddCollider(BoxCollider::Create(glm::vec3(100.0f, 100.0f, 1.5f)))->SetPosition({ 0,0,-1 });
+	//	physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+	//	physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	//}
 
 #pragma region Floors
 	GameObject::Sptr block = SceneManager::GetCurrentScene()->CreateGameObject("Block 1");
@@ -178,7 +178,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -196,7 +196,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block2->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block2->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -214,7 +214,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block3->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block3->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -232,7 +232,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block4->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block4->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -250,7 +250,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block5->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block5->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -268,7 +268,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block6->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block6->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -286,7 +286,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block8->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block8->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -304,7 +304,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block9->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block9->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -322,7 +322,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block10->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block10->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -340,7 +340,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block11->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block11->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -358,7 +358,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block12->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block12->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -376,7 +376,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block13->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block13->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -394,7 +394,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block14->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block14->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -412,7 +412,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block15->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block15->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -430,7 +430,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block16->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block16->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -448,7 +448,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block17->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block17->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -467,7 +467,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block18->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block18->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -485,7 +485,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block19->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block19->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -503,7 +503,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block30->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block30->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -521,7 +521,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block31->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block31->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -540,7 +540,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block20->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block20->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -558,7 +558,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block21->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block21->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -576,7 +576,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block22->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block22->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -594,7 +594,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block23->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block23->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -612,7 +612,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block24->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block24->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -630,7 +630,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block25->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block25->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -648,7 +648,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block26->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block26->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -666,7 +666,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block27->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block27->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -684,7 +684,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block28->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block28->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -703,7 +703,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = block29->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 		RigidBody::Sptr physics = block29->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -1471,7 +1471,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			RenderComponent::Sptr renderer = crate_1->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 
 			// Collider
 			RigidBody::Sptr physics = crate_1->Add<RigidBody>(RigidBodyType::Dynamic);
@@ -1495,7 +1495,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				RenderComponent::Sptr renderer = trap_ground_upper_1->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+				renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 				// Collider
 				RigidBody::Sptr physics = trap_ground_upper_1->Add<RigidBody>(RigidBodyType::Static);
@@ -1515,7 +1515,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				RenderComponent::Sptr renderer = trap_ground_lower->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+				renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 				// Collider
 				RigidBody::Sptr physics = trap_ground_lower->Add<RigidBody>(RigidBodyType::Static);
@@ -1535,7 +1535,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				RenderComponent::Sptr renderer = trap_ramp->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+				renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 				// Collider
 				RigidBody::Sptr physics = trap_ramp->Add<RigidBody>(RigidBodyType::Static);
@@ -1558,7 +1558,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				RenderComponent::Sptr renderer = trap_ground_upper_2->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+				renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 				// Collider
 				RigidBody::Sptr physics = trap_ground_upper_2->Add<RigidBody>(RigidBodyType::Static);
@@ -1708,7 +1708,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				RenderComponent::Sptr renderer = trap_ground_upper_3->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+				renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 				// Collider
 				RigidBody::Sptr physics = trap_ground_upper_3->Add<RigidBody>(RigidBodyType::Static);
@@ -1857,7 +1857,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				RenderComponent::Sptr renderer = trap_ground_upper_4->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+				renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 				// Collider
 				RigidBody::Sptr physics = trap_ground_upper_4->Add<RigidBody>(RigidBodyType::Static);
@@ -2008,7 +2008,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				RenderComponent::Sptr renderer = trap_ground_upper_5->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+				renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 				// Collider
 				RigidBody::Sptr physics = trap_ground_upper_5->Add<RigidBody>(RigidBodyType::Static);
@@ -2103,7 +2103,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			RenderComponent::Sptr renderer = crate_2->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 
 			// Collider
 			RigidBody::Sptr physics = crate_2->Add<RigidBody>(RigidBodyType::Dynamic);
@@ -2198,7 +2198,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			// Renderer
 			RenderComponent::Sptr renderer = lever_1->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Turret Projectile"));
-			renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 			
 			// Collider
 			RigidBody::Sptr physics = lever_1->Add<RigidBody>(RigidBodyType::Static);
@@ -2254,7 +2254,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			RenderComponent::Sptr renderer = elevator->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 			// Collider
 			RigidBody::Sptr physics = elevator->Add<RigidBody>(RigidBodyType::Static);
@@ -2334,7 +2334,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			// Renderer
 			RenderComponent::Sptr renderer = lever_2->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Turret Projectile"));
-			renderer->SetMaterial(Resources::GetMaterial("Turret Projectile"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 
 			// Collider
 			RigidBody::Sptr physics = lever_2->Add<RigidBody>(RigidBodyType::Static);
@@ -2359,7 +2359,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		GameObject::Sptr key = SceneManager::GetCurrentScene()->CreateGameObject("Key");
 		{
-			key->SetPosition(glm::vec3(-72.0f, 21.0f, 15.75f));
+			key->SetPosition(glm::vec3(-71.75f, 20.5f, 17.5f));
 			key->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
 			key->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
@@ -2376,7 +2376,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			RenderComponent::Sptr renderer = pedestal->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 
 			// Collider
 			RigidBody::Sptr physics = pedestal->Add<RigidBody>(RigidBodyType::Static);
@@ -2391,7 +2391,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				if (GameManager::GetInstance().PlayerHasKey()) return;
 
 				GameManager::GetInstance().GiveKey();
-				key->IsActive = false;
+				key->Get<RenderComponent>()->IsEnabled = false;				
 			};
 		}
 	}
@@ -2462,7 +2462,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			RenderComponent::Sptr renderer = statue_1->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 		}
 
 		GameObject::Sptr statue_2 = SceneManager::GetCurrentScene()->CreateGameObject("Statue 2");
@@ -2473,7 +2473,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			RenderComponent::Sptr renderer = statue_2->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 		}
 
 		GameObject::Sptr interactable_note = SceneManager::GetCurrentScene()->CreateGameObject("Interactable Note");
@@ -2484,7 +2484,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			RenderComponent::Sptr renderer = interactable_note->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 		}
 	}
 
