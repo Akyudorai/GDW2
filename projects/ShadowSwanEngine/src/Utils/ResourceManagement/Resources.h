@@ -142,6 +142,7 @@ public:
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
 			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
 			textures.emplace("White", ResourceManager::CreateAsset<Texture2D>("textures/White.png"));
+			textures.emplace("Wall 2", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex2.png"));
 		}
 		
 		// MATERIALS
@@ -420,6 +421,14 @@ public:
 				materials.emplace("Brown", std::move(brownMat));
 			}
 
+			Material::Sptr Wall_Mat2 = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				Wall_Mat2->Name = "Wall 2";
+				Wall_Mat2->Set("u_Material.Diffuse", GetTexture("Wall 2"));
+				Wall_Mat2->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Wall 2", std::move(Wall_Mat2));
+			}
+
 		}
 
 
@@ -465,6 +474,7 @@ public:
 			meshes.emplace("Pillar", ResourceManager::CreateAsset<MeshResource>("IntactPillar.obj"));
 			meshes.emplace("Rock Pile", ResourceManager::CreateAsset<MeshResource>("RockPile3.obj"));
 			meshes.emplace("Sphere", ResourceManager::CreateAsset<MeshResource>("Sphere.obj"));
+			meshes.emplace("Wall 2", ResourceManager::CreateAsset<MeshResource>("Wall2.obj"));
 		}
 
 		// ANIMATIONS

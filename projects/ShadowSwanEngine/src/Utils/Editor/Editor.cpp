@@ -2,9 +2,12 @@
 #include "Editor.h"
 
 #include "Gameplay/SceneManagement/SceneManager.h"
+#include "Gameplay/InputManagement/InputHandler.h"
 
 #include <filesystem>
 #include "Utils/ImGuiHelper.h"
+
+#include "Gameplay/Prefabs.h"
 
 using namespace Gameplay;
 
@@ -17,14 +20,153 @@ void Editor::Initialize(GLFWwindow* windowRef)
 	// String storage for our editor scene input field
 	scenePath = "scene.json";
 	scenePath.reserve(256);
+
+	m_camera = SceneManager::GetCurrentScene()->MainCamera;
 }
 
 void Editor::Update(float deltaTime)
 {
+	// Editor Camera Controller
+	if (!isPlaying)
+	{
+		// XYZ Motion
+		glm::vec3 cameraMotion = glm::vec3(0);
+		if (InputHandler::GetKey(GLFW_KEY_W)) { cameraMotion += glm::vec3(0, 0.5, 0); }
+		if (InputHandler::GetKey(GLFW_KEY_S)) { cameraMotion += glm::vec3(0, -0.5, 0); }
+		if (InputHandler::GetKey(GLFW_KEY_A)) { cameraMotion += glm::vec3(-0.5, 0, 0); }
+		if (InputHandler::GetKey(GLFW_KEY_D)) { cameraMotion += glm::vec3(0.5, 0, 0); }
+		if (InputHandler::GetKey(GLFW_KEY_LEFT_CONTROL)) { cameraMotion += glm::vec3(0, 0, -0.5); }
+		if (InputHandler::GetKey(GLFW_KEY_SPACE)) { cameraMotion += glm::vec3(0, 0, 0.5); }
 
+		m_camera->GetGameObject()->SetPosition(m_camera->GetGameObject()->GetPosition() + cameraMotion * cameraSpeed * deltaTime);
+
+		// Rotation
+		glm::vec3 cameraRotation = glm::vec3(0);
+		if (InputHandler::GetKey(GLFW_KEY_UP)) { cameraRotation += glm::vec3(0.5, 0, 0); }
+		if (InputHandler::GetKey(GLFW_KEY_DOWN)) { cameraRotation += glm::vec3(-0.5, 0, 0); }
+		if (InputHandler::GetKey(GLFW_KEY_LEFT)) { cameraRotation += glm::vec3(0, 0, 0.5); }
+		if (InputHandler::GetKey(GLFW_KEY_RIGHT)) { cameraRotation += glm::vec3(0, 0, -0.5); }
+
+		m_camera->GetGameObject()->SetRotation(m_camera->GetGameObject()->GetRotationEuler() + cameraRotation * 15.0f * deltaTime);
+
+		// Raycasting (select Object in scene view)
+
+	}
 }
 
 void Editor::Draw(float deltaTime)
+{
+	// Uncomment to view old ImGUI Editor (Sage's Code)
+	DrawOldGuiEditor(deltaTime);
+
+	DrawNewGuiEditor(deltaTime);
+}
+
+
+void Editor::DrawNewGuiEditor(float deltaTime) 
+{
+	// Draw the panel here	
+	ImGui::SetNextWindowSize(ImVec2(1400, 700), ImGuiCond_FirstUseEver);
+	if (ImGui::Begin("Editor", NULL, ImGuiWindowFlags_MenuBar))
+	{
+		// Menubar
+		if (ImGui::BeginMenuBar())
+		{
+			if (ImGui::BeginMenu("File"))
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
+				if (ImGui::MenuItem("New Scene")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Open Scene")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Save Scene")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Exit")) { exit(0); }
+				ImGui::PopStyleColor();
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Edit"))
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
+				if (ImGui::MenuItem("Undo")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Redo")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Cut")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Copy")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Paste")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Duplicate")) { /* Do stuff */ }
+
+				if (ImGui::MenuItem("Delete"))
+				{
+					
+				}
+				ImGui::PopStyleColor();
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Create"))
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
+				if (ImGui::MenuItem("Empty Object"))
+				{
+					// The issue that is occurring is that the object is created in the current frame and the pointer is saved in hierarchy, not the object itself.
+					// So when the next frame arrives, the object no longer exists and we have a pointer to something that doesnt exist anymore.
+					// EDIT :: I tried restructuring the code to use list<Entity> instead of list<Entity*> and ran into an error I could solve within 5 hours.
+					//		I have returned back to using pointer reference list rather than an object reference list.
+
+					//Entity::Create("New Object");
+				}
+				ImGui::PopStyleColor();
+				if (ImGui::MenuItem("Wall")) { Prefabs::Instantiate(Prefabs::Prefab::Wall); }
+				if (ImGui::MenuItem("Crate")) { Prefabs::Instantiate(Prefabs::Prefab::Crate); }
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
+
+				
+				if (ImGui::MenuItem("Camera")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Light")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Audio")) { /* Do stuff */ }
+				if (ImGui::MenuItem("UI")) { /* Do stuff */ }
+				ImGui::PopStyleColor();
+
+				ImGui::EndMenu();
+			}
+
+			if (ImGui::BeginMenu("Window"))
+			{
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
+				if (ImGui::MenuItem("Hierarchy")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Inspector")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Assets")) { /* Do stuff */ }
+				if (ImGui::MenuItem("Console")) { /* Do stuff */ }
+				ImGui::PopStyleColor();
+
+				ImGui::EndMenu();
+			}
+
+			ImGui::EndMenuBar();
+		}
+
+		// Hierarchy				
+
+		ImGui::BeginChild("Hierarchy", ImVec2(200, 500), true);
+		ImGui::EndChild();
+
+
+		// Inspector
+		ImGui::SameLine();
+		ImGui::BeginChild("Inspector", ImVec2(300, 500), true);
+		ImGui::EndChild();
+
+		// Assets
+		ImGui::BeginChild("Assets", ImVec2(1380, 0), true);
+		ImGui::EndChild();
+
+	}
+
+	ImGui::End();
+}
+
+// OLD STUFF
+void Editor::DrawOldGuiEditor(float deltaTime) 
 {
 	bool isDebugWindowOpen = ImGui::Begin("Debugging");
 	if (isDebugWindowOpen) {
@@ -103,9 +245,6 @@ void Editor::Draw(float deltaTime)
 		}
 	}
 }
-
-//// Showcasing how to use the imGui library!
-	
 
 bool Editor::DrawSaveLoadImGui(Scene::Sptr& scene, std::string& path) {
 	// Since we can change the internal capacity of an std::string,

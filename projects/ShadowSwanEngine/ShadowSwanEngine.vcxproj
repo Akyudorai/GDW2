@@ -131,6 +131,7 @@
     <ClInclude Include="src\Gameplay\Components\UpdatedBoxCollider.h" />
     <ClInclude Include="src\Gameplay\GameManager.h" />
     <ClInclude Include="src\Gameplay\GameObject.h" />
+    <ClInclude Include="src\Gameplay\GameSettings.h" />
     <ClInclude Include="src\Gameplay\InputManagement\InputHandler.h" />
     <ClInclude Include="src\Gameplay\Light.h" />
     <ClInclude Include="src\Gameplay\Material.h" />
@@ -148,6 +149,7 @@
     <ClInclude Include="src\Gameplay\Physics\RigidBody.h" />
     <ClInclude Include="src\Gameplay\Physics\TriggerVolume.h" />
     <ClInclude Include="src\Gameplay\PlayerController.h" />
+    <ClInclude Include="src\Gameplay\Prefabs.h" />
     <ClInclude Include="src\Gameplay\Scene.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\Boss_Level.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\Level_One.h" />
@@ -230,6 +232,7 @@
     <ClCompile Include="src\Gameplay\Physics\RigidBody.cpp" />
     <ClCompile Include="src\Gameplay\Physics\TriggerVolume.cpp" />
     <ClCompile Include="src\Gameplay\PlayerController.cpp" />
+    <ClCompile Include="src\Gameplay\Prefabs.cpp" />
     <ClCompile Include="src\Gameplay\Scene.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\Boss_Level.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\Level_One.cpp" />

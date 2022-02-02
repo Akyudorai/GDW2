@@ -157,6 +157,17 @@ Scene::Sptr Level_Two::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
+	GameObject::Sptr wall = SceneManager::GetCurrentScene()->CreateGameObject("Wall");
+	{
+		wall->SetPosition(glm::vec3(0, -31.5f, 0.0f));
+		wall->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		wall->SetScale(glm::vec3(1.0f, 1.0f, 3.35f));
+
+		RenderComponent::Sptr renderer = wall->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+	}
+
 	/////////////////////////////////////////////////////////
 
 	// Call SceneManager::GetCurrentScene() awake to start up all of our components
