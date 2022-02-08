@@ -2,6 +2,7 @@
 
 #include "Gameplay/Scene.h"
 #include "Gameplay/Components/Camera.h"
+#include "Gameplay/GameObject.h"
 
 
 class Editor
@@ -24,11 +25,16 @@ protected:
 	bool DrawSaveLoadImGui(Gameplay::Scene::Sptr& scene, std::string& path);
 	bool DrawLightImGui(const Gameplay::Scene::Sptr& scene, const char* title, int ix);
 
+public:
+	static bool IsPlaying;
+
 protected:
-	bool isPlaying = false;
+	
+	bool sceneViewOpen = true;
 	glm::vec3 cameraMotion = glm::vec3(0.0f, 0.0f, 0.0f);
 	glm::vec3 cameraRotation = glm::vec3(0.0f, 0.0f, 0.0f);
 	float cameraSpeed = 5.0f;
-	int selectedObject = 0;
-	Gameplay::Camera::Sptr m_camera;
+	int selectedObjectIndex = 0;
+	static Gameplay::GameObject::Sptr selectedObject;;
+	Gameplay::Camera::Sptr m_camera;	
 };

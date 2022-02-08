@@ -9,7 +9,7 @@ namespace Gameplay
 	{
 	public:
 		static enum class Prefab {
-			Wall, Crate
+			Wall, Ground, Crate, PresurePlate, Switch, Elevator, Turret, Key, KeyDoor, SpikeTrap
 		};
 
 		static GameObject::Sptr Instantiate(Prefab id);

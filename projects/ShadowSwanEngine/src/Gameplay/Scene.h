@@ -201,6 +201,7 @@ namespace Gameplay {
 
 		int NumObjects() const;
 		GameObject::Sptr GetObjectByIndex(int index) const;
+		std::vector<GameObject::Sptr> GetAllObjects() { return _objects;  }
 
 	protected:
 		// Bullet physics stuff world

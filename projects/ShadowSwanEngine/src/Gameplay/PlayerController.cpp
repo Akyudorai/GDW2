@@ -53,7 +53,6 @@ void PlayerController::Update(float deltaTime)
 			Gameplay::Scene::IsPaused = true;
 		}
 		
-
 		//// turn on lose 
 		//if (m_loseCanvas != nullptr) {
 		//	if (!m_loseCanvas->IsActive) {
@@ -63,16 +62,6 @@ void PlayerController::Update(float deltaTime)
 		//}
 	}
 
-	// Start Game by closing main menu and setting paused to false
-	/*if (InputHandler::GetKeyDown(GLFW_KEY_P)) {
-
-		if (gameStarted) return;
-
-		if (m_mainCanvas != nullptr) {
-			m_mainCanvas->IsActive = false;
-			Gameplay::Scene::IsPaused = false;
-		}
-	}*/
 
 	// If the player presses the Tab key, it pauses the game.  See Scene.cpp at line 
 	if (InputHandler::GetKeyDown(GLFW_KEY_TAB)) {
@@ -106,15 +95,6 @@ void PlayerController::Update(float deltaTime)
 	{
 		SceneManager::GameInterface.m_shadowHealthDisplay->SetText(("Shadow: " + std::to_string(m_shadow->Get<HealthComponent>()->GetCurrentHealth())));
 	}
-
-	//if (m_bodyHealthText != nullptr && m_body != nullptr) {	
-	//	m_bodyHealthText->SetText(("Body: " + std::to_string(m_body->Get<HealthComponent>()->GetCurrentHealth())));
-	//}
-
-	//// Change the Health Text on screen if we have a reference to it
-	//if (m_shadowHealthText != nullptr && m_shadow != nullptr) {
-	//	m_shadowHealthText->SetText(("Shadow: " + std::to_string(m_shadow->Get<HealthComponent>()->GetCurrentHealth())));
-	//}
 }
 
 void PlayerController::HandleInput(float deltaTime)
@@ -128,6 +108,10 @@ void PlayerController::HandleInput(float deltaTime)
 	if (InputHandler::GetKey(GLFW_KEY_A)) { motion -= glm::vec3(0.5, 0, 0); }
 	if (InputHandler::GetKey(GLFW_KEY_D)) { motion += glm::vec3(0.5, 0, 0); }
 
+	m_body->Get<Gameplay::Physics::RigidBody>()->SetAngularVelocity(glm::vec3(0));
+
+
+	// Movement
 	if (motion != glm::vec3(0)) {
 		if (!isShadow) {
 			if (m_body->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Walk") {
@@ -169,10 +153,10 @@ void PlayerController::HandleInput(float deltaTime)
 	if (InputHandler::GetKeyDown(GLFW_KEY_SPACE))
 	{
 		if (!isShadow) {
-			m_body->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 10.0f));
+			//m_body->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 10.0f));
 		}
 		else {
-			m_shadow->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 10.0f));
+			//m_shadow->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 10.0f));
 		}
 	}
 
@@ -256,71 +240,3 @@ void PlayerController::HandleCamera(float deltaTime)
 	m_light->Position = Lerp(m_light->Position, ((isShadow) ? m_shadow->GetPosition() : m_body->GetPosition()) + lightOffset, cameraLerpT);
 	m_camera->GetScene()->SetupShaderAndLights();
 }
-
-//template<typename T>
-//void PlayerController::SetComponent(Component pcComponent, T* ref)
-//{
-//	switch (pcComponent) 
-//	{
-//	case PlayerControllerComponent::Body:		
-//		/*if (std::is_same_v<T, Gameplay::GameObject>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/		
-//		break;
-//	case PlayerControllerComponent::Shadow:
-//		/*if (std::is_same_v< T, Gameplay::GameObject>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::Camera:
-//		/*if (std::is_same_v<T, Gameplay::GameObject>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::InteractionBox:
-//		/*if (std::is_same_v < T, Gameplay::Physics::TriggerVolume) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::Light:
-//		/*if (std::is_same_v<T, Gameplay::Light>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::BodyHealthUI:
-//		/*if (std::is_same_v<T, GuiText>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::ShadowHealthUI:
-//		/*if (std::is_same_v<T, GuiText>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//
-//	default:
-//		LOG_ERROR("NO SUCH COMPONENT IN PLAYERCONTROLLER.H");
-//		break;
-//	}
-//}

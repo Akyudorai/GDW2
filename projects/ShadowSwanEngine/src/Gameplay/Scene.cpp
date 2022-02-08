@@ -385,14 +385,6 @@ namespace Gameplay {
 		for (auto& object : _objects) {
 			object->DrawImGui();
 		}
-
-		static char buffer[256];
-		ImGui::InputText("", buffer, 256);
-		ImGui::SameLine();
-		if (ImGui::Button("Add Object")) {
-			CreateGameObject(buffer);
-			memset(buffer, 0, 256);
-		}
 	}
 
 	void Scene::DrawSkybox()

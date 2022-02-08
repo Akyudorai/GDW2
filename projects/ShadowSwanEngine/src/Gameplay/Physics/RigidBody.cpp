@@ -232,6 +232,7 @@ namespace Gameplay::Physics {
 		}
 	
 		_body->setActivationState(DISABLE_DEACTIVATION);
+		
 
 		// Copy over group and mask info
 		_body->getBroadphaseProxy()->m_collisionFilterGroup = _collisionGroup;

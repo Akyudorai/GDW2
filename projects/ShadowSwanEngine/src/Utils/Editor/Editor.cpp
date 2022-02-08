@@ -4,12 +4,19 @@
 #include "Gameplay/SceneManagement/SceneManager.h"
 #include "Gameplay/InputManagement/InputHandler.h"
 
+#include "Gameplay/Window.h"
+#include "Utils/Editor/GameViewWindow.h"
+
 #include <filesystem>
 #include "Utils/ImGuiHelper.h"
 
 #include "Gameplay/Prefabs.h"
 
+
 using namespace Gameplay;
+
+bool Editor::IsPlaying = false;
+GameObject::Sptr Editor::selectedObject = nullptr;
 
 void Editor::Initialize(GLFWwindow* windowRef)
 {
@@ -27,7 +34,7 @@ void Editor::Initialize(GLFWwindow* windowRef)
 void Editor::Update(float deltaTime)
 {
 	// Editor Camera Controller
-	if (!isPlaying)
+	if (!IsPlaying)
 	{
 		// XYZ Motion
 		glm::vec3 cameraMotion = glm::vec3(0);
@@ -57,7 +64,7 @@ void Editor::Update(float deltaTime)
 void Editor::Draw(float deltaTime)
 {
 	// Uncomment to view old ImGUI Editor (Sage's Code)
-	DrawOldGuiEditor(deltaTime);
+	//DrawOldGuiEditor(deltaTime);
 
 	DrawNewGuiEditor(deltaTime);
 }
@@ -66,21 +73,31 @@ void Editor::Draw(float deltaTime)
 void Editor::DrawNewGuiEditor(float deltaTime) 
 {
 	// Draw the panel here	
-	ImGui::SetNextWindowSize(ImVec2(1400, 700), ImGuiCond_FirstUseEver);
+	ImGui::SetNextWindowSize(ImVec2(600, 700), ImGuiCond_FirstUseEver);
 	if (ImGui::Begin("Editor", NULL, ImGuiWindowFlags_MenuBar))
-	{
+	{		
 		// Menubar
 		if (ImGui::BeginMenuBar())
 		{
 			if (ImGui::BeginMenu("File"))
-			{
-				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
-				if (ImGui::MenuItem("New Scene")) { /* Do stuff */ }
-				if (ImGui::MenuItem("Open Scene")) { /* Do stuff */ }
-				if (ImGui::MenuItem("Save Scene")) { /* Do stuff */ }
-				if (ImGui::MenuItem("Exit")) { exit(0); }
-				ImGui::PopStyleColor();
+			{				
+				ImGui::Separator();
+				if (ImGui::MenuItem("Exit")) { glfwSetWindowShouldClose(Window::GetWindow(), true); }
+				ImGui::EndMenu();
+			}
 
+			if (ImGui::BeginMenu("Scene")) {
+				if (ImGui::MenuItem("Level One")) { SceneManager::LoadScene(SceneManager::Scenes::LevelOne, false); }
+				if (ImGui::MenuItem("Level Two")) { SceneManager::LoadScene(SceneManager::Scenes::LevelTwo, false); }
+				if (ImGui::MenuItem("Level Three")) { SceneManager::LoadScene(SceneManager::Scenes::LevelThree, false); }
+				if (ImGui::MenuItem("Level Four")) { SceneManager::LoadScene(SceneManager::Scenes::BossLevel, false); }
+				ImGui::Separator();
+				if (ImGui::MenuItem("Main Menu")) { SceneManager::LoadScene(SceneManager::Scenes::MainMenu, false); }
+				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
+				if (ImGui::MenuItem("Loading Menu")) { /* TO DO */ }
+				ImGui::PopStyleColor();
+				ImGui::Separator();
+				if (ImGui::MenuItem("Sandbox")) { SceneManager::LoadScene(SceneManager::Scenes::Sandbox, false); }
 				ImGui::EndMenu();
 			}
 
@@ -105,27 +122,23 @@ void Editor::DrawNewGuiEditor(float deltaTime)
 
 			if (ImGui::BeginMenu("Create"))
 			{
-				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
-				if (ImGui::MenuItem("Empty Object"))
-				{
-					// The issue that is occurring is that the object is created in the current frame and the pointer is saved in hierarchy, not the object itself.
-					// So when the next frame arrives, the object no longer exists and we have a pointer to something that doesnt exist anymore.
-					// EDIT :: I tried restructuring the code to use list<Entity> instead of list<Entity*> and ran into an error I could solve within 5 hours.
-					//		I have returned back to using pointer reference list rather than an object reference list.
-
-					//Entity::Create("New Object");
-				}
-				ImGui::PopStyleColor();
+				if (ImGui::MenuItem("Empty Object")) { SceneManager::GetCurrentScene()->CreateGameObject("New GameObject"); }				
+				ImGui::Separator();
 				if (ImGui::MenuItem("Wall")) { Prefabs::Instantiate(Prefabs::Prefab::Wall); }
+				if (ImGui::MenuItem("Ground")) { Prefabs::Instantiate(Prefabs::Prefab::Ground); }
+				ImGui::Separator();
 				if (ImGui::MenuItem("Crate")) { Prefabs::Instantiate(Prefabs::Prefab::Crate); }
-				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));
-
+				ImGui::Separator();
+				if (ImGui::MenuItem("Pressure Plate")) { Prefabs::Instantiate(Prefabs::Prefab::PresurePlate); }				
+				if (ImGui::MenuItem("Switch")) { Prefabs::Instantiate(Prefabs::Prefab::Switch); }
+				ImGui::Separator();
+				if (ImGui::MenuItem("Elevator")) { Prefabs::Instantiate(Prefabs::Prefab::Elevator); }
+				if (ImGui::MenuItem("Spike Trap")) { Prefabs::Instantiate(Prefabs::Prefab::SpikeTrap); }
+				if (ImGui::MenuItem("Turret")) { Prefabs::Instantiate(Prefabs::Prefab::Turret); }
+				ImGui::Separator();
+				if (ImGui::MenuItem("Key")) { Prefabs::Instantiate(Prefabs::Prefab::Key); }
+				if (ImGui::MenuItem("Key Door")) { Prefabs::Instantiate(Prefabs::Prefab::KeyDoor); }
 				
-				if (ImGui::MenuItem("Camera")) { /* Do stuff */ }
-				if (ImGui::MenuItem("Light")) { /* Do stuff */ }
-				if (ImGui::MenuItem("Audio")) { /* Do stuff */ }
-				if (ImGui::MenuItem("UI")) { /* Do stuff */ }
-				ImGui::PopStyleColor();
 
 				ImGui::EndMenu();
 			}
@@ -145,24 +158,50 @@ void Editor::DrawNewGuiEditor(float deltaTime)
 			ImGui::EndMenuBar();
 		}
 
+		GameViewWindow::imgui(&sceneViewOpen);
+
 		// Hierarchy				
 
-		ImGui::BeginChild("Hierarchy", ImVec2(200, 500), true);
-		ImGui::EndChild();
+		if (ImGui::BeginChild("Hierarchy", ImVec2(200, 500), true))
+		{
+			std::vector<GameObject::Sptr> objects = SceneManager::GetCurrentScene()->GetAllObjects();
+			for (int i = 0; i < objects.size(); i++) {
+				int index = i;
+				
+				if (ImGui::Selectable(objects[i]->Name.c_str(), selectedObjectIndex == index))
+				{
+					selectedObjectIndex = index;
+					selectedObject = objects[i];
+				}
+			}
 
+			ImGui::EndChild();
+		}
+		
 
 		// Inspector
 		ImGui::SameLine();
-		ImGui::BeginChild("Inspector", ImVec2(300, 500), true);
-		ImGui::EndChild();
+		if (ImGui::BeginChild("Inspector", ImVec2(300, 500), true))
+		{
+			if (selectedObject != nullptr) {
+				selectedObject->DrawImGui();				
+			}
+
+			ImGui::EndChild();
+		}
+		
 
 		// Assets
-		ImGui::BeginChild("Assets", ImVec2(1380, 0), true);
-		ImGui::EndChild();
+		if (ImGui::BeginChild("Assets", ImVec2(500, 0), true))
+		{
+			ImGui::EndChild();
+		}
+		
 
+		ImGui::End();
 	}
 
-	ImGui::End();
+	
 }
 
 // OLD STUFF
@@ -243,6 +282,8 @@ void Editor::DrawOldGuiEditor(float deltaTime)
 		if (isDebugWindowOpen) {
 			SceneManager::GetCurrentScene()->DrawAllGameObjectGUIs();
 		}
+
+		ImGui::End();
 	}
 }
 

@@ -296,12 +296,7 @@ namespace Gameplay {
 		}
 
 		ImGui::PushID(this); // Push a new ImGui ID scope for this object
-		// Since we're allowing names to change, we need to use the ### to have a static ID for the header
-		static char buffer[256];
-		sprintf_s(buffer, 256, "%s###GO_HEADER", Name.c_str());
-		if (ImGui::CollapsingHeader(buffer)) {
-			ImGui::Indent();
-
+		
 			// Draw a textbox for our name
 			static char nameBuff[256];
 			memcpy(nameBuff, Name.c_str(), Name.size());
@@ -418,8 +413,6 @@ namespace Gameplay {
 				child->DrawImGui(false);
 			}
 
-			ImGui::Unindent();
-		}
 		ImGui::PopID(); // Pop the ImGui ID scope for the object
 
 		// For if we're not in play mode

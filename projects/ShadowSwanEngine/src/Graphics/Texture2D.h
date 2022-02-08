@@ -75,15 +75,15 @@ public:
 	typedef std::shared_ptr<Texture2D> Sptr;
 
 	// Remove the copy and and assignment operators
-	Texture2D(const Texture2D& other) = delete;
+	/*Texture2D(const Texture2D& other) = delete;
 	Texture2D(Texture2D&& other) = delete;
 	Texture2D& operator=(const Texture2D& other) = delete;
-	Texture2D& operator=(Texture2D&& other) = delete;
+	Texture2D& operator=(Texture2D&& other) = delete;*/
 
 	// Make sure we mark our destructor as virtual so base class is called
 	virtual ~Texture2D() = default;
 
-public:
+public:	
 	Texture2D(const std::string& filePath);
 	Texture2D(const Texture2DDescription& description);
 
@@ -147,6 +147,7 @@ public:
 
 protected:
 	Texture2DDescription _description;
+	GLuint texID;
 
 	/// <summary>
 	/// Loads this texture from the file specified in the description

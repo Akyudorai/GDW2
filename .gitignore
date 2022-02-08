@@ -17,3 +17,7 @@ modules/toolkit/*
 !projects/*
 !imgs/
 !imgs/*
+
+projects/ShadowSwanEngine/ShadowSwanEngine.vcxproj
+
+projects/ShadowSwanEngine/ShadowSwanEngine.vcxproj.filters

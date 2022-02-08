@@ -1,17 +1,61 @@
 #pragma once
 
-#include "Gameplay/MeshResource.h"
-#include "Gameplay/Material.h"
-#include "Graphics/Texture2D.h"
-#include "Graphics/Shader.h"
-
 #include "ResourceManager.h"
+
+// Gameplay
+#include "Gameplay/Material.h"
+#include "Gameplay/GameObject.h"
+#include "Gameplay/Scene.h"
+#include "Gameplay/PlayerController.h"
+
+// Graphics
+#include "Graphics/IndexBuffer.h"
+#include "Graphics/VertexBuffer.h"
+#include "Graphics/VertexArrayObject.h"
+#include "Graphics/Shader.h"
+#include "Graphics/Texture2D.h"
+#include "Graphics/TextureCube.h"
+#include "Graphics/VertexTypes.h"
+#include "Graphics/Font.h"
+#include "Graphics/GuiBatcher.h"
+
+// Components
+#include "Gameplay/Components/IComponent.h"
+#include "Gameplay/Components/Camera.h"
+#include "Gameplay/Components/RotatingBehaviour.h"
+#include "Gameplay/Components/JumpBehaviour.h"
+#include "Gameplay/Components/RenderComponent.h"
+#include "Gameplay/Components/MaterialSwapBehaviour.h"
+#include "Gameplay/Components/HealthComponent.h"
+#include "Gameplay/Components/InteractableComponent.h"
+#include "Gameplay/Components/AnimatorComponent.h"
+#include "Gameplay/Components/Enemy.h"
+#include "Gameplay/Components/MovingPlatformBehavior.h"
+#include "Gameplay/Components/SpikeTrapBehavior.h"
+#include "Gameplay/Components/TurretBehavior.h"
+
+// Physics
+#include "Gameplay/Physics/RigidBody.h"
+#include "Gameplay/Physics/Colliders/BoxCollider.h"
+#include "Gameplay/Physics/Colliders/PlaneCollider.h"
+#include "Gameplay/Physics/Colliders/SphereCollider.h"
+#include "Gameplay/Physics/Colliders/ConvexMeshCollider.h"
+#include "Gameplay/Physics/TriggerVolume.h"
+#include "Graphics/DebugDraw.h"
+#include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
+#include "Gameplay/Components/SimpleCameraControl.h"
+#include "Gameplay/Physics/Colliders/CylinderCollider.h"
+
+// GUI
+#include "Gameplay/Components/GUI/RectTransform.h"
+#include "Gameplay/Components/GUI/GuiPanel.h"
+#include "Gameplay/Components/GUI/GuiText.h"
 
 using namespace Gameplay;
 
 class Resources {
 public:
-	static Resources& shared_instance() { static Resources resources; return resources; }
+	static Resources& GetInstance() { static Resources resources; return resources; }
 	
 #pragma region Unused/Unimplemented Method for Searching Assets
 	
@@ -64,6 +108,38 @@ public:
 	
 	void Initialize()
 	{
+		// Initialize ResourceManager
+		ResourceManager::Init();
+
+		// Register all our resource types so we can load them from manifest files
+		ResourceManager::RegisterType<Texture2D>();
+		ResourceManager::RegisterType<TextureCube>();
+		ResourceManager::RegisterType<Shader>();
+		ResourceManager::RegisterType<Material>();
+		ResourceManager::RegisterType<MeshResource>();
+
+		// Register all of our component types so we can load them from files
+		ComponentManager::RegisterType<Camera>();
+		ComponentManager::RegisterType<RenderComponent>();
+		ComponentManager::RegisterType<Physics::RigidBody>();
+		ComponentManager::RegisterType<Physics::TriggerVolume>();
+		ComponentManager::RegisterType<RotatingBehaviour>();
+		ComponentManager::RegisterType<JumpBehaviour>();
+		ComponentManager::RegisterType<MaterialSwapBehaviour>();
+		ComponentManager::RegisterType<TriggerVolumeEnterBehaviour>();
+		ComponentManager::RegisterType<SimpleCameraControl>();
+		ComponentManager::RegisterType<HealthComponent>();
+		ComponentManager::RegisterType<InteractableComponent>();
+		ComponentManager::RegisterType<AnimatorComponent>();
+		ComponentManager::RegisterType<Enemy>();
+		ComponentManager::RegisterType<SpikeTrapBehavior>();
+		ComponentManager::RegisterType<MovingPlatformBehavior>();
+		ComponentManager::RegisterType<TurretBehavior>();
+		ComponentManager::RegisterType<RectTransform>();
+		ComponentManager::RegisterType<GuiPanel>();
+		ComponentManager::RegisterType<GuiText>();
+
+
 		// SHADERS
 		//////////////////////////////////////
 		{
@@ -541,9 +617,9 @@ public:
 
 	static Shader::Sptr GetShader(std::string name) {
 		std::map<std::string, Shader::Sptr>::iterator it;
-		it = shared_instance().shaders.find(name);
+		it = GetInstance().shaders.find(name);
 
-		if (it != shared_instance().shaders.end())
+		if (it != GetInstance().shaders.end())
 		{
 			return it->second;
 		}
@@ -556,9 +632,9 @@ public:
 	static MeshResource::Sptr GetMesh(std::string name)
 	{
 		std::map<std::string, MeshResource::Sptr>::iterator it;
-		it = shared_instance().meshes.find(name);
+		it = GetInstance().meshes.find(name);
 
-		if (it != shared_instance().meshes.end())
+		if (it != GetInstance().meshes.end())
 		{
 			return it->second;
 		}
@@ -572,9 +648,9 @@ public:
 	static Texture2D::Sptr GetTexture(std::string name)
 	{
 		std::map<std::string, Texture2D::Sptr>::iterator it;
-		it = shared_instance().textures.find(name);
+		it = GetInstance().textures.find(name);
 
-		if (it != shared_instance().textures.end())
+		if (it != GetInstance().textures.end())
 		{
 			return it->second;
 		}
@@ -588,9 +664,9 @@ public:
 	static Material::Sptr GetMaterial(std::string name)
 	{
 		std::map<std::string, Material::Sptr>::iterator it;
-		it = shared_instance().materials.find(name);
+		it = GetInstance().materials.find(name);
 
-		if (it != shared_instance().materials.end())
+		if (it != GetInstance().materials.end())
 		{
 			return it->second;
 		}
@@ -604,9 +680,9 @@ public:
 	static std::vector<MeshResource::Sptr> GetAnimation(std::string name)
 	{
 		std::map<std::string, std::vector<MeshResource::Sptr>>::iterator it;
-		it = shared_instance().animations.find(name);
+		it = GetInstance().animations.find(name);
 
-		if (it != shared_instance().animations.end())
+		if (it != GetInstance().animations.end())
 		{
 			return it->second;
 		}
