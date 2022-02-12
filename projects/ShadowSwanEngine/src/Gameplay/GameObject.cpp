@@ -194,6 +194,9 @@ namespace Gameplay {
 	}
 
 	void GameObject::Update(float dt) {
+		
+		if (!IsActive) return;
+
 		for (auto& component : _components) {
 			if (component->IsEnabled) {
 				component->Update(dt);
@@ -305,6 +308,9 @@ namespace Gameplay {
 				Name = nameBuff;
 			}
 			ImGui::SameLine();
+			if (ImGuiHelper::WarningButton(BoolToString(IsActive))) {
+				SetActive(!IsActive);
+			}
 			if (ImGuiHelper::WarningButton("Delete")) {
 				ImGui::OpenPopup("Delete GameObject");
 			}

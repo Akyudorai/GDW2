@@ -2,6 +2,7 @@
 
 #include "Gameplay/Scene.h"
 #include "../UI/GameInterfaceManager.h"
+#include "Gameplay/RoomLoader.h"
 
 namespace Gameplay
 {
@@ -25,8 +26,10 @@ namespace Gameplay
 		
 	public:
 		static GameInterfaceManager GameInterface;
+		static RoomLoader roomLoader;
 
 	protected:
+		
 		static Scene::Sptr currentScene;
 		static GLFWwindow* windowRef;
 		

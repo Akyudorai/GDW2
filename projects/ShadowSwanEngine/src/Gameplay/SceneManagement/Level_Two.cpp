@@ -4,6 +4,7 @@
 // Gameplay
 #include "Gameplay/MeshResource.h"
 #include "Gameplay/GameManager.h"
+#include "Gameplay/RoomData.h"
 
 // Components
 #include "Gameplay/Components/RenderComponent.h"
@@ -56,7 +57,12 @@ Scene::Sptr Level_Two::Load(GLFWwindow* window)
 		Camera::Sptr cam = camera->Add<Camera>();
 		cam->SetFovDegrees(60.0f);
 		SceneManager::GetCurrentScene()->MainCamera = cam;
-	}
+
+		GameManager::GetInstance().cameraManager.Initialize(camera);
+		GameManager::GetInstance().cameraManager.SetCameraMode(CameraMode::FollowRoom);		
+	}	
+
+	
 
 	GameObject::Sptr body = SceneManager::GetCurrentScene()->CreateGameObject("Body");
 	{
@@ -157,16 +163,207 @@ Scene::Sptr Level_Two::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr wall = SceneManager::GetCurrentScene()->CreateGameObject("Wall");
-	{
-		wall->SetPosition(glm::vec3(0, -31.5f, 0.0f));
-		wall->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-		wall->SetScale(glm::vec3(1.0f, 1.0f, 3.35f));
+#pragma region Room_1
 
-		RenderComponent::Sptr renderer = wall->Add<RenderComponent>();
+	RoomData room1_data;
+	room1_data.RoomName = "Room 1";
+	room1_data.cameraPos = glm::vec3(10, -10, 0);
+
+	GameObject::Sptr r1_wall_1 = SceneManager::GetCurrentScene()->CreateGameObject("R1_Wall_1");
+	{
+		r1_wall_1->SetPosition(glm::vec3(10, 0, 0));
+		r1_wall_1->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r1_wall_1->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r1_wall_1->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Wall 2"));
 		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room1_data.ObjectsInRoom.push_back(r1_wall_1);
 	}
+
+	GameObject::Sptr r1_wall_2 = SceneManager::GetCurrentScene()->CreateGameObject("R1_Wall_2");
+	{
+		r1_wall_2->SetPosition(glm::vec3(10, 0, 0));
+		r1_wall_2->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r1_wall_2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r1_wall_2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room1_data.ObjectsInRoom.push_back(r1_wall_2);
+	}
+
+	GameObject::Sptr r1_wall_3 = SceneManager::GetCurrentScene()->CreateGameObject("R1_Wall_3");
+	{
+		r1_wall_3->SetPosition(glm::vec3(10, 0, 0));
+		r1_wall_3->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r1_wall_3->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r1_wall_3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room1_data.ObjectsInRoom.push_back(r1_wall_3);
+	}
+
+	GameObject::Sptr r1_wall_4 = SceneManager::GetCurrentScene()->CreateGameObject("R1_Wall_4");
+	{
+		r1_wall_4->SetPosition(glm::vec3(10, 0, 0));
+		r1_wall_4->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r1_wall_4->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r1_wall_4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room1_data.ObjectsInRoom.push_back(r1_wall_4);
+	}
+
+	GameObject::Sptr r1_wall_5 = SceneManager::GetCurrentScene()->CreateGameObject("R1_Wall_5");
+	{
+		r1_wall_5->SetPosition(glm::vec3(10, 0, 0));
+		r1_wall_5->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r1_wall_5->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r1_wall_5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room1_data.ObjectsInRoom.push_back(r1_wall_5);
+	}
+
+	GameObject::Sptr r1_trigger_r2 = SceneManager::GetCurrentScene()->CreateGameObject("R1_Trigger_R2");
+	{
+		// Transform
+		r1_trigger_r2->SetPosition(glm::vec3(10, 0, 0));
+		r1_trigger_r2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+		r1_trigger_r2->SetScale(glm::vec3(1.0f, 0.5f, 1.0f));
+
+		// Trigger Volume
+		TriggerVolume::Sptr volume = r1_trigger_r2->Add<TriggerVolume>();
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+		collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+		volume->AddCollider(collider);
+		volume->SetCollisionGroup(PHYSICAL_GROUP);
+		volume->SetCollisionMask(PHYSICAL_MASK);
+
+		// Trigger Event
+		TriggerVolumeEnterBehaviour::Sptr trigger = r1_trigger_r2->Add<TriggerVolumeEnterBehaviour>();
+		trigger->onTriggerEnterEvent = [] {
+			SceneManager::roomLoader.LoadRoom("Room 2");
+			LOG_WARN("LOADING ROOM 2");
+		};
+
+		room1_data.ObjectsInRoom.push_back(r1_trigger_r2);
+	}
+
+	SceneManager::roomLoader.Add("Room 1", room1_data);
+
+#pragma endregion
+
+#pragma region Room_2
+
+	RoomData room2_data;
+	room2_data.RoomName = "Room 2";
+	room2_data.cameraPos = glm::vec3(-10, -10, 0);
+
+	GameObject::Sptr r2_wall_1 = SceneManager::GetCurrentScene()->CreateGameObject("R2_Wall_1");
+	{
+		r2_wall_1->SetPosition(glm::vec3(-10, 0, 0));
+		r2_wall_1->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r2_wall_1->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r2_wall_1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room2_data.ObjectsInRoom.push_back(r2_wall_1);
+	}
+
+	GameObject::Sptr r2_wall_2 = SceneManager::GetCurrentScene()->CreateGameObject("R2_Wall_2");
+	{
+		r2_wall_2->SetPosition(glm::vec3(-10, 0, 0));
+		r2_wall_2->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r2_wall_2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r2_wall_2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room2_data.ObjectsInRoom.push_back(r2_wall_2);
+	}
+
+	GameObject::Sptr r2_wall_3 = SceneManager::GetCurrentScene()->CreateGameObject("R2_Wall_3");
+	{
+		r2_wall_3->SetPosition(glm::vec3(-10, 0, 0));
+		r2_wall_3->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r2_wall_3->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r2_wall_3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room2_data.ObjectsInRoom.push_back(r2_wall_3);
+	}
+
+	GameObject::Sptr r2_wall_4 = SceneManager::GetCurrentScene()->CreateGameObject("R2_Wall_4");
+	{
+		r2_wall_4->SetPosition(glm::vec3(-10, 0, 0));
+		r2_wall_4->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r2_wall_4->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r2_wall_4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room2_data.ObjectsInRoom.push_back(r2_wall_4);
+	}
+
+	GameObject::Sptr r2_wall_5 = SceneManager::GetCurrentScene()->CreateGameObject("R2_Wall_5");
+	{
+		r2_wall_5->SetPosition(glm::vec3(-10, 0, 0));
+		r2_wall_5->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+		r2_wall_5->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = r2_wall_5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall 2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall 2"));
+
+		room2_data.ObjectsInRoom.push_back(r2_wall_5);
+	}
+
+	GameObject::Sptr r2_trigger_r1 = SceneManager::GetCurrentScene()->CreateGameObject("R2_Trigger_R1");
+	{
+		// Transform
+		r2_trigger_r1->SetPosition(glm::vec3(-10, 0, 0));
+		r2_trigger_r1->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+		r2_trigger_r1->SetScale(glm::vec3(1.0f, 0.5f, 1.0f));
+
+		// Trigger Volume
+		TriggerVolume::Sptr volume = r2_trigger_r1->Add<TriggerVolume>();
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+		collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+		volume->AddCollider(collider);
+		volume->SetCollisionGroup(PHYSICAL_GROUP);
+		volume->SetCollisionMask(PHYSICAL_MASK);
+
+		// Trigger Event
+		TriggerVolumeEnterBehaviour::Sptr trigger = r2_trigger_r1->Add<TriggerVolumeEnterBehaviour>();
+		trigger->onTriggerEnterEvent = [] {
+			SceneManager::roomLoader.LoadRoom("Room 1");	
+			LOG_WARN("LOADING ROOM 1");
+		};
+
+		room2_data.ObjectsInRoom.push_back(r2_trigger_r1);
+	}
+
+	SceneManager::roomLoader.Add("Room 2", room2_data);
+
+#pragma endregion
 
 	/////////////////////////////////////////////////////////
 

@@ -176,7 +176,7 @@ namespace Gameplay {
 			// If the game is paused, we want to stop the update calls for everything else so nothing happens while we're paused.  It all gets resumed after unpausing.
 			if (IsPaused) return;
 
-			for (auto& obj : _objects) {
+			for (auto& obj : _objects) {				
 				obj->Update(dt);
 			}
 		}

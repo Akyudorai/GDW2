@@ -168,6 +168,9 @@ void Window::Loop()
 	// Initialize our Resources
 	Resources::GetInstance().Initialize();
 
+	// Initialize GameManager
+	GameManager::GetInstance().Initialize();
+
 	// Initialize Scene Manager
 	SceneManager::Initialize(glfwWindow);
 	SceneManager::LoadScene(SceneManager::Scenes::LevelTwo, true);
@@ -175,7 +178,6 @@ void Window::Loop()
 
 	// Initialize Input Manager
 	InputHandler::Initialize();
-	
 
 	// Initialize Editor
 	Editor editor = Editor();

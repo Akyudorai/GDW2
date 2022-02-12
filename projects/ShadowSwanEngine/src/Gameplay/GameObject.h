@@ -129,6 +129,18 @@ namespace Gameplay {
 
 		/// CODY :: I created this so we can toggle certain game objects on and off as needed.
 		bool IsActive = true;
+		void SetActive(bool state)
+		{
+			IsActive = state;
+			for (auto& component : _components) {
+				component->IsEnabled = state;
+			}
+		}
+
+		inline const char* const BoolToString(bool b)
+		{
+			return b ? "true" : "false";
+		}
 
 		/// <summary>
 		/// Rotates this object to look at the given point in world coordinates

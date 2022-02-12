@@ -143,6 +143,14 @@ void Editor::DrawNewGuiEditor(float deltaTime)
 				ImGui::EndMenu();
 			}
 
+			if (ImGui::BeginMenu("Debug"))
+			{
+				if (ImGui::MenuItem("Default")) { SceneManager::GetCurrentScene()->SetPhysicsDebugDrawMode(BulletDebugMode::None); }
+				if (ImGui::MenuItem("Wireframe")) { SceneManager::GetCurrentScene()->SetPhysicsDebugDrawMode(BulletDebugMode::DrawWireframe); }
+				if (ImGui::MenuItem("AABB")) { SceneManager::GetCurrentScene()->SetPhysicsDebugDrawMode(BulletDebugMode::DrawAabb); }
+				ImGui::EndMenu();
+			}		
+
 			if (ImGui::BeginMenu("Window"))
 			{
 				ImGui::PushStyleColor(ImGuiCol_Text, IM_COL32(125, 125, 125, 255));

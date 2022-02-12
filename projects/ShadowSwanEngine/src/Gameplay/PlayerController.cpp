@@ -12,6 +12,7 @@
 
 #include "InputManagement/InputHandler.h"
 #include "SceneManagement/SceneManager.h"
+#include "GameManager.h"
 
 
 PlayerController::PlayerController() :
@@ -83,7 +84,7 @@ void PlayerController::Update(float deltaTime)
 	if (Gameplay::Scene::IsPaused) return;
 
 	HandleInput(deltaTime);
-	HandleCamera(deltaTime);	
+	//HandleCamera(deltaTime);	
 
 	// Change the Health Text on screen if we have a reference to it
 	if (SceneManager::GameInterface.m_bodyHealthDisplay != nullptr && m_body != nullptr)
@@ -229,14 +230,10 @@ void PlayerController::HandleInput(float deltaTime)
 
 void PlayerController::HandleCamera(float deltaTime)
 {
-	if (cameraLerpT < 1.0f)
-		cameraLerpT += deltaTime * 0.1f;
-	else if (cameraLerpT > 1.0f)
-		cameraLerpT = 1.0f;
-
-	m_camera->SetPosition(Lerp(m_camera->GetPosition(), ((isShadow) ? m_shadow->GetPosition() : m_body->GetPosition()) + cameraOffset, cameraLerpT));	
-	m_camera->SetRotation(cameraRotation);
-
-	m_light->Position = Lerp(m_light->Position, ((isShadow) ? m_shadow->GetPosition() : m_body->GetPosition()) + lightOffset, cameraLerpT);
-	m_camera->GetScene()->SetupShaderAndLights();
+	if (GameManager::GetInstance().cameraManager.GetCameraMode() == CameraMode::FollowTarget)
+	{
+		m_camera->SetPosition(Lerp(m_camera->GetPosition(), ((isShadow) ? m_shadow->GetPosition() : m_body->GetPosition()) + cameraOffset, cameraLerpT));
+		m_light->Position = Lerp(m_light->Position, ((isShadow) ? m_shadow->GetPosition() : m_body->GetPosition()) + lightOffset, cameraLerpT);
+		m_camera->GetScene()->SetupShaderAndLights();
+	}
 }

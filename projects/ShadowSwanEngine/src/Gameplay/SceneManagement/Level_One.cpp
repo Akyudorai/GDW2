@@ -69,6 +69,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		Camera::Sptr cam = camera->Add<Camera>();
 		cam->SetFovDegrees(60.0f);
 		SceneManager::GetCurrentScene()->MainCamera = cam;
+		GameManager::GetInstance().cameraManager.SetCameraMode(CameraMode::FollowRoom);
 	}
 
 	GameObject::Sptr body = SceneManager::GetCurrentScene()->CreateGameObject("Body");

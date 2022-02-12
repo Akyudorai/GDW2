@@ -14,11 +14,14 @@ namespace Gameplay
 	Scene::Sptr SceneManager::currentScene = nullptr;
 	GLFWwindow* SceneManager::windowRef = nullptr;
 	GameInterfaceManager SceneManager::GameInterface = GameInterfaceManager();
+	RoomLoader SceneManager::roomLoader = RoomLoader();
 
 	void SceneManager::Initialize(GLFWwindow* window)
 	{
 		windowRef = window;
 		GameInterface = GameInterfaceManager();
+		
+		roomLoader = RoomLoader();		
 	}
 
 	void SceneManager::LoadScene(Scenes sceneIndex, bool playOnLoad)
@@ -57,6 +60,8 @@ namespace Gameplay
 				Main_Menu::Load(windowRef);
 				playOnLoad = Main_Menu::PlayOnLoad;
 		}
+
+		roomLoader.Initialize();
 
 		currentScene->IsPlaying = true;
 		currentScene->IsPaused = !playOnLoad;
