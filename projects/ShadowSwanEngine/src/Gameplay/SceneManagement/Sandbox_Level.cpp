@@ -1050,7 +1050,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 	GameObject::Sptr spike_trap = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
 	{
-		spike_trap->SetPosition(glm::vec3(-6.0f, 25.0f, 0.0f));
+		spike_trap->SetPosition(glm::vec3(-6.0f, 25.0f, 0.4f));
 		spike_trap->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 		spike_trap->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1061,7 +1061,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = spike_trap->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> frames;
-		for (int i = 0; i < 3; ++i)
+		for (int i = 0; i < 5; ++i)
 		{
 			std::string file;
 			file.append("models/spikedTrap/SpikedTrap");
@@ -1398,7 +1398,8 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	GameObject::Sptr graveStone = SceneManager::GetCurrentScene()->CreateGameObject("Grave Stone");
 	{
 		graveStone->SetPosition(glm::vec3(-12.43f, 11.08f, 0.33f));
-		graveStone->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+		graveStone->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+		graveStone->SetScale(glm::vec3(0.35f, 0.35f, 0.35f));
 
 		RenderComponent::Sptr renderer = graveStone->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Grave Stone"));

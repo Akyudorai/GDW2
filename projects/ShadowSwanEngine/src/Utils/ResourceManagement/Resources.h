@@ -137,7 +137,7 @@ public:
 			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTexture.png"));
 			textures.emplace("Wall Grate", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
 			textures.emplace("Floor Grate", ResourceManager::CreateAsset<Texture2D>("textures/FloorGrateUVS.png"));
-			textures.emplace("Small Candle", ResourceManager::CreateAsset<Texture2D>("textures/SmallCandleTexture.png"));
+			textures.emplace("Rock Pile", ResourceManager::CreateAsset<Texture2D>("textures/Rock3Textures.png"));
 			textures.emplace("Large Candle", ResourceManager::CreateAsset<Texture2D>("textures/LargeCandleTexture.png"));
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
 			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
@@ -153,6 +153,14 @@ public:
 				stoneWallMat->Set("u_Material.Diffuse", GetTexture("Stone Wall"));
 				stoneWallMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Stone Wall", std::move(stoneWallMat));
+			}
+
+			Material::Sptr rockPileMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				rockPileMat->Name = "Pressure Plate";
+				rockPileMat->Set("u_Material.Diffuse", GetTexture("Rock Pile"));
+				rockPileMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Pressure Plate", std::move(rockPileMat));
 			}
 
 			Material::Sptr pressurePlateMaterial = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
@@ -372,14 +380,6 @@ public:
 				materials.emplace("Floor Grate", std::move(FGrate));
 			}
 
-			Material::Sptr SCandle = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				SCandle->Name = "Small Candle";
-				SCandle->Set("u_Material.Diffuse", GetTexture("Small Candle"));
-				SCandle->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Small Candle", std::move(SCandle));
-			}
-
 			Material::Sptr LCandle = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				LCandle->Name = "Large Candle";
@@ -455,7 +455,6 @@ public:
 			meshes.emplace("Health Orb", ResourceManager::CreateAsset<MeshResource>("HealthOrb.obj"));
 			meshes.emplace("Wall Grate", ResourceManager::CreateAsset<MeshResource>("WallGrate.obj"));
 			meshes.emplace("Floor Grate", ResourceManager::CreateAsset<MeshResource>("FloorGrate.obj"));
-			meshes.emplace("Small Candle", ResourceManager::CreateAsset<MeshResource>("SmallCandle.obj"));
 			meshes.emplace("Large Candle", ResourceManager::CreateAsset<MeshResource>("LargeCandle.obj"));
 			meshes.emplace("Cube", ResourceManager::CreateAsset<MeshResource>("cube.obj"));
 			meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("Bucket.obj"));
@@ -514,7 +513,7 @@ public:
 
 			std::vector<MeshResource::Sptr> SpikeAnimation;
 			{
-				for (int i = 0; i < 3; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
 					file.append("models/spikedTrap/SpikedTrap");
@@ -523,7 +522,7 @@ public:
 					DoorAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 				}
 
-				animations.emplace("Spikes", std::move(DoorAnimation));
+				animations.emplace("Spikes", std::move(SpikeAnimation));
 			}
 		}
 	

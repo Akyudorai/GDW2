@@ -75,6 +75,9 @@
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\MovingPlatformBehavior.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
@@ -84,11 +87,20 @@
     <ClInclude Include="src\Gameplay\Components\SimpleCameraControl.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\SpikeTrapBehavior.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\TurretBehavior.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\Components\UpdatedBoxCollider.h">
       <Filter>Gameplay\Components</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\GameManager.h">
+      <Filter>Gameplay</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\GameObject.h">
       <Filter>Gameplay</Filter>
@@ -264,9 +276,6 @@
     <ClInclude Include="src\Utils\ResourceManagement\Resources.h">
       <Filter>Utils\ResourceManagement</Filter>
     </ClInclude>
-    <ClInclude Include="src\Utils\ResourceManagement\Resourcesbackup.h">
-      <Filter>Utils\ResourceManagement</Filter>
-    </ClInclude>
     <ClInclude Include="src\Utils\StringUtils.h">
       <Filter>Utils</Filter>
     </ClInclude>
@@ -275,18 +284,6 @@
     </ClInclude>
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\GameManager.h">
-      <Filter>Gameplay</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\TurretBehavior.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\MovingPlatformBehavior.h">
-      <Filter>Gameplay\Components</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\SpikeTrapBehavior.h">
-      <Filter>Gameplay\Components</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -323,6 +320,9 @@
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\MovingPlatformBehavior.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
@@ -332,11 +332,20 @@
     <ClCompile Include="src\Gameplay\Components\SimpleCameraControl.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\SpikeTrapBehavior.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\Components\TriggerVolumeEnterBehaviour.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\TurretBehavior.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\UpdatedBoxCollider.cpp">
       <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\GameManager.cpp">
+      <Filter>Gameplay</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\GameObject.cpp">
       <Filter>Gameplay</Filter>
@@ -468,17 +477,5 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Gameplay\GameManager.cpp">
-      <Filter>Gameplay</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\MovingPlatformBehavior.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\TurretBehavior.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\Components\SpikeTrapBehavior.cpp">
-      <Filter>Gameplay\Components</Filter>
-    </ClCompile>
   </ItemGroup>
 </Project>
