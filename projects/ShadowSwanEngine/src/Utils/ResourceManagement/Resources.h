@@ -131,8 +131,6 @@ public:
 			textures.emplace("Relic 3", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet3UVS.png"));
 			textures.emplace("Relic 4", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet4UVS.png"));
 			textures.emplace("Relic 5", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet5UVS.png"));
-			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
-			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
 			textures.emplace("Character Dagger", ResourceManager::CreateAsset<Texture2D>("textures/DaggerTexture.png"));
 			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTexture.png"));
 			textures.emplace("Wall Grate", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
@@ -142,6 +140,38 @@ public:
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
 			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
 			textures.emplace("White", ResourceManager::CreateAsset<Texture2D>("textures/White.png"));
+			textures.emplace("GrassTex", ResourceManager::CreateAsset<Texture2D>("textures/Grass.png"));
+			textures.emplace("StoneTex", ResourceManager::CreateAsset<Texture2D>("textures/Stone.png"));
+			textures.emplace("AbyssTex", ResourceManager::CreateAsset<Texture2D>("textures/Abyss.png"));
+
+			//USER INTERFACE
+			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
+			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
+			textures.emplace("Upper", ResourceManager::CreateAsset<Texture2D>("textures/UpperGraphic.png"));
+			textures.emplace("Lower", ResourceManager::CreateAsset<Texture2D>("textures/LowerGraphic.png"));
+			textures.emplace("Slider", ResourceManager::CreateAsset<Texture2D>("textures/Slider.png"));
+			textures.emplace("SliderBar", ResourceManager::CreateAsset<Texture2D>("textures/SliderBar.png"));
+			textures.emplace("Selector", ResourceManager::CreateAsset<Texture2D>("textures/Selector.png"));
+			textures.emplace("New", ResourceManager::CreateAsset<Texture2D>("textures/NewGame.png"));
+			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/Options.png"));
+			textures.emplace("ChooseLevel", ResourceManager::CreateAsset<Texture2D>("textures/ChooseLevel.png"));
+			textures.emplace("Credits", ResourceManager::CreateAsset<Texture2D>("textures/Credits.png"));
+			textures.emplace("Exit", ResourceManager::CreateAsset<Texture2D>("textures/ExitGame.png"));
+			textures.emplace("Return", ResourceManager::CreateAsset<Texture2D>("textures/ReturntoMainMenu.png"));
+			textures.emplace("L1", ResourceManager::CreateAsset<Texture2D>("textures/Level1.png"));
+			textures.emplace("L2", ResourceManager::CreateAsset<Texture2D>("textures/Level2.png"));
+			textures.emplace("L3", ResourceManager::CreateAsset<Texture2D>("textures/Level3.png"));
+			textures.emplace("BL", ResourceManager::CreateAsset<Texture2D>("textures/BossLevel.png"));
+			textures.emplace("New", ResourceManager::CreateAsset<Texture2D>("textures/Brightness.png"));
+			textures.emplace("Volume", ResourceManager::CreateAsset<Texture2D>("textures/Volume.png"));
+			textures.emplace("U.I", ResourceManager::CreateAsset<Texture2D>("textures/U.ISize.png"));
+			textures.emplace("CP", ResourceManager::CreateAsset<Texture2D>("textures/CreditsPage.png"));
+			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/GameTitleIntro.png"));
+			textures.emplace("LS", ResourceManager::CreateAsset<Texture2D>("textures/LogoScreen.png"));
+			textures.emplace("Lose", ResourceManager::CreateAsset<Texture2D>("textures/LoseScreen.png"));
+			textures.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/CharacterHealth.png"));
+			textures.emplace("ShadowH", ResourceManager::CreateAsset<Texture2D>("textures/AntiformHealth.png"));
+
 		}
 		
 		// MATERIALS

@@ -1499,24 +1499,23 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	//				   USER INTERFACE - Lose Screen
 	/////////////////////////////////////////////////////////
 
-	GameObject::Sptr losePanel = SceneManager::GetCurrentScene()->CreateGameObject("Lose Panel UI");
+	GameObject::Sptr loseCanvas = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
 	{
-		RectTransform::Sptr transform = losePanel->Add<RectTransform>();
+		RectTransform::Sptr transform = loseCanvas->Add<RectTransform>();
 		transform->SetMin({ 16, 16 });
 		transform->SetMax({ 900, 900 });
 		transform->SetPosition({ 400, 400 });
 
-		GuiPanel::Sptr backgroundPanel = losePanel->Add<GuiPanel>();
-		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 0.75f));
+		GuiPanel::Sptr backgroundPanel = loseCanvas->Add<GuiPanel>();
+		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
 
 		GameObject::Sptr menuTitle = UIHelper::CreateText("You Died!");
 		menuTitle->Get<GuiText>()->SetTextScale(2);
 		menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
-		losePanel->AddChild(menuTitle);
+		loseCanvas->AddChild(menuTitle);
 
-		losePanel->IsActive = false;
-		SceneManager::GameInterface.SetLosePanel(*losePanel);
-		//SceneManager::GetCurrentScene()->PC.SetLoseCanvas(*loseCanvas);
+		loseCanvas->IsActive = false;
+		SceneManager::GameInterface.SetLosePanel(*loseCanvas);
 	}
 
 	/////////////////////////////////////////////////////////
