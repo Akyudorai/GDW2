@@ -105,7 +105,6 @@ public:
 		//////////////////////////////////////
 		{
 			textures.emplace("Stone Wall", ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png"));
-			textures.emplace("Stone Slab", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabUVs.png"));
 			textures.emplace("Stone Slab 2", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabsTexture.png"));
 			textures.emplace("Dark Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTreeUVS.png"));
 			textures.emplace("Light Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/LightTreeTextureUVS.png"));
@@ -131,17 +130,47 @@ public:
 			textures.emplace("Relic 3", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet3UVS.png"));
 			textures.emplace("Relic 4", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet4UVS.png"));
 			textures.emplace("Relic 5", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet5UVS.png"));
-			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
-			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
 			textures.emplace("Character Dagger", ResourceManager::CreateAsset<Texture2D>("textures/DaggerTexture.png"));
 			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTexture.png"));
 			textures.emplace("Wall Grate", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
 			textures.emplace("Floor Grate", ResourceManager::CreateAsset<Texture2D>("textures/FloorGrateUVS.png"));
-			textures.emplace("Small Candle", ResourceManager::CreateAsset<Texture2D>("textures/SmallCandleTexture.png"));
+			textures.emplace("Rock Pile", ResourceManager::CreateAsset<Texture2D>("textures/Rock3Textures.png"));
 			textures.emplace("Large Candle", ResourceManager::CreateAsset<Texture2D>("textures/LargeCandleTexture.png"));
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
 			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
 			textures.emplace("White", ResourceManager::CreateAsset<Texture2D>("textures/White.png"));
+			textures.emplace("GrassTex", ResourceManager::CreateAsset<Texture2D>("textures/Grass.png"));
+			textures.emplace("StoneTex", ResourceManager::CreateAsset<Texture2D>("textures/Stone.png"));
+			textures.emplace("AbyssTex", ResourceManager::CreateAsset<Texture2D>("textures/Abyss.png"));
+
+			//USER INTERFACE
+			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
+			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
+			textures.emplace("Upper", ResourceManager::CreateAsset<Texture2D>("textures/UpperGraphic.png"));
+			textures.emplace("Lower", ResourceManager::CreateAsset<Texture2D>("textures/LowerGraphic.png"));
+			textures.emplace("Slider", ResourceManager::CreateAsset<Texture2D>("textures/Slider.png"));
+			textures.emplace("SliderBar", ResourceManager::CreateAsset<Texture2D>("textures/SliderBar.png"));
+			textures.emplace("Selector", ResourceManager::CreateAsset<Texture2D>("textures/Selector.png"));
+			textures.emplace("New", ResourceManager::CreateAsset<Texture2D>("textures/NewGame.png"));
+			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/Options.png"));
+			textures.emplace("ChooseLevel", ResourceManager::CreateAsset<Texture2D>("textures/ChooseLevel.png"));
+			textures.emplace("Credits", ResourceManager::CreateAsset<Texture2D>("textures/Credits.png"));
+			textures.emplace("Exit", ResourceManager::CreateAsset<Texture2D>("textures/ExitGame.png"));
+			textures.emplace("Return", ResourceManager::CreateAsset<Texture2D>("textures/ReturntoMainMenu.png"));
+			textures.emplace("L1", ResourceManager::CreateAsset<Texture2D>("textures/Level1.png"));
+			textures.emplace("L2", ResourceManager::CreateAsset<Texture2D>("textures/Level2.png"));
+			textures.emplace("L3", ResourceManager::CreateAsset<Texture2D>("textures/Level3.png"));
+			textures.emplace("BL", ResourceManager::CreateAsset<Texture2D>("textures/BossLevel.png"));
+			textures.emplace("New", ResourceManager::CreateAsset<Texture2D>("textures/Brightness.png"));
+			textures.emplace("Volume", ResourceManager::CreateAsset<Texture2D>("textures/Volume.png"));
+			textures.emplace("U.I", ResourceManager::CreateAsset<Texture2D>("textures/U.ISize.png"));
+			textures.emplace("CP", ResourceManager::CreateAsset<Texture2D>("textures/CreditsPage.png"));
+			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/GameTitleIntro.png"));
+			textures.emplace("LS", ResourceManager::CreateAsset<Texture2D>("textures/LogoScreen.png"));
+			textures.emplace("Lose", ResourceManager::CreateAsset<Texture2D>("textures/LoseScreen.png"));
+			textures.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/CharacterHealth.png"));
+			textures.emplace("ShadowH", ResourceManager::CreateAsset<Texture2D>("textures/AntiformHealth.png"));
+
 		}
 		
 		// MATERIALS
@@ -153,6 +182,14 @@ public:
 				stoneWallMat->Set("u_Material.Diffuse", GetTexture("Stone Wall"));
 				stoneWallMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Stone Wall", std::move(stoneWallMat));
+			}
+
+			Material::Sptr rockPileMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				rockPileMat->Name = "Pressure Plate";
+				rockPileMat->Set("u_Material.Diffuse", GetTexture("Rock Pile"));
+				rockPileMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Pressure Plate", std::move(rockPileMat));
 			}
 
 			Material::Sptr pressurePlateMaterial = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
@@ -372,14 +409,6 @@ public:
 				materials.emplace("Floor Grate", std::move(FGrate));
 			}
 
-			Material::Sptr SCandle = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				SCandle->Name = "Small Candle";
-				SCandle->Set("u_Material.Diffuse", GetTexture("Small Candle"));
-				SCandle->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Small Candle", std::move(SCandle));
-			}
-
 			Material::Sptr LCandle = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				LCandle->Name = "Large Candle";
@@ -434,7 +463,6 @@ public:
 			meshes.emplace("Stone Wall", ResourceManager::CreateAsset<MeshResource>("StoneWall.obj"));
 			meshes.emplace("Turret Projectile", ResourceManager::CreateAsset<MeshResource>("TurretProjectile.obj"));
 			meshes.emplace("Standing Torch", ResourceManager::CreateAsset<MeshResource>("StandingTorch.obj"));
-			meshes.emplace("Stone Slab", ResourceManager::CreateAsset<MeshResource>("stoneslabs.obj"));
 			meshes.emplace("Enemy", ResourceManager::CreateAsset<MeshResource>("Enemy.obj"));
 			meshes.emplace("Circle Cage", ResourceManager::CreateAsset<MeshResource>("CircleCage.obj"));
 			meshes.emplace("Box Cage", ResourceManager::CreateAsset<MeshResource>("BoxCage.obj"));
@@ -455,7 +483,6 @@ public:
 			meshes.emplace("Health Orb", ResourceManager::CreateAsset<MeshResource>("HealthOrb.obj"));
 			meshes.emplace("Wall Grate", ResourceManager::CreateAsset<MeshResource>("WallGrate.obj"));
 			meshes.emplace("Floor Grate", ResourceManager::CreateAsset<MeshResource>("FloorGrate.obj"));
-			meshes.emplace("Small Candle", ResourceManager::CreateAsset<MeshResource>("SmallCandle.obj"));
 			meshes.emplace("Large Candle", ResourceManager::CreateAsset<MeshResource>("LargeCandle.obj"));
 			meshes.emplace("Cube", ResourceManager::CreateAsset<MeshResource>("cube.obj"));
 			meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("Bucket.obj"));
@@ -514,7 +541,7 @@ public:
 
 			std::vector<MeshResource::Sptr> SpikeAnimation;
 			{
-				for (int i = 0; i < 3; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
 					file.append("models/spikedTrap/SpikedTrap");
@@ -523,7 +550,7 @@ public:
 					DoorAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 				}
 
-				animations.emplace("Spikes", std::move(DoorAnimation));
+				animations.emplace("Spikes", std::move(SpikeAnimation));
 			}
 		}
 	

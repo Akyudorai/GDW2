@@ -142,7 +142,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionGroup(SHADOW_GROUP);
 		physics->SetCollisionMask(SHADOW_MASK);
 
-
 		shadow->Add<HealthComponent>(100.0f);
 	}
 
@@ -1576,7 +1575,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spike_trap_1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_1->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
-				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_1->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
 				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));

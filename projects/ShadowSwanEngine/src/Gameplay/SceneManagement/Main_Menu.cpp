@@ -132,14 +132,14 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	//					 USER INTERFACE
 	/////////////////////////////////////////////////////////
 
-	GameObject::Sptr pauseMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
+	GameObject::Sptr mainMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
 	{
-		RectTransform::Sptr transform = pauseMenu->Add<RectTransform>();
+		RectTransform::Sptr transform = mainMenu->Add<RectTransform>();
 		transform->SetMin({ 16, 16 });
 		transform->SetMax({ 350, 500 });
 		transform->SetPosition({ 550, 400 });
 
-		GuiPanel::Sptr backgroundPanel = pauseMenu->Add<GuiPanel>();
+		GuiPanel::Sptr backgroundPanel = mainMenu->Add<GuiPanel>();
 		backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.0f));
 
 
@@ -147,38 +147,38 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 		upperGraphic->Get<RectTransform>()->SetPosition({ 170, 90 });
 		upperGraphic->Get<RectTransform>()->SetSize({ 80, 30 });
 		upperGraphic->Get<GuiPanel>()->SetBorderRadius(1);
-		pauseMenu->AddChild(upperGraphic);
+		mainMenu->AddChild(upperGraphic);
 
 		GameObject::Sptr menuTitle = UIHelper::CreateText("Into The Abyss");
 		menuTitle->Get<GuiText>()->SetTextScale(2);
 		menuTitle->Get<RectTransform>()->SetPosition({ 250, 75 });	
-		pauseMenu->AddChild(menuTitle);
+		mainMenu->AddChild(menuTitle);
 
 		GameObject::Sptr button1 = UIHelper::CreateButton("1. New Game");
 		button1->Get<RectTransform>()->SetPosition({ 167.5f, 155 });
 		button1->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(button1);
+		mainMenu->AddChild(button1);
 
 		GameObject::Sptr button2 = UIHelper::CreateButton("2. Choose Level");
 		button2->Get<RectTransform>()->SetPosition({ 167.5f, 215 });
 		button2->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(button2);
+		mainMenu->AddChild(button2);
 
 		GameObject::Sptr button3 = UIHelper::CreateButton("3. Options");
 		button3->Get<RectTransform>()->SetPosition({ 167.5f, 275 });
 		button3->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(button3);
+		mainMenu->AddChild(button3);
 
 		GameObject::Sptr button4 = UIHelper::CreateButton("4. Quit to Desktop");
 		button4->Get<RectTransform>()->SetPosition({ 167.5f, 335 });
 		button4->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(button4);
+		mainMenu->AddChild(button4);
 
 		GameObject::Sptr lowerGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss Reverse"), "Lower Graphic");
 		lowerGraphic->Get<RectTransform>()->SetPosition({ 160, 400 });
 		lowerGraphic->Get<RectTransform>()->SetSize({ 40, 17.5f });
 		lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(lowerGraphic);
+		mainMenu->AddChild(lowerGraphic);
 	}
 
 	/////////////////////////////////////////////////////////
