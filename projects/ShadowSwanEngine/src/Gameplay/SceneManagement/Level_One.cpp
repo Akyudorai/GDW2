@@ -142,7 +142,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionGroup(SHADOW_GROUP);
 		physics->SetCollisionMask(SHADOW_MASK);
 
-
 		shadow->Add<HealthComponent>(100.0f);
 	}
 

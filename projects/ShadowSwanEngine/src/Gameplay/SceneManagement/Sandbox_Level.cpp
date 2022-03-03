@@ -1054,7 +1054,6 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		spike_trap->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 		spike_trap->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
-		// Create and attach a renderer for the monkey
 		RenderComponent::Sptr renderer = spike_trap->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Spike Trap"));
 		renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
@@ -1450,6 +1449,12 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		GuiPanel::Sptr canPanel = gameCanvas->Add<GuiPanel>();
 		canPanel->SetColor(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
 
+		GameObject::Sptr healthp = UIHelper::CreateImage(Resources::GetTexture("CharacterH"), "Health");
+		healthp->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });
+		healthp->Get<RectTransform>()->SetSize({ 80, 30 });
+		healthp->Get<GuiPanel>()->SetBorderRadius(0);
+		gameCanvas->AddChild(healthp);
+
 		GameObject::Sptr healthText = UIHelper::CreateText("Body Health: ???", "Body Health Text");
 		healthText->Get<RectTransform>()->SetPosition({ 120, 50 });
 		//SceneManager::GetCurrentScene()->PC.SetBodyHealthUI(*healthText->Get<GuiText>());
@@ -1531,7 +1536,6 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		GuiPanel::Sptr backgroundPanel = pauseMenu->Add<GuiPanel>();
 		backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));
-
 
 		GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss"), "Upper Graphic");
 		upperGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });
