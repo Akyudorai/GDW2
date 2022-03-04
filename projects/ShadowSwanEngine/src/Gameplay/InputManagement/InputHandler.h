@@ -29,6 +29,7 @@ public:
 		shared_instance().key_state.emplace(GLFW_KEY_F4, false);
 		shared_instance().key_state.emplace(GLFW_KEY_F5, false);
 		shared_instance().key_state.emplace(GLFW_KEY_F6, false);
+		shared_instance().key_state.emplace(GLFW_KEY_SPACE, false);
 	}
 
 	static void Update(float deltaTime)

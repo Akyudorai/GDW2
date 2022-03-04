@@ -1295,21 +1295,6 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		physics->AddCollider(collider);
 	}
 
-	GameObject::Sptr rock = SceneManager::GetCurrentScene()->CreateGameObject("Rock");
-	{
-		rock->SetPosition(glm::vec3(32.34f, 5.71f, 0.85f));
-		rock->SetRotation(glm::vec3(-74.f, 0.0f, -90.0f));
-		rock->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
-
-		RenderComponent::Sptr renderer = rock->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Rock"));
-		renderer->SetMaterial(Resources::GetMaterial("Rock"));
-
-		RigidBody::Sptr physics = rock->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		physics->AddCollider(collider);
-	}
-
 	GameObject::Sptr turret = SceneManager::GetCurrentScene()->CreateGameObject("Turret");
 	{
 		turret->SetPosition(glm::vec3(-36.72f, 40.79f, 0.5f));
@@ -1398,7 +1383,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	GameObject::Sptr graveStone = SceneManager::GetCurrentScene()->CreateGameObject("Grave Stone");
 	{
 		graveStone->SetPosition(glm::vec3(-12.43f, 11.08f, 0.33f));
-		graveStone->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+		graveStone->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 
 		RenderComponent::Sptr renderer = graveStone->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Grave Stone"));
