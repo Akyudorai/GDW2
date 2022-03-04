@@ -1050,17 +1050,18 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 	GameObject::Sptr spike_trap = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
 	{
-		spike_trap->SetPosition(glm::vec3(-6.0f, 25.0f, 0.4f));
+		spike_trap->SetPosition(glm::vec3(-6.0f, 25.0f, 0.0f));
 		spike_trap->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 		spike_trap->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
+		// Create and attach a renderer for the monkey
 		RenderComponent::Sptr renderer = spike_trap->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Spike Trap"));
 		renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
 
 		AnimatorComponent::Sptr animator = spike_trap->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> frames;
-		for (int i = 0; i < 5; ++i)
+		for (int i = 0; i < 3; ++i)
 		{
 			std::string file;
 			file.append("models/spikedTrap/SpikedTrap");
@@ -1294,21 +1295,6 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		physics->AddCollider(collider);
 	}
 
-	GameObject::Sptr rock = SceneManager::GetCurrentScene()->CreateGameObject("Rock");
-	{
-		rock->SetPosition(glm::vec3(32.34f, 5.71f, 0.85f));
-		rock->SetRotation(glm::vec3(-74.f, 0.0f, -90.0f));
-		rock->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
-
-		RenderComponent::Sptr renderer = rock->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Rock"));
-		renderer->SetMaterial(Resources::GetMaterial("Rock"));
-
-		RigidBody::Sptr physics = rock->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		physics->AddCollider(collider);
-	}
-
 	GameObject::Sptr turret = SceneManager::GetCurrentScene()->CreateGameObject("Turret");
 	{
 		turret->SetPosition(glm::vec3(-36.72f, 40.79f, 0.5f));
@@ -1398,7 +1384,6 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	{
 		graveStone->SetPosition(glm::vec3(-12.43f, 11.08f, 0.33f));
 		graveStone->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-		graveStone->SetScale(glm::vec3(0.35f, 0.35f, 0.35f));
 
 		RenderComponent::Sptr renderer = graveStone->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Grave Stone"));
@@ -1449,12 +1434,6 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		GuiPanel::Sptr canPanel = gameCanvas->Add<GuiPanel>();
 		canPanel->SetColor(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
 
-		GameObject::Sptr healthp = UIHelper::CreateImage(Resources::GetTexture("CharacterH"), "Health");
-		healthp->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });
-		healthp->Get<RectTransform>()->SetSize({ 80, 30 });
-		healthp->Get<GuiPanel>()->SetBorderRadius(0);
-		gameCanvas->AddChild(healthp);
-
 		GameObject::Sptr healthText = UIHelper::CreateText("Body Health: ???", "Body Health Text");
 		healthText->Get<RectTransform>()->SetPosition({ 120, 50 });
 		//SceneManager::GetCurrentScene()->PC.SetBodyHealthUI(*healthText->Get<GuiText>());
@@ -1504,23 +1483,24 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	//				   USER INTERFACE - Lose Screen
 	/////////////////////////////////////////////////////////
 
-	GameObject::Sptr loseCanvas = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
+	GameObject::Sptr losePanel = SceneManager::GetCurrentScene()->CreateGameObject("Lose Panel UI");
 	{
-		RectTransform::Sptr transform = loseCanvas->Add<RectTransform>();
+		RectTransform::Sptr transform = losePanel->Add<RectTransform>();
 		transform->SetMin({ 16, 16 });
 		transform->SetMax({ 900, 900 });
 		transform->SetPosition({ 400, 400 });
 
-		GuiPanel::Sptr backgroundPanel = loseCanvas->Add<GuiPanel>();
-		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+		GuiPanel::Sptr backgroundPanel = losePanel->Add<GuiPanel>();
+		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 0.75f));
 
 		GameObject::Sptr menuTitle = UIHelper::CreateText("You Died!");
 		menuTitle->Get<GuiText>()->SetTextScale(2);
 		menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
-		loseCanvas->AddChild(menuTitle);
+		losePanel->AddChild(menuTitle);
 
-		loseCanvas->IsActive = false;
-		SceneManager::GameInterface.SetLosePanel(*loseCanvas);
+		losePanel->IsActive = false;
+		SceneManager::GameInterface.SetLosePanel(*losePanel);
+		//SceneManager::GetCurrentScene()->PC.SetLoseCanvas(*loseCanvas);
 	}
 
 	/////////////////////////////////////////////////////////
@@ -1536,6 +1516,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		GuiPanel::Sptr backgroundPanel = pauseMenu->Add<GuiPanel>();
 		backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));
+
 
 		GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss"), "Upper Graphic");
 		upperGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });

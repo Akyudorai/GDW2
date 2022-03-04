@@ -108,24 +108,24 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall = SceneManager::GetCurrentScene()->CreateGameObject("Wall");
 	{
-		wall->SetPosition(glm::vec3(0, 9.5f, 0.0f));
-		wall->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-		wall->SetScale(glm::vec3(1.0f, 1.0f, 0.6f));
+		wall->SetPosition(glm::vec3(-3.05, 9.670f, 0.0f));
+		wall->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+		wall->SetScale(glm::vec3(1.0f, 1.0f, 1.3f));
 
 		RenderComponent::Sptr renderer = wall->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMesh(Resources::GetMesh("Wall2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall2"));
 	}
 
 	GameObject::Sptr wall2 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 2");
 	{
-		wall2->SetPosition(glm::vec3(0-9.5f, 8.0f, 0.0f));
-		wall2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall2->SetScale(glm::vec3(1.0f, 1.0f, 0.6f));
+		wall2->SetPosition(glm::vec3(-6.6f, 5.75f, 0.0f));
+		wall2->SetRotation(glm::vec3(0.0f, 0.0f, 90.0f));
+		wall2->SetScale(glm::vec3(1.0f, 1.0f, 1.3f));
 
 		RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMesh(Resources::GetMesh("Wall2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall2"));
 	}
 
 	/////////////////////////////////////////////////////////
@@ -154,8 +154,9 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 		menuTitle->Get<RectTransform>()->SetPosition({ 250, 75 });	
 		mainMenu->AddChild(menuTitle);
 
-		GameObject::Sptr button1 = UIHelper::CreateButton("1. New Game");
-		button1->Get<RectTransform>()->SetPosition({ 167.5f, 155 });
+		GameObject::Sptr button1 = UIHelper::CreateImage(Resources::GetTexture("New"), "New Game");
+		button1->Get<RectTransform>()->SetPosition({ 160, 155 });
+		button1->Get<RectTransform>()->SetSize({ 80, 30 });
 		button1->Get<GuiPanel>()->SetBorderRadius(0);
 		mainMenu->AddChild(button1);
 

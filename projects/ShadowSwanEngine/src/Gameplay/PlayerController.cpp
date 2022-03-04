@@ -169,10 +169,10 @@ void PlayerController::HandleInput(float deltaTime)
 	if (InputHandler::GetKeyDown(GLFW_KEY_SPACE))
 	{
 		if (!isShadow) {
-			m_body->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_body->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 5.5f));
 		}
 		else {
-			m_shadow->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 10.0f));
+			m_shadow->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 5.5f));
 		}
 	}
 

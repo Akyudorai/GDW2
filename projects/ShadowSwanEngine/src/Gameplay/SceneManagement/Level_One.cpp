@@ -142,6 +142,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionGroup(SHADOW_GROUP);
 		physics->SetCollisionMask(SHADOW_MASK);
 
+
 		shadow->Add<HealthComponent>(100.0f);
 	}
 
@@ -720,45 +721,45 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	GameObject::Sptr wall1 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 1");
 	{
 		wall1->SetPosition(glm::vec3(0, -20.0f, 4.0f));
-		wall1->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall1->SetScale(glm::vec3(1.0f, 1.0f, 1.25f));
+		wall1->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+		wall1->SetScale(glm::vec3(4.720f, 1.0f, 1.5f));
 
 		RenderComponent::Sptr renderer = wall1->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMesh(Resources::GetMesh("Wall2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall2"));
 	}
 
 	GameObject::Sptr wall2 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 2");
 	{
-		wall2->SetPosition(glm::vec3(18.0f, -28.5f, 4.0f));
-		wall2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall2->SetScale(glm::vec3(1.0f, 1.0f, 0.6f));
+		wall2->SetPosition(glm::vec3(17.640f, -28.5f, 4.0f));
+		wall2->SetRotation(glm::vec3(0.0f, 0.0f, -90.0f));
+		wall2->SetScale(glm::vec3(2.45f, 1.0f, 1.5f));
 
 		RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMesh(Resources::GetMesh("Wall2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall_Tex3"));
 	}
 
 	GameObject::Sptr wall3 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 3");
 	{
-		wall3->SetPosition(glm::vec3(9.5f, -31.5f, 4.0f));
-		wall3->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall3->SetScale(glm::vec3(1.0f, 1.0f, 0.5f));
+		wall3->SetPosition(glm::vec3(9.990f, -31.570f, 5.560f));
+		wall3->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+		wall3->SetScale(glm::vec3(2.04f, 1.0f, 1.160f));
 
 		RenderComponent::Sptr renderer = wall3->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMesh(Resources::GetMesh("Wall2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall2"));
 	}
 
 	GameObject::Sptr wall4 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 4");
 	{
-		wall4->SetPosition(glm::vec3(-10.5f, -31.5f, 4.0f));
-		wall4->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall4->SetScale(glm::vec3(1.0f, 1.0f, 0.5f));
+		wall4->SetPosition(glm::vec3(-9.350f, -31.5f, 5.49f));
+		wall4->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
+		wall4->SetScale(glm::vec3(1.52f, 1.0f, 1.16f));
 
 		RenderComponent::Sptr renderer = wall4->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		renderer->SetMesh(Resources::GetMesh("Wall2"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall_Tex4"));
 	}
 
 	GameObject::Sptr wall5 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 5");
@@ -1575,6 +1576,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spike_trap_1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_1->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
+				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_1->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
 				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
@@ -2521,27 +2523,29 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 #pragma endregion
 
 	/////////////////////////////////////////////////////////
-	//				   USER INTERFACE
+	//				   USER INTERFACE - GAME
 	/////////////////////////////////////////////////////////
 
 	GameObject::Sptr gameCanvas = SceneManager::GetCurrentScene()->CreateGameObject("Game Canvas");
 	{
-		RectTransform::Sptr transform = gameCanvas->Add<RectTransform>();
-		transform->SetMin({ 0, 0 });
-		transform->SetMax({ 1000, 1000 });
-		transform->SetPosition({ 500, 500 });
+		GameObject::Sptr healthp = UIHelper::CreateImage(Resources::GetTexture("CharacterH"), "Health");
+		healthp->Get<RectTransform>()->SetPosition({ 170, 70 });
+		healthp->Get<RectTransform>()->SetSize({ 80, 30 });
+		healthp->Get<GuiPanel>()->SetBorderRadius(0);
+		gameCanvas->AddChild(healthp);
 
-		GuiPanel::Sptr canPanel = gameCanvas->Add<GuiPanel>();
-		canPanel->SetColor(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
-
-		GameObject::Sptr healthText = UIHelper::CreateText("Body Health: ???", "Body Health Text");
-		healthText->Get<RectTransform>()->SetPosition({ 120, 50 });
-		//SceneManager::GetCurrentScene()->PC.SetBodyHealthUI(*healthText->Get<GuiText>());
+		GameObject::Sptr healthText = UIHelper::CreateText1("Body Health: ???", "Body Health Text");
+		healthText->Get<RectTransform>()->SetPosition({ 350, 140 });
 		gameCanvas->AddChild(healthText);
 
+		GameObject::Sptr shadowhp = UIHelper::CreateImage(Resources::GetTexture("ShadowH"), "Shadow Health");
+		shadowhp->Get<RectTransform>()->SetPosition({ 170, 150 });
+		shadowhp->Get<RectTransform>()->SetSize({ 80, 30 });
+		shadowhp->Get<GuiPanel>()->SetBorderRadius(0);
+		gameCanvas->AddChild(shadowhp);
+
 		GameObject::Sptr shadowText = UIHelper::CreateText("Shadow Health: ???", "Shadow Health Text");
-		shadowText->Get<RectTransform>()->SetPosition({ 120, 100 });
-		//SceneManager::GetCurrentScene()->PC.SetShadowHealthUI(*shadowText->Get<GuiText>());
+		shadowText->Get<RectTransform>()->SetPosition({ 350, 300 });
 		gameCanvas->AddChild(shadowText);
 
 		GameObject::Sptr timerText = UIHelper::CreateText("Time: 0:00", "Game Timer Text");
@@ -2549,29 +2553,60 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		gameCanvas->AddChild(timerText);
 
 		SceneManager::GameInterface.SetGameUserInterface(*gameCanvas);
-		SceneManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>(), *timerText->Get<GuiText>());	
+		SceneManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>(), *timerText->Get<GuiText>());
 	}
 
-	GameObject::Sptr loseCanvas = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
+	/////////////////////////////////////////////////////////
+	//				   USER INTERFACE - Main Menu
+	/////////////////////////////////////////////////////////
+
+	/*GameObject::Sptr mainMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
+	{
+		RectTransform::Sptr transform = mainMenu->Add<RectTransform>();
+		transform->SetMin({ 16, 16 });
+		transform->SetMax({ 900, 900 });
+		transform->SetPosition({ 400, 400 });
+
+		GuiPanel::Sptr backgroundPanel = mainMenu->Add<GuiPanel>();
+		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
+
+		GameObject::Sptr menuTitle = UIHelper::CreateText("Main Menu");
+		menuTitle->Get<GuiText>()->SetTextScale(2);
+		menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
+		mainMenu->AddChild(menuTitle);
+
+		GameObject::Sptr button1 = UIHelper::CreateButton("Press 'P' to Start Game");
+		button1->Get<RectTransform>()->SetPosition({ 425, 400 });
+		mainMenu->AddChild(button1);
+
+		mainMenu->IsActive = true;
+		SceneManager::GetCurrentScene()->PC.SetMainMenuCanvas(*mainMenu);
+	}*/
+
+	/////////////////////////////////////////////////////////
+	//				   USER INTERFACE - Lose Screen
+	/////////////////////////////////////////////////////////
+
+	GameObject::Sptr loseCanvas = SceneManager::GetCurrentScene()->CreateGameObject("Lose Screen");
 	{
 		RectTransform::Sptr transform = loseCanvas->Add<RectTransform>();
 		transform->SetMin({ 16, 16 });
 		transform->SetMax({ 900, 900 });
 		transform->SetPosition({ 400, 400 });
 
-		GuiPanel::Sptr backgroundPanel = loseCanvas->Add<GuiPanel>();
-		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
-
-		GameObject::Sptr menuTitle = UIHelper::CreateText("You Died!");
-		menuTitle->Get<GuiText>()->SetTextScale(2);
-		menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
-		loseCanvas->AddChild(menuTitle);
+		GameObject::Sptr loseS = UIHelper::CreateImage(Resources::GetTexture("Lose"), "Lose Screen");
+		loseS->Get<RectTransform>()->SetPosition({ 380, 400 });
+		loseS->Get<RectTransform>()->SetSize({ 250, 200 });
+		loseS->Get<GuiPanel>()->SetBorderRadius(0);
+		loseCanvas->AddChild(loseS);
 
 		loseCanvas->IsActive = false;
-		//SceneManager::GetCurrentScene()->PC.SetLoseCanvas(*loseCanvas);
-
 		SceneManager::GameInterface.SetLosePanel(*loseCanvas);
 	}
+
+	/////////////////////////////////////////////////////////
+	//				   Pause Menu
+	/////////////////////////////////////////////////////////
 
 	GameObject::Sptr pauseMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
 	{
@@ -2582,7 +2617,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		GuiPanel::Sptr backgroundPanel = pauseMenu->Add<GuiPanel>();
 		backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));
-
 
 		GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss"), "Upper Graphic");
 		upperGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });
