@@ -2523,6 +2523,296 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 #pragma endregion
 
 	/////////////////////////////////////////////////////////
+	//				   SCENE PROPS - GAME
+	/////////////////////////////////////////////////////////
+
+	GameObject::Sptr goblinShield1 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 1");
+	{
+		goblinShield1->SetPosition(glm::vec3(7.51f, -32.15f, 6.42f));
+		goblinShield1->SetRotation(glm::vec3(52.f, -6.0f, -6.0f));
+		goblinShield1->SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
+
+		RenderComponent::Sptr renderer = goblinShield1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield2 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 2");
+	{
+		goblinShield2->SetPosition(glm::vec3(46.01f, -43.75f, 1.25f));
+		goblinShield2->SetRotation(glm::vec3(-13.f, 1.0f, -48.0f));
+		goblinShield2->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+		RenderComponent::Sptr renderer = goblinShield2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield3 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 3");
+	{
+		goblinShield3->SetPosition(glm::vec3(32.0f, -42.33f, 1.22f));
+		goblinShield3->SetRotation(glm::vec3(0.0f, 1.0f, 45.0f));
+		goblinShield3->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+		RenderComponent::Sptr renderer = goblinShield3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield4 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 4");
+	{
+		goblinShield4->SetPosition(glm::vec3(44.61f, -44.7f, 1.45f));
+		goblinShield4->SetRotation(glm::vec3(-13.f, 1.0f, 131.0f));
+		goblinShield4->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+		RenderComponent::Sptr renderer = goblinShield4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield5 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 5");
+	{
+		goblinShield5->SetPosition(glm::vec3(58.85f, -2.7f, 5.68f));
+		goblinShield5->SetRotation(glm::vec3(0.f, 0.0f, 81.0f));
+		goblinShield5->SetScale(glm::vec3(0.25f, 0.25f, 0.25f));
+
+		RenderComponent::Sptr renderer = goblinShield5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield6 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 6");
+	{
+		goblinShield6->SetPosition(glm::vec3(19.04f, -0.81f, 2.82f));
+		goblinShield6->SetRotation(glm::vec3(-37.f, -41.0f, -134.0f));
+		goblinShield6->SetScale(glm::vec3(0.25f, 0.25f, 0.25f));
+
+		RenderComponent::Sptr renderer = goblinShield6->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield7 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 7");
+	{
+		goblinShield7->SetPosition(glm::vec3(3.51f, -5.88f, 5.63f));
+		goblinShield7->SetRotation(glm::vec3(0.f, 0.0f, -70.0f));
+		goblinShield7->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+		RenderComponent::Sptr renderer = goblinShield7->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield8 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 8");
+	{
+		goblinShield8->SetPosition(glm::vec3(-39.92f, -12.12f, 5.63f));
+		goblinShield8->SetRotation(glm::vec3(0.f, 0.0f, -135.0f));
+		goblinShield8->SetScale(glm::vec3(0.25f, 0.25f, 0.25f));
+
+		RenderComponent::Sptr renderer = goblinShield8->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield9 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 9");
+	{
+		goblinShield9->SetPosition(glm::vec3(-57.87f, 25.28f, 14.f));
+		goblinShield9->SetRotation(glm::vec3(0.f, 0.0f, -69.0f));
+		goblinShield9->SetScale(glm::vec3(0.35f, 0.35f, 0.35f));
+
+		RenderComponent::Sptr renderer = goblinShield9->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinShield10 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 10");
+	{
+		goblinShield10->SetPosition(glm::vec3(-51.02f, 17.12f, 14.f));
+		goblinShield10->SetRotation(glm::vec3(0.f, 0.0f, 143.0f));
+		goblinShield10->SetScale(glm::vec3(0.25f, 0.25f, 0.25f));
+
+		RenderComponent::Sptr renderer = goblinShield10->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Shield"));
+		renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+	}
+
+	GameObject::Sptr goblinStaff1 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 1");
+	{
+		goblinStaff1->SetPosition(glm::vec3(37.48f, -44.88f, 1.0f));
+		goblinStaff1->SetRotation(glm::vec3(-13.f, -87.0f, 56.0f));
+		goblinStaff1->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinStaff2 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 2");
+	{
+		goblinStaff2->SetPosition(glm::vec3(15.27f, -22.7f, 5.98f));
+		goblinStaff2->SetRotation(glm::vec3(-4.f, -90.0f, -45.0f));
+		goblinStaff2->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinStaff3 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 3");
+	{
+		goblinStaff3->SetPosition(glm::vec3(29.88f, -8.08f, 1.89f));
+		goblinStaff3->SetRotation(glm::vec3(0.f, -90.0f, 39.0f));
+		goblinStaff3->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinStaff4 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 4");
+	{
+		goblinStaff4->SetPosition(glm::vec3(-9.82f, -10.3f, 5.4f));
+		goblinStaff4->SetRotation(glm::vec3(-34.f, -87.0f, -86.0f));
+		goblinStaff4->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinStaff5 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 5");
+	{
+		goblinStaff5->SetPosition(glm::vec3(-51.63f, 6.54f, 6.27f));
+		goblinStaff5->SetRotation(glm::vec3(0.f, 40.0f, -9.0f));
+		goblinStaff5->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinStaff6 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 6");
+	{
+		goblinStaff6->SetPosition(glm::vec3(-19.36f, -42.0f, 5.3f));
+		goblinStaff6->SetRotation(glm::vec3(-34.f, 90.0f, 173.0f));
+		goblinStaff6->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff6->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinStaff7 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 7");
+	{
+		goblinStaff7->SetPosition(glm::vec3(-28.39f, 3.f, 16.98f));
+		goblinStaff7->SetRotation(glm::vec3(90.f, -24.0f, 0.0f));
+		goblinStaff7->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff7->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinStaff8 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 8");
+	{
+		goblinStaff8->SetPosition(glm::vec3(-43.81f, 26.83f,16.f));
+		goblinStaff8->SetRotation(glm::vec3(0.f, 90.0f, -81.0f));
+		goblinStaff8->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
+
+		RenderComponent::Sptr renderer = goblinStaff8->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Staff"));
+		renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+	}
+
+	GameObject::Sptr goblinSword1 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 1");
+	{
+		goblinSword1->SetPosition(glm::vec3(24.48f, -45.57f, 1.15f));
+		goblinSword1->SetRotation(glm::vec3(0.0f, 0.0f, -56.0f));
+		goblinSword1->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	GameObject::Sptr goblinSword2 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 2");
+	{
+		goblinSword2->SetPosition(glm::vec3(61.61f, -2.7f, 5.68f));
+		goblinSword2->SetRotation(glm::vec3(0.0f, 0.0f, -167.0f));
+		goblinSword2->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	GameObject::Sptr goblinSword3 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 3");
+	{
+		goblinSword3->SetPosition(glm::vec3(49.53f, -24.34f, 6.93f));
+		goblinSword3->SetRotation(glm::vec3(-45.0f, 0.0f, -180.0f));
+		goblinSword3->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	GameObject::Sptr goblinSword4 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 4");
+	{
+		goblinSword4->SetPosition(glm::vec3(18.31f, -0.22f, 5.61f));
+		goblinSword4->SetRotation(glm::vec3(0.0f, 0.0f, 57.0f));
+		goblinSword4->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	GameObject::Sptr goblinSword5 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 5");
+	{
+		goblinSword5->SetPosition(glm::vec3(-2.f, -6.89f, 6.f));
+		goblinSword5->SetRotation(glm::vec3(0.0f, -180.0f, 121.0f));
+		goblinSword5->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	GameObject::Sptr goblinSword6 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 6");
+	{
+		goblinSword6->SetPosition(glm::vec3(-18.82f, -9.05f, 6.f));
+		goblinSword6->SetRotation(glm::vec3(0.0f, 0.0f, -67.0f));
+		goblinSword6->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword6->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	GameObject::Sptr goblinSword7 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 7");
+	{
+		goblinSword7->SetPosition(glm::vec3(-31.46f, -28.f, 17.18f));
+		goblinSword7->SetRotation(glm::vec3(-124.0f, 0.0f, 90.0f));
+		goblinSword7->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword7->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	GameObject::Sptr goblinSword8 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Sword 8");
+	{
+		goblinSword8->SetPosition(glm::vec3(-26.76f, 22.72f, 15.89f));
+		goblinSword8->SetRotation(glm::vec3(0.0f, 0.0f, 115.0f));
+		goblinSword8->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+		RenderComponent::Sptr renderer = goblinSword8->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Sword"));
+		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+	}
+
+	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - GAME
 	/////////////////////////////////////////////////////////
 

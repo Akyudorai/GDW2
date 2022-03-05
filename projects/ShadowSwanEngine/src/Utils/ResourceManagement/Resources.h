@@ -144,6 +144,7 @@ public:
 			textures.emplace("Wall_Tex4", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex4.png"));
 			textures.emplace("ShieldTex", ResourceManager::CreateAsset<Texture2D>("textures/ShieldTexture.png"));
 			textures.emplace("StaffTex", ResourceManager::CreateAsset<Texture2D>("textures/StaffTexture.png"));
+			textures.emplace("SwordTex", ResourceManager::CreateAsset<Texture2D>("textures/GoblinSwordUV.png"));
 			textures.emplace("RockPileTex", ResourceManager::CreateAsset<Texture2D>("textures/Rock3Textures.png"));
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
 			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
@@ -458,8 +459,29 @@ public:
 					materials.emplace("Wall_Tex4", std::move(Wall_Mat4));
 				}
 
-			
+			Material::Sptr shieldMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				shieldMat->Name = "ShieldTex";
+				shieldMat->Set("u_Material.Diffuse", GetTexture("ShieldTex"));
+				shieldMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("ShieldTex", std::move(shieldMat));
+			}
 
+			Material::Sptr staffMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				staffMat->Name = "StaffTex";
+				staffMat->Set("u_Material.Diffuse", GetTexture("StaffTex"));
+				staffMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("StaffTex", std::move(staffMat));
+			}
+
+			Material::Sptr swordMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				swordMat->Name = "SwordTex";
+				swordMat->Set("u_Material.Diffuse", GetTexture("SwordTex"));
+				swordMat->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("SwordTex", std::move(swordMat));
+			}
 		}
 
 
@@ -506,6 +528,7 @@ public:
 			meshes.emplace("Wall2", ResourceManager::CreateAsset<MeshResource>("Wall2.obj"));
 			meshes.emplace("Shield", ResourceManager::CreateAsset<MeshResource>("GoblinShield.obj"));
 			meshes.emplace("Staff", ResourceManager::CreateAsset<MeshResource>("GoblinStaff.obj"));
+			meshes.emplace("Sword", ResourceManager::CreateAsset<MeshResource>("GoblinSword.obj"));
 		}
 
 		// ANIMATIONS
