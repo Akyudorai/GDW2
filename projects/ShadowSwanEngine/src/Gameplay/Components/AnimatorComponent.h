@@ -11,7 +11,7 @@ namespace Gameplay
 	{
 	public:
 		typedef std::shared_ptr<AnimatorComponent> Sptr;
-
+		 
 		AnimatorComponent();
 
 		// IComponent

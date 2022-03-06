@@ -26,6 +26,9 @@
 #include "Graphics/GuiBatcher.h"
 #include "Utils/UIHelper.h"
 
+// Audio
+#include "Audio/AudioSource.h"
+
 using namespace Gameplay::Physics;
 
 bool Main_Menu::PlayOnLoad = true;
@@ -126,6 +129,22 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 		RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Wall2"));
 		renderer->SetMaterial(Resources::GetMaterial("Wall2"));
+	}
+
+	/////////////////////////////////////////////////////////
+	//					 AUDIO
+	/////////////////////////////////////////////////////////
+
+	GameObject::Sptr bgm = SceneManager::GetCurrentScene()->CreateGameObject("BGM");
+	{
+		bgm->SetPosition(glm::vec3(-5.0f, 4.0f, 0.0f));
+		
+		AudioSource::Sptr audio = bgm->Add<AudioSource>();		
+		audio->m_Resource = Resources::GetSound("Mohit");
+		audio->m_Settings = AudioSettings{
+			false, true, false
+		};
+		audio->Init();
 	}
 
 	/////////////////////////////////////////////////////////
