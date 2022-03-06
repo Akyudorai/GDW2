@@ -4,6 +4,7 @@
 #include "Gameplay/Material.h"
 #include "Graphics/Texture2D.h"
 #include "Graphics/Shader.h"
+#include "Audio/AudioResource.h"
 
 #include "ResourceManager.h"
 
@@ -59,6 +60,7 @@ protected:
 	std::map<std::string, Texture2D::Sptr>							textures;
 	std::map<std::string, Material::Sptr>							materials;
 	std::map<std::string, std::vector<MeshResource::Sptr>>			animations;
+	std::map<std::string, AudioResource::Sptr>						sounds;
 
 public:
 	
@@ -676,6 +678,12 @@ public:
 			}
 		}
 	
+		// SOUNDS
+		/////////////////////////////////////
+		{			
+			sounds.emplace("Mohit", ResourceManager::CreateAsset<AudioResource>("audio/Mohit.mp3"));
+		}
+
 	}
 
 	static Shader::Sptr GetShader(std::string name) {
@@ -753,6 +761,23 @@ public:
 		else {
 			std::cout << "ERROR <nullptr>: " << name << " not found in Animations";
 			return std::vector<MeshResource::Sptr>();
+		}
+	}
+
+	static std::map<std::string, AudioResource::Sptr>* GetAudioMap() { return &shared_instance().sounds; }
+	static AudioResource::Sptr GetSound(std::string name)
+	{
+		std::map<std::string, AudioResource::Sptr>::iterator it;
+		it = shared_instance().sounds.find(name);
+
+		if (it != shared_instance().sounds.end())
+		{
+			return it->second;
+		}
+
+		else {
+			std::cout << "ERROR <nullptr>: " << name << " not found in Sounds.";
+			return nullptr;
 		}
 	}
 

@@ -4,6 +4,8 @@ modules/toolkit/*
 *.vcxproj
 *.vcxproj.filters
 *.vcxproj.user
+projects/GDW/
+projects/GDW/*
 
 # Whitelist some files
 !.gitignore

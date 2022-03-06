@@ -37,6 +37,9 @@
     <Filter Include="Utils\ResourceManagement">
       <UniqueIdentifier>{6A6246A3-5687-9523-7FD2-7AB36B569441}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Audio">
+      <UniqueIdentifier>{c20821f1-8600-45af-93ce-fcab341635db}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Gameplay\Components\AnimatorComponent.h">
@@ -285,6 +288,9 @@
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Audio\AudioResource.h" />
+    <ClInclude Include="src\Audio\AudioSource.h" />
+    <ClInclude Include="src\Audio\AudioManager.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Gameplay\Components\AnimatorComponent.cpp">
@@ -477,5 +483,8 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Audio\AudioResource.cpp" />
+    <ClCompile Include="src\Audio\AudioSource.cpp" />
+    <ClCompile Include="src\Audio\AudioManager.cpp" />
   </ItemGroup>
 </Project>
