@@ -115,7 +115,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	GameObject::Sptr shadow = SceneManager::GetCurrentScene()->CreateGameObject("Shadow");
 	{
 		// Set position in the SceneManager::GetCurrentScene()
-		shadow->SetPosition(glm::vec3(4.0f, 17.0f, 0.0f));
+		shadow->SetPosition(glm::vec3(0.0f, -40.0f, 3.0f));
 		shadow->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 		shadow->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
