@@ -105,7 +105,6 @@ public:
 		//////////////////////////////////////
 		{
 			textures.emplace("Stone Wall", ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png"));
-			textures.emplace("Stone Slab", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabUVs.png"));
 			textures.emplace("Stone Slab 2", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabsTexture.png"));
 			textures.emplace("Dark Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTreeUVS.png"));
 			textures.emplace("Light Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/LightTreeTextureUVS.png"));
@@ -142,6 +141,7 @@ public:
 			textures.emplace("Wall2", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex2.png"));
 			textures.emplace("Wall_Tex3", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex3.png"));
 			textures.emplace("Wall_Tex4", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex4.png"));
+			textures.emplace("Wall_Tex5", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex5.png"));
 			textures.emplace("ShieldTex", ResourceManager::CreateAsset<Texture2D>("textures/ShieldTexture.png"));
 			textures.emplace("StaffTex", ResourceManager::CreateAsset<Texture2D>("textures/StaffTexture.png"));
 			textures.emplace("RockPileTex", ResourceManager::CreateAsset<Texture2D>("textures/Rock3Textures.png"));
@@ -165,7 +165,11 @@ public:
 			textures.emplace("ChooseLevel", ResourceManager::CreateAsset<Texture2D>("textures/ChooseLevel.png"));
 			textures.emplace("Credits", ResourceManager::CreateAsset<Texture2D>("textures/Credits.png"));
 			textures.emplace("Exit", ResourceManager::CreateAsset<Texture2D>("textures/ExitGame.png"));
+			textures.emplace("R", ResourceManager::CreateAsset<Texture2D>("textures/Resume.png"));
+			textures.emplace("Re", ResourceManager::CreateAsset<Texture2D>("textures/Restart.png"));
 			textures.emplace("Return", ResourceManager::CreateAsset<Texture2D>("textures/ReturntoMainMenu.png"));
+			textures.emplace("TitleT", ResourceManager::CreateAsset<Texture2D>("textures/Title.png"));
+			textures.emplace("Pause", ResourceManager::CreateAsset<Texture2D>("textures/Paused.png"));
 			textures.emplace("L1", ResourceManager::CreateAsset<Texture2D>("textures/Level1.png"));
 			textures.emplace("L2", ResourceManager::CreateAsset<Texture2D>("textures/Level2.png"));
 			textures.emplace("L3", ResourceManager::CreateAsset<Texture2D>("textures/Level3.png"));
@@ -434,6 +438,14 @@ public:
 				materials.emplace("Brown", std::move(brownMat));
 			}
 
+			Material::Sptr stone1Mat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				stone1Mat->Name = "StoneTex"; 
+				stone1Mat->Set("u_Material.Diffuse", GetTexture("StoneTex")); 
+				stone1Mat->Set("u_Material.Shininess", 0.1f); 
+				materials.emplace("StoneTex", std::move(stone1Mat)); 
+			}
+
 			Material::Sptr Wall_Mat2 = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				Wall_Mat2->Name = "Wall2";
@@ -458,6 +470,14 @@ public:
 					materials.emplace("Wall_Tex4", std::move(Wall_Mat4));
 				}
 
+				Material::Sptr Wall_Mat5 = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+				{
+					Wall_Mat5->Name = "Wall_Tex5";
+					Wall_Mat5->Set("u_Material.Diffuse", GetTexture("Wall_Tex5"));
+					Wall_Mat5->Set("u_Material.Shininess", 0.1f);
+					materials.emplace("Wall_Tex5", std::move(Wall_Mat5));
+				}
+
 			
 
 		}
@@ -474,7 +494,6 @@ public:
 			meshes.emplace("Stone Wall", ResourceManager::CreateAsset<MeshResource>("StoneWall.obj"));
 			meshes.emplace("Turret Projectile", ResourceManager::CreateAsset<MeshResource>("TurretProjectile.obj"));
 			meshes.emplace("Standing Torch", ResourceManager::CreateAsset<MeshResource>("StandingTorch.obj"));
-			meshes.emplace("Stone Slab", ResourceManager::CreateAsset<MeshResource>("stoneslabs.obj"));
 			meshes.emplace("Enemy", ResourceManager::CreateAsset<MeshResource>("Enemy.obj"));
 			meshes.emplace("Circle Cage", ResourceManager::CreateAsset<MeshResource>("CircleCage.obj"));
 			meshes.emplace("Box Cage", ResourceManager::CreateAsset<MeshResource>("BoxCage.obj"));
