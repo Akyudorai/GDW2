@@ -2191,14 +2191,14 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GameObject::Sptr lever_1 = SceneManager::GetCurrentScene()->CreateGameObject("Elevator Access Lever");
 		{
 			// Transform
-			lever_1->SetPosition(glm::vec3(-19.5f, -31.0f, 15.0f));
-			lever_1->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-			lever_1->SetScale(glm::vec3(0.5f, 0.5f, 1.0f));
+			lever_1->SetPosition(glm::vec3(-19.5f, -31.0f, 15.78f));
+			lever_1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			lever_1->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
 			// Renderer
 			RenderComponent::Sptr renderer = lever_1->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Turret Projectile"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
+			renderer->SetMesh(Resources::GetMesh("Lever"));
+			renderer->SetMaterial(Resources::GetMaterial("LeverTex"));
 			
 			// Collider
 			RigidBody::Sptr physics = lever_1->Add<RigidBody>(RigidBodyType::Static);
@@ -2327,14 +2327,14 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GameObject::Sptr lever_2 = SceneManager::GetCurrentScene()->CreateGameObject("Turret Activation Lever");
 		{
 			// Transform
-			lever_2->SetPosition(glm::vec3(-70.0f, 15.0f, 15.0f));
-			lever_2->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-			lever_2->SetScale(glm::vec3(0.5f, 0.5f, 1.0f));
+			lever_2->SetPosition(glm::vec3(-70.0f, 15.0f, 15.78f));
+			lever_2->SetRotation(glm::vec3(90.0f, 0.0f, 90.0f));
+			lever_2->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
 			// Renderer
 			RenderComponent::Sptr renderer = lever_2->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Turret Projectile"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
+			renderer->SetMesh(Resources::GetMesh("Lever"));
+			renderer->SetMaterial(Resources::GetMaterial("LeverTex"));
 
 			// Collider
 			RigidBody::Sptr physics = lever_2->Add<RigidBody>(RigidBodyType::Static);
@@ -2528,8 +2528,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr goblinShield1 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 1");
 	{
-		goblinShield1->SetPosition(glm::vec3(7.51f, -32.15f, 6.42f));
-		goblinShield1->SetRotation(glm::vec3(52.f, -6.0f, -6.0f));
+		goblinShield1->SetPosition(glm::vec3(7.16f, -33.91f, 6.05f));
+		goblinShield1->SetRotation(glm::vec3(52.f, 0.0f, 0.0f));
 		goblinShield1->SetScale(glm::vec3(0.2f, 0.2f, 0.2f));
 
 		RenderComponent::Sptr renderer = goblinShield1->Add<RenderComponent>();
@@ -2682,8 +2682,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr goblinStaff5 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Staff 5");
 	{
-		goblinStaff5->SetPosition(glm::vec3(-51.63f, 6.54f, 6.27f));
-		goblinStaff5->SetRotation(glm::vec3(0.f, 40.0f, -9.0f));
+		goblinStaff5->SetPosition(glm::vec3(-51.8f, 6.54f, 6.85f));
+		goblinStaff5->SetRotation(glm::vec3(0.f, 17.0f, -9.0f));
 		goblinStaff5->SetScale(glm::vec3(1.2f, 1.2f, 1.2f));
 
 		RenderComponent::Sptr renderer = goblinStaff5->Add<RenderComponent>();
@@ -2811,6 +2811,270 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Sword"));
 		renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
 	}
+
+	GameObject::Sptr floorGrate1 = SceneManager::GetCurrentScene()->CreateGameObject("Floor Grate 1");
+	{
+		floorGrate1->SetPosition(glm::vec3(14.75f, -36.f, 5.71f));
+		floorGrate1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		floorGrate1->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+		RenderComponent::Sptr renderer = floorGrate1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Floor Grate"));
+		renderer->SetMaterial(Resources::GetMaterial("Floor Grate"));
+	}
+
+	GameObject::Sptr wallGrate1 = SceneManager::GetCurrentScene()->CreateGameObject("Wall Grate 1");
+	{
+		wallGrate1->SetPosition(glm::vec3(67.45f, -40.f, 5.25f));
+		wallGrate1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		wallGrate1->SetScale(glm::vec3(0.4f, 0.4f, 0.4f));
+
+		RenderComponent::Sptr renderer = wallGrate1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Wall Grate"));
+		renderer->SetMaterial(Resources::GetMaterial("Wall Grate"));
+	}
+
+	GameObject::Sptr intactPillar1 = SceneManager::GetCurrentScene()->CreateGameObject("Jump Puzzle Intact Pillar 1");
+	{
+		intactPillar1->SetPosition(glm::vec3(-54.01f, 6.05f, 5.45f));
+		intactPillar1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		intactPillar1->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = intactPillar1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Intact Pillar"));
+	}
+
+	GameObject::Sptr intactPillar2 = SceneManager::GetCurrentScene()->CreateGameObject("Jump Puzzle Intact Pillar 2");
+	{
+		intactPillar2->SetPosition(glm::vec3(-54.11f, -21.3f, 5.45f));
+		intactPillar2->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		intactPillar2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = intactPillar2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Intact Pillar"));
+	}
+
+	GameObject::Sptr intactPillar3 = SceneManager::GetCurrentScene()->CreateGameObject("Intact Pillar 3");
+	{
+		intactPillar3->SetPosition(glm::vec3(65.8f, -46.15f, 5.48f));
+		intactPillar3->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		intactPillar3->SetScale(glm::vec3(0.7f, 0.7f, 0.7f));
+
+		RenderComponent::Sptr renderer = intactPillar3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Intact Pillar"));
+	}
+
+	GameObject::Sptr intactPillar4 = SceneManager::GetCurrentScene()->CreateGameObject("Intact Pillar 4");
+	{
+		intactPillar4->SetPosition(glm::vec3(30.62f, 27.76f, 9.6f));
+		intactPillar4->SetRotation(glm::vec3(90.0f, 0.0f, 90.0f));
+		intactPillar4->SetScale(glm::vec3(1.5f, 1.12f, 1.5f));
+
+		RenderComponent::Sptr renderer = intactPillar4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Intact Pillar"));
+	}
+
+	GameObject::Sptr intactPillar5 = SceneManager::GetCurrentScene()->CreateGameObject("Intact Pillar 5");
+	{
+		intactPillar5->SetPosition(glm::vec3(46.38f, 27.66f, 9.6f));
+		intactPillar5->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		intactPillar5->SetScale(glm::vec3(1.5f, 1.12f, 1.5f));
+
+		RenderComponent::Sptr renderer = intactPillar5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Intact Pillar"));
+	}
+
+	GameObject::Sptr intactPillar6 = SceneManager::GetCurrentScene()->CreateGameObject("Intact Pillar 6");
+	{
+		intactPillar6->SetPosition(glm::vec3(30.57f, 15.8f, 9.6f));
+		intactPillar6->SetRotation(glm::vec3(90.0f, 0.0f, -180.0f));
+		intactPillar6->SetScale(glm::vec3(1.5f, 1.12f, 1.5f));
+
+		RenderComponent::Sptr renderer = intactPillar6->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Intact Pillar"));
+	}
+
+	GameObject::Sptr damagedPillar1 = SceneManager::GetCurrentScene()->CreateGameObject("Damaged Pillar 1");
+	{
+		damagedPillar1->SetPosition(glm::vec3(-12.12f, -34.46f, 5.45f));
+		damagedPillar1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		damagedPillar1->SetScale(glm::vec3(1.f, 1.f, 1.f));
+
+		RenderComponent::Sptr renderer = damagedPillar1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Damaged Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Damaged Pillar"));
+	}
+
+	GameObject::Sptr damagedPillar2 = SceneManager::GetCurrentScene()->CreateGameObject("Jump Puzzle Damaged Pillar");
+	{
+		damagedPillar2->SetPosition(glm::vec3(-40.3f, -21.3f, 5.45f));
+		damagedPillar2->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		damagedPillar2->SetScale(glm::vec3(1.5f, 1.17f, 1.5f));
+
+		RenderComponent::Sptr renderer = damagedPillar2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Damaged Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Damaged Pillar"));
+	}
+
+	GameObject::Sptr damagedPillar3 = SceneManager::GetCurrentScene()->CreateGameObject("Damaged Pillar 3");
+	{
+		damagedPillar3->SetPosition(glm::vec3(60.71f, -16.91f, 5.45f));
+		damagedPillar3->SetRotation(glm::vec3(90.0f, 0.0f, 90.0f));
+		damagedPillar3->SetScale(glm::vec3(0.7f, 0.7f, 0.7f));
+
+		RenderComponent::Sptr renderer = damagedPillar3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Damaged Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Damaged Pillar"));
+	}
+
+	GameObject::Sptr damagedPillar4 = SceneManager::GetCurrentScene()->CreateGameObject("Damaged Pillar 4");
+	{
+		damagedPillar4->SetPosition(glm::vec3(46.38f, 15.8f, 9.6f));
+		damagedPillar4->SetRotation(glm::vec3(90.0f, 0.0f, 90.0f));
+		damagedPillar4->SetScale(glm::vec3(1.5f, 1.12f, 1.5f));
+
+		RenderComponent::Sptr renderer = damagedPillar4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Damaged Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Damaged Pillar"));
+	}
+
+	GameObject::Sptr destroyedPillar1 = SceneManager::GetCurrentScene()->CreateGameObject("Jump Puzzle Destroyed Pillar 1");
+	{
+		destroyedPillar1->SetPosition(glm::vec3(-40.4f, 6.25f, 5.45f));
+		destroyedPillar1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		destroyedPillar1->SetScale(glm::vec3(1.f, 0.56f, 1.f));
+
+		RenderComponent::Sptr renderer = destroyedPillar1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Destroyed Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Destroyed Pillar"));
+	}
+
+	GameObject::Sptr destroyedPillar2 = SceneManager::GetCurrentScene()->CreateGameObject("Destroyed Pillar 2");
+	{
+		destroyedPillar2->SetPosition(glm::vec3(15.35f, -16.16f, 5.45f));
+		destroyedPillar2->SetRotation(glm::vec3(90.0f, 0.0f, -180.0f));
+		destroyedPillar2->SetScale(glm::vec3(1.f, 1.f, 1.f));
+
+		RenderComponent::Sptr renderer = destroyedPillar2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Destroyed Pillar"));
+		renderer->SetMaterial(Resources::GetMaterial("Destroyed Pillar"));
+	}
+
+	GameObject::Sptr rockPile1 = SceneManager::GetCurrentScene()->CreateGameObject("Rock Pile 1");
+	{
+		rockPile1->SetPosition(glm::vec3(-6.47f, -35.84f, 5.9f));
+		rockPile1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		rockPile1->SetScale(glm::vec3(1.25f, 1.25f, 1.25f));
+
+		RenderComponent::Sptr renderer = rockPile1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Rock Pile"));
+		renderer->SetMaterial(Resources::GetMaterial("Rock Pile"));
+	}
+
+	GameObject::Sptr rockPile2 = SceneManager::GetCurrentScene()->CreateGameObject("Rock Pile 2");
+	{
+		rockPile2->SetPosition(glm::vec3(12.01f, -25.12f, 5.9f));
+		rockPile2->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		rockPile2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = rockPile2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Rock Pile"));
+		renderer->SetMaterial(Resources::GetMaterial("Rock Pile"));
+	}
+
+	GameObject::Sptr rockPile3 = SceneManager::GetCurrentScene()->CreateGameObject("Rock Pile 3");
+	{
+		rockPile3->SetPosition(glm::vec3(9.53f, -8.01f, 5.7f));
+		rockPile3->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		rockPile3->SetScale(glm::vec3(2.52f, 1.f, 1.14f));
+
+		RenderComponent::Sptr renderer = rockPile3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Rock Pile"));
+		renderer->SetMaterial(Resources::GetMaterial("Rock Pile"));
+	}
+
+	GameObject::Sptr rockPile4 = SceneManager::GetCurrentScene()->CreateGameObject("Rock Pile 4");
+	{
+		rockPile4->SetPosition(glm::vec3(-45.68f, -1.42f, 5.9f));
+		rockPile4->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		rockPile4->SetScale(glm::vec3(2.16f, 1.f, 1.69f));
+
+		RenderComponent::Sptr renderer = rockPile4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Rock Pile"));
+		renderer->SetMaterial(Resources::GetMaterial("Rock Pile"));
+	}
+
+	GameObject::Sptr rockPile5 = SceneManager::GetCurrentScene()->CreateGameObject("Rock Pile 5");
+	{
+		rockPile5->SetPosition(glm::vec3(-24.68f, 22.57f, 16.f));
+		rockPile5->SetRotation(glm::vec3(90.0f, 0.0f, 135.0f));
+		rockPile5->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+
+		RenderComponent::Sptr renderer = rockPile5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Rock Pile"));
+		renderer->SetMaterial(Resources::GetMaterial("Rock Pile"));
+	}
+
+	GameObject::Sptr graveStone1 = SceneManager::GetCurrentScene()->CreateGameObject("Grave Stone 1");
+	{
+		graveStone1->SetPosition(glm::vec3(7.13f, -33.16f, 5.45f));
+		graveStone1->SetRotation(glm::vec3(90.0f, 0.0f, -90.0f));
+		graveStone1->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+		RenderComponent::Sptr renderer = graveStone1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Grave Stone"));
+		renderer->SetMaterial(Resources::GetMaterial("Grave Stone"));
+	}
+
+	/*GameObject::Sptr barrel1 = SceneManager::GetCurrentScene()->CreateGameObject("Barrel 1");
+	{
+		barrel1->SetPosition(glm::vec3(-12.12f, -34.46f, 5.45f));
+		barrel1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		barrel1->SetScale(glm::vec3(1.f, 1.f, 1.f));
+
+		RenderComponent::Sptr renderer = barrel1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Barrel"));
+		renderer->SetMaterial(Resources::GetMaterial("Barrel"));
+	}
+
+	GameObject::Sptr openBarrel1 = SceneManager::GetCurrentScene()->CreateGameObject("Open Barrel 1");
+	{
+		openBarrel1->SetPosition(glm::vec3(-12.12f, -34.46f, 5.45f));
+		openBarrel1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		openBarrel1->SetScale(glm::vec3(1.f, 1.f, 1.f));
+
+		RenderComponent::Sptr renderer = openBarrel1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Open Barrel"));
+		renderer->SetMaterial(Resources::GetMaterial("Barrel"));
+	}
+
+	GameObject::Sptr bucket1 = SceneManager::GetCurrentScene()->CreateGameObject("Bucket 1");
+	{
+		bucket1->SetPosition(glm::vec3(-12.12f, -34.46f, 5.45f));
+		bucket1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		bucket1->SetScale(glm::vec3(1.f, 1.f, 1.f));
+
+		RenderComponent::Sptr renderer = bucket1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Bucket"));
+		renderer->SetMaterial(Resources::GetMaterial("Bucket"));
+	}
+
+	GameObject::Sptr keg1 = SceneManager::GetCurrentScene()->CreateGameObject("Keg 1");
+	{
+		keg1->SetPosition(glm::vec3(-12.12f, -34.46f, 5.45f));
+		keg1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		keg1->SetScale(glm::vec3(1.f, 1.f, 1.f));
+
+		RenderComponent::Sptr renderer = keg1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Keg"));
+		renderer->SetMaterial(Resources::GetMaterial("Keg"));
+	}*/
 
 	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - GAME
