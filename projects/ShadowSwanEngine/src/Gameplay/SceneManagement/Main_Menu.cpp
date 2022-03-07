@@ -198,12 +198,12 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 			b5->Get<GuiPanel>()->SetBorderRadius(0);
 			mainMenu->AddChild(b5);
 
-			GameObject::Sptr lowerGraphic = UIHelper::CreateImage(Resources::GetTexture("Lower"), "Lower Graphic");
-			lowerGraphic->Get<RectTransform>()->SetPosition({ 550, 740 });
-			lowerGraphic->Get<RectTransform>()->SetSize({ 80, 60 });
-			lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-			mainMenu->AddChild(lowerGraphic);
-		}
+		GameObject::Sptr lowerGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss Reverse"), "Lower Graphic");
+		lowerGraphic->Get<RectTransform>()->SetPosition({ 160, 400 });
+		lowerGraphic->Get<RectTransform>()->SetSize({ 40, 17.5f });
+		lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
+		mainMenu->AddChild(lowerGraphic);
+	}
 
 		/////////////////////////////////////////////////////////
 

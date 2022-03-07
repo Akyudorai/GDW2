@@ -1434,13 +1434,25 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		GuiPanel::Sptr canPanel = gameCanvas->Add<GuiPanel>();
 		canPanel->SetColor(glm::vec4(1.0f, 1.0f, 1.0f, 0.0f));
 
+		GameObject::Sptr healthp = UIHelper::CreateImage(Resources::GetTexture("CharacterH"), "Health");
+		healthp->Get<RectTransform>()->SetPosition({ 150, 70 });
+		healthp->Get<RectTransform>()->SetSize({ 80, 30 });
+		healthp->Get<GuiPanel>()->SetBorderRadius(0);
+		gameCanvas->AddChild(healthp);
+
 		GameObject::Sptr healthText = UIHelper::CreateText("Body Health: ???", "Body Health Text");
-		healthText->Get<RectTransform>()->SetPosition({ 120, 50 });
+		healthText->Get<RectTransform>()->SetPosition({ 300, 145 });
 		//SceneManager::GetCurrentScene()->PC.SetBodyHealthUI(*healthText->Get<GuiText>());
 		gameCanvas->AddChild(healthText);
 
+		GameObject::Sptr shadowhp = UIHelper::CreateImage(Resources::GetTexture("ShadowH"), "Shadow Health");
+		shadowhp->Get<RectTransform>()->SetPosition({ 150, 150 });
+		shadowhp->Get<RectTransform>()->SetSize({ 80, 30 });
+		shadowhp->Get<GuiPanel>()->SetBorderRadius(0);
+		gameCanvas->AddChild(shadowhp);
+
 		GameObject::Sptr shadowText = UIHelper::CreateText("Shadow Health: ???", "Shadow Health Text");
-		shadowText->Get<RectTransform>()->SetPosition({ 120, 100 });
+		shadowText->Get<RectTransform>()->SetPosition({ 350, 300 });
 		//SceneManager::GetCurrentScene()->PC.SetShadowHealthUI(*shadowText->Get<GuiText>());
 		gameCanvas->AddChild(shadowText);
 
