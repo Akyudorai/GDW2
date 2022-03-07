@@ -89,6 +89,10 @@
 #include "Utils/Editor/Editor.h"
 #include "Gameplay/GameManager.h"
 
+#include "Audio/AudioResource.h"
+#include "Audio/AudioSource.h"
+#include "Audio/AudioManager.h"
+
 //#define LOG_GL_NOTIFICATIONS 
 
 /*
@@ -264,6 +268,7 @@ int main() {
 	ResourceManager::RegisterType<Shader>();
 	ResourceManager::RegisterType<Material>();
 	ResourceManager::RegisterType<MeshResource>();
+	ResourceManager::RegisterType<AudioResource>();
 
 	// Load all our assets to the Resources class
 	Resources::shared_instance().Initialize();
@@ -285,6 +290,7 @@ int main() {
 	ComponentManager::RegisterType<SpikeTrapBehavior>();
 	ComponentManager::RegisterType<MovingPlatformBehavior>();
 	ComponentManager::RegisterType<TurretBehavior>();
+	ComponentManager::RegisterType<AudioSource>();
 
 	ComponentManager::RegisterType<RectTransform>();
 	ComponentManager::RegisterType<GuiPanel>();
@@ -296,6 +302,9 @@ int main() {
 	// Scene Management
 	/////////////////////////////////////////////////////////
 	
+	// Initialize our Audio Manager
+	AudioManager::Init();
+
 	// Initialize our Scene Manager
 	SceneManager::Initialize(window);
 
@@ -348,6 +357,7 @@ int main() {
 		// Scene Management
 		/////////////////////////////////////////////////////////
 
+		AudioManager::Update();
 		SceneManager::Update(dt);
 		SceneManager::Draw();
 		InputHandler::Update(dt);
@@ -472,6 +482,9 @@ int main() {
 
 	// Clean up the ImGui library
 	ImGuiHelper::Cleanup();
+
+	// Clean up the Audio Manager
+	AudioManager::Shutdown();
 
 	// Clean up the resource manager
 	ResourceManager::Cleanup();

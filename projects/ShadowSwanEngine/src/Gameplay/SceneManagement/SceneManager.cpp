@@ -13,7 +13,7 @@ namespace Gameplay
 {
 	Scene::Sptr SceneManager::currentScene = nullptr;
 	GLFWwindow* SceneManager::windowRef = nullptr;
-	GameInterfaceManager SceneManager::GameInterface = GameInterfaceManager();
+	GameInterfaceManager SceneManager::GameInterface = GameInterfaceManager(); 
 
 	void SceneManager::Initialize(GLFWwindow* window)
 	{

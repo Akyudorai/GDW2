@@ -26,6 +26,9 @@
 #include "Graphics/GuiBatcher.h"
 #include "Utils/UIHelper.h"
 
+// Audio
+#include "Audio/AudioSource.h"
+
 using namespace Gameplay::Physics;
 
 bool Main_Menu::PlayOnLoad = true;
@@ -45,9 +48,13 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	/////////////////////////////////////////////////////////
 
 	SceneManager::GetCurrentScene()->Lights.resize(8);
-	SceneManager::GetCurrentScene()->Lights[0].Position = glm::vec3(0.0f, 0.0f, 13.0f);
-	SceneManager::GetCurrentScene()->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
-	SceneManager::GetCurrentScene()->Lights[0].Range = 500.0f;
+	SceneManager::GetCurrentScene()->Lights[0].Position = glm::vec3(0.8f, -3.5f, 10.0f);
+	SceneManager::GetCurrentScene()->Lights[0].Color = glm::vec3(1, 1, 1);
+	SceneManager::GetCurrentScene()->Lights[0].Range = 100.0f;
+
+	SceneManager::GetCurrentScene()->Lights[1].Position = glm::vec3(-6.0f, 9.0f, 7.0f);
+	SceneManager::GetCurrentScene()->Lights[1].Color = glm::vec3(0.5f, 0.7f, 1.0f);
+	SceneManager::GetCurrentScene()->Lights[1].Range = 50.0f;
 
 	/////////////////////////////////////////////////////////
 	//					  CONTROLLER
@@ -56,7 +63,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	GameObject::Sptr camera = SceneManager::GetCurrentScene()->CreateGameObject("Main Camera");
 	{
 		camera->SetPosition(glm::vec3(0.0f, 0.0f, 3.0f));
-		camera->SetRotation(glm::vec3(75.0f, 0.0f, 33.0f));				
+		camera->SetRotation(glm::vec3(75.0f, 0.0f, 33.0f));
 
 		Camera::Sptr cam = camera->Add<Camera>();
 		cam->SetFovDegrees(60.0f);
@@ -98,7 +105,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 		// Create and attach a RenderComponent to the object to draw our mesh
 		RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
 		renderer->SetMesh(tiledMesh);
-		renderer->SetMaterial(Resources::GetMaterial("Stone Slab"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = floor->Add<RigidBody>(/*static by default*/);
 		physics->AddCollider(BoxCollider::Create(glm::vec3(100.0f, 100.0f, 1.5f)))->SetPosition({ 0,0,-1 });
@@ -108,89 +115,107 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall = SceneManager::GetCurrentScene()->CreateGameObject("Wall");
 	{
-		wall->SetPosition(glm::vec3(0, 9.5f, 0.0f));
-		wall->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-		wall->SetScale(glm::vec3(1.0f, 1.0f, 0.6f));
+		wall->SetPosition(glm::vec3(-3.05, 9.670f, 3.0f));
+		wall->SetRotation(glm::vec3(90.0f, 0.0f, -100.0f));
+		wall->SetScale(glm::vec3(0.5f));
 
 		RenderComponent::Sptr renderer = wall->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
-	}
 
-	GameObject::Sptr wall2 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 2");
+		GameObject::Sptr wall2 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 2");
+		{
+			wall2->SetPosition(glm::vec3(-6.6f, 5.75f, 3.0f));
+			wall2->SetRotation(glm::vec3(90.0f, 0.0f, -20.0f));
+			wall2->SetScale(glm::vec3(0.5f));
+
+			RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		}
+
+	/////////////////////////////////////////////////////////
+	//					 AUDIO
+	/////////////////////////////////////////////////////////
+
+	GameObject::Sptr bgm = SceneManager::GetCurrentScene()->CreateGameObject("BGM");
 	{
-		wall2->SetPosition(glm::vec3(0-9.5f, 8.0f, 0.0f));
-		wall2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall2->SetScale(glm::vec3(1.0f, 1.0f, 0.6f));
-
-		RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+		bgm->SetPosition(glm::vec3(-5.0f, 4.0f, 0.0f));
+		
+		AudioSource::Sptr audio = bgm->Add<AudioSource>();		
+		audio->m_Resource = Resources::GetSound("Mohit");
+		audio->m_Settings = AudioSettings{
+			false, true, false
+		};
+		audio->Init();
 	}
 
 	/////////////////////////////////////////////////////////
 	//					 USER INTERFACE
 	/////////////////////////////////////////////////////////
 
-	GameObject::Sptr mainMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
-	{
-		RectTransform::Sptr transform = mainMenu->Add<RectTransform>();
-		transform->SetMin({ 16, 16 });
-		transform->SetMax({ 350, 500 });
-		transform->SetPosition({ 550, 400 });
+		GameObject::Sptr mainMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
+		{
+			GameObject::Sptr t = UIHelper::CreateImage(Resources::GetTexture("TitleT"), "title");
+			t->Get<RectTransform>()->SetPosition({ 550, 82 });
+			t->Get<RectTransform>()->SetSize({ 100, 40 });
+			t->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(t);
 
-		GuiPanel::Sptr backgroundPanel = mainMenu->Add<GuiPanel>();
-		backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.0f));
+			GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Upper"), "Upper Graphic");
+			upperGraphic->Get<RectTransform>()->SetPosition({ 550, 180 });
+			upperGraphic->Get<RectTransform>()->SetSize({ 80, 60 });
+			upperGraphic->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(upperGraphic);
 
+			GameObject::Sptr button1 = UIHelper::CreateImage(Resources::GetTexture("New"), "New Game");
+			button1->Get<RectTransform>()->SetPosition({ 550, 260 });
+			button1->Get<RectTransform>()->SetSize({ 60, 30 });
+			button1->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(button1);
 
-		GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss"), "Upper Graphic");
-		upperGraphic->Get<RectTransform>()->SetPosition({ 170, 90 });
-		upperGraphic->Get<RectTransform>()->SetSize({ 80, 30 });
-		upperGraphic->Get<GuiPanel>()->SetBorderRadius(1);
-		mainMenu->AddChild(upperGraphic);
+			GameObject::Sptr button2 = UIHelper::CreateImage(Resources::GetTexture("ChooseLevel"), "ChooseLevel");
+			button2->Get<RectTransform>()->SetPosition({ 550, 360 });
+			button2->Get<RectTransform>()->SetSize({ 60, 30 });
+			button2->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(button2);
 
-		GameObject::Sptr menuTitle = UIHelper::CreateText("Into The Abyss");
-		menuTitle->Get<GuiText>()->SetTextScale(2);
-		menuTitle->Get<RectTransform>()->SetPosition({ 250, 75 });	
-		mainMenu->AddChild(menuTitle);
+			GameObject::Sptr b3 = UIHelper::CreateImage(Resources::GetTexture("Options"), "Options");
+			b3->Get<RectTransform>()->SetPosition({ 550, 460 });
+			b3->Get<RectTransform>()->SetSize({ 60, 30 });
+			b3->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(b3);
 
-		GameObject::Sptr button1 = UIHelper::CreateButton("1. New Game");
-		button1->Get<RectTransform>()->SetPosition({ 167.5f, 155 });
-		button1->Get<GuiPanel>()->SetBorderRadius(0);
-		mainMenu->AddChild(button1);
+			GameObject::Sptr b4 = UIHelper::CreateImage(Resources::GetTexture("Credits"), "Credits");
+			b4->Get<RectTransform>()->SetPosition({ 550, 560 });
+			b4->Get<RectTransform>()->SetSize({ 60, 30 });
+			b4->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(b4);
 
-		GameObject::Sptr button2 = UIHelper::CreateButton("2. Choose Level");
-		button2->Get<RectTransform>()->SetPosition({ 167.5f, 215 });
-		button2->Get<GuiPanel>()->SetBorderRadius(0);
-		mainMenu->AddChild(button2);
+			GameObject::Sptr b5 = UIHelper::CreateImage(Resources::GetTexture("Exit"), "Exit");
+			b5->Get<RectTransform>()->SetPosition({ 550, 660 });
+			b5->Get<RectTransform>()->SetSize({ 60, 30 });
+			b5->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(b5);
 
-		GameObject::Sptr button3 = UIHelper::CreateButton("3. Options");
-		button3->Get<RectTransform>()->SetPosition({ 167.5f, 275 });
-		button3->Get<GuiPanel>()->SetBorderRadius(0);
-		mainMenu->AddChild(button3);
+			GameObject::Sptr lowerGraphic = UIHelper::CreateImage(Resources::GetTexture("Lower"), "Lower Graphic");
+			lowerGraphic->Get<RectTransform>()->SetPosition({ 550, 740 });
+			lowerGraphic->Get<RectTransform>()->SetSize({ 80, 60 });
+			lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
+			mainMenu->AddChild(lowerGraphic);
+		}
 
-		GameObject::Sptr button4 = UIHelper::CreateButton("4. Quit to Desktop");
-		button4->Get<RectTransform>()->SetPosition({ 167.5f, 335 });
-		button4->Get<GuiPanel>()->SetBorderRadius(0);
-		mainMenu->AddChild(button4);
+		/////////////////////////////////////////////////////////
 
-		GameObject::Sptr lowerGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss Reverse"), "Lower Graphic");
-		lowerGraphic->Get<RectTransform>()->SetPosition({ 160, 400 });
-		lowerGraphic->Get<RectTransform>()->SetSize({ 40, 17.5f });
-		lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-		mainMenu->AddChild(lowerGraphic);
+		// Call SceneManager::GetCurrentScene() awake to start up all of our components
+		SceneManager::GetCurrentScene()->Window = window;
+		SceneManager::GetCurrentScene()->Awake();
+
+		// Save the asset manifest for all the resources we just loaded
+		ResourceManager::SaveManifest("manifest.json");
+		// Save the SceneManager::GetCurrentScene() to a JSON file
+		SceneManager::GetCurrentScene()->Save("Level_Three.json");
+
+		return nullptr;
 	}
-
-	/////////////////////////////////////////////////////////
-
-	// Call SceneManager::GetCurrentScene() awake to start up all of our components
-	SceneManager::GetCurrentScene()->Window = window;
-	SceneManager::GetCurrentScene()->Awake();
-
-	// Save the asset manifest for all the resources we just loaded
-	ResourceManager::SaveManifest("manifest.json");
-	// Save the SceneManager::GetCurrentScene() to a JSON file
-	SceneManager::GetCurrentScene()->Save("Level_Three.json");
-
-	return nullptr;
 }

@@ -15,7 +15,6 @@ public:
 	{
 		m_bodyHealthDisplay = nullptr;
 		m_shadowHealthDisplay = nullptr;
-		m_gameTimerDisplay = nullptr;
 
 		m_GameUserInterface = nullptr;
 		m_PauseMenuPanel = nullptr;
@@ -30,10 +29,9 @@ public:
 		m_GameUserInterface = &panel;
 	}
 
-	void InitializeGameUserInterface(GuiText& bodyHealthDisplay, GuiText& shadowHealthDisplay, GuiText& gameTimerDisplay) {
+	void InitializeGameUserInterface(GuiText& bodyHealthDisplay, GuiText& shadowHealthDisplay) {
 		m_bodyHealthDisplay = &bodyHealthDisplay;
 		m_shadowHealthDisplay = &shadowHealthDisplay;
-		m_gameTimerDisplay = &gameTimerDisplay;
 	}
 
 	void ToggleGameUserInterface(bool state) {
@@ -75,7 +73,6 @@ public:
 public:
 	GuiText* m_bodyHealthDisplay = nullptr;
 	GuiText* m_shadowHealthDisplay = nullptr;
-	GuiText* m_gameTimerDisplay = nullptr;
 
 	GameObject* m_GameUserInterface = nullptr;
 	GameObject* m_PauseMenuPanel = nullptr;

@@ -72,6 +72,26 @@ public:
 		return textObject;
 	}
 
+	static GameObject::Sptr CreateText1(std::string _text, std::string name = "New Text")
+	{
+		GameObject::Sptr textObject1 = SceneManager::GetCurrentScene()->CreateGameObject(name);
+		{
+			RectTransform::Sptr transform = textObject1->Add<RectTransform>();
+			transform->SetMin({ 15, 15 });
+			transform->SetMax({ 300, 50 });
+
+			Font::Sptr font = ResourceManager::CreateAsset<Font>("fonts/Roboto-Medium.ttf", 16.0f);
+			font->Bake();
+
+			GuiText::Sptr text = textObject1->Add<GuiText>();
+			text->SetText(_text);
+			text->SetColor(glm::vec4(0.0f, 0.0f, 0.0f, 0.0f));
+			text->SetFont(font);
+		}
+
+		return textObject1;
+	}
+
 	static GameObject::Sptr CreateImage(Texture2D::Sptr texture, std::string name = "Image")
 	{
 		GameObject::Sptr imageObject = SceneManager::GetCurrentScene()->CreateGameObject(name);

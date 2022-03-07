@@ -1,6 +1,5 @@
-# Blender v2.93.4 OBJ File: 'Bucket.blend'
+# Blender v3.0.1 OBJ File: 'Bucket.blend'
 # www.blender.org
-mtllib Bucket.mtl
 o Cube
 v 1.146083 2.919312 -1.126463
 v 0.784887 -0.028801 -0.777866
@@ -939,7 +938,6 @@ vn 0.1588 -0.2117 -0.9643
 vn 0.1507 -0.2113 -0.9657
 vn -0.1324 0.1969 -0.9714
 vn 0.1655 -0.2120 -0.9632
-usemtl Material
 s off
 f 10/1/1 182/2/1 179/3/1
 f 212/4/2 82/5/2 233/6/2

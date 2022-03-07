@@ -109,6 +109,9 @@
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="src\Audio\AudioManager.h" />
+    <ClInclude Include="src\Audio\AudioResource.h" />
+    <ClInclude Include="src\Audio\AudioSource.h" />
     <ClInclude Include="src\Gameplay\Components\AnimatorComponent.h" />
     <ClInclude Include="src\Gameplay\Components\Camera.h" />
     <ClInclude Include="src\Gameplay\Components\ComponentManager.h" />
@@ -193,6 +196,9 @@
     <ClInclude Include="src\Utils\UIHelper.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Audio\AudioManager.cpp" />
+    <ClCompile Include="src\Audio\AudioResource.cpp" />
+    <ClCompile Include="src\Audio\AudioSource.cpp" />
     <ClCompile Include="src\Gameplay\Components\AnimatorComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\Camera.cpp" />
     <ClCompile Include="src\Gameplay\Components\Enemy.cpp" />
@@ -287,4 +293,4 @@
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
-</Project>
+</Project> 
