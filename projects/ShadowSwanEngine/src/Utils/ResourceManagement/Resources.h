@@ -189,6 +189,7 @@ public:
 			textures.emplace("U.I", ResourceManager::CreateAsset<Texture2D>("textures/U.ISize.png"));
 			textures.emplace("CP", ResourceManager::CreateAsset<Texture2D>("textures/CreditsPage.png"));
 			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/GameTitleIntro.png"));
+			textures.emplace("Controls", ResourceManager::CreateAsset<Texture2D>("textures/Controls.png"));
 			textures.emplace("LS", ResourceManager::CreateAsset<Texture2D>("textures/LogoScreen.png"));
 			textures.emplace("Lose", ResourceManager::CreateAsset<Texture2D>("textures/LoseScreen.png"));
 			textures.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/CharacterHealth.png"));

@@ -236,6 +236,28 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
+	GameObject::Sptr blockz = SceneManager::GetCurrentScene()->CreateGameObject("Block z");
+	{
+		blockz->SetPosition(glm::vec3(19.0f, -45.0f, 3.5f));
+		blockz->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		RenderComponent::Sptr renderer = blockz->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+
+		RigidBody::Sptr physics = blockz->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(blockz->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
 	GameObject::Sptr block4 = SceneManager::GetCurrentScene()->CreateGameObject("Block 4");
 	{
 		block4->SetPosition(glm::vec3(40.0f, -40.0f, 3.5f));
@@ -520,7 +542,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		block18->SetPosition(glm::vec3(-46.0f, -15.0f, 12.25f));
 		block18->SetRotation(glm::vec3(0.0f, -11.0f, 0.0f));
-		block18->SetScale(glm::vec3(7.0f, 0.5f, 0.2f));
+		block18->SetScale(glm::vec3(7.0f, 0.8f, 0.2f));
 
 		RenderComponent::Sptr renderer = block18->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
@@ -553,46 +575,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr block30 = SceneManager::GetCurrentScene()->CreateGameObject("Block 30");
-	{
-		block30->SetPosition(glm::vec3(-54.0f, -21.5f, 9.5f));
-		block30->SetScale(glm::vec3(2.0f, 2.0f, 4.5f));
-
-		RenderComponent::Sptr renderer = block30->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block30->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block19->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block31 = SceneManager::GetCurrentScene()->CreateGameObject("Block 31");
-	{
-		block31->SetPosition(glm::vec3(-54.0f, 7.0f, 9.5f));
-		block31->SetScale(glm::vec3(2.0f, 2.0f, 4.5f));
-
-		RenderComponent::Sptr renderer = block31->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block31->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block19->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-	
 
 	GameObject::Sptr block20 = SceneManager::GetCurrentScene()->CreateGameObject("Block 20");
 	{
-		block20->SetPosition(glm::vec3(-39.0f, -15.0f, 12.5f));
+		block20->SetPosition(glm::vec3(-38.0f, -15.0f, 12.5f));
 		block20->SetScale(glm::vec3(1.25f, 2.5f, 1.0f));
 
 		RenderComponent::Sptr renderer = block20->Add<RenderComponent>();
@@ -1568,24 +1554,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			};
 		}
 
-		GameObject::Sptr crate_1 = SceneManager::GetCurrentScene()->CreateGameObject("Crate 1");
-		{
-			crate_1->SetPosition(glm::vec3(62.5f, -42.0f, 7.5f));
-			crate_1->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-			crate_1->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
-
-			RenderComponent::Sptr renderer = crate_1->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
-
-			// Collider
-			RigidBody::Sptr physics = crate_1->Add<RigidBody>(RigidBodyType::Dynamic);
-			BoxCollider::Sptr collider = BoxCollider::Create();
-			collider->SetScale(crate_1->GetScale());
-			physics->AddCollider(collider);
-			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-		}
 	}
 
 	// Trap Room
@@ -2198,26 +2166,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				rigid->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 				rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 			};
-		}
-
-		GameObject::Sptr crate_2 = SceneManager::GetCurrentScene()->CreateGameObject("Crate 2");
-		{
-			crate_2->SetPosition(glm::vec3(10.5f, -26.5f, 7.5f));
-			crate_2->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-			crate_2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
-
-			RenderComponent::Sptr renderer = crate_2->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
-
-			// Collider
-			RigidBody::Sptr physics = crate_2->Add<RigidBody>(RigidBodyType::Dynamic);
-			BoxCollider::Sptr collider = BoxCollider::Create();			
-			collider->SetScale(crate_2->GetScale());
-			physics->AddCollider(collider);
-			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-
 		}
 	}
 
@@ -2943,7 +2891,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		intactPillar1->SetPosition(glm::vec3(-54.01f, 6.05f, 5.45f));
 		intactPillar1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-		intactPillar1->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+		intactPillar1->SetScale(glm::vec3(1, 1, 1));
 
 		RenderComponent::Sptr renderer = intactPillar1->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
@@ -2954,7 +2902,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		intactPillar2->SetPosition(glm::vec3(-54.11f, -21.3f, 5.45f));
 		intactPillar2->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-		intactPillar2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+		intactPillar2->SetScale(glm::vec3(1, 1, 1));
 
 		RenderComponent::Sptr renderer = intactPillar2->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
