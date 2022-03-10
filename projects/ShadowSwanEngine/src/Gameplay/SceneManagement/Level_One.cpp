@@ -2761,6 +2761,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	//				   SCENE PROPS - GAME
 	/////////////////////////////////////////////////////////
 
+#pragma region Scene Props
+
 	GameObject::Sptr goblinShield1 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 1");
 	{
 		goblinShield1->SetPosition(glm::vec3(7.16f, -33.91f, 6.05f));
@@ -3310,6 +3312,26 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Keg"));
 		renderer->SetMaterial(Resources::GetMaterial("Keg"));
 	}*/
+
+#pragma endregion
+
+	/////////////////////////////////////////////////////////
+	//				   ENVIRONMENTAL AUDIO
+	/////////////////////////////////////////////////////////
+
+	GameObject::Sptr bgm = SceneManager::GetCurrentScene()->CreateGameObject("BGM");
+	{
+		AudioSource::Sptr audio = bgm->Add<AudioSource>();
+		{
+			audio->playOnAwake = true;
+			audio->m_Resource = Resources::GetSound("Mohit");
+			audio->m_Settings = AudioSettings{
+				false, true, false
+			};
+			audio->volume = 0.5f;
+			audio->Init();
+		}
+	}
 
 	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - GAME

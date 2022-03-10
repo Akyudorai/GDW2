@@ -143,6 +143,17 @@ void AudioManager::StopSource(AudioSource* source)
     }
 }
 
+void AudioManager::ClearSounds()
+{
+    std::vector<AudioSource*>::iterator it;
+    for (auto it = CurrentSounds.begin(); it != CurrentSounds.end(); ++it)
+    {
+        (*it)->m_Channel->stop();
+    }
+
+    CurrentSounds.clear();
+}
+
 FMOD_VECTOR AudioManager::VectorToFmod(const glm::vec3& vPosition)
 {
     FMOD_VECTOR fVec;

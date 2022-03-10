@@ -24,7 +24,7 @@ void AudioSource::Play()
 	LOG_INFO("Playing Source");
 
 	IsPlaying = true;
-	AudioManager::instance().PlaySource(this);
+	AudioManager::instance().PlaySource(this, volume);
 }
 
 void AudioSource::Play(std::string source, AudioSettings* settings)
@@ -36,7 +36,7 @@ void AudioSource::Play(std::string source, AudioSettings* settings)
 	if (m_Resource->Sound == nullptr) return;
 
 	IsPlaying = true;
-	AudioManager::instance().PlaySource(this);
+	AudioManager::instance().PlaySource(this, volume);
 }
 
 void AudioSource::Stop()

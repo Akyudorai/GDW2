@@ -36,6 +36,8 @@ public:
 	void PlaySource(AudioSource* source, float fVolume = 1.0f);
 	void StopSource(AudioSource* source);
 
+	void ClearSounds();
+
 private:
 	AudioManager() {}
 	float dbToVolume(float db);

@@ -8,6 +8,7 @@
 #include "Main_Menu.h"
 
 #include "../InputManagement/InputHandler.h"
+#include "Audio/AudioManager.h"
 
 namespace Gameplay
 {
@@ -26,9 +27,10 @@ namespace Gameplay
 		if (currentScene != nullptr) {
 			currentScene = nullptr;
 			GameInterface.Clear();
+			AudioManager::instance().ClearSounds();
 		}
 		
-		currentScene = std::make_shared<Scene>();
+		currentScene = std::make_shared<Scene>();		
 
 		switch (sceneIndex)
 		{

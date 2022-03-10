@@ -47,6 +47,7 @@ public:
 	bool playOnAwake;
 	FMOD::Channel* m_Channel;
 	glm::vec3 m_Position;
+	float volume = 1.0f;
 
 private:
 	//friend AudioManager;
