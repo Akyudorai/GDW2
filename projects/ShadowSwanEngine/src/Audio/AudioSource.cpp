@@ -14,6 +14,7 @@ AudioSource::AudioSource()
 void AudioSource::Init()
 {
 	m_Position = GetGameObject()->GetPosition();	
+	m_Resource->Sound = AudioManager::LoadSound(m_Resource, m_Settings);
 }
 
 void AudioSource::Play()
@@ -21,6 +22,18 @@ void AudioSource::Play()
 	if (m_Resource == nullptr) return;
 
 	LOG_INFO("Playing Source");
+
+	IsPlaying = true;
+	AudioManager::instance().PlaySource(this);
+}
+
+void AudioSource::Play(std::string source, AudioSettings* settings)
+{
+	m_Resource = Resources::GetSound(source);
+	if (m_Resource == nullptr) return;
+
+	m_Resource->Sound = AudioManager::LoadSound(m_Resource, (settings == nullptr) ? m_Settings : *settings);
+	if (m_Resource->Sound == nullptr) return;
 
 	IsPlaying = true;
 	AudioManager::instance().PlaySource(this);
@@ -38,6 +51,10 @@ void AudioSource::Stop()
 
 void AudioSource::Awake()
 {	
+	if (m_Resource == nullptr) return;
+
+	LOG_INFO("AUDIO SOURCE AWAKE");
+
 	m_Position = GetGameObject()->GetPosition();
 	if (playOnAwake)
 	{

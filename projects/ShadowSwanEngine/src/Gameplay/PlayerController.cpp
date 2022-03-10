@@ -13,6 +13,9 @@
 #include "InputManagement/InputHandler.h"
 #include "SceneManagement/SceneManager.h"
 
+#include "Audio/AudioSource.h"
+#include "Utils/ResourceManagement/Resources.h"
+#include "Audio/AudioManager.h"
 
 PlayerController::PlayerController() :
 	m_body(nullptr), m_shadow(nullptr), m_camera(nullptr), m_light(nullptr), m_interaction(nullptr)
@@ -38,6 +41,18 @@ void PlayerController::Initialize(
 void PlayerController::Update(float deltaTime)
 {
 	if (m_body == nullptr || m_shadow == nullptr || m_camera == nullptr) return;
+	
+	// Set Audio Listener Position
+	FMOD_VECTOR* p = new FMOD_VECTOR{
+		(isShadow) ? m_shadow->GetPosition().x : m_body->GetPosition().x,
+		(isShadow) ? m_shadow->GetPosition().y : m_body->GetPosition().y,
+		(isShadow) ? m_shadow->GetPosition().z : m_body->GetPosition().z
+	};
+	FMOD_VECTOR* v = new FMOD_VECTOR{ 0, 0, 0 };
+	FMOD_VECTOR* f = new FMOD_VECTOR{ 0, 0, 1 };
+	FMOD_VECTOR* u = new FMOD_VECTOR{ 0, 1, 0 };
+	AudioManager::SetListener(p, v, f, u);
+
 
 	if (lerpT < 1.0f)
 		lerpT += deltaTime;
@@ -135,7 +150,13 @@ void PlayerController::HandleInput(float deltaTime)
 			}
 			
 			m_body->SetPosition(m_body->GetPosition() + motion * movSpeed * deltaTime);
+			if (!m_body->Get<AudioSource>()->IsPlaying)
+			{
+				m_body->Get<AudioSource>()->Play("Walk");
+				
+			}				
 
+			
 
 			m_body->LookAt(m_body->GetPosition() + motion);			
 			if (glm::distance(m_body->GetPosition(), m_shadow->GetPosition()) >= 21.0f) {						
@@ -149,18 +170,25 @@ void PlayerController::HandleInput(float deltaTime)
 			}
 			
 			m_shadow->SetPosition(m_shadow->GetPosition() + motion * movSpeed * deltaTime);
-			m_shadow->LookAt(m_shadow->GetPosition() + motion);
+			m_shadow->LookAt(m_shadow->GetPosition() + motion);			
+			if (!m_shadow->Get<AudioSource>()->IsPlaying)
+			{
+				m_shadow->Get<AudioSource>()->Play("Walk");
+			}
+				
 		}
 	}
 	else {
 		if (!isShadow) {
 			if (m_body->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Idle") {
 				m_body->Get<Gameplay::AnimatorComponent>()->SetAnimation("Idle");
+				m_body->Get<AudioSource>()->Stop();
 			}
 		}
 		else {
 			if (m_shadow->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Idle") {
 				m_shadow->Get<Gameplay::AnimatorComponent>()->SetAnimation("Idle");
+				m_shadow->Get<AudioSource>()->Stop();
 			}
 		}
 	}
@@ -170,9 +198,11 @@ void PlayerController::HandleInput(float deltaTime)
 	{
 		if (!isShadow) {
 			m_body->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 5.5f));
+			AudioManager::instance().Play("audio/Jump.wav");
 		}
 		else {
 			m_shadow->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 5.5f));
+			AudioManager::instance().Play("audio/Jump.wav");
 		}
 	}
 
@@ -184,23 +214,16 @@ void PlayerController::HandleInput(float deltaTime)
 		cameraLerpT = 0;
 
 		m_light->Range = (isShadow) ? 10.0f : 100.0f;
-		//m_light->Range = Lerp(m_light->Range, (isShadow) ? 50.0f : 200.0f, cameraLerpT);
 
 		if (isShadow && !m_shadow->Get<RenderComponent>()->IsEnabled) {
 			m_shadow->SetPosition(m_body->GetPosition());
-			m_shadow->Get<RenderComponent>()->IsEnabled = true;	
-			//m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = true;
-			//m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionGroup(0x02);			// SHADOW COLLISION
-			//m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionMask(0xFFFFFFFE);	// SHADOW COLLISION
+			m_shadow->Get<RenderComponent>()->IsEnabled = true;
 			shadowIsExtended = true;
 		}
 
 		if (!isShadow && glm::distance(m_body->GetPosition(), m_shadow->GetPosition()) <= 5.0f)
 		{
-			m_shadow->Get<RenderComponent>()->IsEnabled = false;	
-			//m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;
-			//m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionGroup(0x03);			// NO COLLISION
-			//m_shadow->Get<Gameplay::Physics::RigidBody>()->SetCollisionMask(0xFFFFFFFD);	// NO COLLISION
+			m_shadow->Get<RenderComponent>()->IsEnabled = false;
 			shadowIsExtended = false;
 		}
 	}
@@ -215,6 +238,10 @@ void PlayerController::HandleInput(float deltaTime)
 				object.lock()->GetGameObject()->Get<InteractableComponent>()->onInteractionEvent();
 			}
 		}
+
+		if (!isShadow) {
+			AudioManager::instance().Play("audio/SwordSwing.mp3");
+		}
 	}
 
 	// SHADOW SWAP
@@ -225,6 +252,8 @@ void PlayerController::HandleInput(float deltaTime)
 			glm::vec3 temp = m_body->GetPosition();
 			m_body->SetPosition(m_shadow->GetPosition());
 			m_shadow->SetPosition(temp);
+
+			AudioManager::instance().Play("audio/ShadowSwap.wav");
 		}		
 	}
 	

@@ -27,10 +27,12 @@ public:
 	static int ErrorCheck(FMOD_RESULT result, int line);
 
 	static Sound* LoadSound(AudioResource::Sptr resource, AudioSettings settings);
+	static Sound* LoadSound(std::string path, AudioSettings settings = { false, false, false });
 	static void SetMode(Sound* sound, AudioSettings settings);
 
 	static void SetListener(const FMOD_VECTOR* position, const FMOD_VECTOR* velocity, const FMOD_VECTOR* forward, const FMOD_VECTOR* up);
 
+	void Play(std::string path);
 	void PlaySource(AudioSource* source, float fVolume = 1.0f);
 	void StopSource(AudioSource* source);
 

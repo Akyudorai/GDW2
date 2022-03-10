@@ -144,6 +144,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 		audio->m_Settings = AudioSettings{
 			false, true, false
 		};
+		audio->playOnAwake = false;
 		audio->Init();
 	}
 

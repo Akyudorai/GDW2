@@ -4,6 +4,7 @@
 #include "Gameplay/GameObject.h"
 #include "../Physics/TriggerVolume.h"
 #include "AnimatorComponent.h"
+#include "Audio/AudioSource.h"
 
 using namespace Gameplay;
 
@@ -51,6 +52,7 @@ void SpikeTrapBehavior::Update(float deltaTime)
 		// Retract Spikes
 		if (isExtended) 
 		{
+			this->GetGameObject()->Get<AudioSource>()->Play("Spike Trap", new AudioSettings{ true, false, false });
 			trigger->IsEnabled = false;
 			currentTimer = attackRate;
 			isExtended = false;

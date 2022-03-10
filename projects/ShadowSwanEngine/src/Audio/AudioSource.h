@@ -36,6 +36,7 @@ public:
 public:
 	void Init();
 	void Play();
+	void Play(std::string source, AudioSettings* settings = nullptr);
 	void Stop();
 
 public:
