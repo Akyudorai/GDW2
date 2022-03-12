@@ -261,7 +261,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	//	Enemy::Sptr enemyScript = enemy->Add<Enemy>();
 	//	enemyScript->SetOwner(enemy);
 	//	enemyScript->SetTarget(body);
-	//	enemyScript->SetFleeTarget(shadow);
+	// enemyScript->SetFleeTarget(shadow);
 	//	/*std::vector<GameObject> navPts;
 	//	navPts.push_back(*nav1);
 	//	navPts.push_back(*nav2);

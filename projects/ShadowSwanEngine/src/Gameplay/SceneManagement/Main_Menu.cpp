@@ -73,7 +73,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	GameObject::Sptr body = SceneManager::GetCurrentScene()->CreateGameObject("Body");
 	{
 		// Set position in the SceneManager::GetCurrentScene()
-		body->SetPosition(glm::vec3(-5.0f, 4.0f, 0.0f));
+		body->SetPosition(glm::vec3(-5.0f, 4.0f, 0.1f));
 		body->SetRotation(glm::vec3(90.f, 0.0f, -110.0f));
 		body->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
@@ -99,7 +99,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	GameObject::Sptr floor = SceneManager::GetCurrentScene()->CreateGameObject("Floor");
 	{
 		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0f), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
 		// Create and attach a RenderComponent to the object to draw our mesh
