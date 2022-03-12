@@ -101,6 +101,10 @@ public:
 				{ ShaderPartType::Vertex, "shaders/vertex_shaders/vert_multitextured.glsl" },
 				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_multitextured.glsl" }
 			}));
+			shaders.emplace("Animation", ResourceManager::CreateAsset<Shader>(std::unordered_map<ShaderPartType, std::string> {
+				{ ShaderPartType::Vertex, "shaders/vertex_Shaders/animation.glsl" },
+				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_blinn_phong_textured.glsl" }
+			}));
 		}
 
 		// TEXTURES
@@ -247,7 +251,7 @@ public:
 				materials.emplace("Turret", std::move(turretMat));
 			}
 
-			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				doorMat->Name = "Door";
 				doorMat->Set("u_Material.Diffuse", GetTexture("Door"));
@@ -255,7 +259,7 @@ public:
 				materials.emplace("Door", std::move(doorMat));
 			}
 
-			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				characterMat->Name = "Character";
 				characterMat->Set("u_Material.Diffuse", GetTexture("Character"));
@@ -263,7 +267,7 @@ public:
 				materials.emplace("Character", std::move(characterMat));
 			}
 
-			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				spikeTrapMat->Name = "Spike Trap";
 				spikeTrapMat->Set("u_Material.Diffuse", GetTexture("Spike Trap"));

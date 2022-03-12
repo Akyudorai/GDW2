@@ -3,73 +3,129 @@
 namespace Gameplay
 {
 	AnimatorComponent::AnimatorComponent()
-		: frameIndex(0), m_timer(0.0f), m_renderer(nullptr),
+		: m_timer(0.0f), m_renderer(nullptr),
 		m_looping(true), m_forward(true), m_paused(false), m_speed(1.0f)
 	{ }
 	
 	void AnimatorComponent::Update(float deltaTime)
 	{		
-		if (m_paused) return;
+		if (m_paused || currentClip.Name == "") return;
 
 		m_timer += m_speed * deltaTime;
-
-		if (m_timer >= 1.0f) {
+		float t = m_timer / currentClip.FrameDuration;
+		
+		if (t >= 1.0f)
+		{
+			t = 0;
 			m_timer = 0;
 
-			if (m_looping) {
-				if (m_forward)
-					frameIndex = (frameIndex < animations[currentAnimation].size() - 1) ? frameIndex + 1 : 0;
-				else
-					frameIndex = (frameIndex == 0) ? animations[currentAnimation].size() - 1 : frameIndex - 1;
+			if (m_looping) 
+			{
+				if (m_forward) 
+				{
+					currentClip.CurrFrame = (currentClip.CurrFrame == currentClip.Frames.size() - 1) ? 0 : currentClip.CurrFrame + 1;
+					currentClip.NextFrame = (currentClip.NextFrame == currentClip.Frames.size() - 1) ? 0 : currentClip.NextFrame + 1;
+				}
+				
+				else 
+				{
+					currentClip.CurrFrame = (currentClip.CurrFrame == 0) ? currentClip.Frames.size() - 1 : currentClip.CurrFrame - 1;
+					currentClip.NextFrame = (currentClip.NextFrame == 0) ? currentClip.Frames.size() - 1 : currentClip.NextFrame - 1;
+				}
 			}
-				
-			else {
-				
-				if (m_forward) {	
-					// Safety Check for quick switches between forward and reverse animation
-					if (frameIndex >= animations[currentAnimation].size() - 1) return;
 
-					frameIndex = frameIndex + 1;					
-					if (frameIndex >= animations[currentAnimation].size() - 1) {
+			else 
+			{
+				if (m_forward)
+				{
+					// Safety check for quick switches between forward and reverse animation
+					if (currentClip.CurrFrame >= currentClip.Frames.size() - 1) return;
+
+					currentClip.CurrFrame++;
+					currentClip.NextFrame++;
+					if (currentClip.CurrFrame >= currentClip.Frames.size() - 1) 
+					{
 						m_paused = true;
 						if (onAnimationCompleted)
 							onAnimationCompleted();
 					}
 				}
-				else {
-					// Safety Check for quick switches between forward and reverse animation
-					if (frameIndex <= 0) return;
 
-					frameIndex = frameIndex - 1;
-					if (frameIndex <= 0) {
+				else
+				{
+					// Safety check for quick switches between forward and reverse animation
+					if (currentClip.CurrFrame == 0) return;
+
+					currentClip.CurrFrame--;
+					currentClip.NextFrame--;
+					if (currentClip.CurrFrame <= 0)
+					{
 						m_paused = true;
 						if (onAnimationCompleted)
 							onAnimationCompleted();
 					}
-				}				
-			}
+				}
+			}					
 		}
+		
+		std::vector<BufferAttribute> p0 = currentClip.Frames[currentClip.CurrFrame]->Mesh->GetBufferBinding(AttribUsage::Position)->Attributes;
+		std::vector<BufferAttribute> p1 = currentClip.Frames[currentClip.NextFrame]->Mesh->GetBufferBinding(AttribUsage::Position)->Attributes;
 
-		if (m_forward) {
-			if (frameIndex <= animations[currentAnimation].size() - 2)
-				m_renderer->Animate(animations[currentAnimation][frameIndex], animations[currentAnimation][frameIndex + 1], m_timer);
-			else
-				m_renderer->Animate(animations[currentAnimation][frameIndex], animations[currentAnimation][0], m_timer);
-		}
-		else {
-			if (frameIndex > 0)
-				m_renderer->Animate(animations[currentAnimation][frameIndex], animations[currentAnimation][frameIndex - 1], m_timer);
-			else
-				m_renderer->Animate(animations[currentAnimation][0], animations[currentAnimation][animations[currentAnimation].size()-1], m_timer);
-		}
+		p0.resize(1);
+		p1[0].Slot = static_cast<GLint>(4);
+		p1.resize(1);
+
+		VAO->AddVertexBuffer(currentClip.Frames[currentClip.CurrFrame]->Mesh->GetBufferBinding(AttribUsage::Position)->Buffer, p0);
+		VAO->AddVertexBuffer(currentClip.Frames[currentClip.NextFrame]->Mesh->GetBufferBinding(AttribUsage::Position)->Buffer, p1);
+		m_renderer->GetMaterial()->Set("t", t);
 		
 	}
 
-	// DEPRECIATED
-	void AnimatorComponent::SetFrames(std::vector<MeshResource::Sptr> frames)
+	void AnimatorComponent::AddAnimation(std::string name, std::vector<MeshResource::Sptr> frames, float duration) {
+
+		AnimationClip clip;
+		{
+			clip.Name = name;
+			clip.Frames = frames;
+			clip.FrameDuration = duration;
+			clip.CurrFrame = 0;
+
+			if (clip.Frames.size() == 0) clip.NextFrame = 0;
+			else clip.NextFrame = 1;
+		}
+
+		animations.push_back(clip);
+	}
+
+	void AnimatorComponent::Play(std::string name) {
+
+		for (int i = 0; i < animations.size(); i++)
+		{
+			if (animations[i].Name == name) {
+				currentClip = animations[i];
+				SetPause(false);
+				return;
+			}
+		}
+
+		LOG_ERROR("No animation clip with the name " + name);
+	}
+
+	void AnimatorComponent::SetReverse(bool state) 
 	{
-		
-		//m_frames = std::move(frames);
+		m_forward = !state;
+
+		if (m_forward) 
+		{
+			if (currentClip.Frames.size() == 0) currentClip.NextFrame = 0;
+			else currentClip.NextFrame = currentClip.CurrFrame + 1;			
+		} 
+
+		else
+		{
+			if (currentClip.Frames.size() == 0) currentClip.NextFrame = 0;
+			else currentClip.NextFrame = currentClip.CurrFrame - 1;
+		}
 	}
 
 	void AnimatorComponent::RenderImGui()

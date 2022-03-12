@@ -79,16 +79,15 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = body->Add<RenderComponent>();
 
-		renderer->SetMesh(Resources::GetMesh("Character"));
-		renderer->SetMaterial(Resources::GetMaterial("Character"));
+		renderer->SetMesh(Resources::GetMesh("Door"));
+		renderer->SetMaterial(Resources::GetMaterial("Door"));
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Open", Resources::GetAnimation("Door"), 1.0f);
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
 		animator->SetLooping(true);
-		animator->SetPause(false);
-		animator->SetSpeed(2.0f);
+		animator->SetSpeed(1.0f);
+		animator->Play("Open");
 	}
 
 	/////////////////////////////////////////////////////////

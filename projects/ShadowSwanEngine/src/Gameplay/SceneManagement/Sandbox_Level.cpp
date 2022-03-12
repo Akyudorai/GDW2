@@ -120,12 +120,10 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -160,12 +158,10 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -811,10 +807,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Open", frames);
+		animator->AddAnimation("Open", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Open");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -889,10 +884,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Open", frames);
+		animator->AddAnimation("Open", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Open");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 
@@ -925,10 +919,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -997,10 +990,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -1069,10 +1061,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -1150,10 +1141,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {

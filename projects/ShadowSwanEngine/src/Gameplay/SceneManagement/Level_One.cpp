@@ -89,12 +89,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -139,12 +137,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -1696,9 +1692,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_1->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1748,9 +1743,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_2->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1799,9 +1793,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_3->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1873,9 +1866,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_4->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1924,9 +1916,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_5->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1975,9 +1966,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_6->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -2049,9 +2039,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_7->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -2100,9 +2089,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_8->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -2151,9 +2139,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_9->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -2635,9 +2622,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			// Animator
 			AnimatorComponent::Sptr animator = interact_doorway->Add<AnimatorComponent>();
-			animator->AddAnimation("Open", Resources::GetAnimation("Door"));
+			animator->AddAnimation("Open", Resources::GetAnimation("Door"), 1.0f);
 			animator->SetRenderer(*renderer);
-			animator->SetAnimation("Open");
 			animator->SetLooping(false);
 			animator->SetPause(true);
 			animator->onAnimationCompleted = [animator] {
@@ -3328,7 +3314,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			audio->m_Settings = AudioSettings{
 				false, true, false
 			};
-			audio->volume = 0.5f;
+			//audio->volume = f;
 			audio->Init();
 		}
 	}
