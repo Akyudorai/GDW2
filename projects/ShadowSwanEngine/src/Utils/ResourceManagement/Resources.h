@@ -101,6 +101,10 @@ public:
 				{ ShaderPartType::Vertex, "shaders/vertex_shaders/vert_multitextured.glsl" },
 				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_multitextured.glsl" }
 			}));
+			shaders.emplace("Animation", ResourceManager::CreateAsset<Shader>(std::unordered_map<ShaderPartType, std::string> {
+				{ ShaderPartType::Vertex, "shaders/vertex_Shaders/animation.glsl" },
+				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_blinn_phong_textured.glsl" }
+			}));
 		}
 
 		// TEXTURES
@@ -247,7 +251,7 @@ public:
 				materials.emplace("Turret", std::move(turretMat));
 			}
 
-			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				doorMat->Name = "Door";
 				doorMat->Set("u_Material.Diffuse", GetTexture("Door"));
@@ -255,7 +259,7 @@ public:
 				materials.emplace("Door", std::move(doorMat));
 			}
 
-			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				characterMat->Name = "Character";
 				characterMat->Set("u_Material.Diffuse", GetTexture("Character"));
@@ -263,7 +267,7 @@ public:
 				materials.emplace("Character", std::move(characterMat));
 			}
 
-			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				spikeTrapMat->Name = "Spike Trap";
 				spikeTrapMat->Set("u_Material.Diffuse", GetTexture("Spike Trap"));
@@ -683,7 +687,20 @@ public:
 		/////////////////////////////////////
 		{			
 			sounds.emplace("Mohit", ResourceManager::CreateAsset<AudioResource>("audio/Mohit.mp3"));
+
+			sounds.emplace("Walk", ResourceManager::CreateAsset<AudioResource>("audio/WalkTemp.wav"));
+			sounds.emplace("Jump", ResourceManager::CreateAsset<AudioResource>("audio/Jump.wav"));
+			sounds.emplace("Shadow Swap", ResourceManager::CreateAsset<AudioResource>("audio/ShadowSwap.wav"));
+			
+			sounds.emplace("Sword", ResourceManager::CreateAsset<AudioResource>("audio/SwordSwing.mp3"));
+			sounds.emplace("Door", ResourceManager::CreateAsset<AudioResource>("audio/DoorOpen.wav"));
+			sounds.emplace("Jump", ResourceManager::CreateAsset<AudioResource>("audio/Jump.wav"));
+			sounds.emplace("Lever", ResourceManager::CreateAsset<AudioResource>("audio/Lever.mp3"));
+			sounds.emplace("Spike Trap", ResourceManager::CreateAsset<AudioResource>("audio/SpikeTrap.wav"));
+			sounds.emplace("Key", ResourceManager::CreateAsset<AudioResource>("audio/Key.wav"));
+			sounds.emplace("Click", ResourceManager::CreateAsset<AudioResource>("audio/PressurePlate.wav"));
 		}
+
 
 	}
 

@@ -14,6 +14,7 @@
 #include "Gameplay/Components/MovingPlatformBehavior.h"
 #include "Gameplay/Components/SpikeTrapBehavior.h"
 #include "Gameplay/Components/TurretBehavior.h"
+#include "Audio/AudioSource.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -26,6 +27,8 @@
 #include <GLFW/glfw3.h>
 #include "Utils/UIHelper.h"
 #include "Graphics/GuiBatcher.h"
+
+
 
 using namespace Gameplay;
 using namespace Gameplay::Physics;
@@ -86,15 +89,23 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
+
+		AudioSource::Sptr audio = body->Add<AudioSource>();
+		{
+			audio->playOnAwake = false;
+			audio->m_Resource = Resources::GetSound("Walk");
+			audio->m_Settings = AudioSettings{
+				false, false, false
+			};
+			audio->Init();
+		}
 
 		//std::cout << std::to_string(frames.size()) << std::endl;
 
@@ -126,16 +137,25 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
 
+		AudioSource::Sptr audio = shadow->Add<AudioSource>();
+		{
+			audio->playOnAwake = false;
+			audio->m_Resource = Resources::GetSound("Walk");
+			audio->m_Settings = AudioSettings{
+				false, false, false
+			};
+			audio->Init();
+		}
+
+		// Add a dynamic rigid body to this monkey
 		RigidBody::Sptr physics = shadow->Add<RigidBody>(RigidBodyType::Dynamic);
 		BoxCollider::Sptr collider = BoxCollider::Create();
 		physics->AddCollider(collider);
@@ -1002,24 +1022,38 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			volume->SetCollisionGroup(PHYSICAL_GROUP);
 			volume->SetCollisionMask(PHYSICAL_MASK);
 
+			AudioSource::Sptr audio = pressure_plate_1->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->m_Resource = Resources::GetSound("Click");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};
+				audio->Init();
+			}
+
 			// Trigger Event
 			TriggerVolumeEnterBehaviour::Sptr trigger = pressure_plate_1->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = [cageDoor_1, NO_GROUP, NO_MASK]
+			trigger->onTriggerEnterEvent = [cageDoor_1, audio, NO_GROUP, NO_MASK]
 			{					
 				// Open The Door
 				cageDoor_1->Get<RenderComponent>()->IsEnabled = false;
 				RigidBody::Sptr rigid = cageDoor_1->Get<RigidBody>();
 				rigid->SetCollisionGroup(NO_GROUP);
-				rigid->SetCollisionMask(NO_MASK);			
+				rigid->SetCollisionMask(NO_MASK);	
+
+				audio->Play();
 			};
 
-			trigger->onTriggerExitEvent = [cageDoor_1, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
+			trigger->onTriggerExitEvent = [cageDoor_1, audio, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
 			{
 				// Close The Door
 				cageDoor_1->Get<RenderComponent>()->IsEnabled = true;
 				RigidBody::Sptr rigid = cageDoor_1->Get<RigidBody>();				
 				rigid->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);				
+				rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);	
+
+				audio->Play();
 			};
 		}
 
@@ -1047,6 +1081,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->AddCollider(collider);
 				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+
+				
 			}
 
 			GameObject::Sptr trap_ground_lower = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Lower Ground");
@@ -1112,7 +1148,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 			}
 
-			GameObject::Sptr spike_trap_1 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_1 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_1->SetPosition(glm::vec3(45.75f, -6.0f, 5.5f));
 				spike_trap_1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1120,14 +1156,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_1->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_1->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1147,6 +1182,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_1->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_1->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1155,7 +1199,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			}
 
-			GameObject::Sptr spike_trap_2 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_2 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_2->SetPosition(glm::vec3(45.75f, -10.5f, 5.5f));
 				spike_trap_2->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
@@ -1163,14 +1207,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_2->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_2->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1190,6 +1233,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_2->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_2->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1197,7 +1249,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 0, false);
 			}
 
-			GameObject::Sptr spike_trap_3 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_3 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_3->SetPosition(glm::vec3(45.75f, -15.0f, 5.5f));
 				spike_trap_3->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1205,14 +1257,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_3->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_3->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1231,6 +1282,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 						body->Get<HealthComponent>()->DealDamage(10.0f);
 					}
 				};
+
+				AudioSource::Sptr audio = spike_trap_3->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
 
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_3->Add<SpikeTrapBehavior>();
@@ -1262,7 +1322,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 			}
 
-			GameObject::Sptr spike_trap_4 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_4 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_4->SetPosition(glm::vec3(35.5f, -6.0f, 5.5f));
 				spike_trap_4->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1270,14 +1330,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_4->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_4->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1297,6 +1356,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_4->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_4->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1304,7 +1372,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 3, false);
 			}
 
-			GameObject::Sptr spike_trap_5 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_5 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_5->SetPosition(glm::vec3(35.5f, -10.5f, 5.5f));
 				spike_trap_5->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1312,14 +1380,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_5->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_5->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1339,6 +1406,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_5->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_5->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1346,7 +1422,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 3, false);
 			}
 
-			GameObject::Sptr spike_trap_6 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_6 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_6->SetPosition(glm::vec3(35.5f, -15.0f, 5.5f));
 				spike_trap_6->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
@@ -1354,14 +1430,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_6->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_6->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1380,6 +1455,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 						body->Get<HealthComponent>()->DealDamage(10.0f);
 					}
 				};
+
+				AudioSource::Sptr audio = spike_trap_6->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
 
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_6->Add<SpikeTrapBehavior>();
@@ -1411,7 +1495,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 			}
 
-			GameObject::Sptr spike_trap_7 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_7 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_7->SetPosition(glm::vec3(26.25f, -6.0f, 5.5f));
 				spike_trap_7->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1419,14 +1503,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_7->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_7->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1446,6 +1529,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_7->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_7->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1453,7 +1545,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 0, false);
 			}
 
-			GameObject::Sptr spike_trap_8 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_8 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_8->SetPosition(glm::vec3(26.25f, -10.5f, 5.5f));
 				spike_trap_8->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1461,14 +1553,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_8->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_8->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1488,6 +1579,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_8->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_8->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1495,7 +1595,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 0, false);
 			}
 
-			GameObject::Sptr spike_trap_9 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_9 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_9->SetPosition(glm::vec3(26.25f, -15.0f, 5.5f));
 				spike_trap_9->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1503,14 +1603,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Create and attach a renderer for the monkey
 				RenderComponent::Sptr renderer = spike_trap_9->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
-				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+				renderer->SetMesh(Resources::GetMesh("SpikeTrap"));
+				renderer->SetMaterial(Resources::GetMaterial("SpikeTrap"));
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_9->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1529,6 +1628,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 						body->Get<HealthComponent>()->DealDamage(10.0f);
 					}
 				};
+
+				AudioSource::Sptr audio = spike_trap_9->Add<AudioSource>();
+				{
+					audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};
+					audio->Init();
+				}
 
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_9->Add<SpikeTrapBehavior>();
@@ -1616,24 +1724,38 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			volume->SetCollisionGroup(PHYSICAL_GROUP);
 			volume->SetCollisionMask(PHYSICAL_MASK);
 
+			AudioSource::Sptr audio = pressure_plate_2->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->m_Resource = Resources::GetSound("Click");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};
+				audio->Init();
+			}
+
 			// Trigger Event
 			TriggerVolumeEnterBehaviour::Sptr trigger = pressure_plate_2->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = [cageDoor_2, NO_GROUP, NO_MASK]
+			trigger->onTriggerEnterEvent = [cageDoor_2, audio, NO_GROUP, NO_MASK]
 			{
 				// Open The Door
 				cageDoor_2->Get<RenderComponent>()->IsEnabled = false;
 				RigidBody::Sptr rigid = cageDoor_2->Get<RigidBody>();
 				rigid->SetCollisionGroup(NO_GROUP);
-				rigid->SetCollisionMask(NO_MASK);			
+				rigid->SetCollisionMask(NO_MASK);	
+
+				audio->Play();
 			};
 
-			trigger->onTriggerExitEvent = [cageDoor_2, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
+			trigger->onTriggerExitEvent = [cageDoor_2, audio, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
 			{
 				// Close The Door
 				cageDoor_2->Get<RenderComponent>()->IsEnabled = true;
 				RigidBody::Sptr rigid = cageDoor_2->Get<RigidBody>();
 				rigid->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 				rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+
+				audio->Play();
 			};
 		}
 	}
@@ -1730,11 +1852,22 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);			
 
+			AudioSource::Sptr audio = lever_1->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->m_Resource = Resources::GetSound("Lever");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};
+				audio->Init();
+			}
+
 			// Interaction Event
 			InteractableComponent::Sptr interactable = lever_1->Add<InteractableComponent>();
-			interactable->onInteractionEvent = [interactable, cageDoor_3, cageDoor_4, cageDoor_5, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK]
+			interactable->onInteractionEvent = [interactable, audio, cageDoor_3, cageDoor_4, cageDoor_5, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK]
 			{	
 				interactable->isToggled = !interactable->isToggled;
+				audio->Play();
 
 				RigidBody::Sptr rigid_1 = cageDoor_3->Get<RigidBody>();
 				RigidBody::Sptr rigid_2 = cageDoor_4->Get<RigidBody>();
@@ -1863,11 +1996,23 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			physics->AddCollider(collider);
 
+			AudioSource::Sptr audio = lever_2->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->m_Resource = Resources::GetSound("Lever");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};
+				audio->Init();
+			}
+
 			// Interaction Event
 			InteractableComponent::Sptr interactable = lever_2->Add<InteractableComponent>();
-			interactable->onInteractionEvent = [interactable, turret_1, turret_2, turret_3, turret_4]
+			interactable->onInteractionEvent = [interactable, audio, turret_1, turret_2, turret_3, turret_4]
 			{
 				interactable->isToggled = !interactable->isToggled;
+				audio->Play();
+
 
 				if (interactable->isToggled) {
 					// Shut off Turrets
@@ -1888,6 +2033,17 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			RenderComponent::Sptr renderer = key->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Key"));
 			renderer->SetMaterial(Resources::GetMaterial("Key"));
+
+			AudioSource::Sptr audio = key->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->m_Resource = Resources::GetSound("Key");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};
+				audio->Init();
+			}
+
 		}
 
 		GameObject::Sptr pedestal = SceneManager::GetCurrentScene()->CreateGameObject("Key Pedestal");
@@ -1913,7 +2069,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				if (GameManager::GetInstance().PlayerHasKey()) return;
 
 				GameManager::GetInstance().GiveKey();
-				key->Get<RenderComponent>()->IsEnabled = false;				
+				key->Get<RenderComponent>()->IsEnabled = false;			
+				key->Get<AudioSource>()->Play();
 			};
 		}
 	}
@@ -1934,9 +2091,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			// Animator
 			AnimatorComponent::Sptr animator = interact_doorway->Add<AnimatorComponent>();
-			animator->AddAnimation("Open", Resources::GetAnimation("Door"));
+			animator->AddAnimation("Open", Resources::GetAnimation("Door"), 1.0f);
 			animator->SetRenderer(*renderer);
-			animator->SetAnimation("Open");
 			animator->SetLooping(false);
 			animator->SetPause(true);
 			animator->onAnimationCompleted = [animator] {
@@ -1953,9 +2109,19 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 
+			AudioSource::Sptr audio = interact_doorway->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->m_Resource = Resources::GetSound("Door");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};
+				audio->Init();
+			}
+
 			// Interaction Event
 			InteractableComponent::Sptr interactable = interact_doorway->Add<InteractableComponent>();
-			interactable->onInteractionEvent = [interact_doorway, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK] 
+			interactable->onInteractionEvent = [interact_doorway, audio, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK] 
 			{
 				// If player doesn't have the key, do nothing.
 				if (!GameManager::GetInstance().PlayerHasKey()) return;
@@ -1967,11 +2133,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					rigid->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 					rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 					anim->SetPause(false);
+					audio->Play();
 				}
 				else if (anim->IsPaused() && !anim->IsReversed()) {
 					rigid->SetCollisionGroup(NO_GROUP);
 					rigid->SetCollisionMask(NO_MASK);
 					anim->SetPause(false);
+					audio->Play();
 				}
 			};
 		}
@@ -2047,6 +2215,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	/////////////////////////////////////////////////////////
 	//				   SCENE PROPS - GAME
 	/////////////////////////////////////////////////////////
+
+#pragma region Scene Props
 
 	GameObject::Sptr goblinShield1 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 1");
 	{
@@ -2597,6 +2767,26 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Keg"));
 		renderer->SetMaterial(Resources::GetMaterial("Keg"));
 	}*/
+
+#pragma endregion
+
+	/////////////////////////////////////////////////////////
+	//				   ENVIRONMENTAL AUDIO
+	/////////////////////////////////////////////////////////
+
+	GameObject::Sptr bgm = SceneManager::GetCurrentScene()->CreateGameObject("BGM");
+	{
+		AudioSource::Sptr audio = bgm->Add<AudioSource>();
+		{
+			audio->playOnAwake = true;
+			audio->m_Resource = Resources::GetSound("Mohit");
+			audio->m_Settings = AudioSettings{
+				false, true, false
+			};
+			//audio->volume = f;
+			audio->Init();
+		}
+	}
 
 	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - GAME

@@ -22,67 +22,42 @@ namespace Gameplay
 		MAKE_TYPENAME(AnimatorComponent);
 
 	public:
-		void SetFrames(std::vector<MeshResource::Sptr> frames);
-		void SetRenderer(RenderComponent& component) {
-			m_renderer = &component;
-		}
+		inline void SetRenderer(RenderComponent& component) { m_renderer = &component; VAO = m_renderer->GetMesh(); }
+		inline void SetLooping(bool state) { m_looping = state; }
+		inline void SetPause(bool state) { m_paused = state; }
+		inline void SetSpeed(float speed) { m_speed = speed; }
+		void SetReverse(bool state);
 
-		void SetLooping(bool state) {
-			m_looping = state;
-		}
-
-		void SetReverse(bool state) {
-			m_forward = !state;
-		}
-
-		void SetPause(bool state) {
-			m_paused = state;
-		}
-
-		void SetSpeed(float speed) {
-			m_speed = speed;
-		}
-
-		bool IsReversed() { return !m_forward; }
-		bool IsPaused() { return m_paused; }
+		inline bool IsReversed() { return !m_forward; }
+		inline bool IsPaused() { return m_paused; }
 		
-		void AddAnimation(std::string name, std::vector<MeshResource::Sptr> frames) {
-			animations.emplace(name, frames);
-		}
-
-		void Play() {
-			SetPause(false);
-		}
-
-		void PlayAnimation(std::string name) {
-			if (animations.count(name) > 0) {
-				SetAnimation(name);
-				Play();
-			}
-		}
-
-		void SetAnimation(std::string name) {
-			if (animations.count(name) > 0) {
-				currentAnimation = name;
-				frameIndex = 0;
-				m_timer = 0.0f;
-			}			
-		}
+		void AddAnimation(std::string name, std::vector<MeshResource::Sptr> frames, float duration);
+		void Play(std::string name);
 
 	public:
 		std::function<void()> onAnimationCompleted;
-		std::string currentAnimation = "";
+
+		struct AnimationClip
+		{
+			std::string Name;
+			std::vector<Gameplay::MeshResource::Sptr> Frames;
+
+			int CurrFrame;
+			int NextFrame;
+			float FrameDuration;
+		};
 
 	protected:
 		RenderComponent* m_renderer = nullptr;
-		int frameIndex = 0;
 		float m_timer;	
 		bool m_looping;
 		bool m_forward;
 		bool m_paused;
 		float m_speed = 1.0f;
 
-		
-		std::map<std::string, std::vector<MeshResource::Sptr>> animations;			
+		VertexArrayObject::Sptr VAO;
+		AnimationClip currentClip;
+
+		std::vector<AnimationClip> animations;		
 	};
 }

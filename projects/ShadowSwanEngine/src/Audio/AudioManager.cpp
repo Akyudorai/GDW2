@@ -56,7 +56,27 @@ Sound* AudioManager::LoadSound(AudioResource::Sptr resource, AudioSettings setti
 
 
     LOG_ERROR("Sound failed to load.")    
-    return nullptr;;
+    return nullptr;
+}
+
+Sound* AudioManager::LoadSound(std::string path, AudioSettings settings)
+{
+    FMOD_MODE eMode = FMOD_DEFAULT;
+    eMode |= settings.Is3D ? FMOD_3D : FMOD_2D;
+    eMode |= settings.IsLooping ? FMOD_LOOP_NORMAL : FMOD_LOOP_OFF;
+    eMode |= settings.IsStream ? FMOD_CREATESTREAM : FMOD_CREATECOMPRESSEDSAMPLE;
+
+    Sound* result = nullptr;
+
+    AudioManager::ErrorCheck(instance().fmSystem->createSound(path.c_str(), eMode, nullptr, &result), __LINE__);
+    if (result)
+    {
+        return result;
+    }
+
+
+    LOG_ERROR("Sound failed to load.")
+        return nullptr;
 }
 
 void AudioManager::SetMode(Sound* sound, AudioSettings settings)
@@ -72,6 +92,23 @@ void AudioManager::SetMode(Sound* sound, AudioSettings settings)
 void AudioManager::SetListener(const FMOD_VECTOR* position, const FMOD_VECTOR* velocity, const FMOD_VECTOR* forward, const FMOD_VECTOR* up)
 {
     instance().fmSystem->set3DListenerAttributes(0, position, velocity, forward, up);
+}
+
+void AudioManager::Play(std::string path)
+{
+    Sound* sound = LoadSound(path, { false, false, false });
+    Channel* channel;
+    
+    AudioManager::ErrorCheck(fmSystem->playSound(sound, nullptr, true, &channel), __LINE__);
+    if (channel)
+    {
+        FMOD_MODE currMode;
+        sound->getMode(&currMode);
+        
+        AudioManager::ErrorCheck(channel->setVolume(dbToVolume(1.0f)), __LINE__);
+        AudioManager::ErrorCheck(channel->setPaused(false), __LINE__);
+    }
+
 }
 
 void AudioManager::PlaySource(AudioSource* source, float fVolume)
@@ -104,6 +141,17 @@ void AudioManager::StopSource(AudioSource* source)
             (*it)->m_Channel->stop();
         }
     }
+}
+
+void AudioManager::ClearSounds()
+{
+    std::vector<AudioSource*>::iterator it;
+    for (auto it = CurrentSounds.begin(); it != CurrentSounds.end(); ++it)
+    {
+        (*it)->m_Channel->stop();
+    }
+
+    CurrentSounds.clear();
 }
 
 FMOD_VECTOR AudioManager::VectorToFmod(const glm::vec3& vPosition)

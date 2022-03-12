@@ -36,6 +36,7 @@ public:
 public:
 	void Init();
 	void Play();
+	void Play(std::string source, AudioSettings* settings = nullptr);
 	void Stop();
 
 public:
@@ -46,6 +47,7 @@ public:
 	bool playOnAwake;
 	FMOD::Channel* m_Channel;
 	glm::vec3 m_Position;
+	float volume = 1.0f;
 
 private:
 	//friend AudioManager;
