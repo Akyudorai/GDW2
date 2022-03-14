@@ -8,6 +8,8 @@
 
 #include "ResourceManager.h"
 
+#include "Audio/AudioManager.h"
+
 using namespace Gameplay;
 
 class Resources {
@@ -66,9 +68,9 @@ public:
 	
 	void Initialize()
 	{
-		// SHADERS
-		//////////////////////////////////////
-		{
+
+#pragma region Shader Resources
+
 			shaders.emplace("Reflective", ResourceManager::CreateAsset<Shader>(std::unordered_map<ShaderPartType, std::string> {
 				{ ShaderPartType::Vertex, "shaders/vertex_shaders/basic.glsl" },
 				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_environment_reflective.glsl" }
@@ -105,11 +107,11 @@ public:
 				{ ShaderPartType::Vertex, "shaders/vertex_Shaders/animation.glsl" },
 				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_blinn_phong_textured.glsl" }
 			}));
-		}
+	
+#pragma endregion
 
-		// TEXTURES
-		//////////////////////////////////////
-		{
+#pragma region Texture Resources
+
 			textures.emplace("Stone Wall", ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png"));
 			textures.emplace("Stone Slab 2", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabsTexture.png"));
 			textures.emplace("Dark Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTreeUVS.png"));
@@ -198,11 +200,10 @@ public:
 			textures.emplace("Lose", ResourceManager::CreateAsset<Texture2D>("textures/LoseScreen.png"));
 			textures.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/CharacterHealth.png"));
 			textures.emplace("ShadowH", ResourceManager::CreateAsset<Texture2D>("textures/AntiformHealth.png"));
-		}
-		
-		// MATERIALS
-		//////////////////////////////////////	
-		{
+
+#pragma endregion
+
+#pragma region Materials
 			Material::Sptr stoneWallMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				stoneWallMat->Name = "Stone Wall";
@@ -572,12 +573,11 @@ public:
 				kegMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Keg", std::move(kegMat));
 			}
-		}
 
+#pragma endregion
 
-		// MESHES
-		//////////////////////////////////////		
-		{
+#pragma region Mesh Resources
+			
 			meshes.emplace("Character", ResourceManager::CreateAsset<MeshResource>("Character.obj"));
 			meshes.emplace("Dark Pine Tree", ResourceManager::CreateAsset<MeshResource>("DarkPineTree.obj"));
 			meshes.emplace("Light Pine Tree", ResourceManager::CreateAsset<MeshResource>("LightPineTree.obj"));
@@ -621,11 +621,11 @@ public:
 			meshes.emplace("Open Barrel", ResourceManager::CreateAsset<MeshResource>("OpenBarrel.obj"));
 			meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("Bucket.obj"));
 			meshes.emplace("Keg", ResourceManager::CreateAsset<MeshResource>("KegWithStand.obj"));
-		}
+		
+#pragma endregion
 
-		// ANIMATIONS
-		//////////////////////////////////////
-		{
+#pragma region Animation Resources
+
 			std::vector<MeshResource::Sptr> WalkAnimation;
 			{
 				for (int i = 0; i < 8; ++i)
@@ -670,7 +670,7 @@ public:
 
 			std::vector<MeshResource::Sptr> SpikeAnimation;
 			{
-				for (int i = 0; i < 3; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
 					file.append("models/spikedTrap/SpikedTrap");
@@ -681,11 +681,38 @@ public:
 
 				animations.emplace("Spikes", std::move(SpikeAnimation));
 			}
-		}
+
+#pragma endregion
 	
+#pragma region Sound Resources
+
+		// Initialize the Audio Engine Resources
+		AudioEngine& engine = AudioEngine::Instance();
+		engine.Init();
+		engine.LoadBankWithString("Master");
+
+		engine.LoadBank("SFX");
+		engine.LoadBus("Character", "bus:/SFX/Character");
+		engine.CreateSoundEvent("Jump", "event:/Character/Jump");
+		engine.CreateSoundEvent("Walk", "event:/Character/Player Footsteps");
+		engine.CreateSoundEvent("Interact", "event:/Character/Interact");
+		engine.CreateSoundEvent("Swap", "event:/Character/Shadow Swap");
+
+		engine.LoadBus("Interactables", "bus:/SFX/Objects");
+		engine.CreateSoundEvent("Key", "event:/Interactables/Key");
+		engine.CreateSoundEvent("Spikes", "event:/Interactables/Spikes");
+		engine.CreateSoundEvent("Pressure Plate", "event:/Interactables/Pressure Plate");
+		engine.CreateSoundEvent("Lever", "event:/Interactables/Lever");
+		engine.CreateSoundEvent("Door", "event:/Interactables/Door Open");
+
+		engine.LoadBank("Music");
+		engine.LoadBus("Music", "bus:/Music");
+		engine.CreateSoundEvent("Test", "event:/Music/Level 02");
+		engine.CreateSoundEvent("Mohit", "event:/Music/Mohit");
+
 		// SOUNDS
 		/////////////////////////////////////
-		{			
+		/*{			
 			sounds.emplace("Mohit", ResourceManager::CreateAsset<AudioResource>("audio/Mohit.mp3"));
 
 			sounds.emplace("Walk", ResourceManager::CreateAsset<AudioResource>("audio/WalkTemp.wav"));
@@ -699,8 +726,8 @@ public:
 			sounds.emplace("Spike Trap", ResourceManager::CreateAsset<AudioResource>("audio/SpikeTrap.wav"));
 			sounds.emplace("Key", ResourceManager::CreateAsset<AudioResource>("audio/Key.wav"));
 			sounds.emplace("Click", ResourceManager::CreateAsset<AudioResource>("audio/PressurePlate.wav"));
-		}
-
+		}*/
+#pragma endregion
 
 	}
 

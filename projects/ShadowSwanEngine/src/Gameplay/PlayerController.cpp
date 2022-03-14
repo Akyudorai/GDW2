@@ -43,16 +43,18 @@ void PlayerController::Update(float deltaTime)
 	if (m_body == nullptr || m_shadow == nullptr || m_camera == nullptr) return;
 	
 	// Set Audio Listener Position
-	FMOD_VECTOR* p = new FMOD_VECTOR{
+	/*FMOD_VECTOR* p = new FMOD_VECTOR{
 		(isShadow) ? m_shadow->GetPosition().x : m_body->GetPosition().x,
 		(isShadow) ? m_shadow->GetPosition().y : m_body->GetPosition().y,
 		(isShadow) ? m_shadow->GetPosition().z : m_body->GetPosition().z
 	};
 	FMOD_VECTOR* v = new FMOD_VECTOR{ 0, 0, 0 };
 	FMOD_VECTOR* f = new FMOD_VECTOR{ 0, 0, 1 };
-	FMOD_VECTOR* u = new FMOD_VECTOR{ 0, 1, 0 };
-	AudioManager::SetListener(p, v, f, u);
-
+	FMOD_VECTOR* u = new FMOD_VECTOR{ 0, 1, 0 };*/
+	AudioEngine::Instance().GetListener().SetPosition((isShadow) ? m_shadow->GetPosition() : m_body->GetPosition());
+	AudioEngine::Instance().GetListener().SetVelocity(glm::vec3(0, 0, 0));
+	AudioEngine::Instance().GetListener().SetForward(glm::vec3(0,0,1));
+	AudioEngine::Instance().GetListener().SetUp(glm::vec3(0, 1, 0));	
 
 	if (lerpT < 1.0f)
 		lerpT += deltaTime;
@@ -147,10 +149,12 @@ void PlayerController::HandleInput(float deltaTime)
 		if (!isShadow) {
 			
 			m_body->SetPosition(m_body->GetPosition() + motion * movSpeed * deltaTime);
-			m_body->Get<Gameplay::AnimatorComponent>()->Play("Walk");
-			if (!m_body->Get<AudioSource>()->IsPlaying)
+			//m_body->Get<Gameplay::AnimatorComponent>()->Play("Walk");
+			if (!AudioEngine::Instance().GetEvent("Walk").IsPlaying())
 			{
-				m_body->Get<AudioSource>()->Play("Walk");
+				//m_body->Get<AudioSource>()->Play("Walk");
+				AudioEngine::Instance().GetEvent("Walk").SetPosition(m_body->GetPosition());				
+				AudioEngine::Instance().GetEvent("Walk").Play();
 				
 			}				
 
@@ -163,22 +167,26 @@ void PlayerController::HandleInput(float deltaTime)
 		else if (isShadow && glm::distance(m_shadow->GetPosition() + motion, m_body->GetPosition()) <= 20.0f) {			
 			m_shadow->SetPosition(m_shadow->GetPosition() + motion * movSpeed * deltaTime);
 			m_shadow->LookAt(m_shadow->GetPosition() + motion);			
-			m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Walk");
-			if (!m_shadow->Get<AudioSource>()->IsPlaying)
+			//m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Walk");
+			if (!AudioEngine::Instance().GetEvent("Walk").IsPlaying())
 			{
-				m_shadow->Get<AudioSource>()->Play("Walk");
+				//m_shadow->Get<AudioSource>()->Play("Walk");
+				AudioEngine::Instance().GetEvent("Walk").SetPosition(m_shadow->GetPosition());
+				AudioEngine::Instance().GetEvent("Walk").Play();
 			}
 				
 		}
 	}
 	else {
 		if (!isShadow) {
-			m_body->Get<Gameplay::AnimatorComponent>()->Play("Idle");
-			m_body->Get<AudioSource>()->Stop();
+			//m_body->Get<Gameplay::AnimatorComponent>()->Play("Idle");
+			//m_body->Get<AudioSource>()->Stop();
+			AudioEngine::Instance().GetEvent("Walk").Stop();
 		}
 		else {
-			m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Idle");
-			m_shadow->Get<AudioSource>()->Stop();
+			//m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Idle");
+			//m_shadow->Get<AudioSource>()->Stop();
+			AudioEngine::Instance().GetEvent("Walk").Stop();
 		}
 	}
 
@@ -187,11 +195,15 @@ void PlayerController::HandleInput(float deltaTime)
 	{
 		if (!isShadow) {
 			m_body->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 5.5f));
-			AudioManager::instance().Play("audio/Jump.wav");
+			//AudioManager::instance().Play("audio/Jump.wav");
+			AudioEngine::Instance().GetEvent("Jump").SetPosition(m_body->GetPosition());
+			AudioEngine::Instance().GetEvent("Jump").Play();
 		}
 		else {
 			m_shadow->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 5.5f));
-			AudioManager::instance().Play("audio/Jump.wav");
+			//AudioManager::instance().Play("audio/Jump.wav");
+			AudioEngine::Instance().GetEvent("Jump").SetPosition(m_shadow->GetPosition());
+			AudioEngine::Instance().GetEvent("Jump").Play();
 		}
 	}
 
@@ -228,8 +240,12 @@ void PlayerController::HandleInput(float deltaTime)
 			}
 		}
 
-		if (!isShadow) {
-			AudioManager::instance().Play("audio/SwordSwing.mp3");
+		if (!isShadow) {			
+			//AudioManager::instance().Play("audio/SwordSwing.mp3");
+			 
+			// (DISABLED) :: Too loud.  It's overpowering the other SFX.
+			//AudioEngine::Instance().GetEvent("Interact").SetPosition(m_body->GetPosition());
+			//AudioEngine::Instance().GetEvent("Interact").Play();
 		}
 	}
 
@@ -242,7 +258,9 @@ void PlayerController::HandleInput(float deltaTime)
 			m_body->SetPosition(m_shadow->GetPosition());
 			m_shadow->SetPosition(temp);
 
-			AudioManager::instance().Play("audio/ShadowSwap.wav");
+			//AudioManager::instance().Play("audio/ShadowSwap.wav");
+			AudioEngine::Instance().GetEvent("Swap").SetPosition(m_body->GetPosition());
+			AudioEngine::Instance().GetEvent("Swap").Play();
 		}		
 	}
 	
