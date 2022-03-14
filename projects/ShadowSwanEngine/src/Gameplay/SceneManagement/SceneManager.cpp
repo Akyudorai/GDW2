@@ -27,7 +27,11 @@ namespace Gameplay
 		if (currentScene != nullptr) {
 			currentScene = nullptr;
 			GameInterface.Clear();
-			AudioManager::instance().ClearSounds();
+			//AudioManager::instance().ClearSounds();
+			AudioEngine::Instance().StopAllSounds();
+
+			if (AudioEngine::Instance().GetEvent("Test").IsPlaying())
+				AudioEngine::Instance().GetEvent("Test").StopImmediately();
 		}
 		
 		currentScene = std::make_shared<Scene>();		
@@ -58,7 +62,7 @@ namespace Gameplay
 			case Scenes::MainMenu:
 				Main_Menu::Load(windowRef);
 				playOnLoad = Main_Menu::PlayOnLoad;
-		}
+		}		
 
 		currentScene->IsPlaying = true;
 		currentScene->IsPaused = !playOnLoad;

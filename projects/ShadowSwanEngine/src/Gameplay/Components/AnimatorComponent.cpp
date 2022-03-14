@@ -4,7 +4,7 @@ namespace Gameplay
 {
 	AnimatorComponent::AnimatorComponent()
 		: m_timer(0.0f), m_renderer(nullptr),
-		m_looping(true), m_forward(true), m_paused(false), m_speed(1.0f)
+		m_looping(true), m_forward(true), m_paused(true), m_speed(1.0f)
 	{ }
 	
 	void AnimatorComponent::Update(float deltaTime)
@@ -94,6 +94,7 @@ namespace Gameplay
 			else clip.NextFrame = 1;
 		}
 
+		if (animations.size() == 0) currentClip = clip;
 		animations.push_back(clip);
 	}
 
@@ -129,7 +130,13 @@ namespace Gameplay
 	}
 
 	void AnimatorComponent::RenderImGui()
-	{ }
+	{ 
+		ImGui::DragFloat("m_Timer", &m_timer);
+
+		ImGui::Checkbox("Paused", &m_paused);
+		ImGui::Checkbox("Forward Animation?", &m_forward);
+		ImGui::Checkbox("Looping?", &m_looping);
+	}
 
 	nlohmann::json AnimatorComponent::ToJson() const
 	{

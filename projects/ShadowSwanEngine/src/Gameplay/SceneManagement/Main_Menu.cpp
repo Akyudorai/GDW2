@@ -29,12 +29,16 @@
 // Audio
 #include "Audio/AudioSource.h"
 
+#include "Audio/AudioManager.h"
+
 using namespace Gameplay::Physics;
 
 bool Main_Menu::PlayOnLoad = true;
 
 Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 {
+	
+
 	// TO BE MOVED TO GAME SETTINGS
 	int PHYSICAL_MASK = 0xFFFFFFFF;
 	int PHYSICAL_GROUP = 0x01;
@@ -79,15 +83,15 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = body->Add<RenderComponent>();
 
-		renderer->SetMesh(Resources::GetMesh("Door"));
-		renderer->SetMaterial(Resources::GetMaterial("Door"));
+		renderer->SetMesh(Resources::GetMesh("Character"));
+		renderer->SetMaterial(Resources::GetMaterial("Character"));
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
-		animator->AddAnimation("Open", Resources::GetAnimation("Door"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(true);
 		animator->SetSpeed(1.0f);
-		animator->Play("Open");
+		animator->Play("Idle");
 	}
 
 	/////////////////////////////////////////////////////////
@@ -137,18 +141,18 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	//					 AUDIO
 	/////////////////////////////////////////////////////////
 
-	GameObject::Sptr bgm = SceneManager::GetCurrentScene()->CreateGameObject("BGM");
+		AudioEngine::Instance().GetEvent("Mohit").SetVolume(0.25f);
+		AudioEngine::Instance().GetEvent("Mohit").Play();
+
+	/*GameObject::Sptr bgm = SceneManager::GetCurrentScene()->CreateGameObject("BGM");
 	{
 		bgm->SetPosition(glm::vec3(-5.0f, 4.0f, 0.0f));
 		
 		AudioSource::Sptr audio = bgm->Add<AudioSource>();		
-		audio->m_Resource = Resources::GetSound("Mohit");
-		audio->m_Settings = AudioSettings{
-			false, true, false
-		};
+		audio->LoadEvent("Mohit");
 		audio->playOnAwake = false;
 		audio->Init();
-	}
+	}*/
 
 	/////////////////////////////////////////////////////////
 	//					 USER INTERFACE
