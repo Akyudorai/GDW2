@@ -4,8 +4,11 @@
 #include "Gameplay/Material.h"
 #include "Graphics/Texture2D.h"
 #include "Graphics/Shader.h"
+#include "Audio/AudioResource.h"
 
 #include "ResourceManager.h"
+
+#include "Audio/AudioManager.h"
 
 using namespace Gameplay;
 
@@ -59,14 +62,15 @@ protected:
 	std::map<std::string, Texture2D::Sptr>							textures;
 	std::map<std::string, Material::Sptr>							materials;
 	std::map<std::string, std::vector<MeshResource::Sptr>>			animations;
+	std::map<std::string, AudioResource::Sptr>						sounds;
 
 public:
 	
 	void Initialize()
 	{
-		// SHADERS
-		//////////////////////////////////////
-		{
+
+#pragma region Shader Resources
+
 			shaders.emplace("Reflective", ResourceManager::CreateAsset<Shader>(std::unordered_map<ShaderPartType, std::string> {
 				{ ShaderPartType::Vertex, "shaders/vertex_shaders/basic.glsl" },
 				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_environment_reflective.glsl" }
@@ -99,13 +103,16 @@ public:
 				{ ShaderPartType::Vertex, "shaders/vertex_shaders/vert_multitextured.glsl" },
 				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_multitextured.glsl" }
 			}));
-		}
+			shaders.emplace("Animation", ResourceManager::CreateAsset<Shader>(std::unordered_map<ShaderPartType, std::string> {
+				{ ShaderPartType::Vertex, "shaders/vertex_Shaders/animation.glsl" },
+				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_blinn_phong_textured.glsl" }
+			}));
+	
+#pragma endregion
 
-		// TEXTURES
-		//////////////////////////////////////
-		{
+#pragma region Texture Resources
+
 			textures.emplace("Stone Wall", ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png"));
-			textures.emplace("Stone Slab", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabUVs.png"));
 			textures.emplace("Stone Slab 2", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabsTexture.png"));
 			textures.emplace("Dark Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTreeUVS.png"));
 			textures.emplace("Light Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/LightTreeTextureUVS.png"));
@@ -142,6 +149,7 @@ public:
 			textures.emplace("Wall2", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex2.png"));
 			textures.emplace("Wall_Tex3", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex3.png"));
 			textures.emplace("Wall_Tex4", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex4.png"));
+			textures.emplace("Wall_Tex5", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex5.png"));
 			textures.emplace("ShieldTex", ResourceManager::CreateAsset<Texture2D>("textures/ShieldTexture.png"));
 			textures.emplace("StaffTex", ResourceManager::CreateAsset<Texture2D>("textures/StaffTexture.png"));
 			textures.emplace("SwordTex", ResourceManager::CreateAsset<Texture2D>("textures/GoblinSwordUV.png"));
@@ -173,7 +181,11 @@ public:
 			textures.emplace("ChooseLevel", ResourceManager::CreateAsset<Texture2D>("textures/ChooseLevel.png"));
 			textures.emplace("Credits", ResourceManager::CreateAsset<Texture2D>("textures/Credits.png"));
 			textures.emplace("Exit", ResourceManager::CreateAsset<Texture2D>("textures/ExitGame.png"));
+			textures.emplace("R", ResourceManager::CreateAsset<Texture2D>("textures/Resume.png"));
+			textures.emplace("Re", ResourceManager::CreateAsset<Texture2D>("textures/Restart.png"));
 			textures.emplace("Return", ResourceManager::CreateAsset<Texture2D>("textures/ReturntoMainMenu.png"));
+			textures.emplace("TitleT", ResourceManager::CreateAsset<Texture2D>("textures/Title.png"));
+			textures.emplace("Pause", ResourceManager::CreateAsset<Texture2D>("textures/Paused.png"));
 			textures.emplace("L1", ResourceManager::CreateAsset<Texture2D>("textures/Level1.png"));
 			textures.emplace("L2", ResourceManager::CreateAsset<Texture2D>("textures/Level2.png"));
 			textures.emplace("L3", ResourceManager::CreateAsset<Texture2D>("textures/Level3.png"));
@@ -183,15 +195,15 @@ public:
 			textures.emplace("U.I", ResourceManager::CreateAsset<Texture2D>("textures/U.ISize.png"));
 			textures.emplace("CP", ResourceManager::CreateAsset<Texture2D>("textures/CreditsPage.png"));
 			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/GameTitleIntro.png"));
+			textures.emplace("Controls", ResourceManager::CreateAsset<Texture2D>("textures/Controls.png"));
 			textures.emplace("LS", ResourceManager::CreateAsset<Texture2D>("textures/LogoScreen.png"));
 			textures.emplace("Lose", ResourceManager::CreateAsset<Texture2D>("textures/LoseScreen.png"));
 			textures.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/CharacterHealth.png"));
 			textures.emplace("ShadowH", ResourceManager::CreateAsset<Texture2D>("textures/AntiformHealth.png"));
-		}
-		
-		// MATERIALS
-		//////////////////////////////////////	
-		{
+
+#pragma endregion
+
+#pragma region Materials
 			Material::Sptr stoneWallMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				stoneWallMat->Name = "Stone Wall";
@@ -240,7 +252,7 @@ public:
 				materials.emplace("Turret", std::move(turretMat));
 			}
 
-			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				doorMat->Name = "Door";
 				doorMat->Set("u_Material.Diffuse", GetTexture("Door"));
@@ -248,7 +260,7 @@ public:
 				materials.emplace("Door", std::move(doorMat));
 			}
 
-			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				characterMat->Name = "Character";
 				characterMat->Set("u_Material.Diffuse", GetTexture("Character"));
@@ -256,7 +268,7 @@ public:
 				materials.emplace("Character", std::move(characterMat));
 			}
 
-			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
 			{
 				spikeTrapMat->Name = "Spike Trap";
 				spikeTrapMat->Set("u_Material.Diffuse", GetTexture("Spike Trap"));
@@ -442,6 +454,14 @@ public:
 				materials.emplace("Brown", std::move(brownMat));
 			}
 
+			Material::Sptr stone1Mat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				stone1Mat->Name = "StoneTex"; 
+				stone1Mat->Set("u_Material.Diffuse", GetTexture("StoneTex")); 
+				stone1Mat->Set("u_Material.Shininess", 0.1f); 
+				materials.emplace("StoneTex", std::move(stone1Mat)); 
+			}
+
 			Material::Sptr Wall_Mat2 = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				Wall_Mat2->Name = "Wall2";
@@ -553,12 +573,11 @@ public:
 				kegMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Keg", std::move(kegMat));
 			}
-		}
 
+#pragma endregion
 
-		// MESHES
-		//////////////////////////////////////		
-		{
+#pragma region Mesh Resources
+			
 			meshes.emplace("Character", ResourceManager::CreateAsset<MeshResource>("Character.obj"));
 			meshes.emplace("Dark Pine Tree", ResourceManager::CreateAsset<MeshResource>("DarkPineTree.obj"));
 			meshes.emplace("Light Pine Tree", ResourceManager::CreateAsset<MeshResource>("LightPineTree.obj"));
@@ -567,7 +586,6 @@ public:
 			meshes.emplace("Stone Wall", ResourceManager::CreateAsset<MeshResource>("StoneWall.obj"));
 			meshes.emplace("Turret Projectile", ResourceManager::CreateAsset<MeshResource>("TurretProjectile.obj"));
 			meshes.emplace("Standing Torch", ResourceManager::CreateAsset<MeshResource>("StandingTorch.obj"));
-			meshes.emplace("Stone Slab", ResourceManager::CreateAsset<MeshResource>("stoneslabs.obj"));
 			meshes.emplace("Enemy", ResourceManager::CreateAsset<MeshResource>("Enemy.obj"));
 			meshes.emplace("Circle Cage", ResourceManager::CreateAsset<MeshResource>("CircleCage.obj"));
 			meshes.emplace("Box Cage", ResourceManager::CreateAsset<MeshResource>("BoxCage.obj"));
@@ -603,11 +621,11 @@ public:
 			meshes.emplace("Open Barrel", ResourceManager::CreateAsset<MeshResource>("OpenBarrel.obj"));
 			meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("Bucket.obj"));
 			meshes.emplace("Keg", ResourceManager::CreateAsset<MeshResource>("KegWithStand.obj"));
-		}
+		
+#pragma endregion
 
-		// ANIMATIONS
-		//////////////////////////////////////
-		{
+#pragma region Animation Resources
+
 			std::vector<MeshResource::Sptr> WalkAnimation;
 			{
 				for (int i = 0; i < 8; ++i)
@@ -652,7 +670,7 @@ public:
 
 			std::vector<MeshResource::Sptr> SpikeAnimation;
 			{
-				for (int i = 0; i < 3; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
 					file.append("models/spikedTrap/SpikedTrap");
@@ -663,8 +681,54 @@ public:
 
 				animations.emplace("Spikes", std::move(SpikeAnimation));
 			}
-		}
+
+#pragma endregion
 	
+#pragma region Sound Resources
+
+		// Initialize the Audio Engine Resources
+		AudioEngine& engine = AudioEngine::Instance();
+		engine.Init();
+		engine.LoadBankWithString("Master");
+
+		engine.LoadBank("SFX");
+		engine.LoadBus("Character", "bus:/SFX/Character");
+		engine.CreateSoundEvent("Jump", "event:/Character/Jump");
+		engine.CreateSoundEvent("Walk", "event:/Character/Player Footsteps");
+		engine.CreateSoundEvent("Interact", "event:/Character/Interact");
+		engine.CreateSoundEvent("Swap", "event:/Character/Shadow Swap");
+
+		engine.LoadBus("Interactables", "bus:/SFX/Objects");
+		engine.CreateSoundEvent("Key", "event:/Interactables/Key");
+		engine.CreateSoundEvent("Spikes", "event:/Interactables/Spikes");
+		engine.CreateSoundEvent("Pressure Plate", "event:/Interactables/Pressure Plate");
+		engine.CreateSoundEvent("Lever", "event:/Interactables/Lever");
+		engine.CreateSoundEvent("Door", "event:/Interactables/Door Open");
+
+		engine.LoadBank("Music");
+		engine.LoadBus("Music", "bus:/Music");
+		engine.CreateSoundEvent("Test", "event:/Music/Level 02");
+		engine.CreateSoundEvent("Mohit", "event:/Music/Mohit");
+
+		// SOUNDS
+		/////////////////////////////////////
+		/*{			
+			sounds.emplace("Mohit", ResourceManager::CreateAsset<AudioResource>("audio/Mohit.mp3"));
+
+			sounds.emplace("Walk", ResourceManager::CreateAsset<AudioResource>("audio/WalkTemp.wav"));
+			sounds.emplace("Jump", ResourceManager::CreateAsset<AudioResource>("audio/Jump.wav"));
+			sounds.emplace("Shadow Swap", ResourceManager::CreateAsset<AudioResource>("audio/ShadowSwap.wav"));
+			
+			sounds.emplace("Sword", ResourceManager::CreateAsset<AudioResource>("audio/SwordSwing.mp3"));
+			sounds.emplace("Door", ResourceManager::CreateAsset<AudioResource>("audio/DoorOpen.wav"));
+			sounds.emplace("Jump", ResourceManager::CreateAsset<AudioResource>("audio/Jump.wav"));
+			sounds.emplace("Lever", ResourceManager::CreateAsset<AudioResource>("audio/Lever.mp3"));
+			sounds.emplace("Spike Trap", ResourceManager::CreateAsset<AudioResource>("audio/SpikeTrap.wav"));
+			sounds.emplace("Key", ResourceManager::CreateAsset<AudioResource>("audio/Key.wav"));
+			sounds.emplace("Click", ResourceManager::CreateAsset<AudioResource>("audio/PressurePlate.wav"));
+		}*/
+#pragma endregion
+
 	}
 
 	static Shader::Sptr GetShader(std::string name) {
@@ -742,6 +806,23 @@ public:
 		else {
 			std::cout << "ERROR <nullptr>: " << name << " not found in Animations";
 			return std::vector<MeshResource::Sptr>();
+		}
+	}
+
+	static std::map<std::string, AudioResource::Sptr>* GetAudioMap() { return &shared_instance().sounds; }
+	static AudioResource::Sptr GetSound(std::string name)
+	{
+		std::map<std::string, AudioResource::Sptr>::iterator it;
+		it = shared_instance().sounds.find(name);
+
+		if (it != shared_instance().sounds.end())
+		{
+			return it->second;
+		}
+
+		else {
+			std::cout << "ERROR <nullptr>: " << name << " not found in Sounds.";
+			return nullptr;
 		}
 	}
 

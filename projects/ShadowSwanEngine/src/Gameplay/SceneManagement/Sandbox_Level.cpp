@@ -120,12 +120,10 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -160,12 +158,10 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -811,10 +807,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Open", frames);
+		animator->AddAnimation("Open", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Open");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -889,10 +884,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Open", frames);
+		animator->AddAnimation("Open", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Open");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 
@@ -925,10 +919,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -997,10 +990,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -1069,10 +1061,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -1150,10 +1141,9 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames);
+		animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Activate");
 		animator->SetLooping(false);
 		animator->SetPause(true);
 		animator->onAnimationCompleted = [animator] {
@@ -1449,58 +1439,32 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		gameCanvas->AddChild(timerText);
 
 		SceneManager::GameInterface.SetGameUserInterface(*gameCanvas);
-		SceneManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>(), *timerText->Get<GuiText>());
+		SceneManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>());
 	}
 
 	/////////////////////////////////////////////////////////
-	//				   USER INTERFACE - Main Menu
-	/////////////////////////////////////////////////////////
-
-	/*GameObject::Sptr mainMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
-	{
-		RectTransform::Sptr transform = mainMenu->Add<RectTransform>();
-		transform->SetMin({ 16, 16 });
-		transform->SetMax({ 900, 900 });
-		transform->SetPosition({ 400, 400 });
-
-		GuiPanel::Sptr backgroundPanel = mainMenu->Add<GuiPanel>();
-		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
-
-		GameObject::Sptr menuTitle = UIHelper::CreateText("Main Menu");
-		menuTitle->Get<GuiText>()->SetTextScale(2);
-		menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
-		mainMenu->AddChild(menuTitle);
-
-		GameObject::Sptr button1 = UIHelper::CreateButton("Press 'P' to Start Game");
-		button1->Get<RectTransform>()->SetPosition({ 425, 400 });
-		mainMenu->AddChild(button1);
-
-		mainMenu->IsActive = true;
-		SceneManager::GetCurrentScene()->PC.SetMainMenuCanvas(*mainMenu);
-	}*/
+//				   USER INTERFACE - GAME
+/////////////////////////////////////////////////////////
 
 	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - Lose Screen
 	/////////////////////////////////////////////////////////
 
-	GameObject::Sptr losePanel = SceneManager::GetCurrentScene()->CreateGameObject("Lose Panel UI");
+	GameObject::Sptr loseCanvas = SceneManager::GetCurrentScene()->CreateGameObject("Lose Screen");
 	{
-		RectTransform::Sptr transform = losePanel->Add<RectTransform>();
+		RectTransform::Sptr transform = loseCanvas->Add<RectTransform>();
 		transform->SetMin({ 16, 16 });
 		transform->SetMax({ 900, 900 });
 		transform->SetPosition({ 400, 400 });
 
-		GuiPanel::Sptr backgroundPanel = losePanel->Add<GuiPanel>();
-		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 0.75f));
+		GameObject::Sptr loseS = UIHelper::CreateImage(Resources::GetTexture("Lose"), "Lose Screen");
+		loseS->Get<RectTransform>()->SetPosition({ 380, 400 });
+		loseS->Get<RectTransform>()->SetSize({ 250, 200 });
+		loseS->Get<GuiPanel>()->SetBorderRadius(0);
+		loseCanvas->AddChild(loseS);
 
-		GameObject::Sptr menuTitle = UIHelper::CreateText("You Died!");
-		menuTitle->Get<GuiText>()->SetTextScale(2);
-		menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
-		losePanel->AddChild(menuTitle);
-
-		losePanel->IsActive = false;
-		SceneManager::GameInterface.SetLosePanel(*losePanel);
-		//SceneManager::GetCurrentScene()->PC.SetLoseCanvas(*loseCanvas);
+		loseCanvas->IsActive = false;
+		SceneManager::GameInterface.SetLosePanel(*loseCanvas);
 	}
 
 	/////////////////////////////////////////////////////////
@@ -1517,43 +1481,41 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		GuiPanel::Sptr backgroundPanel = pauseMenu->Add<GuiPanel>();
 		backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));
 
+		GameObject::Sptr pa = UIHelper::CreateImage(Resources::GetTexture("Pause"), "Pausing");
+		pa->Get<RectTransform>()->SetPosition({ 163, 40 });
+		pa->Get<RectTransform>()->SetSize({ 100, 50 });
+		pa->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(pa);
 
-		GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss"), "Upper Graphic");
-		upperGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });
-		upperGraphic->Get<RectTransform>()->SetSize({ 80, 30 });
-		upperGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(upperGraphic);
+		GameObject::Sptr resume = UIHelper::CreateImage(Resources::GetTexture("R"), "Resume");
+		resume->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 120 });
+		resume->Get<RectTransform>()->SetSize({ 50, 20 });
+		resume->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(resume);
 
-		GameObject::Sptr menuTitle = UIHelper::CreateText("Paused");
-		menuTitle->Get<GuiText>()->SetTextScale(2);
-		menuTitle->Get<RectTransform>()->SetPosition({ 280.0f, 175 });
-		pauseMenu->AddChild(menuTitle);
+		GameObject::Sptr restart = UIHelper::CreateImage(Resources::GetTexture("Re"), "Restart");
+		restart->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 200 });
+		restart->Get<RectTransform>()->SetSize({ 50, 20 });
+		restart->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(restart);
 
-		GameObject::Sptr button1 = UIHelper::CreateButton("Resume Game");
-		button1->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 150 });
-		pauseMenu->AddChild(button1);
+		GameObject::Sptr Options1 = UIHelper::CreateImage(Resources::GetTexture("Options"), "Options");
+		Options1->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 280 });
+		Options1->Get<RectTransform>()->SetSize({ 50, 20 });
+		Options1->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(Options1);
 
-		GameObject::Sptr button2 = UIHelper::CreateButton("Restart Level");
-		button2->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 200 });
-		pauseMenu->AddChild(button2);
+		GameObject::Sptr quit = UIHelper::CreateImage(Resources::GetTexture("Return"), "Quit");
+		quit->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 360 });
+		quit->Get<RectTransform>()->SetSize({ 50, 20 });
+		quit->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(quit);
 
-		GameObject::Sptr button3 = UIHelper::CreateButton("Options");
-		button3->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 250 });
-		pauseMenu->AddChild(button3);
-
-		GameObject::Sptr button4 = UIHelper::CreateButton("Quit to Menu");
-		button4->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 300 });
-		pauseMenu->AddChild(button4);
-
-		GameObject::Sptr button5 = UIHelper::CreateButton("Quit Game");
-		button5->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 350 });
-		pauseMenu->AddChild(button5);
-
-		GameObject::Sptr lowerGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss Reverse"), "Lower Graphic");
-		lowerGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 400 });
-		lowerGraphic->Get<RectTransform>()->SetSize({ 40, 17.5f });
-		lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(lowerGraphic);
+		GameObject::Sptr exit = UIHelper::CreateImage(Resources::GetTexture("Exit"), "Exit");
+		exit->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 440 });
+		exit->Get<RectTransform>()->SetSize({ 50, 20 });
+		exit->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(exit);
 
 		pauseMenu->IsActive = false;
 		//SceneManager::GetCurrentScene()->PC.SetPauseMenu(*pauseMenu);

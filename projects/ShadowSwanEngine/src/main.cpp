@@ -89,6 +89,10 @@
 #include "Utils/Editor/Editor.h"
 #include "Gameplay/GameManager.h"
 
+#include "Audio/AudioResource.h"
+#include "Audio/AudioSource.h"
+#include "Audio/AudioManager.h"
+
 //#define LOG_GL_NOTIFICATIONS 
 
 /*
@@ -264,6 +268,7 @@ int main() {
 	ResourceManager::RegisterType<Shader>();
 	ResourceManager::RegisterType<Material>();
 	ResourceManager::RegisterType<MeshResource>();
+	ResourceManager::RegisterType<AudioResource>();
 
 	// Load all our assets to the Resources class
 	Resources::shared_instance().Initialize();
@@ -285,6 +290,7 @@ int main() {
 	ComponentManager::RegisterType<SpikeTrapBehavior>();
 	ComponentManager::RegisterType<MovingPlatformBehavior>();
 	ComponentManager::RegisterType<TurretBehavior>();
+	ComponentManager::RegisterType<AudioSource>();
 
 	ComponentManager::RegisterType<RectTransform>();
 	ComponentManager::RegisterType<GuiPanel>();
@@ -295,13 +301,44 @@ int main() {
 	/////////////////////////////////////////////////////////
 	// Scene Management
 	/////////////////////////////////////////////////////////
+
+	// Initialize our Audio Manager
+	//AudioManager::Init();
+	/*AudioEngine& engine = AudioEngine::Instance();
+	engine.Init();
+	engine.LoadBankWithString("Master");
 	
+	engine.LoadBank("SFX");
+	engine.CreateSoundEvent("Jump", "event:/Character/Jump");
+	engine.CreateSoundEvent("Walk", "event:/Character/Player Footsteps");
+	engine.CreateSoundEvent("Interact", "event:/Character/Interact");
+	engine.CreateSoundEvent("Swap", "event:/Character/Shadow Swap");
+	engine.CreateSoundEvent("Key", "event:/Interactables/Key");
+	engine.CreateSoundEvent("Spikes", "event:/Interactables/Spikes");
+	engine.CreateSoundEvent("Pressure Plate", "event:/Interactables/Pressure Plate");
+	engine.CreateSoundEvent("Lever", "event:/Interactables/Lever");
+	engine.CreateSoundEvent("Door", "event:/Interactables/Door Open");
+
+	engine.LoadBank("Music");
+	engine.CreateSoundEvent("Test", "event:/Music/Level 02");
+	engine.CreateSoundEvent("Mohit", "event:/Music/Mohit");*/
+
+	
+	//engine.LoadBus("Music", "bus:/Music");
+	//engine.LoadBus("SFX", "bus:/SFX");
+	//engine.CreateSoundEvent("MainMenu", "event:/Main Menu");
+	//engine.CreateSoundEvent("hit", "event:/punch");
+	//engine.CreateSoundEvent("reload", "event:/reload");
+	//engine.CreateSoundEvent("step", "event:/steps");
+	//engine.CreateSoundEvent("shoot", "event:/Pew");
+	//engine.CreateSoundEvent("pickup", "event:/pickup");
+
 	// Initialize our Scene Manager
 	SceneManager::Initialize(window);
 
 	// Load our initial Scene
 	SceneManager::LoadScene(SceneManager::Scenes::MainMenu, true);
-	
+
 	// Initialize Input Manager
 	InputHandler::Initialize();
 
@@ -348,8 +385,13 @@ int main() {
 		// Scene Management
 		/////////////////////////////////////////////////////////
 
+		
 		SceneManager::Update(dt);
 		SceneManager::Draw();
+
+		//AudioManager::Update();
+		AudioEngine::Instance().Update();
+
 		InputHandler::Update(dt);
 		GameManager::GetInstance().Update(dt);
 
@@ -472,6 +514,10 @@ int main() {
 
 	// Clean up the ImGui library
 	ImGuiHelper::Cleanup();
+
+	// Clean up the Audio Manager
+	//AudioManager::Shutdown();
+	AudioEngine::Instance().Shutdown();
 
 	// Clean up the resource manager
 	ResourceManager::Cleanup();

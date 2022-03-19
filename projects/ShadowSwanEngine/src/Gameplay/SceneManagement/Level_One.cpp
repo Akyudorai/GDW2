@@ -14,6 +14,7 @@
 #include "Gameplay/Components/MovingPlatformBehavior.h"
 #include "Gameplay/Components/SpikeTrapBehavior.h"
 #include "Gameplay/Components/TurretBehavior.h"
+#include "Audio/AudioSource.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -26,6 +27,8 @@
 #include <GLFW/glfw3.h>
 #include "Utils/UIHelper.h"
 #include "Graphics/GuiBatcher.h"
+
+#include "Audio/AudioManager.h"
 
 using namespace Gameplay;
 using namespace Gameplay::Physics;
@@ -52,9 +55,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	SceneManager::GetCurrentScene()->Lights[0].Color = glm::vec3(1.0f, 1.0f, 1.0f);
 	SceneManager::GetCurrentScene()->Lights[0].Range = 100.0f;
 
-	SceneManager::GetCurrentScene()->Lights[1].Position = glm::vec3(0.0f, 0.0f, 50.0f);
-	SceneManager::GetCurrentScene()->Lights[1].Color = glm::vec3(1.0f, 1.0f, 1.0f);
-	SceneManager::GetCurrentScene()->Lights[1].Range = 2000.0f;
+	SceneManager::GetCurrentScene()->Lights[1].Position = glm::vec3(0.0f, 0.0f, 40.0f);
+	SceneManager::GetCurrentScene()->Lights[1].Color = glm::vec3(0.5f, 0.7f, 1.0f);
+	SceneManager::GetCurrentScene()->Lights[1].Range = 3000.0f;
+
 
 	/////////////////////////////////////////////////////////
 	//					  CONTROLLER
@@ -85,15 +89,23 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
+
+		AudioSource::Sptr audio = body->Add<AudioSource>();
+		{
+			audio->playOnAwake = false;
+			/*audio->m_Resource = Resources::GetSound("Walk");
+			audio->m_Settings = AudioSettings{
+				false, false, false
+			};*/
+			audio->Init();
+		}
 
 		//std::cout << std::to_string(frames.size()) << std::endl;
 
@@ -109,7 +121,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		volume->AddCollider(i_collider);
 		TriggerVolumeEnterBehaviour::Sptr trigger = body->Add<TriggerVolumeEnterBehaviour>();
 
-		body->Add<HealthComponent>(100.0f);
+		body->Add<HealthComponent>(100);
 	}
 
 	GameObject::Sptr shadow = SceneManager::GetCurrentScene()->CreateGameObject("Shadow");
@@ -125,15 +137,23 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
-		animator->SetAnimation("Idle");
-		//animator->SetFrames(std::move(frames));
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
+
+		AudioSource::Sptr audio = shadow->Add<AudioSource>();
+		{
+			audio->playOnAwake = false;
+			/*audio->m_Resource = Resources::GetSound("Walk");
+			audio->m_Settings = AudioSettings{
+				false, false, false
+			};*/
+			audio->Init();
+		}
 
 		// Add a dynamic rigid body to this monkey
 		RigidBody::Sptr physics = shadow->Add<RigidBody>(RigidBodyType::Dynamic);
@@ -142,8 +162,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionGroup(SHADOW_GROUP);
 		physics->SetCollisionMask(SHADOW_MASK);
 
-
-		shadow->Add<HealthComponent>(100.0f);
+		shadow->Add<HealthComponent>(100);
 	}
 
 	SceneManager::GetCurrentScene()->PC.Initialize(*body, *shadow, *camera, SceneManager::GetCurrentScene()->Lights[0], *body->Get<TriggerVolume>());
@@ -176,9 +195,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block->SetPosition(glm::vec3(0.0f, -35.0f, 2.5f));
 		block->SetScale(glm::vec3(17.5f, 15.0f, 3.0f));
 
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>(); 
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f))); 
+		tiledMesh->GenerateMesh(); 
+
 		RenderComponent::Sptr renderer = block->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -192,11 +215,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	GameObject::Sptr block2 = SceneManager::GetCurrentScene()->CreateGameObject("Block 2");
 	{
 		block2->SetPosition(glm::vec3(32.5f, -42.5f, 0.0f));
-		block2->SetScale(glm::vec3(15.0f, 5.0f, 1.0f));
+		block2->SetScale(glm::vec3(16.0f, 5.0f, 1.0f));
+
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
 
 		RenderComponent::Sptr renderer = block2->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block2->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -212,6 +239,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block3->SetPosition(glm::vec3(26.5f, -40.0f, 3.5f));
 		block3->SetScale(glm::vec3(4.0f, 2.5f, 2.5f));
 
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		RenderComponent::Sptr renderer = block3->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
 		renderer->SetMaterial(Resources::GetMaterial("Brown"));
@@ -225,10 +256,36 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
+	GameObject::Sptr blockz = SceneManager::GetCurrentScene()->CreateGameObject("Block z");
+	{
+		blockz->SetPosition(glm::vec3(19.0f, -45.0f, 3.5f));
+		blockz->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
+
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		RenderComponent::Sptr renderer = blockz->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+
+		RigidBody::Sptr physics = blockz->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(blockz->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
 	GameObject::Sptr block4 = SceneManager::GetCurrentScene()->CreateGameObject("Block 4");
 	{
 		block4->SetPosition(glm::vec3(40.0f, -40.0f, 3.5f));
 		block4->SetScale(glm::vec3(4.0f, 2.5f, 2.5f));
+
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
 
 		RenderComponent::Sptr renderer = block4->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
@@ -248,9 +305,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block5->SetPosition(glm::vec3(58.0f, -37.0f, 2.5f));
 		block5->SetScale(glm::vec3(10.0f, 12.5f, 3.0f));
 
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>(); 
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f))); 
+		tiledMesh->GenerateMesh(); 
+
 		RenderComponent::Sptr renderer = block5->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block5->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -265,10 +326,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		block6->SetPosition(glm::vec3(55.5f, -21.5f, 2.5f));
 		block6->SetScale(glm::vec3(2.5f, 3.0f, 3.0f));
-
+		
 		RenderComponent::Sptr renderer = block6->Add<RenderComponent>();
+		
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block6->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -285,8 +351,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block8->SetScale(glm::vec3(25.0f, 4.0f, 2.0f));
 
 		RenderComponent::Sptr renderer = block8->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block8->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -303,8 +373,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block9->SetScale(glm::vec3(10.0f, 17.5f, 2.0f));
 
 		RenderComponent::Sptr renderer = block9->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
 
 		RigidBody::Sptr physics = block9->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -321,8 +396,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block10->SetScale(glm::vec3(7.0f, 8.0f, 8.0f));
 
 		RenderComponent::Sptr renderer = block10->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block10->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -339,8 +418,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block11->SetScale(glm::vec3(7.0f, 5.0f, 3.0f));
 
 		RenderComponent::Sptr renderer = block11->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block11->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -357,8 +440,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block12->SetScale(glm::vec3(9.25f, 2.5f, 8.0f));
 
 		RenderComponent::Sptr renderer = block12->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block12->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -375,8 +462,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block13->SetScale(glm::vec3(2.5f, 2.5f, 8.0f));
 
 		RenderComponent::Sptr renderer = block13->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block13->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -393,6 +484,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block14->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
 
 		RenderComponent::Sptr renderer = block14->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
 		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
@@ -411,6 +506,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block15->SetScale(glm::vec3(4.25f, 2.0f, 3.5f));
 
 		RenderComponent::Sptr renderer = block15->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
 		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
@@ -463,7 +562,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		block18->SetPosition(glm::vec3(-46.0f, -15.0f, 12.25f));
 		block18->SetRotation(glm::vec3(0.0f, -11.0f, 0.0f));
-		block18->SetScale(glm::vec3(7.0f, 0.5f, 0.2f));
+		block18->SetScale(glm::vec3(7.0f, 0.8f, 0.2f));
 
 		RenderComponent::Sptr renderer = block18->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Cube"));
@@ -496,49 +595,17 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr block30 = SceneManager::GetCurrentScene()->CreateGameObject("Block 30");
-	{
-		block30->SetPosition(glm::vec3(-54.0f, -21.5f, 9.5f));
-		block30->SetScale(glm::vec3(2.0f, 2.0f, 4.5f));
-
-		RenderComponent::Sptr renderer = block30->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block30->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block19->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block31 = SceneManager::GetCurrentScene()->CreateGameObject("Block 31");
-	{
-		block31->SetPosition(glm::vec3(-54.0f, 7.0f, 9.5f));
-		block31->SetScale(glm::vec3(2.0f, 2.0f, 4.5f));
-
-		RenderComponent::Sptr renderer = block31->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block31->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block19->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-	
 
 	GameObject::Sptr block20 = SceneManager::GetCurrentScene()->CreateGameObject("Block 20");
 	{
-		block20->SetPosition(glm::vec3(-39.0f, -15.0f, 12.5f));
+		block20->SetPosition(glm::vec3(-38.0f, -15.0f, 12.5f));
 		block20->SetScale(glm::vec3(1.25f, 2.5f, 1.0f));
 
 		RenderComponent::Sptr renderer = block20->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
 		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
@@ -557,8 +624,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block21->SetScale(glm::vec3(2.5f, 1.0f, 1.0f));
 
 		RenderComponent::Sptr renderer = block21->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block21->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -575,8 +646,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block22->SetScale(glm::vec3(4.0f, 17.5f, 1.0f));
 
 		RenderComponent::Sptr renderer = block22->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block22->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -593,8 +668,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block23->SetScale(glm::vec3(12.0f, 10.0f, 1.0f));
 
 		RenderComponent::Sptr renderer = block23->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block23->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -611,8 +690,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block24->SetScale(glm::vec3(12.0f, 7.0f, 1.0f));
 
 		RenderComponent::Sptr renderer = block24->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block24->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -629,8 +712,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block25->SetScale(glm::vec3(2.5f, 7.0f, 1.5f));
 
 		RenderComponent::Sptr renderer = block25->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block25->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -647,8 +734,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block26->SetScale(glm::vec3(2.5f, 7.0f, 1.5f));
 
 		RenderComponent::Sptr renderer = block26->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block26->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -665,8 +756,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block27->SetScale(glm::vec3(1.0f, 2.5f, 1.0f));
 
 		RenderComponent::Sptr renderer = block27->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block27->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -683,8 +778,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block28->SetScale(glm::vec3(12.0f, 10.0f, 1.0f));
 
 		RenderComponent::Sptr renderer = block28->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block28->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -702,8 +801,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		block29->SetScale(glm::vec3(19.5f, 5.0f, 1.0f));
 
 		RenderComponent::Sptr renderer = block29->Add<RenderComponent>();
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
 		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 		RigidBody::Sptr physics = block29->Add<RigidBody>(RigidBodyType::Static);
 		BoxCollider::Sptr collider = BoxCollider::Create();
@@ -717,49 +820,57 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 #pragma endregion
 	 
 #pragma region WALLS
-
+	
 	GameObject::Sptr wall1 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 1");
 	{
 		wall1->SetPosition(glm::vec3(0, -20.0f, 4.0f));
-		wall1->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-		wall1->SetScale(glm::vec3(4.720f, 1.0f, 1.5f));
+		wall1->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+		wall1->SetScale(glm::vec3(1.0f, 1.0f, 1.25f));
 
 		RenderComponent::Sptr renderer = wall1->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Wall2"));
-		renderer->SetMaterial(Resources::GetMaterial("Wall2"));
+		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+
+		RigidBody::Sptr physics = wall1->Add<RigidBody>(RigidBodyType::Static); 
+		BoxCollider::Sptr collider = BoxCollider::Create();  
+		collider->SetScale(wall1->GetScale()); 
+		collider->SetPosition(collider->GetPosition()); 
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
 	GameObject::Sptr wall2 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 2");
 	{
-		wall2->SetPosition(glm::vec3(17.640f, -28.5f, 4.0f));
-		wall2->SetRotation(glm::vec3(0.0f, 0.0f, -90.0f));
-		wall2->SetScale(glm::vec3(2.45f, 1.0f, 1.5f));
+		wall2->SetPosition(glm::vec3(18.0f, -28.5f, 4.0f));
+		wall2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+		wall2->SetScale(glm::vec3(1.0f, 1.0f, 0.6f));
 
 		RenderComponent::Sptr renderer = wall2->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Wall2"));
-		renderer->SetMaterial(Resources::GetMaterial("Wall_Tex3"));
+		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
 	GameObject::Sptr wall3 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 3");
 	{
-		wall3->SetPosition(glm::vec3(9.990f, -31.570f, 5.560f));
-		wall3->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-		wall3->SetScale(glm::vec3(2.04f, 1.0f, 1.160f));
+		wall3->SetPosition(glm::vec3(9.5f, -31.5f, 4.0f));
+		wall3->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+		wall3->SetScale(glm::vec3(1.0f, 1.0f, 0.5f));
 
 		RenderComponent::Sptr renderer = wall3->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Wall2"));
-		renderer->SetMaterial(Resources::GetMaterial("Wall2"));
+		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
 	GameObject::Sptr wall4 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 4");
 	{
-		wall4->SetPosition(glm::vec3(-9.350f, -31.5f, 5.49f));
-		wall4->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-		wall4->SetScale(glm::vec3(1.52f, 1.0f, 1.16f));
+		wall4->SetPosition(glm::vec3(-10.5f, -31.5f, 4.0f));
+		wall4->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+		wall4->SetScale(glm::vec3(1.0f, 1.0f, 0.5f));
 
 		RenderComponent::Sptr renderer = wall4->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Wall2"));
-		renderer->SetMaterial(Resources::GetMaterial("Wall_Tex4"));
+		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
+		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
 	GameObject::Sptr wall5 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 5");
@@ -1442,45 +1553,51 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			volume->SetCollisionGroup(PHYSICAL_GROUP);
 			volume->SetCollisionMask(PHYSICAL_MASK);
 
+			AudioSource::Sptr audio = pressure_plate_1->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->LoadEvent("Pressure Plate");
+				audio->volume = 0.75f;
+				/*audio->m_Resource = Resources::GetSound("Click");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};*/
+				audio->Init();
+			}
+
 			// Trigger Event
 			TriggerVolumeEnterBehaviour::Sptr trigger = pressure_plate_1->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = [cageDoor_1, NO_GROUP, NO_MASK]
+			trigger->onTriggerEnterEvent = [pressure_plate_1, cageDoor_1, audio, NO_GROUP, NO_MASK]
 			{					
 				// Open The Door
 				cageDoor_1->Get<RenderComponent>()->IsEnabled = false;
 				RigidBody::Sptr rigid = cageDoor_1->Get<RigidBody>();
 				rigid->SetCollisionGroup(NO_GROUP);
-				rigid->SetCollisionMask(NO_MASK);			
+				rigid->SetCollisionMask(NO_MASK);	
+
+				//AudioEngine::Instance().GetEvent("Pressure Plate").SetPosition(pressure_plate_1->GetPosition());
+				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 0);
+				//AudioEngine::Instance().GetEvent("Pressure Plate").Play();
+
+				audio->Play();
 			};
 
-			trigger->onTriggerExitEvent = [cageDoor_1, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
+			trigger->onTriggerExitEvent = [pressure_plate_1, cageDoor_1, audio, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
 			{
 				// Close The Door
 				cageDoor_1->Get<RenderComponent>()->IsEnabled = true;
 				RigidBody::Sptr rigid = cageDoor_1->Get<RigidBody>();				
 				rigid->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);				
+				rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);	
+
+				//AudioEngine::Instance().GetEvent("Pressure Plate").SetPosition(pressure_plate_1->GetPosition());
+				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 1);
+				//AudioEngine::Instance().GetEvent("Pressure Plate").Play();
+
+				audio->Play();
 			};
 		}
 
-		GameObject::Sptr crate_1 = SceneManager::GetCurrentScene()->CreateGameObject("Crate 1");
-		{
-			crate_1->SetPosition(glm::vec3(62.5f, -42.0f, 7.5f));
-			crate_1->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-			crate_1->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
-
-			RenderComponent::Sptr renderer = crate_1->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
-
-			// Collider
-			RigidBody::Sptr physics = crate_1->Add<RigidBody>(RigidBodyType::Dynamic);
-			BoxCollider::Sptr collider = BoxCollider::Create();
-			collider->SetScale(crate_1->GetScale());
-			physics->AddCollider(collider);
-			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-		}
 	}
 
 	// Trap Room
@@ -1505,6 +1622,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->AddCollider(collider);
 				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+
+				
 			}
 
 			GameObject::Sptr trap_ground_lower = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Lower Ground");
@@ -1570,7 +1689,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 			}
 
-			GameObject::Sptr spike_trap_1 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_1 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_1->SetPosition(glm::vec3(45.75f, -6.0f, 5.5f));
 				spike_trap_1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1583,9 +1702,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_1->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1605,6 +1723,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_1->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_1->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1613,7 +1743,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			}
 
-			GameObject::Sptr spike_trap_2 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_2 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_2->SetPosition(glm::vec3(45.75f, -10.5f, 5.5f));
 				spike_trap_2->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
@@ -1626,9 +1756,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_2->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1648,6 +1777,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_2->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_2->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1655,7 +1796,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 0, false);
 			}
 
-			GameObject::Sptr spike_trap_3 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_3 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_3->SetPosition(glm::vec3(45.75f, -15.0f, 5.5f));
 				spike_trap_3->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1668,9 +1809,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_3->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1689,6 +1829,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 						body->Get<HealthComponent>()->DealDamage(10.0f);
 					}
 				};
+
+				AudioSource::Sptr audio = spike_trap_3->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
 
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_3->Add<SpikeTrapBehavior>();
@@ -1720,7 +1872,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 			}
 
-			GameObject::Sptr spike_trap_4 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_4 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_4->SetPosition(glm::vec3(35.5f, -6.0f, 5.5f));
 				spike_trap_4->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1733,9 +1885,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_4->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1755,6 +1906,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_4->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_4->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1762,7 +1925,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 3, false);
 			}
 
-			GameObject::Sptr spike_trap_5 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_5 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_5->SetPosition(glm::vec3(35.5f, -10.5f, 5.5f));
 				spike_trap_5->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1775,9 +1938,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_5->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1797,6 +1959,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_5->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_5->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1804,7 +1978,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 3, false);
 			}
 
-			GameObject::Sptr spike_trap_6 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_6 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_6->SetPosition(glm::vec3(35.5f, -15.0f, 5.5f));
 				spike_trap_6->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
@@ -1817,9 +1991,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_6->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1838,6 +2011,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 						body->Get<HealthComponent>()->DealDamage(10.0f);
 					}
 				};
+
+				AudioSource::Sptr audio = spike_trap_6->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
 
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_6->Add<SpikeTrapBehavior>();
@@ -1869,7 +2054,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 			}
 
-			GameObject::Sptr spike_trap_7 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_7 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_7->SetPosition(glm::vec3(26.25f, -6.0f, 5.5f));
 				spike_trap_7->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1882,9 +2067,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_7->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1904,6 +2088,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_7->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_7->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1911,7 +2107,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 0, false);
 			}
 
-			GameObject::Sptr spike_trap_8 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_8 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_8->SetPosition(glm::vec3(26.25f, -10.5f, 5.5f));
 				spike_trap_8->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1924,9 +2120,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_8->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1946,6 +2141,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					}
 				};
 
+				AudioSource::Sptr audio = spike_trap_8->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_8->Add<SpikeTrapBehavior>();
 				spikeBehavior->SetAnimator(animator);
@@ -1953,7 +2160,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 0, false);
 			}
 
-			GameObject::Sptr spike_trap_9 = SceneManager::GetCurrentScene()->CreateGameObject("Spike Trap");
+			GameObject::Sptr spike_trap_9 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
 				spike_trap_9->SetPosition(glm::vec3(26.25f, -15.0f, 5.5f));
 				spike_trap_9->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
@@ -1966,9 +2173,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_9->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
 				animator->SetRenderer(*renderer);
-				animator->SetAnimation("Spikes");
 				animator->SetLooping(false);
 
 				// Trigger Volume
@@ -1987,6 +2193,18 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 						body->Get<HealthComponent>()->DealDamage(10.0f);
 					}
 				};
+
+				AudioSource::Sptr audio = spike_trap_9->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
 
 				// Spike Behavior
 				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_9->Add<SpikeTrapBehavior>();
@@ -2074,45 +2292,49 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			volume->SetCollisionGroup(PHYSICAL_GROUP);
 			volume->SetCollisionMask(PHYSICAL_MASK);
 
+			AudioSource::Sptr audio = pressure_plate_2->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->LoadEvent("Pressure Plate");
+				audio->volume = 0.75f;
+				/*audio->m_Resource = Resources::GetSound("Click");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};*/
+				audio->Init();
+			}
+
 			// Trigger Event
 			TriggerVolumeEnterBehaviour::Sptr trigger = pressure_plate_2->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = [cageDoor_2, NO_GROUP, NO_MASK]
+			trigger->onTriggerEnterEvent = [pressure_plate_2, cageDoor_2, audio, NO_GROUP, NO_MASK]
 			{
 				// Open The Door
 				cageDoor_2->Get<RenderComponent>()->IsEnabled = false;
 				RigidBody::Sptr rigid = cageDoor_2->Get<RigidBody>();
 				rigid->SetCollisionGroup(NO_GROUP);
-				rigid->SetCollisionMask(NO_MASK);			
+				rigid->SetCollisionMask(NO_MASK);	
+
+				//AudioEngine::Instance().GetEvent("Pressure Plate").SetPosition(pressure_plate_2->GetPosition());
+				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 0);
+				//AudioEngine::Instance().GetEvent("Pressure Plate").Play();
+
+				audio->Play();
 			};
 
-			trigger->onTriggerExitEvent = [cageDoor_2, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
+			trigger->onTriggerExitEvent = [pressure_plate_2, cageDoor_2, audio, PHYSICAL_GROUP, SHADOW_GROUP, PHYSICAL_MASK, SHADOW_MASK]
 			{
 				// Close The Door
 				cageDoor_2->Get<RenderComponent>()->IsEnabled = true;
 				RigidBody::Sptr rigid = cageDoor_2->Get<RigidBody>();
 				rigid->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 				rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+
+				//AudioEngine::Instance().GetEvent("Pressure Plate").SetPosition(pressure_plate_2->GetPosition());
+				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 1);
+				//AudioEngine::Instance().GetEvent("Pressure Plate").Play();
+
+				audio->Play();
 			};
-		}
-
-		GameObject::Sptr crate_2 = SceneManager::GetCurrentScene()->CreateGameObject("Crate 2");
-		{
-			crate_2->SetPosition(glm::vec3(10.5f, -26.5f, 7.5f));
-			crate_2->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-			crate_2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
-
-			RenderComponent::Sptr renderer = crate_2->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
-
-			// Collider
-			RigidBody::Sptr physics = crate_2->Add<RigidBody>(RigidBodyType::Dynamic);
-			BoxCollider::Sptr collider = BoxCollider::Create();			
-			collider->SetScale(crate_2->GetScale());
-			physics->AddCollider(collider);
-			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-
 		}
 	}
 
@@ -2122,9 +2344,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GameObject::Sptr cageDoor_3 = SceneManager::GetCurrentScene()->CreateGameObject("Elevator Access Door 1");
 		{
 			// Transform
-			cageDoor_3->SetPosition(glm::vec3(-0.5f, -31.5f, 4.5f));
+			cageDoor_3->SetPosition(glm::vec3(-0.5f, -31.5f, 5.0f));
 			cageDoor_3->SetRotation(glm::vec3(90, 0, 90));
-			cageDoor_3->SetScale(glm::vec3(0.25f, 0.125f, 0.075f));
+			cageDoor_3->SetScale(glm::vec3(0.25f, 0.125f, 0.058f));
 
 			// Renderer
 			RenderComponent::Sptr renderer = cageDoor_3->Add<RenderComponent>();
@@ -2208,11 +2430,27 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);			
 
+			AudioSource::Sptr audio = lever_1->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->LoadEvent("Lever");
+				audio->volume = 0.75f;
+				/*audio->m_Resource = Resources::GetSound("Lever");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};*/
+				audio->Init();
+			}
+
 			// Interaction Event
 			InteractableComponent::Sptr interactable = lever_1->Add<InteractableComponent>();
-			interactable->onInteractionEvent = [interactable, cageDoor_3, cageDoor_4, cageDoor_5, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK]
+			interactable->onInteractionEvent = [interactable, lever_1, audio, cageDoor_3, cageDoor_4, cageDoor_5, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK]
 			{	
 				interactable->isToggled = !interactable->isToggled;
+				//audio->Play();
+
+				AudioEngine::Instance().GetEvent("Lever").SetPosition(lever_1->GetPosition());
+				AudioEngine::Instance().GetEvent("Lever").Play();
 
 				RigidBody::Sptr rigid_1 = cageDoor_3->Get<RigidBody>();
 				RigidBody::Sptr rigid_2 = cageDoor_4->Get<RigidBody>();
@@ -2341,11 +2579,25 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			physics->AddCollider(collider);
 
+			AudioSource::Sptr audio = lever_2->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->LoadEvent("Lever");
+				audio->volume = 0.75f;
+				/*audio->m_Resource = Resources::GetSound("Lever");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};*/
+				audio->Init();
+			}
+
 			// Interaction Event
 			InteractableComponent::Sptr interactable = lever_2->Add<InteractableComponent>();
-			interactable->onInteractionEvent = [interactable, turret_1, turret_2, turret_3, turret_4]
+			interactable->onInteractionEvent = [interactable, audio, turret_1, turret_2, turret_3, turret_4]
 			{
 				interactable->isToggled = !interactable->isToggled;
+				audio->Play();
+
 
 				if (interactable->isToggled) {
 					// Shut off Turrets
@@ -2366,6 +2618,19 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			RenderComponent::Sptr renderer = key->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Key"));
 			renderer->SetMaterial(Resources::GetMaterial("Key"));
+
+			AudioSource::Sptr audio = key->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->LoadEvent("Key");
+				audio->volume = 1.0f;
+				/*audio->m_Resource = Resources::GetSound("Key");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};*/
+				audio->Init();
+			}
+
 		}
 
 		GameObject::Sptr pedestal = SceneManager::GetCurrentScene()->CreateGameObject("Key Pedestal");
@@ -2391,7 +2656,11 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				if (GameManager::GetInstance().PlayerHasKey()) return;
 
 				GameManager::GetInstance().GiveKey();
-				key->Get<RenderComponent>()->IsEnabled = false;				
+				key->Get<RenderComponent>()->IsEnabled = false;			
+				key->Get<AudioSource>()->Play();
+				
+				AudioEngine::Instance().GetEvent("Key").SetPosition(key->GetPosition());
+				AudioEngine::Instance().GetEvent("Key").Play();
 			};
 		}
 	}
@@ -2412,15 +2681,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			// Animator
 			AnimatorComponent::Sptr animator = interact_doorway->Add<AnimatorComponent>();
-			animator->AddAnimation("Open", Resources::GetAnimation("Door"));
+			animator->AddAnimation("Open", Resources::GetAnimation("Door"), 1.0f);
 			animator->SetRenderer(*renderer);
-			animator->SetAnimation("Open");
 			animator->SetLooping(false);
 			animator->SetPause(true);
 			animator->onAnimationCompleted = [animator] {
 				animator->SetPause(true);
 				animator->SetReverse(!animator->IsReversed());
 			};
+			//animator->Play("Open");
 
 			// Collider
 			RigidBody::Sptr physics = interact_doorway->Add<RigidBody>(RigidBodyType::Static);
@@ -2431,13 +2700,28 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 
+			AudioSource::Sptr audio = interact_doorway->Add<AudioSource>();
+			{
+				audio->playOnAwake = false;
+				audio->LoadEvent("Door");
+				audio->volume = 1.0f;
+				/*audio->m_Resource = Resources::GetSound("Door");
+				audio->m_Settings = AudioSettings{
+					false, false, false
+				};*/
+				audio->Init();
+			}
+
 			// Interaction Event
 			InteractableComponent::Sptr interactable = interact_doorway->Add<InteractableComponent>();
-			interactable->onInteractionEvent = [interact_doorway, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK] 
+			interactable->onInteractionEvent = [interact_doorway, audio, PHYSICAL_GROUP, PHYSICAL_MASK, SHADOW_GROUP, SHADOW_MASK, NO_GROUP, NO_MASK] 
 			{
 				// If player doesn't have the key, do nothing.
 				if (!GameManager::GetInstance().PlayerHasKey()) return;
 				
+				//AudioEngine::Instance().GetEvent("Door").SetPosition(interact_doorway->GetPosition());
+				//AudioEngine::Instance().GetEvent("Door").Play();
+
 				AnimatorComponent::Sptr anim = interact_doorway->Get<AnimatorComponent>();
 				RigidBody::Sptr rigid = interact_doorway->Get<RigidBody>();
 
@@ -2445,11 +2729,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 					rigid->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 					rigid->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 					anim->SetPause(false);
+					audio->Play();
 				}
 				else if (anim->IsPaused() && !anim->IsReversed()) {
 					rigid->SetCollisionGroup(NO_GROUP);
 					rigid->SetCollisionMask(NO_MASK);
 					anim->SetPause(false);
+					audio->Play();
 				}
 			};
 		}
@@ -2522,9 +2808,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 #pragma endregion
 
-	/////////////////////////////////////////////////////////
-	//				   SCENE PROPS - GAME
-	/////////////////////////////////////////////////////////
+#pragma region Scene Props
 
 	GameObject::Sptr goblinShield1 = SceneManager::GetCurrentScene()->CreateGameObject("Goblin Shield 1");
 	{
@@ -2838,7 +3122,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		intactPillar1->SetPosition(glm::vec3(-54.01f, 6.05f, 5.45f));
 		intactPillar1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-		intactPillar1->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+		intactPillar1->SetScale(glm::vec3(1, 1, 1));
 
 		RenderComponent::Sptr renderer = intactPillar1->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
@@ -2849,7 +3133,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		intactPillar2->SetPosition(glm::vec3(-54.11f, -21.3f, 5.45f));
 		intactPillar2->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-		intactPillar2->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
+		intactPillar2->SetScale(glm::vec3(1, 1, 1));
 
 		RenderComponent::Sptr renderer = intactPillar2->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
@@ -3076,6 +3360,38 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Keg"));
 	}*/
 
+#pragma endregion
+
+
+#pragma region Audio
+
+	/////////////////////////////////////////////////////////
+	//				   ENVIRONMENTAL AUDIO
+	/////////////////////////////////////////////////////////
+
+	//AudioEngine::Instance().GetEvent("Test").Play();
+
+	GameObject::Sptr bgm = SceneManager::GetCurrentScene()->CreateGameObject("BGM");
+	{
+		AudioSource::Sptr audio = bgm->Add<AudioSource>();
+		{
+			audio->playOnAwake = true;
+			audio->LoadEvent("Test");
+			audio->volume = 0.5f;
+			/*audio->m_Resource = Resources::GetSound("Mohit");
+			audio->m_Settings = AudioSettings{
+				false, true, false
+			};*/
+			//audio->volume = f;
+			audio->Init();
+		}
+	}
+
+#pragma endregion
+
+
+#pragma region User Interface
+
 	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - GAME
 	/////////////////////////////////////////////////////////
@@ -3083,60 +3399,28 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	GameObject::Sptr gameCanvas = SceneManager::GetCurrentScene()->CreateGameObject("Game Canvas");
 	{
 		GameObject::Sptr healthp = UIHelper::CreateImage(Resources::GetTexture("CharacterH"), "Health");
-		healthp->Get<RectTransform>()->SetPosition({ 170, 70 });
-		healthp->Get<RectTransform>()->SetSize({ 80, 30 });
+		healthp->Get<RectTransform>()->SetPosition({ 170, 90 });
+		healthp->Get<RectTransform>()->SetSize({ 90, 40 }); 
 		healthp->Get<GuiPanel>()->SetBorderRadius(0);
 		gameCanvas->AddChild(healthp);
 
 		GameObject::Sptr healthText = UIHelper::CreateText1("Body Health: ???", "Body Health Text");
-		healthText->Get<RectTransform>()->SetPosition({ 350, 140 });
+		healthText->Get<RectTransform>()->SetPosition({ 350, 180 });
 		gameCanvas->AddChild(healthText);
 
 		GameObject::Sptr shadowhp = UIHelper::CreateImage(Resources::GetTexture("ShadowH"), "Shadow Health");
-		shadowhp->Get<RectTransform>()->SetPosition({ 170, 150 });
-		shadowhp->Get<RectTransform>()->SetSize({ 80, 30 });
+		shadowhp->Get<RectTransform>()->SetPosition({ 170, 180 });
+		shadowhp->Get<RectTransform>()->SetSize({ 90, 40 });
 		shadowhp->Get<GuiPanel>()->SetBorderRadius(0);
 		gameCanvas->AddChild(shadowhp);
 
 		GameObject::Sptr shadowText = UIHelper::CreateText("Shadow Health: ???", "Shadow Health Text");
-		shadowText->Get<RectTransform>()->SetPosition({ 350, 300 });
+		shadowText->Get<RectTransform>()->SetPosition({ 360, 360 });
 		gameCanvas->AddChild(shadowText);
 
-		GameObject::Sptr timerText = UIHelper::CreateText("Time: 0:00", "Game Timer Text");
-		timerText->Get<RectTransform>()->SetPosition({ 500, 100 });
-		gameCanvas->AddChild(timerText);
-
 		SceneManager::GameInterface.SetGameUserInterface(*gameCanvas);
-		SceneManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>(), *timerText->Get<GuiText>());
+		SceneManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>());
 	}
-
-	/////////////////////////////////////////////////////////
-	//				   USER INTERFACE - Main Menu
-	/////////////////////////////////////////////////////////
-
-	/*GameObject::Sptr mainMenu = SceneManager::GetCurrentScene()->CreateGameObject("UI Menu Canvas");
-	{
-		RectTransform::Sptr transform = mainMenu->Add<RectTransform>();
-		transform->SetMin({ 16, 16 });
-		transform->SetMax({ 900, 900 });
-		transform->SetPosition({ 400, 400 });
-
-		GuiPanel::Sptr backgroundPanel = mainMenu->Add<GuiPanel>();
-		backgroundPanel->SetColor(glm::vec4(0.1f, 0.1f, 0.1f, 1.0f));
-
-		GameObject::Sptr menuTitle = UIHelper::CreateText("Main Menu");
-		menuTitle->Get<GuiText>()->SetTextScale(2);
-		menuTitle->Get<RectTransform>()->SetPosition({ 800.0f, 700 });
-		mainMenu->AddChild(menuTitle);
-
-		GameObject::Sptr button1 = UIHelper::CreateButton("Press 'P' to Start Game");
-		button1->Get<RectTransform>()->SetPosition({ 425, 400 });
-		mainMenu->AddChild(button1);
-
-		mainMenu->IsActive = true;
-		SceneManager::GetCurrentScene()->PC.SetMainMenuCanvas(*mainMenu);
-	}*/
-
 	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - Lose Screen
 	/////////////////////////////////////////////////////////
@@ -3172,42 +3456,41 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GuiPanel::Sptr backgroundPanel = pauseMenu->Add<GuiPanel>();
 		backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));
 
-		GameObject::Sptr upperGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss"), "Upper Graphic");
-		upperGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 70 });
-		upperGraphic->Get<RectTransform>()->SetSize({ 80, 30 });
-		upperGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(upperGraphic);
+		GameObject::Sptr pa = UIHelper::CreateImage(Resources::GetTexture("Pause"), "Pausing");
+		pa->Get<RectTransform>()->SetPosition({ 163, 40 });
+		pa->Get<RectTransform>()->SetSize({ 100, 50 });
+		pa->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(pa);
 
-		GameObject::Sptr menuTitle = UIHelper::CreateText("Paused");
-		menuTitle->Get<GuiText>()->SetTextScale(2);
-		menuTitle->Get<RectTransform>()->SetPosition({ 280.0f, 175 });
-		pauseMenu->AddChild(menuTitle);
+		GameObject::Sptr resume = UIHelper::CreateImage(Resources::GetTexture("R"), "Resume");
+		resume->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 120 });
+		resume->Get<RectTransform>()->SetSize({ 50, 20 });
+		resume->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(resume);
 
-		GameObject::Sptr button1 = UIHelper::CreateButton("Resume Game");
-		button1->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 150 });
-		pauseMenu->AddChild(button1);
+		GameObject::Sptr restart = UIHelper::CreateImage(Resources::GetTexture("Re"), "Restart");
+		restart->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 200 });
+		restart->Get<RectTransform>()->SetSize({ 50, 20 });
+		restart->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(restart);
 
-		GameObject::Sptr button2 = UIHelper::CreateButton("Restart Level");
-		button2->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 200 });
-		pauseMenu->AddChild(button2);
+		GameObject::Sptr Options1 = UIHelper::CreateImage(Resources::GetTexture("Options"), "Options");
+		Options1->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 280 });
+		Options1->Get<RectTransform>()->SetSize({ 50, 20 });
+		Options1->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(Options1);
 
-		GameObject::Sptr button3 = UIHelper::CreateButton("Options");
-		button3->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 250 });
-		pauseMenu->AddChild(button3);
+		GameObject::Sptr quit = UIHelper::CreateImage(Resources::GetTexture("Return"), "Quit");
+		quit->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 360 });
+		quit->Get<RectTransform>()->SetSize({ 50, 20 });
+		quit->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(quit);
 
-		GameObject::Sptr button4 = UIHelper::CreateButton("Quit to Menu");
-		button4->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 300 });
-		pauseMenu->AddChild(button4);
-
-		GameObject::Sptr button5 = UIHelper::CreateButton("Quit Game");
-		button5->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 350 });
-		pauseMenu->AddChild(button5);
-
-		GameObject::Sptr lowerGraphic = UIHelper::CreateImage(Resources::GetTexture("Menu Gloss Reverse"), "Lower Graphic");
-		lowerGraphic->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 400 });
-		lowerGraphic->Get<RectTransform>()->SetSize({ 40, 17.5f });
-		lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
-		pauseMenu->AddChild(lowerGraphic);
+		GameObject::Sptr exit = UIHelper::CreateImage(Resources::GetTexture("Exit"), "Exit");
+		exit->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 440 });
+		exit->Get<RectTransform>()->SetSize({ 50, 20 });
+		exit->Get<GuiPanel>()->SetBorderRadius(0);
+		pauseMenu->AddChild(exit);
 
 		pauseMenu->IsActive = false;
 		//SceneManager::GetCurrentScene()->PC.SetPauseMenu(*pauseMenu);
@@ -3217,9 +3500,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
 	GuiBatcher::SetDefaultBorderRadius(8);
 
-	/////////////////////////////////////////////////////////
+#pragma endregion
 
-	
 	// Call SceneManager::GetCurrentScene() awake to start up all of our components
 	SceneManager::GetCurrentScene()->Window = window;
 	SceneManager::GetCurrentScene()->Awake();

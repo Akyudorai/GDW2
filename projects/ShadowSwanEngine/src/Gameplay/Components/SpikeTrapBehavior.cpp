@@ -4,6 +4,9 @@
 #include "Gameplay/GameObject.h"
 #include "../Physics/TriggerVolume.h"
 #include "AnimatorComponent.h"
+#include "Audio/AudioSource.h"
+
+#include "Audio/AudioManager.h"
 
 using namespace Gameplay;
 
@@ -51,12 +54,13 @@ void SpikeTrapBehavior::Update(float deltaTime)
 		// Retract Spikes
 		if (isExtended) 
 		{
+			this->GetGameObject()->Get<AudioSource>()->Play("Spikes");
 			trigger->IsEnabled = false;
 			currentTimer = attackRate;
 			isExtended = false;
 
 			animator->SetReverse(true);
-			animator->Play();
+			//animator->Play("Spikes");			
 		}
 
 		// Extend Spikes
@@ -67,7 +71,10 @@ void SpikeTrapBehavior::Update(float deltaTime)
 			isExtended = true;
 
 			animator->SetReverse(false);
-			animator->Play();
+			//animator->Play("Spikes");
+
+			//AudioEngine::Instance().GetEvent("Spikes").SetPosition(GetGameObject()->GetPosition());
+			//AudioEngine::Instance().GetEvent("Spikes").Play();
 		}
 	}
 }

@@ -8,12 +8,13 @@
 #include "Main_Menu.h"
 
 #include "../InputManagement/InputHandler.h"
+#include "Audio/AudioManager.h"
 
 namespace Gameplay
 {
 	Scene::Sptr SceneManager::currentScene = nullptr;
 	GLFWwindow* SceneManager::windowRef = nullptr;
-	GameInterfaceManager SceneManager::GameInterface = GameInterfaceManager();
+	GameInterfaceManager SceneManager::GameInterface = GameInterfaceManager(); 
 
 	void SceneManager::Initialize(GLFWwindow* window)
 	{
@@ -26,9 +27,14 @@ namespace Gameplay
 		if (currentScene != nullptr) {
 			currentScene = nullptr;
 			GameInterface.Clear();
+			//AudioManager::instance().ClearSounds();
+			AudioEngine::Instance().StopAllSounds();
+
+			if (AudioEngine::Instance().GetEvent("Test").IsPlaying())
+				AudioEngine::Instance().GetEvent("Test").StopImmediately();
 		}
 		
-		currentScene = std::make_shared<Scene>();
+		currentScene = std::make_shared<Scene>();		
 
 		switch (sceneIndex)
 		{
@@ -56,7 +62,7 @@ namespace Gameplay
 			case Scenes::MainMenu:
 				Main_Menu::Load(windowRef);
 				playOnLoad = Main_Menu::PlayOnLoad;
-		}
+		}		
 
 		currentScene->IsPlaying = true;
 		currentScene->IsPaused = !playOnLoad;
