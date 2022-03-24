@@ -39,7 +39,7 @@ const Gameplay::Material::Sptr& RenderComponent::GetMaterial() const {
 // DEPRECIATED
 void RenderComponent::Animate(const Gameplay::MeshResource::Sptr frame0, const Gameplay::MeshResource::Sptr frame2, float t)
 {	
-	//SetMesh(frame0);
+	SetMesh(frame0);
 }
 
 nlohmann::json RenderComponent::ToJson() const {

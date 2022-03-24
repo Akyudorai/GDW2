@@ -148,8 +148,13 @@ void PlayerController::HandleInput(float deltaTime)
 	if (motion != glm::vec3(0)) {
 		if (!isShadow) {
 			
+			// Change Animation to Walk
+			if (m_body->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Walk") {
+				m_body->Get<Gameplay::AnimatorComponent>()->SetAnimation("Walk");
+			}
+
 			m_body->SetPosition(m_body->GetPosition() + motion * movSpeed * deltaTime);
-			//m_body->Get<Gameplay::AnimatorComponent>()->Play("Walk");
+			
 			if (!AudioEngine::Instance().GetEvent("Walk").IsPlaying())
 			{
 				//m_body->Get<AudioSource>()->Play("Walk");
@@ -158,7 +163,7 @@ void PlayerController::HandleInput(float deltaTime)
 				
 			}				
 
-			m_body->LookAt(m_body->GetPosition() + motion);			
+			m_body->LookAt(m_body->GetPosition() - motion);			
 			if (glm::distance(m_body->GetPosition(), m_shadow->GetPosition()) >= 21.0f) {						
 				m_shadow->Get<RenderComponent>()->IsEnabled = false;
 				//m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;
@@ -166,8 +171,13 @@ void PlayerController::HandleInput(float deltaTime)
 		}
 		else if (isShadow && glm::distance(m_shadow->GetPosition() + motion, m_body->GetPosition()) <= 20.0f) {			
 			m_shadow->SetPosition(m_shadow->GetPosition() + motion * movSpeed * deltaTime);
-			m_shadow->LookAt(m_shadow->GetPosition() + motion);			
-			//m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Walk");
+			m_shadow->LookAt(m_shadow->GetPosition() - motion);			
+			
+			// Change Animation To Walk
+			if (m_shadow->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Walk") {
+				m_shadow->Get<Gameplay::AnimatorComponent>()->SetAnimation("Walk");
+			}
+
 			if (!AudioEngine::Instance().GetEvent("Walk").IsPlaying())
 			{
 				//m_shadow->Get<AudioSource>()->Play("Walk");
@@ -179,12 +189,18 @@ void PlayerController::HandleInput(float deltaTime)
 	}
 	else {
 		if (!isShadow) {
-			//m_body->Get<Gameplay::AnimatorComponent>()->Play("Idle");
+			// Change animation to Idle
+			if (m_body->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Idle") {
+				m_body->Get<Gameplay::AnimatorComponent>()->SetAnimation("Idle");
+			}
 			//m_body->Get<AudioSource>()->Stop();
 			AudioEngine::Instance().GetEvent("Walk").Stop();
 		}
 		else {
-			//m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Idle");
+			// Change animation to Idle
+			if (m_shadow->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Idle") {
+				m_shadow->Get<Gameplay::AnimatorComponent>()->SetAnimation("Idle");
+			}
 			//m_shadow->Get<AudioSource>()->Stop();
 			AudioEngine::Instance().GetEvent("Walk").Stop();
 		}

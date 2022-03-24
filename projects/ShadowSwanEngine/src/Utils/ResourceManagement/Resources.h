@@ -102,11 +102,7 @@ public:
 			shaders.emplace("Multi-Texture", ResourceManager::CreateAsset<Shader>(std::unordered_map<ShaderPartType, std::string> {
 				{ ShaderPartType::Vertex, "shaders/vertex_shaders/vert_multitextured.glsl" },
 				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_multitextured.glsl" }
-			}));
-			shaders.emplace("Animation", ResourceManager::CreateAsset<Shader>(std::unordered_map<ShaderPartType, std::string> {
-				{ ShaderPartType::Vertex, "shaders/vertex_Shaders/animation.glsl" },
-				{ ShaderPartType::Fragment, "shaders/fragment_shaders/frag_blinn_phong_textured.glsl" }
-			}));
+			}));			
 	
 #pragma endregion
 
@@ -120,7 +116,7 @@ public:
 			textures.emplace("Key", ResourceManager::CreateAsset<Texture2D>("textures/KeyTextureUVS.png"));
 			textures.emplace("Standing Torch", ResourceManager::CreateAsset<Texture2D>("textures/TorchUVS.png"));
 			textures.emplace("Grave Stone", ResourceManager::CreateAsset<Texture2D>("textures/GraveStoneUVS.png"));
-			textures.emplace("Character", ResourceManager::CreateAsset<Texture2D>("textures/CharacterUVS.png"));
+			textures.emplace("Character", ResourceManager::CreateAsset<Texture2D>("textures/CharacterTexture.png"));
 			textures.emplace("Shadow", ResourceManager::CreateAsset<Texture2D>("textures/ShadowUVS.png"));
 			textures.emplace("Circle Cage", ResourceManager::CreateAsset<Texture2D>("textures/CircleCageUVS.png"));
 			textures.emplace("Box Cage", ResourceManager::CreateAsset<Texture2D>("textures/BoxcageUVS.png"));
@@ -252,7 +248,7 @@ public:
 				materials.emplace("Turret", std::move(turretMat));
 			}
 
-			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
+			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				doorMat->Name = "Door";
 				doorMat->Set("u_Material.Diffuse", GetTexture("Door"));
@@ -260,7 +256,7 @@ public:
 				materials.emplace("Door", std::move(doorMat));
 			}
 
-			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
+			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				characterMat->Name = "Character";
 				characterMat->Set("u_Material.Diffuse", GetTexture("Character"));
@@ -268,7 +264,7 @@ public:
 				materials.emplace("Character", std::move(characterMat));
 			}
 
-			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Animation"));
+			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				spikeTrapMat->Name = "Spike Trap";
 				spikeTrapMat->Set("u_Material.Diffuse", GetTexture("Spike Trap"));
@@ -628,7 +624,7 @@ public:
 
 			std::vector<MeshResource::Sptr> WalkAnimation;
 			{
-				for (int i = 0; i < 8; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
 					file.append("models/character_walk/Walk");
@@ -642,7 +638,7 @@ public:
 
 			std::vector<MeshResource::Sptr> IdleAnimation;
 			{
-				for (int i = 0; i < 6; ++i)
+				for (int i = 0; i < 3; ++i)
 				{
 					std::string file;
 					file.append("models/character_idle/Idle");
@@ -652,6 +648,20 @@ public:
 				}
 
 				animations.emplace("Character Idle", std::move(IdleAnimation));
+			}
+
+			std::vector<MeshResource::Sptr> JumpAnimation;
+			{
+				for (int i = 0; i < 6; ++i)
+				{
+					std::string file;
+					file.append("models/character_jump/Jump");
+					file.append(std::to_string((i + 1)));
+					file.append(".obj");
+					IdleAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
+				}
+
+				animations.emplace("Character Jump", std::move(JumpAnimation));
 			}
 
 			std::vector<MeshResource::Sptr> DoorAnimation;
@@ -707,7 +717,7 @@ public:
 
 		engine.LoadBank("Music");
 		engine.LoadBus("Music", "bus:/Music");
-		engine.CreateSoundEvent("Test", "event:/Music/Level 02");
+		engine.CreateSoundEvent("Test", "event:/Music/Level 1");
 		engine.CreateSoundEvent("Mohit", "event:/Music/Mohit");
 
 		// SOUNDS
