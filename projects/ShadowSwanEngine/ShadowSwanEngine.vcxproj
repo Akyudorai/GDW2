@@ -124,6 +124,7 @@
     <ClInclude Include="src\Gameplay\Components\InteractableComponent.h" />
     <ClInclude Include="src\Gameplay\Components\JumpBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h" />
+    <ClInclude Include="src\Gameplay\Components\MorphRendererComponent.h" />
     <ClInclude Include="src\Gameplay\Components\MovingPlatformBehavior.h" />
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h" />
     <ClInclude Include="src\Gameplay\Components\RotatingBehaviour.h" />
@@ -210,6 +211,7 @@
     <ClCompile Include="src\Gameplay\Components\InteractableComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\JumpBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp" />
+    <ClCompile Include="src\Gameplay\Components\MorphRendererComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\MovingPlatformBehavior.cpp" />
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\RotatingBehaviour.cpp" />
