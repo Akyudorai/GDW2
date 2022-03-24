@@ -678,9 +678,10 @@ public:
 				animations.emplace("Door", std::move(DoorAnimation));
 			}
 
+			 
 			std::vector<MeshResource::Sptr> SpikeAnimation;
 			{
-				for (int i = 0; i < 5; ++i)
+				for (int i = 0; i < 3; ++i)
 				{
 					std::string file;
 					file.append("models/spikedTrap/SpikedTrap");

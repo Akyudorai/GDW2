@@ -1174,7 +1174,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_1->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1228,7 +1228,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_2->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1281,7 +1281,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_3->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1357,7 +1357,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_4->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1410,7 +1410,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_5->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1463,7 +1463,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_6->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1539,7 +1539,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_7->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1592,7 +1592,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_8->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1645,7 +1645,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_9->Add<AnimatorComponent>();
-				//animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -2153,7 +2153,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			// Animator
 			AnimatorComponent::Sptr animator = interact_doorway->Add<AnimatorComponent>();
-			//animator->AddAnimation("Open", Resources::GetAnimation("Door"), 1.0f);
+			animator->AddAnimation("Open", Resources::GetAnimation("Door"));
 			animator->SetRenderer(*renderer);
 			animator->SetLooping(false);
 			animator->SetPause(true);
@@ -2161,7 +2161,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				animator->SetPause(true);
 				animator->SetReverse(!animator->IsReversed());
 			};
-			//animator->Play("Open");
+			animator->PlayAnimation("Open");
 
 			// Collider
 			RigidBody::Sptr physics = interact_doorway->Add<RigidBody>(RigidBodyType::Static);
