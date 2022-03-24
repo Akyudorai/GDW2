@@ -113,43 +113,22 @@ public:
 #pragma region Texture Resources
 
 			textures.emplace("Stone Wall", ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png"));
-			textures.emplace("Stone Slab 2", ResourceManager::CreateAsset<Texture2D>("textures/StoneSlabsTexture.png"));
-			textures.emplace("Dark Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/DarkPineTreeUVS.png"));
-			textures.emplace("Light Pine Tree", ResourceManager::CreateAsset<Texture2D>("textures/LightTreeTextureUVS.png"));
 			textures.emplace("Turret Projectile", ResourceManager::CreateAsset<Texture2D>("textures/TurretProjectileUVS.png"));
 			textures.emplace("Key", ResourceManager::CreateAsset<Texture2D>("textures/KeyTextureUVS.png"));
 			textures.emplace("Standing Torch", ResourceManager::CreateAsset<Texture2D>("textures/TorchUVS.png"));
 			textures.emplace("Grave Stone", ResourceManager::CreateAsset<Texture2D>("textures/GraveStoneUVS.png"));
 			textures.emplace("Character", ResourceManager::CreateAsset<Texture2D>("textures/CharacterUVS.png"));
 			textures.emplace("Shadow", ResourceManager::CreateAsset<Texture2D>("textures/ShadowUVS.png"));
-			textures.emplace("Circle Cage", ResourceManager::CreateAsset<Texture2D>("textures/CircleCageUVS.png"));
-			textures.emplace("Box Cage", ResourceManager::CreateAsset<Texture2D>("textures/BoxcageUVS.png"));
-			textures.emplace("Long Cage", ResourceManager::CreateAsset<Texture2D>("textures/LongCageUVS.png"));
 			textures.emplace("Small Cage", ResourceManager::CreateAsset<Texture2D>("textures/SmallCageUVS.png"));
-			textures.emplace("U Cage", ResourceManager::CreateAsset<Texture2D>("textures/UCageUVS.png"));
 			textures.emplace("Pressure Plate", ResourceManager::CreateAsset<Texture2D>("textures/PressurePlateUVs.png"));
 			textures.emplace("Turret", ResourceManager::CreateAsset<Texture2D>("textures/TurretUVS.png"));
 			textures.emplace("Door", ResourceManager::CreateAsset<Texture2D>("textures/DoorUVs.png"));
 			textures.emplace("Spike Trap", ResourceManager::CreateAsset<Texture2D>("textures/SpikedTrapUVS.png"));
-			textures.emplace("Relic 1", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet1UVS.png"));
-			textures.emplace("Relic 2", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet2UVS.png"));
-			textures.emplace("Relic 3", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet3UVS.png"));
-			textures.emplace("Relic 4", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet4UVS.png"));
-			textures.emplace("Relic 5", ResourceManager::CreateAsset<Texture2D>("textures/StoneTablet5UVS.png"));
-			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
-			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
 			textures.emplace("Character Dagger", ResourceManager::CreateAsset<Texture2D>("textures/DaggerTexture.png"));
 			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTexture.png"));
 			textures.emplace("Wall Grate", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
 			textures.emplace("Floor Grate", ResourceManager::CreateAsset<Texture2D>("textures/FloorGrateUVS.png"));
-			textures.emplace("Large Candle", ResourceManager::CreateAsset<Texture2D>("textures/LargeCandleTexture.png"));
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
-			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
-			textures.emplace("White", ResourceManager::CreateAsset<Texture2D>("textures/White.png"));
-			textures.emplace("Wall2", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex2.png"));
-			textures.emplace("Wall_Tex3", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex3.png"));
-			textures.emplace("Wall_Tex4", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex4.png"));
-			textures.emplace("Wall_Tex5", ResourceManager::CreateAsset<Texture2D>("textures/Wall_Tex5.png"));
 			textures.emplace("ShieldTex", ResourceManager::CreateAsset<Texture2D>("textures/ShieldTexture.png"));
 			textures.emplace("StaffTex", ResourceManager::CreateAsset<Texture2D>("textures/StaffTexture.png"));
 			textures.emplace("SwordTex", ResourceManager::CreateAsset<Texture2D>("textures/GoblinSwordUV.png"));
@@ -159,23 +138,13 @@ public:
 			textures.emplace("Damaged Pillar", ResourceManager::CreateAsset<Texture2D>("textures/DamagedPillarUV.png"));
 			textures.emplace("Destroyed Pillar", ResourceManager::CreateAsset<Texture2D>("textures/DestroyedPillarUV.png"));
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
-			textures.emplace("Gray", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
-			textures.emplace("White", ResourceManager::CreateAsset<Texture2D>("textures/White.png"));
-			textures.emplace("GrassTex", ResourceManager::CreateAsset<Texture2D>("textures/Grass.png"));
 			textures.emplace("StoneTex", ResourceManager::CreateAsset<Texture2D>("textures/Stone.png"));
-			textures.emplace("AbyssTex", ResourceManager::CreateAsset<Texture2D>("textures/Abyss.png"));
-			textures.emplace("BarrelTex", ResourceManager::CreateAsset<Texture2D>("textures/BarrelTexture.png"));
-			textures.emplace("BucketTex", ResourceManager::CreateAsset<Texture2D>("textures/Bucket_Tex.png"));
-			textures.emplace("KegTex", ResourceManager::CreateAsset<Texture2D>("textures/Keg_Tex.png"));
+
+
 
 			//USER INTERFACE
-			textures.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/MenuGloss.png"));
-			textures.emplace("Menu Gloss Reverse", ResourceManager::CreateAsset<Texture2D>("textures/MenuGlossReverse.png"));
 			textures.emplace("Upper", ResourceManager::CreateAsset<Texture2D>("textures/UpperGraphic.png"));
 			textures.emplace("Lower", ResourceManager::CreateAsset<Texture2D>("textures/LowerGraphic.png"));
-			textures.emplace("Slider", ResourceManager::CreateAsset<Texture2D>("textures/Slider.png"));
-			textures.emplace("SliderBar", ResourceManager::CreateAsset<Texture2D>("textures/SliderBar.png"));
-			textures.emplace("Selector", ResourceManager::CreateAsset<Texture2D>("textures/Selector.png"));
 			textures.emplace("New", ResourceManager::CreateAsset<Texture2D>("textures/NewGame.png"));
 			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/Options.png"));
 			textures.emplace("ChooseLevel", ResourceManager::CreateAsset<Texture2D>("textures/ChooseLevel.png"));
@@ -186,16 +155,6 @@ public:
 			textures.emplace("Return", ResourceManager::CreateAsset<Texture2D>("textures/ReturntoMainMenu.png"));
 			textures.emplace("TitleT", ResourceManager::CreateAsset<Texture2D>("textures/Title.png"));
 			textures.emplace("Pause", ResourceManager::CreateAsset<Texture2D>("textures/Paused.png"));
-			textures.emplace("L1", ResourceManager::CreateAsset<Texture2D>("textures/Level1.png"));
-			textures.emplace("L2", ResourceManager::CreateAsset<Texture2D>("textures/Level2.png"));
-			textures.emplace("L3", ResourceManager::CreateAsset<Texture2D>("textures/Level3.png"));
-			textures.emplace("BL", ResourceManager::CreateAsset<Texture2D>("textures/BossLevel.png"));
-			textures.emplace("New", ResourceManager::CreateAsset<Texture2D>("textures/Brightness.png"));
-			textures.emplace("Volume", ResourceManager::CreateAsset<Texture2D>("textures/Volume.png"));
-			textures.emplace("U.I", ResourceManager::CreateAsset<Texture2D>("textures/U.ISize.png"));
-			textures.emplace("CP", ResourceManager::CreateAsset<Texture2D>("textures/CreditsPage.png"));
-			textures.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/GameTitleIntro.png"));
-			textures.emplace("Controls", ResourceManager::CreateAsset<Texture2D>("textures/Controls.png"));
 			textures.emplace("LS", ResourceManager::CreateAsset<Texture2D>("textures/LogoScreen.png"));
 			textures.emplace("Lose", ResourceManager::CreateAsset<Texture2D>("textures/LoseScreen.png"));
 			textures.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/CharacterHealth.png"));
@@ -218,14 +177,6 @@ public:
 				pressurePlateMaterial->Set("u_Material.Diffuse", GetTexture("Pressure Plate"));
 				pressurePlateMaterial->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Pressure Plate", std::move(pressurePlateMaterial));
-			}
-
-			Material::Sptr stoneSlabMaterial = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				stoneSlabMaterial->Name = "Stone Slab";
-				stoneSlabMaterial->Set("u_Material.Diffuse", GetTexture("Stone Slab 2"));
-				stoneSlabMaterial->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Stone Slab", std::move(stoneSlabMaterial));
 			}
 
 			Material::Sptr sCageMaterial = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
@@ -276,101 +227,12 @@ public:
 				materials.emplace("Spike Trap", std::move(spikeTrapMat));
 			}
 
-			//Symbol Materials
-			Material::Sptr symbol1Mat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				symbol1Mat->Name = "Relic 1";
-				symbol1Mat->Set("u_Material.Diffuse", GetTexture("Relic 1"));
-				symbol1Mat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Relic 1", std::move(symbol1Mat));
-			}
-			Material::Sptr symbol2Mat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				symbol2Mat->Name = "Relic 2";
-				symbol2Mat->Set("u_Material.Diffuse", GetTexture("Relic 2"));
-				symbol2Mat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Relic 2", std::move(symbol2Mat));
-			}
-			Material::Sptr symbol3Mat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				symbol3Mat->Name = "Relic 3";
-				symbol3Mat->Set("u_Material.Diffuse", GetTexture("Relic 3"));
-				symbol3Mat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Relic 3", std::move(symbol3Mat));
-			}
-			Material::Sptr symbol4Mat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				symbol4Mat->Name = "Relic 4";
-				symbol4Mat->Set("u_Material.Diffuse", GetTexture("Relic 4"));
-				symbol4Mat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Relic 4", std::move(symbol4Mat));
-			}
-			Material::Sptr symbol5Mat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				symbol5Mat->Name = "Relic 5";
-				symbol5Mat->Set("u_Material.Diffuse", GetTexture("Relic 5"));
-				symbol5Mat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Relic 5", std::move(symbol5Mat));
-			}
-
 			Material::Sptr shadowMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				shadowMat->Name = "Shadow";
 				shadowMat->Set("u_Material.Diffuse", GetTexture("Shadow"));
 				shadowMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Shadow", std::move(shadowMat));
-			}
-			//Tree Materials
-			Material::Sptr darkTreeMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				darkTreeMat->Name = "Dark Pine Tree";
-				darkTreeMat->Set("u_Material.Diffuse", GetTexture("Dark Pine Tree"));
-				darkTreeMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Dark Pine Tree", std::move(darkTreeMat));
-			}
-			Material::Sptr lightTreeMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				lightTreeMat->Name = "Light Pine Tree";
-				lightTreeMat->Set("u_Material.Diffuse", GetTexture("Light Pine Tree"));
-				lightTreeMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Light Pine Tree", std::move(lightTreeMat));
-			}
-
-			Material::Sptr standingTorchMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				standingTorchMat->Name = "Standing Torch";
-				standingTorchMat->Set("u_Material.Diffuse", GetTexture("Standing Torch"));
-				standingTorchMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Standing Torch", std::move(standingTorchMat));
-			}
-
-			Material::Sptr boxCageMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				boxCageMat->Name = "Box Cage";
-				boxCageMat->Set("u_Material.Diffuse", GetTexture("Box Cage"));
-				boxCageMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Box Cage", std::move(boxCageMat));
-			}
-			Material::Sptr circleCageMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				circleCageMat->Name = "Circle Cage";
-				circleCageMat->Set("u_Material.Diffuse", GetTexture("Circle Cage"));
-				circleCageMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Circle Cage", std::move(circleCageMat));
-			}
-			Material::Sptr longCageMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				longCageMat->Name = "Long Cage";
-				longCageMat->Set("u_Material.Diffuse", GetTexture("Long Cage"));
-				longCageMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Long Cage", std::move(longCageMat));
-			}
-			Material::Sptr uCageMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				uCageMat->Name = "U Cage";
-				uCageMat->Set("u_Material.Diffuse", GetTexture("U Cage"));
-				uCageMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("U Cage", std::move(uCageMat));
 			}
 
 			Material::Sptr graveStoneMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
@@ -414,36 +276,12 @@ public:
 				materials.emplace("Floor Grate", std::move(FGrate));
 			}
 
-			Material::Sptr LCandle = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				LCandle->Name = "Large Candle";
-				LCandle->Set("u_Material.Diffuse", GetTexture("Large Candle"));
-				LCandle->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Large Candle", std::move(LCandle));
-			}
-
 			Material::Sptr keyMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
 				keyMat->Name = "Key";
 				keyMat->Set("u_Material.Diffuse", GetTexture("Key"));
 				keyMat->Set("u_Material.Shininess", 0.1f);
 				materials.emplace("Key", std::move(keyMat));
-			}
-
-			Material::Sptr whiteMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				whiteMat->Name = "White";
-				whiteMat->Set("u_Material.Diffuse", GetTexture("White"));
-				whiteMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("White", std::move(whiteMat));
-			}
-
-			Material::Sptr grayMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				grayMat->Name = "Gray";
-				grayMat->Set("u_Material.Diffuse", GetTexture("Gray"));
-				grayMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Gray", std::move(grayMat));
 			}
 
 			Material::Sptr brownMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
@@ -461,30 +299,6 @@ public:
 				stone1Mat->Set("u_Material.Shininess", 0.1f); 
 				materials.emplace("StoneTex", std::move(stone1Mat)); 
 			}
-
-			Material::Sptr Wall_Mat2 = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				Wall_Mat2->Name = "Wall2";
-				Wall_Mat2->Set("u_Material.Diffuse", GetTexture("Wall2"));
-				Wall_Mat2->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Wall2", std::move(Wall_Mat2));
-			}
-
-			Material::Sptr Wall_Mat3 = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				Wall_Mat3->Name = "Wall_Tex3";
-				Wall_Mat3->Set("u_Material.Diffuse", GetTexture("Wall_Tex3"));
-				Wall_Mat3->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Wall_Tex3", std::move(Wall_Mat3));
-			}
-
-				Material::Sptr Wall_Mat4 = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-				{
-					Wall_Mat4->Name = "Wall_Tex4";
-					Wall_Mat4->Set("u_Material.Diffuse", GetTexture("Wall_Tex4"));
-					Wall_Mat4->Set("u_Material.Shininess", 0.1f);
-					materials.emplace("Wall_Tex4", std::move(Wall_Mat4));
-				}
 
 			Material::Sptr shieldMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
@@ -550,53 +364,17 @@ public:
 				materials.emplace("Rock Pile", std::move(rockPileMat));
 			}
 
-			Material::Sptr barrelMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				barrelMat->Name = "Barrel";
-				barrelMat->Set("u_Material.Diffuse", GetTexture("BarrelTex"));
-				barrelMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Barrel", std::move(barrelMat));
-			}
-
-			Material::Sptr bucketMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				bucketMat->Name = "Bucket";
-				bucketMat->Set("u_Material.Diffuse", GetTexture("BucketTex"));
-				bucketMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Bucket", std::move(bucketMat));
-			}
-
-			Material::Sptr kegMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				kegMat->Name = "Keg";
-				kegMat->Set("u_Material.Diffuse", GetTexture("KegTex"));
-				kegMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Keg", std::move(kegMat));
-			}
 
 #pragma endregion
 
 #pragma region Mesh Resources
 			
 			meshes.emplace("Character", ResourceManager::CreateAsset<MeshResource>("Character.obj"));
-			meshes.emplace("Dark Pine Tree", ResourceManager::CreateAsset<MeshResource>("DarkPineTree.obj"));
-			meshes.emplace("Light Pine Tree", ResourceManager::CreateAsset<MeshResource>("LightPineTree.obj"));
 			meshes.emplace("Grave Stone", ResourceManager::CreateAsset<MeshResource>("GraveStone.obj"));
 			meshes.emplace("Key", ResourceManager::CreateAsset<MeshResource>("key.obj"));
 			meshes.emplace("Stone Wall", ResourceManager::CreateAsset<MeshResource>("StoneWall.obj"));
 			meshes.emplace("Turret Projectile", ResourceManager::CreateAsset<MeshResource>("TurretProjectile.obj"));
-			meshes.emplace("Standing Torch", ResourceManager::CreateAsset<MeshResource>("StandingTorch.obj"));
-			meshes.emplace("Enemy", ResourceManager::CreateAsset<MeshResource>("Enemy.obj"));
-			meshes.emplace("Circle Cage", ResourceManager::CreateAsset<MeshResource>("CircleCage.obj"));
-			meshes.emplace("Box Cage", ResourceManager::CreateAsset<MeshResource>("BoxCage.obj"));
-			meshes.emplace("Long Cage", ResourceManager::CreateAsset<MeshResource>("CageLong.obj"));
 			meshes.emplace("Small Cage", ResourceManager::CreateAsset<MeshResource>("SCage.obj"));
-			meshes.emplace("U Cage", ResourceManager::CreateAsset<MeshResource>("CageU.obj"));
-			meshes.emplace("Relic 1", ResourceManager::CreateAsset<MeshResource>("Symbol1.obj"));
-			meshes.emplace("Relic 2", ResourceManager::CreateAsset<MeshResource>("Symbol2.obj"));
-			meshes.emplace("Relic 3", ResourceManager::CreateAsset<MeshResource>("Symbol3.obj"));
-			meshes.emplace("Relic 4", ResourceManager::CreateAsset<MeshResource>("Symbol4.obj"));
-			meshes.emplace("Relic 5", ResourceManager::CreateAsset<MeshResource>("Symbol5.obj"));
 			meshes.emplace("Pressure Plate", ResourceManager::CreateAsset<MeshResource>("PressurePlate.obj"));
 			meshes.emplace("Turret", ResourceManager::CreateAsset<MeshResource>("Turret.obj"));
 			meshes.emplace("Door", ResourceManager::CreateAsset<MeshResource>("door.obj"));
@@ -605,22 +383,17 @@ public:
 			meshes.emplace("Health Orb", ResourceManager::CreateAsset<MeshResource>("HealthOrb.obj"));
 			meshes.emplace("Wall Grate", ResourceManager::CreateAsset<MeshResource>("WallGrate.obj"));
 			meshes.emplace("Floor Grate", ResourceManager::CreateAsset<MeshResource>("FloorGrate.obj"));
-			meshes.emplace("Large Candle", ResourceManager::CreateAsset<MeshResource>("LargeCandle.obj"));
 			meshes.emplace("Cube", ResourceManager::CreateAsset<MeshResource>("cube.obj"));
 			meshes.emplace("Damaged Pillar", ResourceManager::CreateAsset<MeshResource>("DamagedPillar.obj"));
 			meshes.emplace("Destroyed Pillar", ResourceManager::CreateAsset<MeshResource>("DestroyedPillar.obj"));
 			meshes.emplace("Intact Pillar", ResourceManager::CreateAsset<MeshResource>("IntactPillar.obj"));
 			meshes.emplace("Rock Pile", ResourceManager::CreateAsset<MeshResource>("RockPile3.obj"));
-			meshes.emplace("Sphere", ResourceManager::CreateAsset<MeshResource>("Sphere.obj"));
 			meshes.emplace("Wall2", ResourceManager::CreateAsset<MeshResource>("Wall2.obj"));
 			meshes.emplace("Shield", ResourceManager::CreateAsset<MeshResource>("GoblinShield.obj"));
 			meshes.emplace("Staff", ResourceManager::CreateAsset<MeshResource>("GoblinStaff.obj"));
 			meshes.emplace("Sword", ResourceManager::CreateAsset<MeshResource>("GoblinSword.obj"));
 			meshes.emplace("Lever", ResourceManager::CreateAsset<MeshResource>("Lever.obj"));
-			meshes.emplace("Barrel", ResourceManager::CreateAsset<MeshResource>("Barrel.obj"));
-			meshes.emplace("Open Barrel", ResourceManager::CreateAsset<MeshResource>("OpenBarrel.obj"));
-			meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("Bucket.obj"));
-			meshes.emplace("Keg", ResourceManager::CreateAsset<MeshResource>("KegWithStand.obj"));
+
 		
 #pragma endregion
 
