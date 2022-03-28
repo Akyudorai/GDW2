@@ -109,20 +109,16 @@ public:
 #pragma region Texture Resources
 
 			textures.emplace("Stone Wall", ResourceManager::CreateAsset<Texture2D>("textures/StoneWallUVs.png"));
-			textures.emplace("Turret Projectile", ResourceManager::CreateAsset<Texture2D>("textures/TurretProjectileUVS.png"));
 			textures.emplace("Key", ResourceManager::CreateAsset<Texture2D>("textures/KeyTextureUVS.png"));
-			textures.emplace("Standing Torch", ResourceManager::CreateAsset<Texture2D>("textures/TorchUVS.png"));
 			textures.emplace("Grave Stone", ResourceManager::CreateAsset<Texture2D>("textures/GraveStoneUVS.png"));
 			textures.emplace("Character", ResourceManager::CreateAsset<Texture2D>("textures/CharacterTexture.png"));
 			textures.emplace("Shadow", ResourceManager::CreateAsset<Texture2D>("textures/ShadowUVS.png"));
 			textures.emplace("Small Cage", ResourceManager::CreateAsset<Texture2D>("textures/SmallCageUVS.png"));
 			textures.emplace("Pressure Plate", ResourceManager::CreateAsset<Texture2D>("textures/PressurePlateUVs.png"));
-			textures.emplace("Turret", ResourceManager::CreateAsset<Texture2D>("textures/TurretUVS.png"));
-			textures.emplace("Door", ResourceManager::CreateAsset<Texture2D>("textures/DoorUVs.png"));
 			textures.emplace("Spike Trap", ResourceManager::CreateAsset<Texture2D>("textures/SpikedTrapUVS.png"));
 			textures.emplace("Character Dagger", ResourceManager::CreateAsset<Texture2D>("textures/DaggerTexture.png"));
 			textures.emplace("Health Orb", ResourceManager::CreateAsset<Texture2D>("textures/HealthTexture.png"));
-			textures.emplace("Wall Grate", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
+			textures.emplace("WallGrateuvs", ResourceManager::CreateAsset<Texture2D>("textures/WallGrateUVS.png"));
 			textures.emplace("Floor Grate", ResourceManager::CreateAsset<Texture2D>("textures/FloorGrateUVS.png"));
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
 			textures.emplace("ShieldTex", ResourceManager::CreateAsset<Texture2D>("textures/ShieldTexture.png"));
@@ -135,7 +131,10 @@ public:
 			textures.emplace("Destroyed Pillar", ResourceManager::CreateAsset<Texture2D>("textures/DestroyedPillarUV.png"));
 			textures.emplace("Brown", ResourceManager::CreateAsset<Texture2D>("textures/Brown.png"));
 			textures.emplace("StoneTex", ResourceManager::CreateAsset<Texture2D>("textures/Stone.png"));
-
+			textures.emplace("Grey", ResourceManager::CreateAsset<Texture2D>("textures/Gray.png"));
+			textures.emplace("cTex", ResourceManager::CreateAsset<Texture2D>("textures/CobTex.png"));
+			textures.emplace("Shroom", ResourceManager::CreateAsset<Texture2D>("textures/MushroomTexture.png"));
+			textures.emplace("Crystal", ResourceManager::CreateAsset<Texture2D>("textures/CrystalTexture.png"));
 
 
 			//USER INTERFACE
@@ -175,36 +174,12 @@ public:
 				materials.emplace("Pressure Plate", std::move(pressurePlateMaterial));
 			}
 
-			Material::Sptr sCageMaterial = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr sCageMaterial = ResourceManager::CreateAsset<Material>(GetShader("Reflective"));
 			{
 				sCageMaterial->Name = "Small Cage";
 				sCageMaterial->Set("u_Material.Diffuse", GetTexture("Small Cage"));
-				sCageMaterial->Set("u_Material.Shininess", 0.1f);
+				sCageMaterial->Set("u_Material.Shininess", 0.4f);
 				materials.emplace("Small Cage", std::move(sCageMaterial));
-			}
-
-			Material::Sptr TurretProjMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				TurretProjMat->Name = "Turret Projectile";
-				TurretProjMat->Set("u_Material.Diffuse", GetTexture("Turret Projectile"));
-				TurretProjMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Turret Projectile", std::move(TurretProjMat));
-			}
-
-			Material::Sptr turretMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				turretMat->Name = "Turret";
-				turretMat->Set("u_Material.Diffuse", GetTexture("Turret"));
-				turretMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Turret", std::move(turretMat));
-			}
-
-			Material::Sptr doorMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
-			{
-				doorMat->Name = "Door";
-				doorMat->Set("u_Material.Diffuse", GetTexture("Door"));
-				doorMat->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Door", std::move(doorMat));
 			}
 
 			Material::Sptr characterMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
@@ -215,7 +190,7 @@ public:
 				materials.emplace("Character", std::move(characterMat));
 			}
 
-			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr spikeTrapMat = ResourceManager::CreateAsset<Material>(GetShader("Reflective"));
 			{
 				spikeTrapMat->Name = "Spike Trap";
 				spikeTrapMat->Set("u_Material.Diffuse", GetTexture("Spike Trap"));
@@ -257,10 +232,10 @@ public:
 
 			Material::Sptr WGrate = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
 			{
-				WGrate->Name = "Wall Grate";
-				WGrate->Set("u_Material.Diffuse", GetTexture("Wall Grate"));
+				WGrate->Name = "WallGrate";
+				WGrate->Set("u_Material.Diffuse", GetTexture("WallGrateuvs"));
 				WGrate->Set("u_Material.Shininess", 0.1f);
-				materials.emplace("Wall Grate", std::move(WGrate));
+				materials.emplace("WallGrate", std::move(WGrate));
 			}
 
 
@@ -296,7 +271,7 @@ public:
 				materials.emplace("StoneTex", std::move(stone1Mat)); 
 			}
 
-			Material::Sptr shieldMat = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			Material::Sptr shieldMat = ResourceManager::CreateAsset<Material>(GetShader("Reflective"));
 			{
 				shieldMat->Name = "ShieldTex";
 				shieldMat->Set("u_Material.Diffuse", GetTexture("ShieldTex"));
@@ -360,26 +335,66 @@ public:
 				materials.emplace("Rock Pile", std::move(rockPileMat));
 			}
 
+			Material::Sptr grey = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				grey->Name = "Grey";
+				grey->Set("u_Material.Diffuse", GetTexture("Grey"));
+				grey->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Grey", std::move(grey)); 
+			}
+
+			Material::Sptr cob = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				cob->Name = "Cob";
+				cob->Set("u_Material.Diffuse", GetTexture("cTex"));
+				cob->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Cob", std::move(cob));
+			}
+
+			Material::Sptr sm = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				sm->Name = "SS";
+				sm->Set("u_Material.Diffuse", GetTexture("Shroom"));
+				sm->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("SS", std::move(sm));
+			}
+
+			Material::Sptr ms = ResourceManager::CreateAsset<Material>(GetShader("Basic"));
+			{
+				ms->Name = "MS";
+				ms->Set("u_Material.Diffuse", GetTexture("Shroom"));
+				ms->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("MS", std::move(ms));
+			}
+
+			Material::Sptr Crystal = ResourceManager::CreateAsset<Material>(GetShader("Reflective"));
+			{
+				Crystal->Name = "Crystal";
+				Crystal->Set("u_Material.Diffuse", GetTexture("Crystal"));
+				Crystal->Set("u_Material.Shininess", 0.1f);
+				materials.emplace("Crystal", std::move(Crystal));
+			}
 
 #pragma endregion
 
 #pragma region Mesh Resources
 			
 			meshes.emplace("Character", ResourceManager::CreateAsset<MeshResource>("Character.obj"));
+			meshes.emplace("Crystal", ResourceManager::CreateAsset<MeshResource>("Crystal.obj"));
+			meshes.emplace("MS", ResourceManager::CreateAsset<MeshResource>("Mushrooms.obj"));
+			meshes.emplace("SS", ResourceManager::CreateAsset<MeshResource>("SingleMushroom.obj"));
 			meshes.emplace("Grave Stone", ResourceManager::CreateAsset<MeshResource>("GraveStone.obj"));
 			meshes.emplace("Key", ResourceManager::CreateAsset<MeshResource>("key.obj"));
+			meshes.emplace("Cob", ResourceManager::CreateAsset<MeshResource>("CobWeb.obj"));
 			meshes.emplace("Stone Wall", ResourceManager::CreateAsset<MeshResource>("StoneWall.obj"));
-			meshes.emplace("Turret Projectile", ResourceManager::CreateAsset<MeshResource>("TurretProjectile.obj"));
 			meshes.emplace("Small Cage", ResourceManager::CreateAsset<MeshResource>("SCage.obj"));
 			meshes.emplace("Pressure Plate", ResourceManager::CreateAsset<MeshResource>("PressurePlate.obj"));
-			meshes.emplace("Turret", ResourceManager::CreateAsset<MeshResource>("Turret.obj"));
-			meshes.emplace("Door", ResourceManager::CreateAsset<MeshResource>("door.obj"));
 			meshes.emplace("Spike Trap", ResourceManager::CreateAsset<MeshResource>("SpikedTrap.obj"));
 			meshes.emplace("Character Dagger", ResourceManager::CreateAsset<MeshResource>("CharacterDagger.obj"));
 			meshes.emplace("Health Orb", ResourceManager::CreateAsset<MeshResource>("HealthOrb.obj"));
-			meshes.emplace("Wall Grate", ResourceManager::CreateAsset<MeshResource>("WallGrate.obj"));
+			meshes.emplace("WallGrate", ResourceManager::CreateAsset<MeshResource>("WallGrate.obj"));
 			meshes.emplace("Floor Grate", ResourceManager::CreateAsset<MeshResource>("FloorGrate.obj"));
-			meshes.emplace("Cube", ResourceManager::CreateAsset<MeshResource>("cube.obj"));
+			meshes.emplace("Cube", ResourceManager::CreateAsset<MeshResource>("Cube.obj"));
 			meshes.emplace("Damaged Pillar", ResourceManager::CreateAsset<MeshResource>("DamagedPillar.obj"));
 			meshes.emplace("Destroyed Pillar", ResourceManager::CreateAsset<MeshResource>("DestroyedPillar.obj"));
 			meshes.emplace("Intact Pillar", ResourceManager::CreateAsset<MeshResource>("IntactPillar.obj"));
@@ -397,7 +412,7 @@ public:
 
 			std::vector<MeshResource::Sptr> WalkAnimation;
 			{
-				for (int i = 0; i < 5; ++i)
+				for (int i = 0; i < 6; ++i)
 				{
 					std::string file;
 					file.append("models/character_walk/Walk");
@@ -411,7 +426,7 @@ public:
 
 			std::vector<MeshResource::Sptr> IdleAnimation;
 			{
-				for (int i = 0; i < 3; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
 					file.append("models/character_idle/Idle");
@@ -439,10 +454,10 @@ public:
 
 			std::vector<MeshResource::Sptr> DoorAnimation;
 			{
-				for (int i = 0; i < 4; ++i)
+				for (int i = 0; i < 6; ++i)
 				{
 					std::string file;
-					file.append("models/door/door");
+					file.append("models/wallGrate/WallGrateOpen");
 					file.append(std::to_string((i + 1)));
 					file.append(".obj");
 					DoorAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
@@ -454,7 +469,7 @@ public:
 			 
 			std::vector<MeshResource::Sptr> SpikeAnimation;
 			{
-				for (int i = 0; i < 3; ++i)
+				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
 					file.append("models/spikedTrap/SpikedTrap");

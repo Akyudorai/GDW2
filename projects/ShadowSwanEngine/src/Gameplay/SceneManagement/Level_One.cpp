@@ -80,7 +80,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		// Set position in the SceneManager::GetCurrentScene()
 		body->SetPosition(glm::vec3(0.0f, -40.0f, 5.4f));
 		body->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-		body->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+		body->SetScale(glm::vec3(0.15));
 
 		RenderComponent::Sptr renderer = body->Add<RenderComponent>();
 
@@ -130,7 +130,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		// Set position in the SceneManager::GetCurrentScene()
 		shadow->SetPosition(glm::vec3(0.0f, -40.0f, 5.4f));
 		shadow->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-		shadow->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+		shadow->SetScale(glm::vec3(0.15));
 
 		// Create and attach a renderer for the monkey
 		RenderComponent::Sptr renderer = shadow->Add<RenderComponent>();
@@ -181,7 +181,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
-		floor->SetPosition(glm::vec3(0.3f, -34.5f, 5.4f));
+		floor->SetPosition(glm::vec3(0.3f, -35.0f, 5.4f));
 		floor->SetScale(glm::vec3(0.67f, 0.65f, 1.0f));
 
 		RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
@@ -241,7 +241,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
-		floor3->SetPosition(glm::vec3(-45.0f, -7.0f, 5.4f));
+		floor3->SetPosition(glm::vec3(-43.0f, -7.0f, 5.0f));
 		floor3->SetScale(glm::vec3(0.6f, 0.72f, 1.0f));
 
 		RenderComponent::Sptr renderer = floor3->Add<RenderComponent>();
@@ -261,7 +261,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
-		floor4->SetPosition(glm::vec3(-58.0f, 27.0f, 13.0f));
+		floor4->SetPosition(glm::vec3(-56.0f, 27.0f, 13.0f));
 		floor4->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
 
 		RenderComponent::Sptr renderer = floor4->Add<RenderComponent>();
@@ -275,7 +275,145 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
+	GameObject::Sptr floor5 = SceneManager::GetCurrentScene()->CreateGameObject("Floor5");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
 
+		floor5->SetPosition(glm::vec3(-13.0f, -2.5f, 5.0f));
+		floor5->SetScale(glm::vec3(0.6f, 0.72f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor5->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+		RigidBody::Sptr physics = floor5->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(15.0f, 18, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr floor6 = SceneManager::GetCurrentScene()->CreateGameObject("Floor6");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		floor6->SetPosition(glm::vec3(17.0f, -2.5f, 5.0f));
+		floor6->SetScale(glm::vec3(0.6f, 0.72f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor6->Add<RenderComponent>(); 
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+		RigidBody::Sptr physics = floor6->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(15.0f, 18, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr floor7 = SceneManager::GetCurrentScene()->CreateGameObject("Floor7");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		floor7->SetPosition(glm::vec3(47.0f, -2.5f, 5.0f));
+		floor7->SetScale(glm::vec3(0.6f, 0.72f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor7->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+		RigidBody::Sptr physics = floor7->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(15.0f, 18, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr floor8 = SceneManager::GetCurrentScene()->CreateGameObject("Floor8");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		floor8->SetPosition(glm::vec3(-13.5f, 27.0f, 13.0f)); 
+		floor8->SetScale(glm::vec3(0.85f, 0.6f, 1.0f)); 
+
+		RenderComponent::Sptr renderer = floor8->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+		RigidBody::Sptr physics = floor8->Add<RigidBody>(); 
+		physics->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr floor9 = SceneManager::GetCurrentScene()->CreateGameObject("Floor9");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		floor9->SetPosition(glm::vec3(29.0f, 27.0f, 13.0f));
+		floor9->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor9->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+		RigidBody::Sptr physics = floor9->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr floor10 = SceneManager::GetCurrentScene()->CreateGameObject("Floor10");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		floor10->SetPosition(glm::vec3(-33.0f, -29.8f, 15.0f)); 
+		floor10->SetScale(glm::vec3(0.67f, 0.4f, 1.0f)); 
+
+		RenderComponent::Sptr renderer = floor10->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+		RigidBody::Sptr physics = floor10->Add<RigidBody>(); 
+		physics->AddCollider(BoxCollider::Create(glm::vec3(16.75f, 10.0f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr floor11 = SceneManager::GetCurrentScene()->CreateGameObject("Floor11");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		floor11->SetPosition(glm::vec3(-24.77f, -4.0f, 15.0f));
+		floor11->SetScale(glm::vec3(0.36f, 0.63f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor11->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+
+		RigidBody::Sptr physics = floor11->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(9.0f, 15.75f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
 	 
 #pragma endregion
 
@@ -283,9 +421,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall1 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 1");
 	{
-		wall1->SetPosition(glm::vec3(0, -20.0f, 4.0f));
+		wall1->SetPosition(glm::vec3(-8.590, -20.0f, 4.0f));
 		wall1->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall1->SetScale(glm::vec3(1.0f, 1.0f, 1.25f));
+		wall1->SetScale(glm::vec3(1.0f, 1.0f, 1.67f));
 
 		RenderComponent::Sptr renderer = wall1->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -381,6 +519,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	/*
 	GameObject::Sptr wall10 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 10");
 	{
 		wall10->SetPosition(glm::vec3(18.0f, -49.75f, 4.0f));
@@ -391,12 +530,14 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+	*/
+
 
 	GameObject::Sptr wall11 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 11");
 	{
-		wall11->SetPosition(glm::vec3(43.5f, -49.0f, 4.0f));
+		wall11->SetPosition(glm::vec3(44.91f, -49.66f, 4.0f));
 		wall11->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall11->SetScale(glm::vec3(1.0f, 1.0f, 1.6f));
+		wall11->SetScale(glm::vec3(1.0f, 1.0f, 1.73f));
 
 		RenderComponent::Sptr renderer = wall11->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -405,9 +546,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall12 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 12");
 	{
-		wall12->SetPosition(glm::vec3(69.0f, -37.0f, 4.0f));
+		wall12->SetPosition(glm::vec3(69.58f, -34.66f, 4.0f));
 		wall12->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall12->SetScale(glm::vec3(1.0f, 1.0f, 0.85f));
+		wall12->SetScale(glm::vec3(1.0f, 1.0f, 0.92f));
 
 		RenderComponent::Sptr renderer = wall12->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -416,7 +557,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall13 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 13");
 	{
-		wall13->SetPosition(glm::vec3(64.0f, -23.0f, 4.0f));
+		wall13->SetPosition(glm::vec3(64.32f, -19.78f, 4.0f));
 		wall13->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 		wall13->SetScale(glm::vec3(1.0f, 1.0f, 0.4f));
 
@@ -427,15 +568,15 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall14 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 14");
 	{
-		wall14->SetPosition(glm::vec3(47.5f, -30.0f, 4.0f));
+		wall14->SetPosition(glm::vec3(47.41f, -29.4f, 4.0f));
 		wall14->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall14->SetScale(glm::vec3(1.0f, 1.0f, 0.35f));
+		wall14->SetScale(glm::vec3(1.0f, 1.0f, 0.55f));
 
 		RenderComponent::Sptr renderer = wall14->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
-
+	/*
 	GameObject::Sptr wall15 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 15");
 	{
 		wall15->SetPosition(glm::vec3(49.5f, -23.0f, 4.0f));
@@ -446,6 +587,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+	*/
 
 	GameObject::Sptr wall16 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 16");
 	{
@@ -457,7 +599,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
-
+	/*
 	GameObject::Sptr wall17 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 17");
 	{
 		wall17->SetPosition(glm::vec3(33.0f, -36.25f, 4.0f));
@@ -468,6 +610,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+	*/
 
 	GameObject::Sptr wall18 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 18");
 	{
@@ -480,6 +623,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	/*
 	GameObject::Sptr wall19 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 19");
 	{
 		wall19->SetPosition(glm::vec3(61.5f, -20.25f, 4.0f));
@@ -490,6 +634,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+
 
 	GameObject::Sptr wall20 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 20");
 	{
@@ -513,17 +658,19 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	*/
+
 	GameObject::Sptr wall22 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 22");
 	{
-		wall22->SetPosition(glm::vec3(-13.68f, 2.7f, 4.0f));
+		wall22->SetPosition(glm::vec3(-10.740f, 2.75f, 4.0f));
 		wall22->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall22->SetScale(glm::vec3(1.0f, 1.0f, 1.55f));
+		wall22->SetScale(glm::vec3(1.0f, 1.0f, 1.48f));
 
 		RenderComponent::Sptr renderer = wall22->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
-
+	/*
 	GameObject::Sptr wall23 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 23");
 	{
 		wall23->SetPosition(glm::vec3(-13.75f, -17.96f, 4.0f));
@@ -535,6 +682,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+
+
+	/*
 	GameObject::Sptr wall24 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 24");
 	{
 		wall24->SetPosition(glm::vec3(-46.5f, 10.5f, 9.75f));
@@ -545,10 +695,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+	*/
+
+
 
 	GameObject::Sptr wall25 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 25");
 	{
-		wall25->SetPosition(glm::vec3(-36.25f, 2.75f, 9.75f));
+		wall25->SetPosition(glm::vec3(-34.91f, 2.75f, 9.75f));
 		wall25->SetRotation(glm::vec3(90.f, 0.0f, 00.0f));
 		wall25->SetScale(glm::vec3(1.0f, 1.35f, 0.5f));
 
@@ -570,9 +723,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall27 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 27");
 	{
-		wall27->SetPosition(glm::vec3(-40, -24.5f, 16.75f));
+		wall27->SetPosition(glm::vec3(-34.830, -24.5f, 16.75f));
 		wall27->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall27->SetScale(glm::vec3(1.0f, 0.5f, 0.325f));
+		wall27->SetScale(glm::vec3(1.0f, 0.5f, 0.605f));
 
 		RenderComponent::Sptr renderer = wall27->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -581,9 +734,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall28 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 28");
 	{
-		wall28->SetPosition(glm::vec3(-54, -24.5f, 16.75f));
+		wall28->SetPosition(glm::vec3(-53.36, -24.5f, 16.75f));
 		wall28->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall28->SetScale(glm::vec3(1.0f, 0.5f, 0.275f));
+		wall28->SetScale(glm::vec3(1.0f, 0.5f, 0.235f));
 
 		RenderComponent::Sptr renderer = wall28->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -603,7 +756,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall30 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 30");
 	{
-		wall30->SetPosition(glm::vec3(-36.5f, -18.5f, 9.75f));
+		wall30->SetPosition(glm::vec3(-35.02f, -18.5f, 9.75f));
 		wall30->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
 		wall30->SetScale(glm::vec3(1.0f, 1.35f, 0.4f));
 
@@ -634,6 +787,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+
+	/*
 	GameObject::Sptr wall33 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 33");
 	{
 		wall33->SetPosition(glm::vec3(-43.5f, -27.75f, 12.5f));
@@ -645,6 +800,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	*/
+
+	/*
 	GameObject::Sptr wall34 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 34");
 	{
 		wall34->SetPosition(glm::vec3(-36.75f, -28.75f, 12.5f));
@@ -655,6 +813,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+
+	*/
 
 	GameObject::Sptr wall35 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 35");
 	{
@@ -680,15 +840,16 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall37 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 37");
 	{
-		wall37->SetPosition(glm::vec3(-16.46, -31.33f, 9.75f));
+		wall37->SetPosition(glm::vec3(-16.32, -32.58f, 9.75f));
 		wall37->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall37->SetScale(glm::vec3(1.0f, 1.35f, 0.65f));
+		wall37->SetScale(glm::vec3(1.0f, 1.35f, 0.56f));
 
 		RenderComponent::Sptr renderer = wall37->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	/*
 	GameObject::Sptr wall38 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 38");
 	{
 		wall38->SetPosition(glm::vec3(-32.75f, -26, 12.5f));
@@ -699,7 +860,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+	*/
 
+	/*
 	GameObject::Sptr wall39 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 39");
 	{
 		wall39->SetPosition(glm::vec3(-31.5f, -23, 12.5f));
@@ -711,6 +874,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+
 	GameObject::Sptr wall40 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 40");
 	{
 		wall40->SetPosition(glm::vec3(-19.5f, -23, 12.5f));
@@ -721,18 +885,19 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
-
+	*/
 	GameObject::Sptr wall41 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 41");
 	{
-		wall41->SetPosition(glm::vec3(-32.9f, -6.910f, 12.5f));
+		wall41->SetPosition(glm::vec3(-32.86f, -6.53f, 15.72f));
 		wall41->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall41->SetScale(glm::vec3(1.0f, 1.0f, 1.03f));
+		wall41->SetScale(glm::vec3(1.0f, 0.65f, 1.1f));
 
 		RenderComponent::Sptr renderer = wall41->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	/*
 	GameObject::Sptr wall42 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 42");
 	{
 		wall42->SetPosition(glm::vec3(-34.5f, 10.25f, 12.5f));
@@ -743,7 +908,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+	*/
 
+	/*
 	GameObject::Sptr wall43 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 43");
 	{
 		wall43->SetPosition(glm::vec3(-38.0f, 14.0f, 12.5f));
@@ -766,16 +933,20 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	*/
+
 	GameObject::Sptr wall45 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 45");
 	{
-		wall45->SetPosition(glm::vec3(-25.0f, 32.0f, 12.5f));
+		wall45->SetPosition(glm::vec3(-24.78f, 31.22f, 12.5f));
 		wall45->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall45->SetScale(glm::vec3(1.0f, 1.0f, 0.95f));
+		wall45->SetScale(glm::vec3(1.00f, 0.94f, 0.95f));
 
 		RenderComponent::Sptr renderer = wall45->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+
+	/*
 
 	GameObject::Sptr wall46 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 46");
 	{
@@ -810,17 +981,20 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	*/
+
 	GameObject::Sptr wall49 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 49");
 	{
-		wall49->SetPosition(glm::vec3(-16.46f, -6.910f, 12.5f));
+		wall49->SetPosition(glm::vec3(-16.46f, -6.91f, 15.72f));
 		wall49->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-		wall49->SetScale(glm::vec3(1.0f, 1.0f, 1.1f));
+		wall49->SetScale(glm::vec3(1.0f, 0.65f, 1.09f));
 
 		RenderComponent::Sptr renderer = wall49->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	/*
 	GameObject::Sptr wall50 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 50");
 	{
 		wall50->SetPosition(glm::vec3(-19.5f, -23.0f, 12.5f));
@@ -831,12 +1005,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
+	*/
 
 	GameObject::Sptr wall51 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 51");
 	{
-		wall51->SetPosition(glm::vec3(-56.25f, 12.3f, 12.5f));
+		wall51->SetPosition(glm::vec3(-51.82f, 11.83f, 8.73f));
 		wall51->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall51->SetScale(glm::vec3(1.0f, 1.0f, 1.1f));
+		wall51->SetScale(glm::vec3(1.0f, 1.48f, 1.35f));
 
 		RenderComponent::Sptr renderer = wall51->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -856,9 +1031,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall53 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 53");
 	{
-		wall53->SetPosition(glm::vec3(8.25f, 26.75f, 12.5f));
+		wall53->SetPosition(glm::vec3(7.64f, 32.1f, 12.5f));
 		wall53->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall53->SetScale(glm::vec3(1.0f, 1.0f, 1.25f));
+		wall53->SetScale(glm::vec3(1.0f, 1.0f, 1.14f));
 
 		RenderComponent::Sptr renderer = wall53->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -868,15 +1043,16 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall54 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 54");
 	{
-		wall54->SetPosition(glm::vec3(8.25f, 14.35f, 12.5f));
+		wall54->SetPosition(glm::vec3(5.1f, 11.190f, 12.5f));
 		wall54->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall54->SetScale(glm::vec3(1.0f, 1.0f, 1.25f));
+		wall54->SetScale(glm::vec3(1.0f, 1.0f, 1.410f));
 
 		RenderComponent::Sptr renderer = wall54->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	/*
 	GameObject::Sptr wall55 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 55");
 	{
 		wall55->SetPosition(glm::vec3(26.5f, 14.0f, 12.5f));
@@ -899,11 +1075,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 	}
 
+	*/
+
 	GameObject::Sptr wall57 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 57");
 	{
-		wall57->SetPosition(glm::vec3(39.25f, 12.0f, 12.5f));
+		wall57->SetPosition(glm::vec3(38.530f, 11.1f, 12.5f));
 		wall57->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall57->SetScale(glm::vec3(1.0f, 1.0f, 0.785f));
+		wall57->SetScale(glm::vec3(1.0f, 1.0f, 0.765f));
 
 		RenderComponent::Sptr renderer = wall57->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -912,7 +1090,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall58 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 58");
 	{
-		wall58->SetPosition(glm::vec3(38.0f, 32.0f, 12.5f));
+		wall58->SetPosition(glm::vec3(38.0f, 32.04f, 12.5f));
 		wall58->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 		wall58->SetScale(glm::vec3(1.0f, 1.0f, 0.85f));
 
@@ -923,7 +1101,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall60 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 60");
 	{
-		wall60->SetPosition(glm::vec3(50.5f, 21.5f, 12.5f));
+		wall60->SetPosition(glm::vec3(51.310f, 21.5f, 12.5f));
 		wall60->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
 		wall60->SetScale(glm::vec3(1.0f, 1.0f, 0.8f));
 
@@ -945,9 +1123,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr wall59 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 59");
 	{
-		wall59->SetPosition(glm::vec3(33.0f, -36.25f, 4.5f));
+		wall59->SetPosition(glm::vec3(32.810f, -36.58f, 4.5f));
 		wall59->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-		wall59->SetScale(glm::vec3(1.0f, 1.0f, 1.02f));
+		wall59->SetScale(glm::vec3(1.0f, 1.0f, 0.89f));
 
 		RenderComponent::Sptr renderer = wall59->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
@@ -1051,99 +1229,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		}
 
 	}
-
-	// Trap Room
 	{
-		// Start
 		{
-			GameObject::Sptr trap_ground_upper_1 = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Upper Ground 1");
-			{
-				trap_ground_upper_1->SetPosition(glm::vec3(57.5f, -8.5f, 3.5f));
-				trap_ground_upper_1->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-				trap_ground_upper_1->SetScale(glm::vec3(5, 10, 2));
-
-				RenderComponent::Sptr renderer = trap_ground_upper_1->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-				// Collider
-				RigidBody::Sptr physics = trap_ground_upper_1->Add<RigidBody>(RigidBodyType::Static);
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				collider->SetScale(trap_ground_upper_1->GetScale());
-				collider->SetPosition(collider->GetPosition());
-				physics->AddCollider(collider);
-				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-
-				
-			}
-
-			GameObject::Sptr trap_ground_lower = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Lower Ground");
-			{
-				trap_ground_lower->SetPosition(glm::vec3(37.5f, -8.5f, 0.0f));
-				trap_ground_lower->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-				trap_ground_lower->SetScale(glm::vec3(25.0f, 10.0f, 2.0f));
-
-				RenderComponent::Sptr renderer = trap_ground_lower->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-				// Collider
-				RigidBody::Sptr physics = trap_ground_lower->Add<RigidBody>(RigidBodyType::Static);
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				collider->SetScale(trap_ground_lower->GetScale());
-				collider->SetPosition(collider->GetPosition());
-				physics->AddCollider(collider);
-				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-			}
-
-			GameObject::Sptr trap_ramp = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Ramp");
-			{
-				trap_ramp->SetPosition(glm::vec3(51.0f, 0.5f, 3.0f));
-				trap_ramp->SetRotation(glm::vec3(0.0f, -38.0f, 0.0f));
-				trap_ramp->SetScale(glm::vec3(2.75f, 1, 1));
-
-				RenderComponent::Sptr renderer = trap_ramp->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-				// Collider
-				RigidBody::Sptr physics = trap_ramp->Add<RigidBody>(RigidBodyType::Static);
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				collider->SetScale(trap_ramp->GetScale());
-				collider->SetPosition(collider->GetPosition());
-				physics->AddCollider(collider);
-				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-			}
-		}
-		
-		// Platform 1
-		{
-			GameObject::Sptr trap_ground_upper_2 = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Upper Ground 2");
-			{
-				trap_ground_upper_2->SetPosition(glm::vec3(45.75f, -10.5f, 3.5f));
-				trap_ground_upper_2->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-				trap_ground_upper_2->SetScale(glm::vec3(2.5f, 7, 2));
-
-				RenderComponent::Sptr renderer = trap_ground_upper_2->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-				// Collider
-				RigidBody::Sptr physics = trap_ground_upper_2->Add<RigidBody>(RigidBodyType::Static);
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				collider->SetScale(trap_ground_upper_2->GetScale());
-				collider->SetPosition(collider->GetPosition());
-				physics->AddCollider(collider);
-				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-			}
 
 			GameObject::Sptr spike_trap_1 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_1->SetPosition(glm::vec3(45.75f, -6.0f, 5.5f));
+				spike_trap_1->SetPosition(glm::vec3(45.75f, -6.0f, 5.8f));
 				spike_trap_1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_1->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1196,7 +1287,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_2 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_2->SetPosition(glm::vec3(45.75f, -10.5f, 5.5f));
+				spike_trap_2->SetPosition(glm::vec3(45.75f, -10.5f, 5.8f));
 				spike_trap_2->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				spike_trap_2->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1249,7 +1340,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_3 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_3->SetPosition(glm::vec3(45.75f, -15.0f, 5.5f));
+				spike_trap_3->SetPosition(glm::vec3(45.75f, -15.0f, 5.8f));
 				spike_trap_3->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_3->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1301,31 +1392,10 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			}
 		}
 		
-		// Platform 2
 		{
-			GameObject::Sptr trap_ground_upper_3 = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Upper Ground 3");
-			{
-				trap_ground_upper_3->SetPosition(glm::vec3(35.5f, -10.5f, 3.5f));
-				trap_ground_upper_3->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-				trap_ground_upper_3->SetScale(glm::vec3(2.5f, 7, 2));
-
-				RenderComponent::Sptr renderer = trap_ground_upper_3->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-				// Collider
-				RigidBody::Sptr physics = trap_ground_upper_3->Add<RigidBody>(RigidBodyType::Static);
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				collider->SetScale(trap_ground_upper_3->GetScale());
-				collider->SetPosition(collider->GetPosition());
-				physics->AddCollider(collider);
-				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-			}
-
 			GameObject::Sptr spike_trap_4 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_4->SetPosition(glm::vec3(35.5f, -6.0f, 5.5f));
+				spike_trap_4->SetPosition(glm::vec3(35.5f, -6.0f, 5.8f));
 				spike_trap_4->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_4->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1378,7 +1448,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_5 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_5->SetPosition(glm::vec3(35.5f, -10.5f, 5.5f));
+				spike_trap_5->SetPosition(glm::vec3(35.5f, -10.5f, 5.8f));
 				spike_trap_5->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_5->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1431,7 +1501,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_6 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_6->SetPosition(glm::vec3(35.5f, -15.0f, 5.5f));
+				spike_trap_6->SetPosition(glm::vec3(35.5f, -15.0f, 5.8f));
 				spike_trap_6->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				spike_trap_6->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1485,29 +1555,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		// Platform 3
 		{
-			GameObject::Sptr trap_ground_upper_4 = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Upper Ground 4");
-			{
-				trap_ground_upper_4->SetPosition(glm::vec3(26.25f, -10.5f, 3.5f));
-				trap_ground_upper_4->SetRotation(glm::vec3(0, 0, 0));
-				trap_ground_upper_4->SetScale(glm::vec3(2.5f, 7, 2));
-
-				RenderComponent::Sptr renderer = trap_ground_upper_4->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-				// Collider
-				RigidBody::Sptr physics = trap_ground_upper_4->Add<RigidBody>(RigidBodyType::Static);
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				collider->SetScale(trap_ground_upper_4->GetScale());
-				collider->SetPosition(collider->GetPosition());
-				physics->AddCollider(collider);
-				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-			}
-
 			GameObject::Sptr spike_trap_7 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_7->SetPosition(glm::vec3(26.25f, -6.0f, 5.5f));
+				spike_trap_7->SetPosition(glm::vec3(26.25f, -6.0f, 5.8f));
 				spike_trap_7->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_7->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1560,7 +1610,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_8 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_8->SetPosition(glm::vec3(26.25f, -10.5f, 5.5f));
+				spike_trap_8->SetPosition(glm::vec3(26.25f, -10.5f, 5.8f));
 				spike_trap_8->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_8->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1612,7 +1662,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_9 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_9->SetPosition(glm::vec3(26.25f, -15.0f, 5.5f));
+				spike_trap_9->SetPosition(glm::vec3(26.25f, -15.0f, 5.8f));
 				spike_trap_9->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 				spike_trap_9->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
 
@@ -1668,31 +1718,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		// End
 		{
-			GameObject::Sptr trap_ground_upper_5 = SceneManager::GetCurrentScene()->CreateGameObject("Trap Room Upper Ground 5");
-			{
-				trap_ground_upper_5->SetPosition(glm::vec3(15.5f, -8.5f, 3.5f));
-				trap_ground_upper_5->SetRotation(glm::vec3(0, 0, 0));
-				trap_ground_upper_5->SetScale(glm::vec3(3, 10, 2));
-
-				RenderComponent::Sptr renderer = trap_ground_upper_5->Add<RenderComponent>();
-				renderer->SetMesh(Resources::GetMesh("Cube"));
-				renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-				// Collider
-				RigidBody::Sptr physics = trap_ground_upper_5->Add<RigidBody>(RigidBodyType::Static);
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				collider->SetScale(trap_ground_upper_5->GetScale());
-				collider->SetPosition(collider->GetPosition());
-				physics->AddCollider(collider);
-				physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-				physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-			}
 		}		
-	}
-
-	// Jump Room
-	{
-
 	}
 
 	// Upper Access
@@ -1962,103 +1988,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		}		
 	}
 
-	// Turret Room
+	// Abyss Room
 	{
-		GameObject::Sptr turret_1 = SceneManager::GetCurrentScene()->CreateGameObject("Turret 1");
-		{
-			turret_1->SetPosition(glm::vec3(-68.25f, 15.5f, 13.0f));
-			turret_1->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			turret_1->SetScale(glm::vec3(0.3f, 0.2f, 0.3f));
-
-			RenderComponent::Sptr renderer = turret_1->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Turret"));
-			renderer->SetMaterial(Resources::GetMaterial("Turret"));
-
-			TurretBehavior::Sptr turretBehavior = turret_1->Add<TurretBehavior>();
-			turretBehavior->Initialize(3, 0, glm::vec3(-64.0f, 15.5f, 15.0f), glm::vec3(1.0f, 0.0f, 0.0f), false);
-		}
-
-		GameObject::Sptr turret_2 = SceneManager::GetCurrentScene()->CreateGameObject("Turret 2");
-		{
-			turret_2->SetPosition(glm::vec3(-68.25f, 19.0f, 13.0f));
-			turret_2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			turret_2->SetScale(glm::vec3(0.3f, 0.2f, 0.3f));
-
-			RenderComponent::Sptr renderer = turret_2->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Turret"));
-			renderer->SetMaterial(Resources::GetMaterial("Turret"));
-		}
-
-		GameObject::Sptr turret_3 = SceneManager::GetCurrentScene()->CreateGameObject("Turret 3");
-		{
-			turret_3->SetPosition(glm::vec3(-68.25f, 22.5f, 13.0f));
-			turret_3->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			turret_3->SetScale(glm::vec3(0.3f, 0.2f, 0.3f));
-
-			RenderComponent::Sptr renderer = turret_3->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Turret"));
-			renderer->SetMaterial(Resources::GetMaterial("Turret"));
-		}
-
-		GameObject::Sptr turret_4 = SceneManager::GetCurrentScene()->CreateGameObject("Turret 4");
-		{
-			turret_4->SetPosition(glm::vec3(-68.25f, 26.0f, 13.0f));
-			turret_4->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			turret_4->SetScale(glm::vec3(0.3f, 0.2f, 0.3f));
-
-			RenderComponent::Sptr renderer = turret_4->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Turret"));
-			renderer->SetMaterial(Resources::GetMaterial("Turret"));
-		}
-
-		// Turret Room Activator
-		GameObject::Sptr lever_2 = SceneManager::GetCurrentScene()->CreateGameObject("Turret Activation Lever");
-		{
-			// Transform
-			lever_2->SetPosition(glm::vec3(-70.0f, 15.0f, 15.78f));
-			lever_2->SetRotation(glm::vec3(90.0f, 0.0f, 90.0f));
-			lever_2->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
-
-			// Renderer
-			RenderComponent::Sptr renderer = lever_2->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Lever"));
-			renderer->SetMaterial(Resources::GetMaterial("LeverTex"));
-
-			// Collider
-			RigidBody::Sptr physics = lever_2->Add<RigidBody>(RigidBodyType::Static);
-			BoxCollider::Sptr collider = BoxCollider::Create();
-			physics->AddCollider(collider);
-
-			AudioSource::Sptr audio = lever_2->Add<AudioSource>();
-			{
-				audio->playOnAwake = false;
-				audio->LoadEvent("Lever");
-				audio->volume = 0.75f;
-				/*audio->m_Resource = Resources::GetSound("Lever");
-				audio->m_Settings = AudioSettings{
-					false, false, false
-				};*/
-				audio->Init();
-			}
-
-			// Interaction Event
-			InteractableComponent::Sptr interactable = lever_2->Add<InteractableComponent>();
-			interactable->onInteractionEvent = [interactable, audio, turret_1, turret_2, turret_3, turret_4]
-			{
-				interactable->isToggled = !interactable->isToggled;
-				audio->Play();
-
-
-				if (interactable->isToggled) {
-					// Shut off Turrets
-				}
-
-				else {
-					// Turn on Turrets
-				}
-			};
-		}
-
 		GameObject::Sptr key = SceneManager::GetCurrentScene()->CreateGameObject("Key");
 		{
 			key->SetPosition(glm::vec3(-71.75f, 20.5f, 17.5f));
@@ -2086,12 +2017,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GameObject::Sptr pedestal = SceneManager::GetCurrentScene()->CreateGameObject("Key Pedestal");
 		{
 			pedestal->SetPosition(glm::vec3(-72.0f, 21.0f, 16.5f));
-			pedestal->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+			pedestal->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
 			pedestal->SetScale(glm::vec3(1, 1, 1));
 
 			RenderComponent::Sptr renderer = pedestal->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Grey"));
+			renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
 			// Collider
 			RigidBody::Sptr physics = pedestal->Add<RigidBody>(RigidBodyType::Static);
@@ -2120,14 +2051,14 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GameObject::Sptr interact_doorway = SceneManager::GetCurrentScene()->CreateGameObject("Interact Door");
 		{
 			// Transform
-			interact_doorway->SetPosition(glm::vec3(-12.75f, 21.0f, 18.5f));
-			interact_doorway->SetRotation(glm::vec3(90.f, 0.0f, 180.0f));
-			interact_doorway->SetScale(glm::vec3(1.0f, 0.5f, 0.75f));
+			interact_doorway->SetPosition(glm::vec3(-12.0f, 21.0f, 10.0f));
+			interact_doorway->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			interact_doorway->SetScale(glm::vec3(1.0f, 1.0f, 0.9f));
 
 			// Render
 			RenderComponent::Sptr renderer = interact_doorway->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Door"));
-			renderer->SetMaterial(Resources::GetMaterial("Door"));
+			renderer->SetMesh(Resources::GetMesh("WallGrate"));
+			renderer->SetMaterial(Resources::GetMaterial("WallGrate"));
 
 			// Animator
 			AnimatorComponent::Sptr animator = interact_doorway->Add<AnimatorComponent>();
@@ -2144,8 +2075,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			// Collider
 			RigidBody::Sptr physics = interact_doorway->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
-			collider->SetScale(glm::vec3(1.5f, 3.8f, 4.3f));
-			collider->SetPosition(collider->GetPosition() + glm::vec3(0, 0, 0));
+			collider->SetScale(glm::vec3(1.5f, 5.0f, 10.0f));
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0, 7, 0));
 			physics->AddCollider(collider);
 			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
@@ -2189,6 +2120,55 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				}
 			};
 		}
+
+		//CobWebs
+		GameObject::Sptr cob1 = SceneManager::GetCurrentScene()->CreateGameObject("cob1");
+		{
+			cob1->SetPosition(glm::vec3(-10.0, -33, 8));
+			cob1->SetRotation(glm::vec3(0, 0, 20));
+			cob1->SetScale(glm::vec3(2));
+
+			RenderComponent::Sptr renderer = cob1->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Cob"));
+			renderer->SetMaterial(Resources::GetMaterial("Cob"));
+		}
+
+		//Crystal
+		GameObject::Sptr Crystal1 = SceneManager::GetCurrentScene()->CreateGameObject("cry1"); 
+		{
+			Crystal1->SetPosition(glm::vec3(7, -45, 5)); 
+			Crystal1->SetRotation(glm::vec3(90, 0, 0)); 
+			Crystal1->SetScale(glm::vec3(0.5));  
+
+			RenderComponent::Sptr renderer = Crystal1->Add<RenderComponent>(); 
+			renderer->SetMesh(Resources::GetMesh("Crystal")); 
+			renderer->SetMaterial(Resources::GetMaterial("Crystal")); 
+		}
+
+		//Multiple Mushrooms
+		GameObject::Sptr MultipleShrooms1 = SceneManager::GetCurrentScene()->CreateGameObject("ms1");
+		{
+			MultipleShrooms1->SetPosition(glm::vec3(20, -40, 1));
+			MultipleShrooms1->SetRotation(glm::vec3(90, 0, 0));
+			MultipleShrooms1->SetScale(glm::vec3(1.2));
+
+			RenderComponent::Sptr renderer = MultipleShrooms1->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("MS"));
+			renderer->SetMaterial(Resources::GetMaterial("MS"));
+		}
+
+		//Single Mushrooms
+		GameObject::Sptr SingleShrooms1 = SceneManager::GetCurrentScene()->CreateGameObject("ss1"); 
+		{
+			SingleShrooms1->SetPosition(glm::vec3(40, -39, 1)); 
+			SingleShrooms1->SetRotation(glm::vec3(90, 0, 160));
+			SingleShrooms1->SetScale(glm::vec3(1.5)); 
+
+			RenderComponent::Sptr renderer = SingleShrooms1->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("SS"));
+			renderer->SetMaterial(Resources::GetMaterial("SS"));
+		}
+
 
 		GameObject::Sptr statue_1 = SceneManager::GetCurrentScene()->CreateGameObject("Statue 1");
 		{
@@ -2564,8 +2544,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		wallGrate1->SetScale(glm::vec3(0.4f, 0.4f, 0.4f));
 
 		RenderComponent::Sptr renderer = wallGrate1->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Wall Grate"));
-		renderer->SetMaterial(Resources::GetMaterial("Wall Grate"));
+		renderer->SetMesh(Resources::GetMesh("WallGrate"));
+		renderer->SetMaterial(Resources::GetMaterial("WallGrate"));
 	}
 
 	GameObject::Sptr intactPillar1 = SceneManager::GetCurrentScene()->CreateGameObject("Jump Puzzle Intact Pillar 1");
@@ -2746,7 +2726,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr rockPile5 = SceneManager::GetCurrentScene()->CreateGameObject("Rock Pile 5");
 	{
-		rockPile5->SetPosition(glm::vec3(-24.68f, 22.57f, 16.f));
+		rockPile5->SetPosition(glm::vec3(-24.68f, 22.57f, 13.2f));
 		rockPile5->SetRotation(glm::vec3(90.0f, 0.0f, 135.0f));
 		rockPile5->SetScale(glm::vec3(1.5f, 1.5f, 1.5f));
 

@@ -163,7 +163,7 @@ void PlayerController::HandleInput(float deltaTime)
 				
 			}				
 
-			m_body->LookAt(m_body->GetPosition() - motion);			
+			m_body->LookAt(m_body->GetPosition() + motion);			
 			if (glm::distance(m_body->GetPosition(), m_shadow->GetPosition()) >= 21.0f) {						
 				m_shadow->Get<RenderComponent>()->IsEnabled = false;
 				//m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;
@@ -171,7 +171,7 @@ void PlayerController::HandleInput(float deltaTime)
 		}
 		else if (isShadow && glm::distance(m_shadow->GetPosition() + motion, m_body->GetPosition()) <= 20.0f) {			
 			m_shadow->SetPosition(m_shadow->GetPosition() + motion * movSpeed * deltaTime);
-			m_shadow->LookAt(m_shadow->GetPosition() - motion);			
+			m_shadow->LookAt(m_shadow->GetPosition() + motion);			
 			
 			// Change Animation To Walk
 			if (m_shadow->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Walk") {
