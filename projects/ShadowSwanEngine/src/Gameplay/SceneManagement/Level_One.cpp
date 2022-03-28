@@ -1142,7 +1142,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GameObject::Sptr cageDoor_1 = SceneManager::GetCurrentScene()->CreateGameObject("Snake Room Door");
 		{
 			// Transform
-			cageDoor_1->SetPosition(glm::vec3(55.5f, -23.0f, 4.5f));
+			cageDoor_1->SetPosition(glm::vec3(55.630f, -19.510f, 4.5f));
 			cageDoor_1->SetRotation(glm::vec3(90, 0, 90));
 			cageDoor_1->SetScale(glm::vec3(0.25f, 0.125f, 0.065f));
 
@@ -1167,7 +1167,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			// Transform
 			pressure_plate_1->SetPosition(glm::vec3(62.5f, -29.0f, 6.0f));
 			pressure_plate_1->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			pressure_plate_1->SetScale(glm::vec3(1.0f, 0.5f, 1.0f));
+			pressure_plate_1->SetScale(glm::vec3(0.8f, 0.5f, 0.8f));
 
 			// Renderer
 			RenderComponent::Sptr renderer = pressure_plate_1->Add<RenderComponent>();
@@ -1727,7 +1727,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		GameObject::Sptr cageDoor_2 = SceneManager::GetCurrentScene()->CreateGameObject("Upper Access Door");
 		{
 			// Transform
-			cageDoor_2->SetPosition(glm::vec3(-25.0f, -23.0f, 15.0f));
+			cageDoor_2->SetPosition(glm::vec3(-21.250f, -23.0f, 15.0f));
 			cageDoor_2->SetRotation(glm::vec3(90, 0, 90));
 			cageDoor_2->SetScale(glm::vec3(0.25f, 0.085f, 0.1f));
 
@@ -1740,7 +1740,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			RigidBody::Sptr physics = cageDoor_2->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.0f, 0.0f));
-			collider->SetScale(glm::vec3(1.0f, 4.0f, 3.5f));
+			collider->SetScale(glm::vec3(1.0f, 4.0f, 5.0f));
 			physics->AddCollider(collider);
 			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
@@ -1752,7 +1752,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			// Transform
 			pressure_plate_2->SetPosition(glm::vec3(-10.5f, -26.5f, 6.0f));
 			pressure_plate_2->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			pressure_plate_2->SetScale(glm::vec3(1.0f, 0.5f, 1.0f));
+			pressure_plate_2->SetScale(glm::vec3(0.8f, 0.5f, 0.8f));
 
 			// Renderer
 			RenderComponent::Sptr renderer = pressure_plate_2->Add<RenderComponent>();
@@ -2069,8 +2069,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			animator->onAnimationCompleted = [animator] {
 				animator->SetPause(true);
 				animator->SetReverse(!animator->IsReversed());
-			};
-			animator->PlayAnimation("Open");
+			}; 
+			animator->SetAnimation("Open"); 
 
 			// Collider
 			RigidBody::Sptr physics = interact_doorway->Add<RigidBody>(RigidBodyType::Static);
@@ -2131,6 +2131,28 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			RenderComponent::Sptr renderer = cob1->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cob"));
 			renderer->SetMaterial(Resources::GetMaterial("Cob"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = cob1->Add<TriggerVolume>(); 
+			BoxCollider::Sptr collider = BoxCollider::Create(); 
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 0.5f, 0.0f)); 
+			collider->SetScale(glm::vec3(2)); 
+			volume->AddCollider(collider); 
+			volume->SetCollisionGroup(PHYSICAL_GROUP); 
+			volume->SetCollisionMask(PHYSICAL_MASK); 
+
+			// Trigger Event
+			TriggerVolumeEnterBehaviour::Sptr trigger = cob1->Add<TriggerVolumeEnterBehaviour>();  
+			trigger->onTriggerEnterEvent = [body] { 
+				if (!SceneManager::GetCurrentScene()->PC.isShadow) { 
+					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.15; 
+				}
+			};
+			trigger->onTriggerExitEvent = [body] { 
+				if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.5;
+				}
+			};
 		}
 
 		//Crystal
@@ -2141,6 +2163,138 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			Crystal1->SetScale(glm::vec3(0.5));  
 
 			RenderComponent::Sptr renderer = Crystal1->Add<RenderComponent>(); 
+			renderer->SetMesh(Resources::GetMesh("Crystal")); 
+			renderer->SetMaterial(Resources::GetMaterial("Crystal")); 
+		}
+
+		GameObject::Sptr Crystal2 = SceneManager::GetCurrentScene()->CreateGameObject("cry2");
+		{
+			Crystal2->SetPosition(glm::vec3(-2, -23, 5));
+			Crystal2->SetRotation(glm::vec3(90, 0, -60));
+			Crystal2->SetScale(glm::vec3(0.6));
+
+			RenderComponent::Sptr renderer = Crystal2->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal3 = SceneManager::GetCurrentScene()->CreateGameObject("cry3");
+		{
+			Crystal3->SetPosition(glm::vec3(52, -23, 5));
+			Crystal3->SetRotation(glm::vec3(90, 0, -30));
+			Crystal3->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = Crystal3->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal4 = SceneManager::GetCurrentScene()->CreateGameObject("cry4");
+		{
+			Crystal4->SetPosition(glm::vec3(59, -43, 5));
+			Crystal4->SetRotation(glm::vec3(90, 0, 0));
+			Crystal4->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = Crystal4->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal5 = SceneManager::GetCurrentScene()->CreateGameObject("cry5");
+		{
+			Crystal5->SetPosition(glm::vec3(52, -2.2, 4.8));
+			Crystal5->SetRotation(glm::vec3(120, 0, 0));
+			Crystal5->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = Crystal5->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal6 = SceneManager::GetCurrentScene()->CreateGameObject("cry6");
+		{
+			Crystal6->SetPosition(glm::vec3(30, -10, 5));
+			Crystal6->SetRotation(glm::vec3(90, 0, -20));
+			Crystal6->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = Crystal6->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal7 = SceneManager::GetCurrentScene()->CreateGameObject("cry7");
+		{
+			Crystal7->SetPosition(glm::vec3(-8, -3, 5));
+			Crystal7->SetRotation(glm::vec3(90, 0, 120));
+			Crystal7->SetScale(glm::vec3(0.6));
+
+			RenderComponent::Sptr renderer = Crystal7->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal8 = SceneManager::GetCurrentScene()->CreateGameObject("cry8");
+		{
+			Crystal8->SetPosition(glm::vec3(-40, -28, 15));
+			Crystal8->SetRotation(glm::vec3(90, 0, 60));
+			Crystal8->SetScale(glm::vec3(0.6));
+
+			RenderComponent::Sptr renderer = Crystal8->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal9 = SceneManager::GetCurrentScene()->CreateGameObject("cry9");
+		{
+			Crystal9->SetPosition(glm::vec3(-50, 25, 13));
+			Crystal9->SetRotation(glm::vec3(80, 0, 60));
+			Crystal9->SetScale(glm::vec3(0.6));
+
+			RenderComponent::Sptr renderer = Crystal9->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal10 = SceneManager::GetCurrentScene()->CreateGameObject("cry10");
+		{
+			Crystal10->SetPosition(glm::vec3(-16, 16, 13));
+			Crystal10->SetRotation(glm::vec3(90, 0, -100));
+			Crystal10->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = Crystal10->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal11 = SceneManager::GetCurrentScene()->CreateGameObject("cry11");
+		{
+			Crystal11->SetPosition(glm::vec3(10, 25, 13));
+			Crystal11->SetRotation(glm::vec3(90, 0, 60));
+			Crystal11->SetScale(glm::vec3(0.6));
+
+			RenderComponent::Sptr renderer = Crystal11->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal12 = SceneManager::GetCurrentScene()->CreateGameObject("cry12");
+		{
+			Crystal12->SetPosition(glm::vec3(40, 15, 13));
+			Crystal12->SetRotation(glm::vec3(90, 0, 60));
+			Crystal12->SetScale(glm::vec3(0.6));
+
+			RenderComponent::Sptr renderer = Crystal12->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		GameObject::Sptr Crystal13 = SceneManager::GetCurrentScene()->CreateGameObject("cry13"); 
+		{
+			Crystal13->SetPosition(glm::vec3(35, 29, 13)); 
+			Crystal13->SetRotation(glm::vec3(90, 0, -30)); 
+			Crystal13->SetScale(glm::vec3(0.5)); 
+
+			RenderComponent::Sptr renderer = Crystal13->Add<RenderComponent>(); 
 			renderer->SetMesh(Resources::GetMesh("Crystal")); 
 			renderer->SetMaterial(Resources::GetMaterial("Crystal")); 
 		}
@@ -2157,6 +2311,39 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			renderer->SetMaterial(Resources::GetMaterial("MS"));
 		}
 
+		GameObject::Sptr MultipleShrooms2 = SceneManager::GetCurrentScene()->CreateGameObject("ms2");
+		{
+			MultipleShrooms2->SetPosition(glm::vec3(-40, 0, 5));
+			MultipleShrooms2->SetRotation(glm::vec3(90, 0, 90));
+			MultipleShrooms2->SetScale(glm::vec3(1.2));
+
+			RenderComponent::Sptr renderer = MultipleShrooms2->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("MS"));
+			renderer->SetMaterial(Resources::GetMaterial("MS"));
+		}
+
+		GameObject::Sptr MultipleShrooms3 = SceneManager::GetCurrentScene()->CreateGameObject("ms3");
+		{
+			MultipleShrooms3->SetPosition(glm::vec3(-54, -13, 5));
+			MultipleShrooms3->SetRotation(glm::vec3(90, 0, -50));
+			MultipleShrooms3->SetScale(glm::vec3(1.3));
+
+			RenderComponent::Sptr renderer = MultipleShrooms3->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("MS"));
+			renderer->SetMaterial(Resources::GetMaterial("MS"));
+		}
+
+		GameObject::Sptr MultipleShrooms4 = SceneManager::GetCurrentScene()->CreateGameObject("ms4");
+		{
+			MultipleShrooms4->SetPosition(glm::vec3(-19, -10, 15));
+			MultipleShrooms4->SetRotation(glm::vec3(90, 0, -72));
+			MultipleShrooms4->SetScale(glm::vec3(1.1));
+
+			RenderComponent::Sptr renderer = MultipleShrooms4->Add<RenderComponent>(); 
+			renderer->SetMesh(Resources::GetMesh("MS"));
+			renderer->SetMaterial(Resources::GetMaterial("MS"));
+		}
+
 		//Single Mushrooms
 		GameObject::Sptr SingleShrooms1 = SceneManager::GetCurrentScene()->CreateGameObject("ss1"); 
 		{
@@ -2169,6 +2356,50 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			renderer->SetMaterial(Resources::GetMaterial("SS"));
 		}
 
+		GameObject::Sptr SingleShrooms2 = SceneManager::GetCurrentScene()->CreateGameObject("ss2"); 
+		{
+			SingleShrooms2->SetPosition(glm::vec3(-51, 4, 5)); 
+			SingleShrooms2->SetRotation(glm::vec3(90, 0, 160)); 
+			SingleShrooms2->SetScale(glm::vec3(1.3));  
+			 
+			RenderComponent::Sptr renderer = SingleShrooms2->Add<RenderComponent>(); 
+			renderer->SetMesh(Resources::GetMesh("SS")); 
+			renderer->SetMaterial(Resources::GetMaterial("SS")); 
+		}
+
+		GameObject::Sptr SingleShrooms3 = SceneManager::GetCurrentScene()->CreateGameObject("ss3");
+		{
+			SingleShrooms3->SetPosition(glm::vec3(-45, 7, 5));
+			SingleShrooms3->SetRotation(glm::vec3(90, 0, 120));
+			SingleShrooms3->SetScale(glm::vec3(0.8));
+
+			RenderComponent::Sptr renderer = SingleShrooms3->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("SS"));
+			renderer->SetMaterial(Resources::GetMaterial("SS"));
+		}
+
+		GameObject::Sptr SingleShrooms4 = SceneManager::GetCurrentScene()->CreateGameObject("ss4");
+		{
+			SingleShrooms4->SetPosition(glm::vec3(-30, 0, 15));
+			SingleShrooms4->SetRotation(glm::vec3(90, 0, 120));
+			SingleShrooms4->SetScale(glm::vec3(1.1));
+
+			RenderComponent::Sptr renderer = SingleShrooms4->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("SS"));
+			renderer->SetMaterial(Resources::GetMaterial("SS"));
+		}
+
+
+		GameObject::Sptr SingleShrooms5 = SceneManager::GetCurrentScene()->CreateGameObject("ss5");
+		{
+			SingleShrooms5->SetPosition(glm::vec3(-26, -16, 15));
+			SingleShrooms5->SetRotation(glm::vec3(90, 0, -160));
+			SingleShrooms5->SetScale(glm::vec3(0.7));
+
+			RenderComponent::Sptr renderer = SingleShrooms5->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("SS"));
+			renderer->SetMaterial(Resources::GetMaterial("SS"));
+		}
 
 		GameObject::Sptr statue_1 = SceneManager::GetCurrentScene()->CreateGameObject("Statue 1");
 		{
@@ -2537,17 +2768,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Floor Grate"));
 	}
 
-	GameObject::Sptr wallGrate1 = SceneManager::GetCurrentScene()->CreateGameObject("Wall Grate 1");
-	{
-		wallGrate1->SetPosition(glm::vec3(67.45f, -40.f, 5.25f));
-		wallGrate1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-		wallGrate1->SetScale(glm::vec3(0.4f, 0.4f, 0.4f));
-
-		RenderComponent::Sptr renderer = wallGrate1->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("WallGrate"));
-		renderer->SetMaterial(Resources::GetMaterial("WallGrate"));
-	}
-
 	GameObject::Sptr intactPillar1 = SceneManager::GetCurrentScene()->CreateGameObject("Jump Puzzle Intact Pillar 1");
 	{
 		intactPillar1->SetPosition(glm::vec3(-54.01f, 6.05f, 5.45f));
@@ -2706,7 +2926,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		rockPile3->SetPosition(glm::vec3(9.53f, -8.01f, 5.7f));
 		rockPile3->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-		rockPile3->SetScale(glm::vec3(2.52f, 1.f, 1.14f));
+		rockPile3->SetScale(glm::vec3(1.25));
 
 		RenderComponent::Sptr renderer = rockPile3->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Rock Pile"));
@@ -2717,7 +2937,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		rockPile4->SetPosition(glm::vec3(-45.68f, -1.42f, 5.9f));
 		rockPile4->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
-		rockPile4->SetScale(glm::vec3(2.16f, 1.f, 1.69f));
+		rockPile4->SetScale(glm::vec3(1.25f));
 
 		RenderComponent::Sptr renderer = rockPile4->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Rock Pile"));
@@ -2765,7 +2985,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			audio->playOnAwake = true;
 			audio->LoadEvent("Test");
-			audio->volume = 0.25f;
+			audio->volume = 0.1f;
 		
 			/*audio->m_Resource = Resources::GetSound("Mohit");
 			audio->m_Settings = AudioSettings{

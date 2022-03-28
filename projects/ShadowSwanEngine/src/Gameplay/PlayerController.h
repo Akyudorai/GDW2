@@ -23,6 +23,7 @@ public:
 public:
 	bool isShadow = false;
 	bool shadowIsExtended = false;
+	float playerSpeed = 0.5f;
 
 public:
 	PlayerController();

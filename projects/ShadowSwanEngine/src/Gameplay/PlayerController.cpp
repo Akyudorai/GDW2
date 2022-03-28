@@ -140,10 +140,10 @@ void PlayerController::HandleInput(float deltaTime)
 
 	glm::vec3 motion = glm::vec3(0);	
 
-	if (InputHandler::GetKey(GLFW_KEY_W)) { motion += glm::vec3(0, 0.5, 0); }
-	if (InputHandler::GetKey(GLFW_KEY_S)) { motion -= glm::vec3(0, 0.5, 0); }
-	if (InputHandler::GetKey(GLFW_KEY_A)) { motion -= glm::vec3(0.5, 0, 0); }
-	if (InputHandler::GetKey(GLFW_KEY_D)) { motion += glm::vec3(0.5, 0, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_W)) { motion += glm::vec3(0, playerSpeed, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_S)) { motion -= glm::vec3(0, playerSpeed, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_A)) { motion -= glm::vec3(playerSpeed, 0, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_D)) { motion += glm::vec3(playerSpeed, 0, 0); }
 
 	if (motion != glm::vec3(0)) {
 		if (!isShadow) {
