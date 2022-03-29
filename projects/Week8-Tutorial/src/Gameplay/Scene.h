@@ -4,11 +4,13 @@
 
 #include "Gameplay/Components/Camera.h"
 #include "Gameplay/GameObject.h"
+#include "Gameplay/Components/Light.h"
 
 #include "Physics/BulletDebugDraw.h"
 
 #include "Graphics/Buffers/UniformBuffer.h"
 #include "Graphics/Textures/Texture3D.h"
+#include "Gameplay/PlayerController.h"
 
 struct GLFWwindow;
 
@@ -34,6 +36,10 @@ namespace Gameplay {
 	class Scene {
 	public:
 		typedef std::shared_ptr<Scene> Sptr;
+
+		static const int MAX_LIGHTS = 8;
+
+		std::vector<Light> Lights;
 		
 		// The camera for our scene
 		Camera::Sptr               MainCamera;
@@ -44,6 +50,10 @@ namespace Gameplay {
 		// Whether the application is in "play mode", lets us leverage editors!
 		bool                       IsPlaying;
 
+		GLFWwindow* Window;
+
+		PlayerController PC;
+		static bool IsPaused;
 		bool IsDestroyed;
 
 		Scene();

@@ -4,6 +4,10 @@
 #include <unordered_map>
 #include <typeindex>
 
+#include "Graphics/Textures/Texture2D.h";
+#include "Graphics/VertexArrayObject.h";
+#include "Gameplay/Material.h";
+
 #include "Utils/GUID.hpp"
 #include "Utils/ResourceManager/IResource.h"
 #include "Utils/StringUtils.h"

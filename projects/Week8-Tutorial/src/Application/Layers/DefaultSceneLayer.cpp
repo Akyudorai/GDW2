@@ -37,7 +37,7 @@
 #include "Gameplay/Material.h"
 #include "Gameplay/GameObject.h"
 #include "Gameplay/Scene.h"
-#include "Gameplay/Components/Light.h"
+//#include "Gameplay/Components/Light.h"
 
 // Components
 #include "Gameplay/Components/IComponent.h"
@@ -48,6 +48,7 @@
 #include "Gameplay/Components/MaterialSwapBehaviour.h"
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
+#include "Gameplay/Components/Light.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -293,7 +294,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		for (int ix = 0; ix < 50; ix++) {
 			GameObject::Sptr light = scene->CreateGameObject("Light");
-			light->SetPostion(glm::vec3(glm::diskRand(25.0f), 1.0f));
+			light->SetPosition(glm::vec3(glm::diskRand(25.0f), 1.0f));
 			lightParent->AddChild(light);
 
 			Light::Sptr lightComponent = light->Add<Light>();
@@ -314,7 +315,7 @@ void DefaultSceneLayer::_CreateScene()
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->MainCamera->GetGameObject()->SelfRef();
 		{
-			camera->SetPostion({ -9, -6, 15 });
+			camera->SetPosition({ -9, -6, 15 });
 			camera->LookAt(glm::vec3(0.0f));
 
 			camera->Add<SimpleCameraControl>();
@@ -346,7 +347,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr monkey1 = scene->CreateGameObject("Monkey 1");
 		{
 			// Set position in the scene
-			monkey1->SetPostion(glm::vec3(1.5f, 0.0f, 1.0f));
+			monkey1->SetPosition(glm::vec3(1.5f, 0.0f, 1.0f));
 
 			// Add some behaviour that relies on the physics body
 			monkey1->Add<JumpBehaviour>();
@@ -368,7 +369,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr ship = scene->CreateGameObject("Fenrir");
 		{
 			// Set position in the scene
-			ship->SetPostion(glm::vec3(1.5f, 0.0f, 4.0f));
+			ship->SetPosition(glm::vec3(1.5f, 0.0f, 4.0f));
 			ship->SetScale(glm::vec3(0.1f));
 
 			// Create and attach a renderer for the monkey
@@ -387,7 +388,7 @@ void DefaultSceneLayer::_CreateScene()
 			boxMesh->GenerateMesh();
 
 			// Set and rotation position in the scene
-			specBox->SetPostion(glm::vec3(0, -4.0f, 1.0f));
+			specBox->SetPosition(glm::vec3(0, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = specBox->Add<RenderComponent>();
@@ -401,7 +402,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr foliageBall = scene->CreateGameObject("Foliage Sphere");
 		{
 			// Set and rotation position in the scene
-			foliageBall->SetPostion(glm::vec3(-4.0f, -4.0f, 1.0f));
+			foliageBall->SetPosition(glm::vec3(-4.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = foliageBall->Add<RenderComponent>();
@@ -419,7 +420,7 @@ void DefaultSceneLayer::_CreateScene()
 			box->GenerateMesh();
 
 			// Set and rotation position in the scene
-			foliageBox->SetPostion(glm::vec3(-6.0f, -4.0f, 1.0f));
+			foliageBox->SetPosition(glm::vec3(-6.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = foliageBox->Add<RenderComponent>();
@@ -433,7 +434,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr toonBall = scene->CreateGameObject("Toon Object");
 		{
 			// Set and rotation position in the scene
-			toonBall->SetPostion(glm::vec3(-2.0f, -4.0f, 1.0f));
+			toonBall->SetPosition(glm::vec3(-2.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = toonBall->Add<RenderComponent>();
@@ -446,7 +447,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr displacementBall = scene->CreateGameObject("Displacement Object");
 		{
 			// Set and rotation position in the scene
-			displacementBall->SetPostion(glm::vec3(2.0f, -4.0f, 1.0f));
+			displacementBall->SetPosition(glm::vec3(2.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = displacementBall->Add<RenderComponent>();
@@ -459,7 +460,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr multiTextureBall = scene->CreateGameObject("Multitextured Object");
 		{
 			// Set and rotation position in the scene 
-			multiTextureBall->SetPostion(glm::vec3(4.0f, -4.0f, 1.0f));
+			multiTextureBall->SetPosition(glm::vec3(4.0f, -4.0f, 1.0f));
 
 			// Add a render component 
 			RenderComponent::Sptr renderer = multiTextureBall->Add<RenderComponent>();
@@ -472,7 +473,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr normalMapBall = scene->CreateGameObject("Normal Mapped Object");
 		{
 			// Set and rotation position in the scene 
-			normalMapBall->SetPostion(glm::vec3(6.0f, -4.0f, 1.0f));
+			normalMapBall->SetPosition(glm::vec3(6.0f, -4.0f, 1.0f));
 
 			// Add a render component 
 			RenderComponent::Sptr renderer = normalMapBall->Add<RenderComponent>();

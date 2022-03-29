@@ -69,11 +69,12 @@ public:
 		const std::vector<BufferAttribute>& GetAttributes() const { return Attributes; }
 		bool IsInstanced() const { return Instanced; }
 
+		VertexBuffer::Sptr Buffer;
+		std::vector<BufferAttribute> Attributes;
+
 	protected:
 		friend class VertexArrayObject;
 
-		VertexBuffer::Sptr Buffer;
-		std::vector<BufferAttribute> Attributes;
 		bool Instanced;
 	};
 	

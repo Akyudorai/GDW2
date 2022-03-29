@@ -133,6 +133,9 @@ namespace Gameplay {
 			void Reset();
 		};
 
+		/// CODY :: I created this so we can toggle certain game objects on and off as needed.
+		bool IsActive = true;
+
 		// Human readable name for the object
 		std::string             Name;
 
@@ -174,7 +177,7 @@ namespace Gameplay {
 		/// Sets the game object's world position
 		/// </summary>
 		/// <param name="position">The new position for the object in world space</param>
-		void SetPostion(const glm::vec3& position);
+		void SetPosition(const glm::vec3& position);
 		/// <summary>
 		/// Gets the object's position in world space
 		/// </summary>
