@@ -201,6 +201,9 @@ public:
 			textures.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/CharacterHealth.png"));
 			textures.emplace("ShadowH", ResourceManager::CreateAsset<Texture2D>("textures/AntiformHealth.png"));
 
+			
+
+
 #pragma endregion
 
 #pragma region Materials

@@ -2661,6 +2661,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				
 				AudioEngine::Instance().GetEvent("Key").SetPosition(key->GetPosition());
 				AudioEngine::Instance().GetEvent("Key").Play();
+				
+				
 			};
 		}
 	}
@@ -2719,6 +2721,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				// If player doesn't have the key, do nothing.
 				if (!GameManager::GetInstance().PlayerHasKey()) return;
 				
+
 				//AudioEngine::Instance().GetEvent("Door").SetPosition(interact_doorway->GetPosition());
 				//AudioEngine::Instance().GetEvent("Door").Play();
 
@@ -2796,7 +2799,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			trigger->onTriggerEnterEvent = []
 			{
 				// Load next Scene
-				//SceneManager::LoadScene(SceneManager::Scenes::LevelTwo, true);				
+				//SceneManager::LoadScene(SceneManager::Scenes::LevelTwo, true);		
 			};
 
 			trigger->onTriggerExitEvent = []
