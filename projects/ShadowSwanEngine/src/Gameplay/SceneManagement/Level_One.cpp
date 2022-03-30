@@ -78,7 +78,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	GameObject::Sptr body = SceneManager::GetCurrentScene()->CreateGameObject("Body");
 	{
 		// Set position in the SceneManager::GetCurrentScene()
-		body->SetPosition(glm::vec3(0.0f, -40.0f, 3.0f));
+		body->SetPosition(glm::vec3(0.0f, -40.0f, 5.4f));
 		body->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 		body->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
@@ -88,11 +88,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Character"));
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
-		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Jump", Resources::GetAnimation("Character Jump"));
 
 		animator->SetRenderer(*renderer);
+		animator->SetAnimation("Idle");
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -127,7 +128,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	GameObject::Sptr shadow = SceneManager::GetCurrentScene()->CreateGameObject("Shadow");
 	{
 		// Set position in the SceneManager::GetCurrentScene()
-		shadow->SetPosition(glm::vec3(0.0f, -40.0f, 3.0f));
+		shadow->SetPosition(glm::vec3(0.0f, -40.0f, 5.4f));
 		shadow->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 		shadow->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
@@ -137,10 +138,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Jump", Resources::GetAnimation("Character Jump"));
 
 		animator->SetRenderer(*renderer);
+		animator->SetAnimation("Idle");
 		animator->SetLooping(true);
 		animator->SetPause(false);
 		animator->SetSpeed(4.0f);
@@ -171,651 +174,127 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	//					ENVIRONMENT
 	/////////////////////////////////////////////////////////
 
-	//// Set up all our sample objects
-	//GameObject::Sptr floor = SceneManager::GetCurrentScene()->CreateGameObject("Floor");
-	//{
-	//	MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-	//	tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-	//	tiledMesh->GenerateMesh();
-
-	//	// Create and attach a RenderComponent to the object to draw our mesh
-	//	RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
-	//	renderer->SetMesh(tiledMesh);
-	//	renderer->SetMaterial(Resources::GetMaterial("Stone Slab"));
-
-	//	RigidBody::Sptr physics = floor->Add<RigidBody>(/*static by default*/);
-	//	physics->AddCollider(BoxCollider::Create(glm::vec3(100.0f, 100.0f, 1.5f)))->SetPosition({ 0,0,-1 });
-	//	physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-	//	physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	//}
-
 #pragma region Floors
-	GameObject::Sptr block = SceneManager::GetCurrentScene()->CreateGameObject("Block 1");
+	GameObject::Sptr floor = SceneManager::GetCurrentScene()->CreateGameObject("Floor0");
 	{
-		block->SetPosition(glm::vec3(0.0f, -35.0f, 2.5f));
-		block->SetScale(glm::vec3(17.5f, 15.0f, 3.0f));
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
 
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>(); 
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f))); 
-		tiledMesh->GenerateMesh(); 
+		floor->SetPosition(glm::vec3(0.3f, -34.5f, 5.4f));
+		floor->SetScale(glm::vec3(0.67f, 0.65f, 1.0f));
 
-		RenderComponent::Sptr renderer = block->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+		RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex")); 
 
-		RigidBody::Sptr physics = block->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
+		RigidBody::Sptr physics = floor->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(16.75f, 16.25f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3});  
+		//divide by 2 for the values
 		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr block2 = SceneManager::GetCurrentScene()->CreateGameObject("Block 2");
+	GameObject::Sptr floor1 = SceneManager::GetCurrentScene()->CreateGameObject("Floor1");
 	{
-		block2->SetPosition(glm::vec3(32.5f, -42.5f, 0.0f));
-		block2->SetScale(glm::vec3(16.0f, 5.0f, 1.0f));
-
 		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
-		RenderComponent::Sptr renderer = block2->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+		floor1->SetPosition(glm::vec3(31.0f, -33.0f, 1.0f));
+		floor1->SetScale(glm::vec3(0.75f, 0.65f, 1.0f));
 
-		RigidBody::Sptr physics = block2->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block2->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block3 = SceneManager::GetCurrentScene()->CreateGameObject("Block 3");
-	{
-		block3->SetPosition(glm::vec3(26.5f, -40.0f, 3.5f));
-		block3->SetScale(glm::vec3(4.0f, 2.5f, 2.5f));
-
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		RenderComponent::Sptr renderer = block3->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
+		RenderComponent::Sptr renderer = floor1->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
 		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
-		RigidBody::Sptr physics = block3->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block3->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
+		RigidBody::Sptr physics = floor1->Add<RigidBody>(); 
+		physics->AddCollider(BoxCollider::Create(glm::vec3(18.75f, 16.25f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
 		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr blockz = SceneManager::GetCurrentScene()->CreateGameObject("Block z");
+	GameObject::Sptr floor2 = SceneManager::GetCurrentScene()->CreateGameObject("Floor2");
 	{
-		blockz->SetPosition(glm::vec3(19.0f, -45.0f, 3.5f));
-		blockz->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
-
 		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
-		RenderComponent::Sptr renderer = blockz->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
+		floor2->SetPosition(glm::vec3(59.0f, -33.5f, 5.5f));
+		floor2->SetScale(glm::vec3(0.5f, 0.6f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor2->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
+		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+		RigidBody::Sptr physics = floor2->Add<RigidBody>(); 
+		physics->AddCollider(BoxCollider::Create(glm::vec3(12.5f, 15.0f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr floor3 = SceneManager::GetCurrentScene()->CreateGameObject("Floor3");
+	{
+		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+		tiledMesh->GenerateMesh();
+
+		floor3->SetPosition(glm::vec3(-45.0f, -7.0f, 5.4f));
+		floor3->SetScale(glm::vec3(0.6f, 0.72f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor3->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
 		renderer->SetMaterial(Resources::GetMaterial("Brown"));
 
-		RigidBody::Sptr physics = blockz->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(blockz->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
+		RigidBody::Sptr physics = floor3->Add<RigidBody>(); 
+		physics->AddCollider(BoxCollider::Create(glm::vec3(15.0f, 18, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
 		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr block4 = SceneManager::GetCurrentScene()->CreateGameObject("Block 4");
+	GameObject::Sptr floor4 = SceneManager::GetCurrentScene()->CreateGameObject("Floor4");
 	{
-		block4->SetPosition(glm::vec3(40.0f, -40.0f, 3.5f));
-		block4->SetScale(glm::vec3(4.0f, 2.5f, 2.5f));
-
 		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
-		RenderComponent::Sptr renderer = block4->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
+		floor4->SetPosition(glm::vec3(-41.5f, -32.0f, 15.5f));
+		floor4->SetScale(glm::vec3(0.4f, 0.35f, 1.0f));
 
-		RigidBody::Sptr physics = block4->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block4->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block5 = SceneManager::GetCurrentScene()->CreateGameObject("Block 5");
-	{
-		block5->SetPosition(glm::vec3(58.0f, -37.0f, 2.5f));
-		block5->SetScale(glm::vec3(10.0f, 12.5f, 3.0f));
-
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>(); 
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f))); 
-		tiledMesh->GenerateMesh(); 
-
-		RenderComponent::Sptr renderer = block5->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
+		RenderComponent::Sptr renderer = floor4->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
 		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
-		RigidBody::Sptr physics = block5->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block5->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
+		RigidBody::Sptr physics = floor4->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(10.0f, 8.75, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
 		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr block6 = SceneManager::GetCurrentScene()->CreateGameObject("Block 6");
+	GameObject::Sptr floor5 = SceneManager::GetCurrentScene()->CreateGameObject("Floor4");
 	{
-		block6->SetPosition(glm::vec3(55.5f, -21.5f, 2.5f));
-		block6->SetScale(glm::vec3(2.5f, 3.0f, 3.0f));
-		
-		RenderComponent::Sptr renderer = block6->Add<RenderComponent>();
-		
 		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
-		renderer->SetMesh(Resources::GetMesh("Cube"));
+		floor5->SetPosition(glm::vec3(-25.5f, -32.0f, 15.5f));
+		floor5->SetScale(glm::vec3(0.4f, 0.35f, 1.0f));
+
+		RenderComponent::Sptr renderer = floor5->Add<RenderComponent>();
+		renderer->SetMesh(tiledMesh);
 		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
-		RigidBody::Sptr physics = block6->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block6->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
+		RigidBody::Sptr physics = floor5->Add<RigidBody>();
+		physics->AddCollider(BoxCollider::Create(glm::vec3(10.0f, 8.75, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+		//divide by 2 for the values
 		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
 
-	GameObject::Sptr block8 = SceneManager::GetCurrentScene()->CreateGameObject("Block 8");
-	{
-		block8->SetPosition(glm::vec3(-12.5f, -8.5f, 3.5f));
-		block8->SetScale(glm::vec3(25.0f, 4.0f, 2.0f));
-
-		RenderComponent::Sptr renderer = block8->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block8->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block8->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block9 = SceneManager::GetCurrentScene()->CreateGameObject("Block 9");
-	{
-		block9->SetPosition(glm::vec3(-47.5f, -7.5f, 3.5f));
-		block9->SetScale(glm::vec3(10.0f, 17.5f, 2.0f));
-
-		RenderComponent::Sptr renderer = block9->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-
-		RigidBody::Sptr physics = block9->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block9->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block10 = SceneManager::GetCurrentScene()->CreateGameObject("Block 10");
-	{
-		block10->SetPosition(glm::vec3(-24.5f, -32.0f, 7.5f));
-		block10->SetScale(glm::vec3(7.0f, 8.0f, 8.0f));
-
-		RenderComponent::Sptr renderer = block10->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block10->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block10->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block11 = SceneManager::GetCurrentScene()->CreateGameObject("Block 11");
-	{
-		block11->SetPosition(glm::vec3(-24.5f, -45.0f, 2.0f));
-		block11->SetScale(glm::vec3(7.0f, 5.0f, 3.0f));
-
-		RenderComponent::Sptr renderer = block11->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block11->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block11->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block12 = SceneManager::GetCurrentScene()->CreateGameObject("Block 12");
-	{
-		block12->SetPosition(glm::vec3(-40.75f, -32.5f, 7.5f));
-		block12->SetScale(glm::vec3(9.25f, 2.5f, 8.0f));
-
-		RenderComponent::Sptr renderer = block12->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block12->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block12->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block13 = SceneManager::GetCurrentScene()->CreateGameObject("Block 13");
-	{
-		block13->SetPosition(glm::vec3(-47.5f, -27.5f, 7.5f));
-		block13->SetScale(glm::vec3(2.5f, 2.5f, 8.0f));
-
-		RenderComponent::Sptr renderer = block13->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block13->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block13->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block14 = SceneManager::GetCurrentScene()->CreateGameObject("Block 14");
-	{
-		block14->SetPosition(glm::vec3(-40.5f, 6.0f, 5.5f));
-		block14->SetScale(glm::vec3(2.0f, 2.0f, 2.0f));
-
-		RenderComponent::Sptr renderer = block14->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block14->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block14->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block15 = SceneManager::GetCurrentScene()->CreateGameObject("Block 15");
-	{
-		block15->SetPosition(glm::vec3(-47.0f, 6.0f, 6.0f));
-		block15->SetScale(glm::vec3(4.25f, 2.0f, 3.5f));
-
-		RenderComponent::Sptr renderer = block15->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block15->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block15->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block16 = SceneManager::GetCurrentScene()->CreateGameObject("Block 16");
-	{
-		block16->SetPosition(glm::vec3(-54.5f, -2.0f, 6.0f));
-		block16->SetScale(glm::vec3(2.0f, 4.25f, 4.5f));
-
-		RenderComponent::Sptr renderer = block16->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block16->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block16->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block17 = SceneManager::GetCurrentScene()->CreateGameObject("Block 17");
-	{
-		block17->SetPosition(glm::vec3(-54.5f, -14.0f, 6.0f));
-		block17->SetScale(glm::vec3(2.0f, 2.0f, 4.5f));
-
-		RenderComponent::Sptr renderer = block17->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block17->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block17->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block18 = SceneManager::GetCurrentScene()->CreateGameObject("Block 18");
-	{
-		block18->SetPosition(glm::vec3(-46.0f, -15.0f, 12.25f));
-		block18->SetRotation(glm::vec3(0.0f, -11.0f, 0.0f));
-		block18->SetScale(glm::vec3(7.0f, 0.8f, 0.2f));
-
-		RenderComponent::Sptr renderer = block18->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block18->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block18->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block19 = SceneManager::GetCurrentScene()->CreateGameObject("Block 19");
-	{
-		block19->SetPosition(glm::vec3(-40.5f, -21.5f, 9.5f));
-		block19->SetScale(glm::vec3(2.0f, 2.0f, 4.5f));
-
-		RenderComponent::Sptr renderer = block19->Add<RenderComponent>();
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block19->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block19->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-
-	GameObject::Sptr block20 = SceneManager::GetCurrentScene()->CreateGameObject("Block 20");
-	{
-		block20->SetPosition(glm::vec3(-38.0f, -15.0f, 12.5f));
-		block20->SetScale(glm::vec3(1.25f, 2.5f, 1.0f));
-
-		RenderComponent::Sptr renderer = block20->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("Brown"));
-
-		RigidBody::Sptr physics = block20->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block20->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block21 = SceneManager::GetCurrentScene()->CreateGameObject("Block 21");
-	{
-		block21->SetPosition(glm::vec3(-47.5f, -24.0f, 14.5f));
-		block21->SetScale(glm::vec3(2.5f, 1.0f, 1.0f));
-
-		RenderComponent::Sptr renderer = block21->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block21->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block21->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block22 = SceneManager::GetCurrentScene()->CreateGameObject("Block 22");
-	{
-		block22->SetPosition(glm::vec3(-25.0f, -6.5f, 14.5f));
-		block22->SetScale(glm::vec3(4.0f, 17.5f, 1.0f));
-
-		RenderComponent::Sptr renderer = block22->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block22->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block22->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block23 = SceneManager::GetCurrentScene()->CreateGameObject("Block 23");
-	{
-		block23->SetPosition(glm::vec3(-25.0f, 21.0f, 14.5f));
-		block23->SetScale(glm::vec3(12.0f, 10.0f, 1.0f));
-
-		RenderComponent::Sptr renderer = block23->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block23->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block23->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block24 = SceneManager::GetCurrentScene()->CreateGameObject("Block 24");
-	{
-		block24->SetPosition(glm::vec3(-56.0f, 21.0f, 12.5f));
-		block24->SetScale(glm::vec3(12.0f, 7.0f, 1.0f));
-
-		RenderComponent::Sptr renderer = block24->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block24->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block24->GetScale()); 
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block25 = SceneManager::GetCurrentScene()->CreateGameObject("Block 25");
-	{
-		block25->SetPosition(glm::vec3(-41.5f, 21.0f, 14.0f));
-		block25->SetScale(glm::vec3(2.5f, 7.0f, 1.5f));
-
-		RenderComponent::Sptr renderer = block25->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block25->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block25->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block26 = SceneManager::GetCurrentScene()->CreateGameObject("Block 26");
-	{
-		block26->SetPosition(glm::vec3(-70.5f, 21.0f, 14.0f));
-		block26->SetScale(glm::vec3(2.5f, 7.0f, 1.5f));
-
-		RenderComponent::Sptr renderer = block26->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block26->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block26->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block27 = SceneManager::GetCurrentScene()->CreateGameObject("Block 27");
-	{
-		block27->SetPosition(glm::vec3(-38.0f, 21.0f, 14.5f));
-		block27->SetScale(glm::vec3(1.0f, 2.5f, 1.0f));
-
-		RenderComponent::Sptr renderer = block27->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block27->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block27->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block28 = SceneManager::GetCurrentScene()->CreateGameObject("Block 28");
-	{
-		block28->SetPosition(glm::vec3(37.0f, 21.0f, 8.5f));
-		block28->SetScale(glm::vec3(12.0f, 10.0f, 1.0f));
-
-		RenderComponent::Sptr renderer = block28->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block28->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block28->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
-
-	GameObject::Sptr block29 = SceneManager::GetCurrentScene()->CreateGameObject("Block 29");
-	{
-		block29->SetPosition(glm::vec3(5.75f, 20.5f, 11.5f));
-		block29->SetRotation(glm::vec3(0.0f, 9.0f, 0.0f));
-		block29->SetScale(glm::vec3(19.5f, 5.0f, 1.0f));
-
-		RenderComponent::Sptr renderer = block29->Add<RenderComponent>();
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		renderer->SetMesh(Resources::GetMesh("Cube"));
-		renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
-
-		RigidBody::Sptr physics = block29->Add<RigidBody>(RigidBodyType::Static);
-		BoxCollider::Sptr collider = BoxCollider::Create();
-		collider->SetScale(block29->GetScale());
-		collider->SetPosition(collider->GetPosition());
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
 
 #pragma endregion
 	 
@@ -829,15 +308,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		RenderComponent::Sptr renderer = wall1->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Stone Wall"));
-		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
-
-		RigidBody::Sptr physics = wall1->Add<RigidBody>(RigidBodyType::Static); 
-		BoxCollider::Sptr collider = BoxCollider::Create();  
-		collider->SetScale(wall1->GetScale()); 
-		collider->SetPosition(collider->GetPosition()); 
-		physics->AddCollider(collider);
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+		renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));   
+		 
 	}
 
 	GameObject::Sptr wall2 = SceneManager::GetCurrentScene()->CreateGameObject("Wall 2");
@@ -1702,7 +1174,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_1->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1756,7 +1228,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_2->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1809,7 +1281,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_3->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1885,7 +1357,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_4->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1938,7 +1410,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_5->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -1991,7 +1463,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_6->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -2067,7 +1539,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_7->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -2120,7 +1592,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_8->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -2173,7 +1645,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 				// Animator
 				AnimatorComponent::Sptr animator = spike_trap_9->Add<AnimatorComponent>();
-				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"), 1.0f);
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
 				animator->SetRenderer(*renderer);
 				animator->SetLooping(false);
 
@@ -2683,7 +2155,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			// Animator
 			AnimatorComponent::Sptr animator = interact_doorway->Add<AnimatorComponent>();
-			animator->AddAnimation("Open", Resources::GetAnimation("Door"), 1.0f);
+			animator->AddAnimation("Open", Resources::GetAnimation("Door"));
 			animator->SetRenderer(*renderer);
 			animator->SetLooping(false);
 			animator->SetPause(true);
@@ -2691,7 +2163,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				animator->SetPause(true);
 				animator->SetReverse(!animator->IsReversed());
 			};
-			//animator->Play("Open");
+			animator->PlayAnimation("Open");
 
 			// Collider
 			RigidBody::Sptr physics = interact_doorway->Add<RigidBody>(RigidBodyType::Static);
@@ -3255,7 +2727,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 	GameObject::Sptr rockPile1 = SceneManager::GetCurrentScene()->CreateGameObject("Rock Pile 1");
 	{
-		rockPile1->SetPosition(glm::vec3(-6.47f, -35.84f, 5.9f));
+		rockPile1->SetPosition(glm::vec3(-6.47f, -44.0f, 5.9f));
 		rockPile1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
 		rockPile1->SetScale(glm::vec3(1.25f, 1.25f, 1.25f));
 
@@ -3378,9 +2850,12 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		AudioSource::Sptr audio = bgm->Add<AudioSource>();
 		{
+
+
 			audio->playOnAwake = true;
 			audio->LoadEvent("Test");
-			audio->volume = 0.5f;
+			audio->volume = 0.25f;
+		
 			/*audio->m_Resource = Resources::GetSound("Mohit");
 			audio->m_Settings = AudioSettings{
 				false, true, false

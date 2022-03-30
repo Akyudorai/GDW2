@@ -297,6 +297,7 @@
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\MorphRendererComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\AudioManager.cpp">
@@ -498,5 +499,6 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
+    <ClCompile Include="src\Gameplay\Components\MorphRendererComponent.cpp" />
   </ItemGroup>
 </Project>

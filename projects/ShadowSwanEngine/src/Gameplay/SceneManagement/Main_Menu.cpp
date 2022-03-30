@@ -78,7 +78,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	{
 		// Set position in the SceneManager::GetCurrentScene()
 		body->SetPosition(glm::vec3(-5.0f, 4.0f, 0.0f));
-		body->SetRotation(glm::vec3(90.f, 0.0f, -110.0f));
+		body->SetRotation(glm::vec3(90.f, 0.0f, 40.0f));
 		body->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
 
 		RenderComponent::Sptr renderer = body->Add<RenderComponent>();
@@ -87,11 +87,15 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Character"));
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
+		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+		animator->AddAnimation("Jump", Resources::GetAnimation("Character Jump"));
+
 		animator->SetRenderer(*renderer);
+		animator->SetAnimation("Idle");
 		animator->SetLooping(true);
-		animator->SetSpeed(1.0f);
-		animator->Play("Idle");
+		animator->SetPause(false);
+		animator->SetSpeed(4.0f);
 	}
 
 	/////////////////////////////////////////////////////////
@@ -102,7 +106,7 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	GameObject::Sptr floor = SceneManager::GetCurrentScene()->CreateGameObject("Floor");
 	{
 		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
+		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0f), glm::vec2(8.0f)));
 		tiledMesh->GenerateMesh();
 
 		// Create and attach a RenderComponent to the object to draw our mesh

@@ -71,8 +71,8 @@ Scene::Sptr Boss_Level::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		//animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		//animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(true);
@@ -109,8 +109,8 @@ Scene::Sptr Boss_Level::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		//animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		//animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(true);
