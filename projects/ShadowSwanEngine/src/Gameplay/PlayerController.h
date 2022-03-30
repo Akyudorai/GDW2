@@ -34,32 +34,6 @@ public:
 		Gameplay::Physics::TriggerVolume& interaction);
 	void Update(float deltaTime);	
 
-	/*template<typename T>
-	void SetComponent(Component pcComponent, T* ref);*/
-	/*void SetBodyHealthUI(GuiText& text) {
-		m_bodyHealthText = &text;
-	}
-
-	void SetShadowHealthUI(GuiText& text) {
-		m_shadowHealthText = &text;
-	}
-
-	void SetPauseMenu(Gameplay::GameObject& object) {
-		m_pauseMenu = &object;		
-	}
-
-	void SetGuideCanvas(Gameplay::GameObject& object) {
-		m_guideCanvas = &object;
-	}
-
-	void SetMainMenuCanvas(Gameplay::GameObject& object) {
-		m_mainCanvas = &object;
-	}
-
-	void SetLoseCanvas(Gameplay::GameObject& object) {
-		m_loseCanvas = &object;
-	}*/
-
 protected:
 
 	// All our references that our Player Controller manipulates.

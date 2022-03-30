@@ -132,7 +132,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		shadow->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 		shadow->SetScale(glm::vec3(0.15));
 
-		// Create and attach a renderer for the monkey
 		RenderComponent::Sptr renderer = shadow->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Character"));
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
@@ -157,8 +156,6 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			};*/
 			audio->Init();
 		}
-
-		// Add a dynamic rigid body to this monkey
 		RigidBody::Sptr physics = shadow->Add<RigidBody>(RigidBodyType::Dynamic);
 		BoxCollider::Sptr collider = BoxCollider::Create();
 		physics->AddCollider(collider);
@@ -411,6 +408,153 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		RigidBody::Sptr physics = floor11->Add<RigidBody>();
 		physics->AddCollider(BoxCollider::Create(glm::vec3(9.0f, 15.75f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
 		//divide by 2 for the values
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	//Right Jumping Puzzle Room
+	GameObject::Sptr block1 = SceneManager::GetCurrentScene()->CreateGameObject("Block 1");
+	{
+		block1->SetPosition(glm::vec3(26.5f, -40.0f, 4.0f));
+		block1->SetScale(glm::vec3(4.0f, 2.5f, 0.8f));
+
+		RenderComponent::Sptr renderer = block1->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block1->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block1->GetScale()); 
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);  
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);  
+	}
+
+	GameObject::Sptr block2 = SceneManager::GetCurrentScene()->CreateGameObject("Block 2");
+	{
+		block2->SetPosition(glm::vec3(40.0f, -40.0f, 4.0f));
+		block2->SetScale(glm::vec3(4.0f, 2.5f, 0.8f));
+
+		RenderComponent::Sptr renderer = block2->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block2->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block2->GetScale()); 
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	//Left Jumping Puzzle Room
+	GameObject::Sptr block3 = SceneManager::GetCurrentScene()->CreateGameObject("block3");
+	{
+		block3->SetPosition(glm::vec3(-40.0f, 9.5f, 5.5f));
+		block3->SetScale(glm::vec3(2.0f, 2.0f, 1.0f));
+
+		RenderComponent::Sptr renderer = block3->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block3->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block3->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr block4 = SceneManager::GetCurrentScene()->CreateGameObject("block4");
+	{
+		block4->SetPosition(glm::vec3(-47.0f, 9.5f, 6.6f));
+		block4->SetScale(glm::vec3(4.25f, 2.0f, 1.0f));
+
+		RenderComponent::Sptr renderer = block4->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block4->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block4->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr block5 = SceneManager::GetCurrentScene()->CreateGameObject("block5");
+	{
+		block5->SetPosition(glm::vec3(-55.0f, 0.0f, 7.5f));
+		block5->SetScale(glm::vec3(2.0f, 4.5f, 1.0f));
+
+		RenderComponent::Sptr renderer = block5->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block5->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block5->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr block6 = SceneManager::GetCurrentScene()->CreateGameObject("block6");
+	{
+		block6->SetPosition(glm::vec3(-54.5f, -12.0f, 8.5f));
+		block6->SetScale(glm::vec3(2.0f, 4.0f, 1.0f));
+
+		RenderComponent::Sptr renderer = block6->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block6->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block6->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr block7 = SceneManager::GetCurrentScene()->CreateGameObject("block7");
+	{
+		block7->SetPosition(glm::vec3(-46.0f, -14.0f, 10.5f));
+		block7->SetRotation(glm::vec3(0.0f, -11.0f, 0.0f));
+		block7->SetScale(glm::vec3(7.0f, 0.7f, 0.2f));
+
+		RenderComponent::Sptr renderer = block7->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block7->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block7->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
+	GameObject::Sptr block8 = SceneManager::GetCurrentScene()->CreateGameObject("block8"); 
+	{
+		block8->SetPosition(glm::vec3(-37.0f, -15.5f, 12.0f));
+		block8->SetScale(glm::vec3(2.0f, 2.2f, 1.0f));
+
+		RenderComponent::Sptr renderer = block8->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = block8->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(block8->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
 		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
 	}
@@ -1178,7 +1322,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			TriggerVolume::Sptr volume = pressure_plate_1->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-			collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 			volume->AddCollider(collider);
 			volume->SetCollisionGroup(PHYSICAL_GROUP);
 			volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1234,9 +1378,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_1 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_1->SetPosition(glm::vec3(45.75f, -6.0f, 5.8f));
+				spike_trap_1->SetPosition(glm::vec3(46.0f, -1.0f, 5.8f));
 				spike_trap_1->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-				spike_trap_1->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_1->SetScale(glm::vec3(0.6));
 
 				RenderComponent::Sptr renderer = spike_trap_1->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
@@ -1252,7 +1396,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				TriggerVolume::Sptr volume = spike_trap_1->Add<TriggerVolume>();
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 				volume->AddCollider(collider);
 				volume->SetCollisionGroup(PHYSICAL_GROUP);
 				volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1287,9 +1431,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_2 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_2->SetPosition(glm::vec3(45.75f, -10.5f, 5.8f));
+				spike_trap_2->SetPosition(glm::vec3(46.0f, -6.5f, 5.8f));
 				spike_trap_2->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-				spike_trap_2->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_2->SetScale(glm::vec3(0.6));
 
 
 				RenderComponent::Sptr renderer = spike_trap_2->Add<RenderComponent>();
@@ -1306,7 +1450,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				TriggerVolume::Sptr volume = spike_trap_2->Add<TriggerVolume>();
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 				volume->AddCollider(collider);
 				volume->SetCollisionGroup(PHYSICAL_GROUP);
 				volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1340,9 +1484,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_3 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_3->SetPosition(glm::vec3(45.75f, -15.0f, 5.8f));
+				spike_trap_3->SetPosition(glm::vec3(46.0f, -12.0f, 5.8f));
 				spike_trap_3->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-				spike_trap_3->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_3->SetScale(glm::vec3(0.6));
 
 
 				RenderComponent::Sptr renderer = spike_trap_3->Add<RenderComponent>();
@@ -1359,7 +1503,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				TriggerVolume::Sptr volume = spike_trap_3->Add<TriggerVolume>();
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 				volume->AddCollider(collider);
 				volume->SetCollisionGroup(PHYSICAL_GROUP);
 				volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1390,14 +1534,67 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->SetTrigger(volume);
 				spikeBehavior->Initialize(3, 0, false);
 			}
+
+			GameObject::Sptr spike_trap_x = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
+			{
+				spike_trap_x->SetPosition(glm::vec3(46.0f, -17.5f, 5.8f));
+				spike_trap_x->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+				spike_trap_x->SetScale(glm::vec3(0.6));
+
+
+				RenderComponent::Sptr renderer = spike_trap_x->Add<RenderComponent>();
+				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
+				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+
+				// Animator
+				AnimatorComponent::Sptr animator = spike_trap_x->Add<AnimatorComponent>();
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->SetRenderer(*renderer);
+				animator->SetLooping(false);
+
+				// Trigger Volume
+				TriggerVolume::Sptr volume = spike_trap_x->Add<TriggerVolume>();
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
+				volume->AddCollider(collider);
+				volume->SetCollisionGroup(PHYSICAL_GROUP);
+				volume->SetCollisionMask(PHYSICAL_MASK);
+
+				// Trigger Event
+				TriggerVolumeEnterBehaviour::Sptr trigger = spike_trap_x->Add<TriggerVolumeEnterBehaviour>();
+				trigger->onTriggerEnterEvent = [body] {
+					if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+						body->Get<HealthComponent>()->DealDamage(10.0f);
+					}
+				};
+
+				AudioSource::Sptr audio = spike_trap_x->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
+				// Spike Behavior
+				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_x->Add<SpikeTrapBehavior>();
+				spikeBehavior->SetAnimator(animator);
+				spikeBehavior->SetTrigger(volume);
+				spikeBehavior->Initialize(3, 0, false);
+			}
 		}
 		
 		{
 			GameObject::Sptr spike_trap_4 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_4->SetPosition(glm::vec3(35.5f, -6.0f, 5.8f));
+				spike_trap_4->SetPosition(glm::vec3(35.5f, -1.0f, 5.8f));
 				spike_trap_4->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-				spike_trap_4->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_4->SetScale(glm::vec3(0.6));
 
 	
 				RenderComponent::Sptr renderer = spike_trap_4->Add<RenderComponent>();
@@ -1414,7 +1611,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				TriggerVolume::Sptr volume = spike_trap_4->Add<TriggerVolume>();
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 				volume->AddCollider(collider);
 				volume->SetCollisionGroup(PHYSICAL_GROUP);
 				volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1448,9 +1645,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_5 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_5->SetPosition(glm::vec3(35.5f, -10.5f, 5.8f));
+				spike_trap_5->SetPosition(glm::vec3(35.5f, -6.5f, 5.8f));
 				spike_trap_5->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-				spike_trap_5->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_5->SetScale(glm::vec3(0.6));
 
 		
 				RenderComponent::Sptr renderer = spike_trap_5->Add<RenderComponent>();
@@ -1467,7 +1664,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				TriggerVolume::Sptr volume = spike_trap_5->Add<TriggerVolume>();
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 				volume->AddCollider(collider);
 				volume->SetCollisionGroup(PHYSICAL_GROUP);
 				volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1501,9 +1698,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_6 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_6->SetPosition(glm::vec3(35.5f, -15.0f, 5.8f));
+				spike_trap_6->SetPosition(glm::vec3(35.5f, -12.0f, 5.8f));
 				spike_trap_6->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-				spike_trap_6->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_6->SetScale(glm::vec3(0.6));
 
 
 				RenderComponent::Sptr renderer = spike_trap_6->Add<RenderComponent>();
@@ -1520,7 +1717,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				TriggerVolume::Sptr volume = spike_trap_6->Add<TriggerVolume>();
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 				volume->AddCollider(collider);
 				volume->SetCollisionGroup(PHYSICAL_GROUP);
 				volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1551,15 +1748,68 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->SetTrigger(volume);
 				spikeBehavior->Initialize(3, 3, false);
 			}
+
+			GameObject::Sptr spike_trap_y = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
+			{
+				spike_trap_y->SetPosition(glm::vec3(35.5f, -17.5f, 5.8f));
+				spike_trap_y->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+				spike_trap_y->SetScale(glm::vec3(0.6));
+
+
+				RenderComponent::Sptr renderer = spike_trap_y->Add<RenderComponent>();
+				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
+				renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+
+				// Animator
+				AnimatorComponent::Sptr animator = spike_trap_y->Add<AnimatorComponent>();
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->SetRenderer(*renderer);
+				animator->SetLooping(false);
+
+				// Trigger Volume
+				TriggerVolume::Sptr volume = spike_trap_y->Add<TriggerVolume>();
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
+				volume->AddCollider(collider);
+				volume->SetCollisionGroup(PHYSICAL_GROUP);
+				volume->SetCollisionMask(PHYSICAL_MASK);
+
+				// Trigger Event
+				TriggerVolumeEnterBehaviour::Sptr trigger = spike_trap_y->Add<TriggerVolumeEnterBehaviour>();
+				trigger->onTriggerEnterEvent = [body] {
+					if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+						body->Get<HealthComponent>()->DealDamage(10.0f);
+					}
+				};
+
+				AudioSource::Sptr audio = spike_trap_y->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
+				// Spike Behavior
+				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_y->Add<SpikeTrapBehavior>();
+				spikeBehavior->SetAnimator(animator);
+				spikeBehavior->SetTrigger(volume);
+				spikeBehavior->Initialize(3, 3, false);
+			}
 		}
 
 		// Platform 3
 		{
 			GameObject::Sptr spike_trap_7 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_7->SetPosition(glm::vec3(26.25f, -6.0f, 5.8f));
+				spike_trap_7->SetPosition(glm::vec3(26.25f, -1.0f, 5.8f));
 				spike_trap_7->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-				spike_trap_7->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_7->SetScale(glm::vec3(0.6));
 
 		
 				RenderComponent::Sptr renderer = spike_trap_7->Add<RenderComponent>();
@@ -1610,9 +1860,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_8 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_8->SetPosition(glm::vec3(26.25f, -10.5f, 5.8f));
+				spike_trap_8->SetPosition(glm::vec3(26.25f, -6.5f, 5.8f));
 				spike_trap_8->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-				spike_trap_8->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_8->SetScale(glm::vec3(0.6));
 
 				RenderComponent::Sptr renderer = spike_trap_8->Add<RenderComponent>();
 				renderer->SetMesh(Resources::GetMesh("Spike Trap"));
@@ -1628,7 +1878,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				TriggerVolume::Sptr volume = spike_trap_8->Add<TriggerVolume>();
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 				volume->AddCollider(collider);
 				volume->SetCollisionGroup(PHYSICAL_GROUP);
 				volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1662,9 +1912,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 			GameObject::Sptr spike_trap_9 = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap");
 			{
-				spike_trap_9->SetPosition(glm::vec3(26.25f, -15.0f, 5.8f));
+				spike_trap_9->SetPosition(glm::vec3(26.25f, -12.0f, 5.8f));
 				spike_trap_9->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-				spike_trap_9->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+				spike_trap_9->SetScale(glm::vec3(0.6));
 
 		
 				RenderComponent::Sptr renderer = spike_trap_9->Add<RenderComponent>();
@@ -1713,12 +1963,61 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 				spikeBehavior->Initialize(3, 0, false);
 			}
 
+			GameObject::Sptr spike_trap_z = SceneManager::GetCurrentScene()->CreateGameObject("SpikeTrap"); 
+			{
+				spike_trap_z->SetPosition(glm::vec3(26.25f, -17.5f, 5.8f)); 
+				spike_trap_z->SetRotation(glm::vec3(90.f, 0.0f, -90.0f)); 
+				spike_trap_z->SetScale(glm::vec3(0.6)); 
 
-		}
 
-		// End
-		{
-		}		
+				RenderComponent::Sptr renderer = spike_trap_z->Add<RenderComponent>(); 
+				renderer->SetMesh(Resources::GetMesh("Spike Trap")); 
+				renderer->SetMaterial(Resources::GetMaterial("Spike Trap")); 
+
+				// Animator
+				AnimatorComponent::Sptr animator = spike_trap_z->Add<AnimatorComponent>();
+				animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+				animator->SetRenderer(*renderer);
+				animator->SetLooping(false);
+
+				// Trigger Volume
+				TriggerVolume::Sptr volume = spike_trap_z->Add<TriggerVolume>();
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+				collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+				volume->AddCollider(collider);
+				volume->SetCollisionGroup(PHYSICAL_GROUP);
+				volume->SetCollisionMask(PHYSICAL_MASK);
+
+				// Trigger Event
+				TriggerVolumeEnterBehaviour::Sptr trigger = spike_trap_z->Add<TriggerVolumeEnterBehaviour>();
+				trigger->onTriggerEnterEvent = [body] {
+					if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+						body->Get<HealthComponent>()->DealDamage(10.0f);
+					}
+				};
+
+				AudioSource::Sptr audio = spike_trap_z->Add<AudioSource>();
+				{
+					audio->playOnAwake = false;
+					audio->LoadEvent("Spikes");
+					audio->volume = 0.5f;
+					/*audio->m_Resource = Resources::GetSound("Spike Trap");
+					audio->m_Settings = AudioSettings{
+						true, false, false
+					};*/
+					audio->Init();
+				}
+
+				// Spike Behavior
+				SpikeTrapBehavior::Sptr spikeBehavior = spike_trap_z->Add<SpikeTrapBehavior>();
+				spikeBehavior->SetAnimator(animator);
+				spikeBehavior->SetTrigger(volume);
+				spikeBehavior->Initialize(3, 0, false);
+			}
+
+
+		}	
 	}
 
 	// Upper Access
@@ -1763,7 +2062,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			TriggerVolume::Sptr volume = pressure_plate_2->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-			collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 			volume->AddCollider(collider);
 			volume->SetCollisionGroup(PHYSICAL_GROUP);
 			volume->SetCollisionMask(PHYSICAL_MASK);
@@ -1992,7 +2291,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	{
 		GameObject::Sptr key = SceneManager::GetCurrentScene()->CreateGameObject("Key");
 		{
-			key->SetPosition(glm::vec3(-71.75f, 20.5f, 17.5f));
+			key->SetPosition(glm::vec3(-71.75f, 20.5f, 15.0f));
 			key->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
 			key->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
 
@@ -2016,13 +2315,13 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		GameObject::Sptr pedestal = SceneManager::GetCurrentScene()->CreateGameObject("Key Pedestal");
 		{
-			pedestal->SetPosition(glm::vec3(-72.0f, 21.0f, 16.5f));
+			pedestal->SetPosition(glm::vec3(-72.0f, 21.0f, 14.0f));
 			pedestal->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
-			pedestal->SetScale(glm::vec3(1, 1, 1));
+			pedestal->SetScale(glm::vec3(1, 2, 1));
 
 			RenderComponent::Sptr renderer = pedestal->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Brown"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 
 			// Collider
 			RigidBody::Sptr physics = pedestal->Add<RigidBody>(RigidBodyType::Static);
@@ -2145,12 +2444,40 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			TriggerVolumeEnterBehaviour::Sptr trigger = cob1->Add<TriggerVolumeEnterBehaviour>();  
 			trigger->onTriggerEnterEvent = [body] { 
 				if (!SceneManager::GetCurrentScene()->PC.isShadow) { 
-					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.15; 
+					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.15; //Slow Overtime when player interacts with cobweb
 				}
 			};
 			trigger->onTriggerExitEvent = [body] { 
 				if (!SceneManager::GetCurrentScene()->PC.isShadow) {
-					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.5;
+					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.5; //Do not change this number this is character normal speed
+				}
+			};
+		}
+
+		//Healing Wells
+		GameObject::Sptr well1 = SceneManager::GetCurrentScene()->CreateGameObject("well1");
+		{
+			well1->SetPosition(glm::vec3(15, -8, 5));
+			well1->SetRotation(glm::vec3(90, 0, 0));
+			well1->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = well1->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("HealingWell"));
+			renderer->SetMaterial(Resources::GetMaterial("HealingWell"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = well1->Add<TriggerVolume>();   
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));  
+			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(PHYSICAL_GROUP);
+			volume->SetCollisionMask(PHYSICAL_MASK); 
+
+			TriggerVolumeEnterBehaviour::Sptr trigger = well1->Add<TriggerVolumeEnterBehaviour>(); 
+			trigger->onTriggerStayEvent = [body] {
+				if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+					body->Get<HealthComponent>()->Heal(0.8f);  //Healing number overtime
 				}
 			};
 		}
@@ -2309,6 +2636,32 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			RenderComponent::Sptr renderer = MultipleShrooms1->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("MS"));
 			renderer->SetMaterial(Resources::GetMaterial("MS"));
+			
+			// Trigger Volume
+			TriggerVolume::Sptr volume = MultipleShrooms1->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.2f, 0.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.55f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(PHYSICAL_GROUP);
+			volume->SetCollisionMask(PHYSICAL_MASK);
+
+			TriggerVolumeEnterBehaviour::Sptr trigger = MultipleShrooms1->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent = [body] {
+				if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.3;  //Slow over time
+				}
+			};
+			trigger->onTriggerStayEvent = [body] {
+				if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+					body->Get<HealthComponent>()->DealDamage(0.2f);  //Damage overtime poison
+				}
+			};
+			trigger->onTriggerExitEvent = [body] { 
+				if (!SceneManager::GetCurrentScene()->PC.isShadow) { 
+					SceneManager::GetCurrentScene()->PC.playerSpeed = 0.5; //Do no change number character base speed
+				}
+			};
 		}
 
 		GameObject::Sptr MultipleShrooms2 = SceneManager::GetCurrentScene()->CreateGameObject("ms2");
@@ -2347,9 +2700,9 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		//Single Mushrooms
 		GameObject::Sptr SingleShrooms1 = SceneManager::GetCurrentScene()->CreateGameObject("ss1"); 
 		{
-			SingleShrooms1->SetPosition(glm::vec3(40, -39, 1)); 
-			SingleShrooms1->SetRotation(glm::vec3(90, 0, 160));
-			SingleShrooms1->SetScale(glm::vec3(1.5)); 
+			SingleShrooms1->SetPosition(glm::vec3(40, -47, 1)); 
+			SingleShrooms1->SetRotation(glm::vec3(90, 0, -35));
+			SingleShrooms1->SetScale(glm::vec3(1)); 
 
 			RenderComponent::Sptr renderer = SingleShrooms1->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("SS"));
@@ -2369,7 +2722,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 
 		GameObject::Sptr SingleShrooms3 = SceneManager::GetCurrentScene()->CreateGameObject("ss3");
 		{
-			SingleShrooms3->SetPosition(glm::vec3(-45, 7, 5));
+			SingleShrooms3->SetPosition(glm::vec3(-45, 3, 5));
 			SingleShrooms3->SetRotation(glm::vec3(90, 0, 120));
 			SingleShrooms3->SetScale(glm::vec3(0.8));
 
@@ -2400,72 +2753,8 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			renderer->SetMesh(Resources::GetMesh("SS"));
 			renderer->SetMaterial(Resources::GetMaterial("SS"));
 		}
-
-		GameObject::Sptr statue_1 = SceneManager::GetCurrentScene()->CreateGameObject("Statue 1");
-		{
-			statue_1->SetPosition(glm::vec3(-17.5f, 28.0f, 18.0f));
-			statue_1->SetRotation(glm::vec3(0.f, 0.0f, -30.0f));
-			statue_1->SetScale(glm::vec3(2,2,3));
-
-			RenderComponent::Sptr renderer = statue_1->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
-		}
-
-		GameObject::Sptr statue_2 = SceneManager::GetCurrentScene()->CreateGameObject("Statue 2");
-		{
-			statue_2->SetPosition(glm::vec3(-31.5f, 28.0f, 18.0f));
-			statue_2->SetRotation(glm::vec3(0.f, 0.0f, 30.0f));
-			statue_2->SetScale(glm::vec3(2,2,3));
-
-			RenderComponent::Sptr renderer = statue_2->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
-		}
-
-		GameObject::Sptr interactable_note = SceneManager::GetCurrentScene()->CreateGameObject("Interactable Note");
-		{
-			interactable_note->SetPosition(glm::vec3(38.75f, 29.5f, 13.0f));
-			interactable_note->SetRotation(glm::vec3(0, 0, 0));
-			interactable_note->SetScale(glm::vec3(5,1,4));
-
-			RenderComponent::Sptr renderer = interactable_note->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Gray"));
-		}
 	}
 
-	// Final Room
-	{
-		GameObject::Sptr exit_door = SceneManager::GetCurrentScene()->CreateGameObject("Exit Door");
-		{
-			exit_door->SetPosition(glm::vec3(38.75f, 25.0f, 11.5f));
-			exit_door->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
-			exit_door->SetScale(glm::vec3(6.0f, 0.3f, 0.1f));			
-
-			// Trigger Volume
-			TriggerVolume::Sptr volume = exit_door->Add<TriggerVolume>();
-			BoxCollider::Sptr collider = BoxCollider::Create();
-			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-			collider->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
-			volume->AddCollider(collider);
-			volume->SetCollisionGroup(PHYSICAL_GROUP);
-			volume->SetCollisionMask(PHYSICAL_MASK);
-
-			// Trigger Event
-			TriggerVolumeEnterBehaviour::Sptr trigger = exit_door->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = []
-			{
-				// Load next Scene
-				//SceneManager::LoadScene(SceneManager::Scenes::LevelTwo, true);				
-			};
-
-			trigger->onTriggerExitEvent = []
-			{
-
-			};
-		}
-	}
 
 #pragma endregion
 
@@ -2964,6 +3253,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		RenderComponent::Sptr renderer = graveStone1->Add<RenderComponent>();
 		renderer->SetMesh(Resources::GetMesh("Grave Stone"));
 		renderer->SetMaterial(Resources::GetMaterial("Grave Stone"));
+
 	}
 
 #pragma endregion

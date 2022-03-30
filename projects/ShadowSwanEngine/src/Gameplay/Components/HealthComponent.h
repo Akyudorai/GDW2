@@ -26,6 +26,7 @@ protected:
 
 public:
 	void DealDamage(float amount);
+	void Heal(float amount);
 	
 	float GetCurrentHealth() {
 
