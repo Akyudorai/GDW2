@@ -135,6 +135,7 @@ namespace Gameplay {
 
 		// Human readable name for the object
 		std::string             Name;
+		bool IsActive = true;
 
 		// Hack to hide instances from the hierarchy (like when adding lots of instances)
 		bool HideInHierarchy = false;

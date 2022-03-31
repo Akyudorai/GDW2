@@ -48,6 +48,9 @@ public:
 	virtual nlohmann::json ToJson() const override;
 	static RenderComponent::Sptr FromJson(const nlohmann::json& data);
 	MAKE_TYPENAME(RenderComponent);
+	
+public:
+	void Animate(const Gameplay::MeshResource::Sptr frame0, const Gameplay::MeshResource::Sptr frame1, float t);
 
 protected:
 	// The object's mesh

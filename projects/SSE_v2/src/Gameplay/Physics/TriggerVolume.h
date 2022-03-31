@@ -50,6 +50,9 @@ namespace Gameplay::Physics {
 		static TriggerVolume::Sptr FromJson(const nlohmann::json& data);
 		MAKE_TYPENAME(TriggerVolume);
 
+	public:
+		inline std::vector<std::weak_ptr<RigidBody>> GetCollisions() { return _currentCollisions; }
+
 	protected:
 		btPairCachingGhostObject*   _ghost;
 		TriggerTypeFlags            _typeFlags;

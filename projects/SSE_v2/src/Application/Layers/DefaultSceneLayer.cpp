@@ -33,6 +33,7 @@
 #include "Utils/StringUtils.h"
 #include "Utils/GlmDefines.h"
 #include "Utils/ResourceManager/Resources.h"
+#include "Audio/AudioManager.h"
 
 // Gameplay
 #include "Gameplay/Material.h"
@@ -50,6 +51,12 @@
 #include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
 #include "Gameplay/Components/SimpleCameraControl.h"
 #include "Gameplay/Components/AudioSource.h"
+#include "Gameplay/Components/AnimatorComponent.h"
+#include "Gameplay/Components/HealthComponent.h"
+#include "Gameplay/Components/InteractableComponent.h"
+#include "Gameplay/Components/SpikeTrapBehavior.h"
+#include "Gameplay/Components/MovingPlatformBehavior.h"
+#include "Gameplay/PlayerController.h"
 
 // Physics
 #include "Gameplay/Physics/RigidBody.h"
@@ -93,6 +100,14 @@ void DefaultSceneLayer::_CreateScene()
 	using namespace Gameplay;
 	using namespace Gameplay::Physics;
 
+	// Should be moved to Game Settings or Physics Class
+	int PHYSICAL_MASK = 0xFFFFFFFF;
+	int PHYSICAL_GROUP = 0x01;
+	int SHADOW_MASK = 0xFFFFFFFE;
+	int SHADOW_GROUP = 0x02;
+	int NO_MASK = 0xFFFFFFFD;
+	int NO_GROUP = 0x03;
+
 	Application& app = Application::Get();
 
 	bool loadScene = false;
@@ -122,7 +137,7 @@ void DefaultSceneLayer::_CreateScene()
 
 		for (int ix = 0; ix < 50; ix++) {
 			GameObject::Sptr light = scene->CreateGameObject("Light");
-			light->SetPostion(glm::vec3(glm::diskRand(25.0f), 1.0f));
+			light->SetPosition(glm::vec3(glm::diskRand(25.0f), 1.0f));
 			lightParent->AddChild(light);
 
 			Light::Sptr lightComponent = light->Add<Light>();
@@ -134,7 +149,7 @@ void DefaultSceneLayer::_CreateScene()
 		// Set up the scene's camera
 		GameObject::Sptr camera = scene->MainCamera->GetGameObject()->SelfRef();
 		{
-			camera->SetPostion({ -9, -6, 15 });
+			camera->SetPosition({ -9, -6, 15 });
 			camera->LookAt(glm::vec3(0.0f));
 
 			camera->Add<SimpleCameraControl>();
@@ -168,32 +183,32 @@ void DefaultSceneLayer::_CreateScene()
 			GameObject::Sptr wall1 = scene->CreateGameObject("Wall1");
 			wall1->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(Resources::GetMaterial("White Brick"));
 			wall1->SetScale(glm::vec3(20.0f, 1.0f, 3.0f));
-			wall1->SetPostion(glm::vec3(0.0f, 10.0f, 1.5f));
+			wall1->SetPosition(glm::vec3(0.0f, 10.0f, 1.5f));
 			plane->AddChild(wall1);
 
 			GameObject::Sptr wall2 = scene->CreateGameObject("Wall2");
 			wall2->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(Resources::GetMaterial("White Brick"));
 			wall2->SetScale(glm::vec3(20.0f, 1.0f, 3.0f));
-			wall2->SetPostion(glm::vec3(0.0f, -10.0f, 1.5f));
+			wall2->SetPosition(glm::vec3(0.0f, -10.0f, 1.5f));
 			plane->AddChild(wall2);
 
 			GameObject::Sptr wall3 = scene->CreateGameObject("Wall3");
 			wall3->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(Resources::GetMaterial("White Brick"));
 			wall3->SetScale(glm::vec3(1.0f, 20.0f, 3.0f));
-			wall3->SetPostion(glm::vec3(10.0f, 0.0f, 1.5f));
+			wall3->SetPosition(glm::vec3(10.0f, 0.0f, 1.5f));
 			plane->AddChild(wall3);
 
 			GameObject::Sptr wall4 = scene->CreateGameObject("Wall4");
 			wall4->Add<RenderComponent>()->SetMesh(wall)->SetMaterial(Resources::GetMaterial("White Brick"));
 			wall4->SetScale(glm::vec3(1.0f, 20.0f, 3.0f));
-			wall4->SetPostion(glm::vec3(-10.0f, 0.0f, 1.5f));
+			wall4->SetPosition(glm::vec3(-10.0f, 0.0f, 1.5f));
 			plane->AddChild(wall4);
 		}
 
 		GameObject::Sptr monkey1 = scene->CreateGameObject("Monkey");
 		{
 			// Set position in the scene
-			monkey1->SetPostion(glm::vec3(1.5f, 0.0f, 1.0f));
+			monkey1->SetPosition(glm::vec3(1.5f, 0.0f, 1.0f));
 
 			// Add some behaviour that relies on the physics body
 			monkey1->Add<JumpBehaviour>();
@@ -216,11 +231,270 @@ void DefaultSceneLayer::_CreateScene()
 			} 
 		}
 
+#pragma region Character Setup
+
+		GameObject::Sptr character = scene->CreateGameObject("ShadowRend");
+		{
+			// Transform
+			character->SetPosition(glm::vec3(0.0f, 0.0f, 1.0f));
+			character->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			character->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+			// Render Component
+			RenderComponent::Sptr renderer = character->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Character"));
+			renderer->SetMaterial(Resources::GetMaterial("Character"));
+
+			// Animation Component
+			AnimatorComponent::Sptr animator = character->Add<AnimatorComponent>();
+			animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
+			animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+			
+			animator->SetRenderer(*renderer);
+			animator->SetAnimation("Idle");
+			animator->SetLooping(true);
+			animator->SetPause(false);
+			animator->SetSpeed(4.0f);
+			
+			// Audio Source
+			AudioSource::Sptr audio = character->Add<AudioSource>();
+			{				
+				audio->Init({ false });
+			}
+			
+			// Physics Collider
+			RigidBody::Sptr physics = character->Add<RigidBody>(RigidBodyType::Dynamic);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+			physics->SetCollisionGroup(PHYSICAL_GROUP);
+			physics->SetCollisionMask(PHYSICAL_MASK);
+
+			// Interaction Collider
+			TriggerVolume::Sptr volume = character->Add<TriggerVolume>();
+			BoxCollider::Sptr i_collider = BoxCollider::Create();
+			i_collider->SetPosition(i_collider->GetPosition() + glm::vec3(0.0f, 0.0f, -2.5f));
+			volume->AddCollider(i_collider);
+			TriggerVolumeEnterBehaviour::Sptr trigger = character->Add<TriggerVolumeEnterBehaviour>();
+
+			// Health Component
+			character->Add<HealthComponent>(100);
+		}
+
+		GameObject::Sptr shadow = scene->CreateGameObject("Shadow");
+		{
+			// Set position in the SceneManager::GetCurrentScene()
+			shadow->SetPosition(glm::vec3(0.0f, -40.0f, 5.4f));
+			shadow->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			shadow->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = shadow->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Character"));
+			renderer->SetMaterial(Resources::GetMaterial("Shadow"));
+
+			AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
+			animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"));
+			animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"));
+
+			animator->SetRenderer(*renderer);
+			animator->SetAnimation("Idle");
+			animator->SetLooping(true);
+			animator->SetPause(false);
+			animator->SetSpeed(4.0f);
+
+			AudioSource::Sptr audio = shadow->Add<AudioSource>();
+			{
+				audio->Init({ false });
+			}
+
+			// Add a dynamic rigid body to this monkey
+			RigidBody::Sptr physics = shadow->Add<RigidBody>(RigidBodyType::Dynamic);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+			physics->SetCollisionGroup(SHADOW_GROUP);
+			physics->SetCollisionMask(SHADOW_MASK);
+
+			shadow->Add<HealthComponent>(100);
+		}
+
+		GameObject::Sptr controller = scene->CreateGameObject("Controller");
+		{
+			PlayerController::Sptr pc = controller->Add<PlayerController>();
+			pc->SetCharacterBody(*character);
+			pc->SetCharacterShadow(*shadow);
+			pc->SetInteractionCollider(*character->Get<TriggerVolume>());
+			pc->SetCamera(*camera);
+		}
+
+#pragma endregion
+
+		// =========================================================================
+
+		GameObject::Sptr pressure_plate = scene->CreateGameObject("Pressure Plate");
+		{
+			// Transform
+			pressure_plate->SetPosition(glm::vec3(0, 5, 1));
+			pressure_plate->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			pressure_plate->SetScale(glm::vec3(1.0f, 0.5f, 1.0f));
+
+			// Renderer
+			RenderComponent::Sptr renderer = pressure_plate->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Pressure Plate"));
+			renderer->SetMaterial(Resources::GetMaterial("Pressure Plate"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = pressure_plate->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(PHYSICAL_GROUP);
+			volume->SetCollisionMask(PHYSICAL_MASK);
+
+			AudioSource::Sptr audio = pressure_plate->Add<AudioSource>();
+			{
+				audio->LoadEvent("Pressure Plate");								
+				audio->Init({ false });
+			}
+
+			// Trigger Event
+			TriggerVolumeEnterBehaviour::Sptr trigger = pressure_plate->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent = [audio]
+			{
+				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 0);								
+				audio->Play();
+			};
+
+			trigger->onTriggerExitEvent = [audio]
+			{				
+				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 1);				
+				audio->Play();
+			};
+		}
+
+		GameObject::Sptr spike_trap = scene->CreateGameObject("SpikeTrap");
+		{
+			spike_trap->SetPosition(glm::vec3(5, 0, 1));
+			spike_trap->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			spike_trap->SetScale(glm::vec3(0.5f, 0.5f, 0.5f));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = spike_trap->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Spike Trap"));
+			renderer->SetMaterial(Resources::GetMaterial("Spike Trap"));
+
+			// Animator
+			AnimatorComponent::Sptr animator = spike_trap->Add<AnimatorComponent>();
+			animator->AddAnimation("Spikes", Resources::GetAnimation("Spikes"));
+			animator->SetRenderer(*renderer);
+			animator->SetLooping(false);
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = spike_trap->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(PHYSICAL_GROUP);
+			volume->SetCollisionMask(PHYSICAL_MASK);
+
+			// Trigger Event
+			TriggerVolumeEnterBehaviour::Sptr trigger = spike_trap->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent = [character] {
+				//if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+					//body->Get<HealthComponent>()->DealDamage(10.0f);
+				//}
+			};
+
+			AudioSource::Sptr audio = spike_trap->Add<AudioSource>();
+			{
+				audio->LoadEvent("Spikes");
+				audio->volume = 0.5f;				
+				audio->Init({ false });
+			}
+
+			// Spike Behavior
+			SpikeTrapBehavior::Sptr spikeBehavior = spike_trap->Add<SpikeTrapBehavior>();
+			spikeBehavior->SetAnimator(animator);
+			spikeBehavior->SetTrigger(volume);
+			spikeBehavior->Initialize(3, 0, false);
+
+		}
+
+		GameObject::Sptr elevator = scene->CreateGameObject("Elevator");
+		{
+			elevator->SetPosition(glm::vec3(-5, 0, 1));
+			elevator->SetScale(glm::vec3(5, 7, 0.5f));
+			elevator->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+
+			RenderComponent::Sptr renderer = elevator->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Cube"));
+			renderer->SetMaterial(Resources::GetMaterial("Brown"));
+
+			// Collider
+			RigidBody::Sptr physics = elevator->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(elevator->GetScale());
+			physics->AddCollider(collider);
+			physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+			physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+
+			// Moving Platform Behavior
+			MovingPlatformBehavior::Sptr elevatorBehavior = elevator->Add<MovingPlatformBehavior>();
+			elevatorBehavior->SetStartPosition(glm::vec3(-5, 0, 1));
+			elevatorBehavior->SetEndPosition(glm::vec3(-5, 0, 5));
+			elevatorBehavior->SetLooping(true);
+			elevatorBehavior->SetCollider(collider);
+
+		}
+
+		GameObject::Sptr lever_2 = scene->CreateGameObject("Turret Activation Lever");
+		{
+			// Transform
+			lever_2->SetPosition(glm::vec3(0, 5, 1));
+			lever_2->SetRotation(glm::vec3(90.0f, 0.0f, 90.0f));
+			lever_2->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+			// Renderer
+			RenderComponent::Sptr renderer = lever_2->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Lever"));
+			renderer->SetMaterial(Resources::GetMaterial("LeverTex"));
+
+			// Collider
+			RigidBody::Sptr physics = lever_2->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+
+			AudioSource::Sptr audio = lever_2->Add<AudioSource>();
+			{
+				audio->LoadEvent("Lever");
+				audio->volume = 0.75f;				
+				audio->Init({ false });
+			}
+
+			// Interaction Event
+			InteractableComponent::Sptr interactable = lever_2->Add<InteractableComponent>();
+			interactable->onInteractionEvent = [interactable, audio]
+			{
+				interactable->isToggled = !interactable->isToggled;
+				audio->Play();
+
+
+				if (interactable->isToggled) {
+					// Shut off Turrets
+				}
+
+				else {
+					// Turn on Turrets
+				}
+			};
+		}
+
 
 		GameObject::Sptr ship = scene->CreateGameObject("Fenrir");
 		{
 			// Set position in the scene
-			ship->SetPostion(glm::vec3(1.5f, 0.0f, 4.0f));
+			ship->SetPosition(glm::vec3(1.5f, 0.0f, 4.0f));
 			ship->SetScale(glm::vec3(0.1f));
 
 			// Create and attach a renderer for the monkey
@@ -239,7 +513,7 @@ void DefaultSceneLayer::_CreateScene()
 			boxMesh->GenerateMesh();
 
 			// Set and rotation position in the scene
-			specBox->SetPostion(glm::vec3(0, -4.0f, 1.0f));
+			specBox->SetPosition(glm::vec3(0, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = specBox->Add<RenderComponent>();
@@ -253,7 +527,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr foliageBall = scene->CreateGameObject("Foliage Sphere");
 		{
 			// Set and rotation position in the scene
-			foliageBall->SetPostion(glm::vec3(-4.0f, -4.0f, 1.0f));
+			foliageBall->SetPosition(glm::vec3(-4.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = foliageBall->Add<RenderComponent>();
@@ -271,7 +545,7 @@ void DefaultSceneLayer::_CreateScene()
 			box->GenerateMesh();
 
 			// Set and rotation position in the scene
-			foliageBox->SetPostion(glm::vec3(-6.0f, -4.0f, 1.0f));
+			foliageBox->SetPosition(glm::vec3(-6.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = foliageBox->Add<RenderComponent>();
@@ -285,7 +559,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr toonBall = scene->CreateGameObject("Toon Object");
 		{
 			// Set and rotation position in the scene
-			toonBall->SetPostion(glm::vec3(-2.0f, -4.0f, 1.0f));
+			toonBall->SetPosition(glm::vec3(-2.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = toonBall->Add<RenderComponent>();
@@ -298,7 +572,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr displacementBall = scene->CreateGameObject("Displacement Object");
 		{
 			// Set and rotation position in the scene
-			displacementBall->SetPostion(glm::vec3(2.0f, -4.0f, 1.0f));
+			displacementBall->SetPosition(glm::vec3(2.0f, -4.0f, 1.0f));
 
 			// Add a render component
 			RenderComponent::Sptr renderer = displacementBall->Add<RenderComponent>();
@@ -311,7 +585,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr multiTextureBall = scene->CreateGameObject("Multitextured Object");
 		{
 			// Set and rotation position in the scene 
-			multiTextureBall->SetPostion(glm::vec3(4.0f, -4.0f, 1.0f));
+			multiTextureBall->SetPosition(glm::vec3(4.0f, -4.0f, 1.0f));
 
 			// Add a render component 
 			RenderComponent::Sptr renderer = multiTextureBall->Add<RenderComponent>();
@@ -324,7 +598,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr normalMapBall = scene->CreateGameObject("Normal Mapped Object");
 		{
 			// Set and rotation position in the scene 
-			normalMapBall->SetPostion(glm::vec3(6.0f, -4.0f, 1.0f));
+			normalMapBall->SetPosition(glm::vec3(6.0f, -4.0f, 1.0f));
 
 			// Add a render component 
 			RenderComponent::Sptr renderer = normalMapBall->Add<RenderComponent>();
@@ -348,7 +622,7 @@ void DefaultSceneLayer::_CreateScene()
 		GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
 		{
 			// Set position in the scene
-			shadowCaster->SetPostion(glm::vec3(3.0f, 3.0f, 5.0f));
+			shadowCaster->SetPosition(glm::vec3(3.0f, 3.0f, 5.0f));
 			shadowCaster->LookAt(glm::vec3(0.0f));
 
 			// Create and attach a renderer for the monkey

@@ -173,6 +173,10 @@ namespace Gameplay {
 	}
 
 	void GameObject::RenderGUI() {
+
+		// If the object is inactive, we don't render anything.  We use this specifically for the pause menu right now, but can be used for anything. 
+		if (!IsActive) return;
+
 		// Prune children
 		auto it = std::remove_if(_children.begin(), _children.end(), [](const WeakRef& child) { return !child.IsAlive(); });
 		if (it != _children.end()) {
@@ -210,6 +214,8 @@ namespace Gameplay {
 	}
 
 	void GameObject::Update(float dt) {
+		
+
 		for (auto& component : _components) {
 			if (component->IsEnabled) {
 				component->Update(dt);

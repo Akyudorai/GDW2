@@ -19,7 +19,7 @@ void GLAppLayer::OnAppLoad(const nlohmann::json& config) {
 
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
 	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 6);
-	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
+	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);	
 
 	//Create a new GLFW window and make it current
 	app._window = glfwCreateWindow(app._windowSize.x, app._windowSize.y, app._windowTitle.c_str(), nullptr, nullptr);

@@ -46,6 +46,12 @@
 #include "Gameplay/Components/Light.h"
 #include "Gameplay/Components/ShadowCamera.h"
 #include "Gameplay/Components/AudioSource.h"
+#include "Gameplay/Components/SpikeTrapBehavior.h"
+#include "Gameplay/Components/MovingPlatformBehavior.h"
+#include "Gameplay/Components/HealthComponent.h"
+#include "Gameplay/Components/AnimatorComponent.h"
+#include "Gameplay/Components/InteractableComponent.h"
+#include "Gameplay/PlayerController.h"
 
 // GUI
 #include "Gameplay/Components/GUI/RectTransform.h"
@@ -63,9 +69,10 @@
 #include "Layers/ParticleLayer.h"
 #include "Layers/PostProcessingLayer.h"
 #include "Layers/AudioLayer.h"
+#include "Layers/GameManagementLayer.h"
 
 Application* Application::_singleton = nullptr;
-std::string Application::_applicationName = "INFR-2350U - DEMO";
+std::string Application::_applicationName = "Into The Abyss";
 
 #define DEFAULT_WINDOW_WIDTH 1280
 #define DEFAULT_WINDOW_HEIGHT 720
@@ -157,6 +164,7 @@ void Application::_Run()
 	_layers.push_back(std::make_shared<PostProcessingLayer>());
 	_layers.push_back(std::make_shared<InterfaceLayer>());
 	_layers.push_back(std::make_shared<AudioLayer>());
+	_layers.push_back(std::make_shared<GameManagementLayer>());
 
 	// If we're in editor mode, we add all the editor layers
 	if (_isEditor) {
@@ -279,6 +287,12 @@ void Application::_RegisterClasses()
 	ComponentManager::RegisterType<Light>();
 	ComponentManager::RegisterType<ShadowCamera>();
 	ComponentManager::RegisterType<AudioSource>();
+	ComponentManager::RegisterType<SpikeTrapBehavior>();
+	ComponentManager::RegisterType<MovingPlatformBehavior>();
+	ComponentManager::RegisterType<InteractableComponent>();
+	ComponentManager::RegisterType<AnimatorComponent>();
+	ComponentManager::RegisterType<HealthComponent>();
+	ComponentManager::RegisterType<PlayerController>();
 }
 
 void Application::_Load() {

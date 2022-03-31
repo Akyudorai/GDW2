@@ -18,6 +18,12 @@ nlohmann::json TurretBehavior::ToJson() const
 	return {};
 }
 
+TurretBehavior::Sptr TurretBehavior::FromJson(const nlohmann::json& blob)
+{
+	TurretBehavior::Sptr result = std::make_shared<TurretBehavior>();
+	return result;
+}
+
 TurretBehavior::TurretBehavior()
 { }
 

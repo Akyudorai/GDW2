@@ -14,6 +14,7 @@
 
 class Resources
 {
+
 public: // Singleton Format 
 	static Resources& Instance() { static Resources resources; return resources; }
 

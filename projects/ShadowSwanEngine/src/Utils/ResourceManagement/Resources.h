@@ -630,7 +630,7 @@ public:
 				for (int i = 0; i < 5; ++i)
 				{
 					std::string file;
-					file.append("models/character_walk/Walk");
+					file.append("animations/character_walk/Walk");
 					file.append(std::to_string((i + 1)));
 					file.append(".obj");
 					WalkAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
@@ -644,7 +644,7 @@ public:
 				for (int i = 0; i < 3; ++i)
 				{
 					std::string file;
-					file.append("models/character_idle/Idle");
+					file.append("animations/character_idle/Idle");
 					file.append(std::to_string((i + 1)));
 					file.append(".obj");
 					IdleAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
@@ -658,7 +658,7 @@ public:
 				for (int i = 0; i < 6; ++i)
 				{
 					std::string file;
-					file.append("models/character_jump/Jump");
+					file.append("animations/character_jump/Jump");
 					file.append(std::to_string((i + 1)));
 					file.append(".obj");
 					IdleAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
@@ -672,7 +672,7 @@ public:
 				for (int i = 0; i < 4; ++i)
 				{
 					std::string file;
-					file.append("models/door/door");
+					file.append("animations/door/door");
 					file.append(std::to_string((i + 1)));
 					file.append(".obj");
 					DoorAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
@@ -687,7 +687,7 @@ public:
 				for (int i = 0; i < 3; ++i)
 				{
 					std::string file;
-					file.append("models/spikedTrap/SpikedTrap");
+					file.append("animations/spikedTrap/SpikedTrap");
 					file.append(std::to_string((i + 1)));
 					file.append(".obj");
 					SpikeAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));

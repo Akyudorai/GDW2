@@ -38,6 +38,11 @@ const Gameplay::Material::Sptr& RenderComponent::GetMaterial() const {
 	return _material;
 }
 
+void RenderComponent::Animate(const Gameplay::MeshResource::Sptr frame0, const Gameplay::MeshResource::Sptr frame2, float t)
+{
+	SetMesh(frame0);
+}
+
 nlohmann::json RenderComponent::ToJson() const {
 	nlohmann::json result;
 	result["mesh"] = _mesh ? _mesh->GetGUID().str() : "null";
