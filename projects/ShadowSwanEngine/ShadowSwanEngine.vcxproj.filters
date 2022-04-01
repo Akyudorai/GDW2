@@ -87,6 +87,9 @@
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\Components\MorphRendererComponent.h">
+      <Filter>Gameplay\Components</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\Components\MovingPlatformBehavior.h">
       <Filter>Gameplay\Components</Filter>
     </ClInclude>
@@ -171,22 +174,10 @@
     <ClInclude Include="src\Gameplay\Scene.h">
       <Filter>Gameplay</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gameplay\SceneManagement\Boss_Level.h">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gameplay\SceneManagement\Level_One.h">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gameplay\SceneManagement\Level_Three.h">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\SceneManagement\Level_Two.h">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClInclude>
     <ClInclude Include="src\Gameplay\SceneManagement\Main_Menu.h">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClInclude>
-    <ClInclude Include="src\Gameplay\SceneManagement\Sandbox_Level.h">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\SceneManagement\SceneData.h">
@@ -297,7 +288,6 @@
     <ClInclude Include="src\Utils\UIHelper.h">
       <Filter>Utils</Filter>
     </ClInclude>
-    <ClInclude Include="src\Gameplay\Components\MorphRendererComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="src\Audio\AudioManager.cpp">
@@ -340,6 +330,9 @@
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp">
+      <Filter>Gameplay\Components</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\Components\MorphRendererComponent.cpp">
       <Filter>Gameplay\Components</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\Components\MovingPlatformBehavior.cpp">
@@ -420,22 +413,10 @@
     <ClCompile Include="src\Gameplay\Scene.cpp">
       <Filter>Gameplay</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gameplay\SceneManagement\Boss_Level.cpp">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gameplay\SceneManagement\Level_One.cpp">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClCompile>
-    <ClCompile Include="src\Gameplay\SceneManagement\Level_Three.cpp">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\SceneManagement\Level_Two.cpp">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClCompile>
     <ClCompile Include="src\Gameplay\SceneManagement\Main_Menu.cpp">
-      <Filter>Gameplay\SceneManagement</Filter>
-    </ClCompile>
-    <ClCompile Include="src\Gameplay\SceneManagement\Sandbox_Level.cpp">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\SceneManagement\SceneManager.cpp">
@@ -499,6 +480,5 @@
       <Filter>Utils</Filter>
     </ClCompile>
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Gameplay\Components\MorphRendererComponent.cpp" />
   </ItemGroup>
 </Project>

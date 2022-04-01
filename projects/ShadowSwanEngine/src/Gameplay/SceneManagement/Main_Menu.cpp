@@ -78,8 +78,8 @@ Scene::Sptr Main_Menu::Load(GLFWwindow* window)
 	{
 		// Set position in the SceneManager::GetCurrentScene()
 		body->SetPosition(glm::vec3(-5.0f, 4.0f, 0.0f));
-		body->SetRotation(glm::vec3(90.f, 0.0f, 40.0f));
-		body->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+		body->SetRotation(glm::vec3(90.f, 0.0f, -115.0f));
+		body->SetScale(glm::vec3(0.15));
 
 		RenderComponent::Sptr renderer = body->Add<RenderComponent>();
 
