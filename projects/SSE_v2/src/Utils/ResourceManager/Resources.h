@@ -43,6 +43,8 @@ public: // Public Funcs
 
 	void Initialize();
 
+	static std::map<std::string, Gameplay::Material::Sptr> GetMaterialMap() { return Instance().materials; }
+
 	static ShaderProgram::Sptr GetShader(std::string name);
 	static Gameplay::MeshResource::Sptr GetMesh(std::string name);
 	static Texture1D::Sptr GetTexture1D(std::string name);

@@ -241,6 +241,7 @@ void Resources::Initialize()
 		boxMaterial->Set("u_Material.AlbedoMap", GetTexture2D("Box Diffuse"));
 		boxMaterial->Set("u_Material.Shininess", 0.1f);
 		boxMaterial->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
+		
 		materials.emplace("Box", boxMaterial);
 	}
 
@@ -251,6 +252,7 @@ void Resources::Initialize()
 		monkeyMaterial->Set("u_Material.AlbedoMap", GetTexture2D("Monkey"));
 		monkeyMaterial->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		monkeyMaterial->Set("u_Material.Shininess", 0.5f);
+		
 		materials.emplace("Monkey", monkeyMaterial);
 	}
 
@@ -260,6 +262,7 @@ void Resources::Initialize()
 		characterMaterial->Set("u_Material.AlbedoMap", GetTexture2D("Character"));
 		characterMaterial->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		characterMaterial->Set("u_Material.Shininess", 0.1f);
+		
 		materials.emplace("Character", characterMaterial);
 	}
 
@@ -270,6 +273,7 @@ void Resources::Initialize()
 		testMaterial->Set("u_Material.AlbedoMap", GetTexture2D("Box Diffuse"));
 		testMaterial->Set("u_Material.Specular", GetTexture2D("Box Specular"));
 		testMaterial->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
+		
 		materials.emplace("Test", testMaterial);
 	}
 
@@ -320,6 +324,7 @@ void Resources::Initialize()
 		grey->Set("u_Material.AlbedoMap", GetTexture2D("Solid Grey"));
 		grey->Set("u_Material.Specular", GetTexture2D("Solid Black"));
 		grey->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
+
 		materials.emplace("Grey", grey);
 	}
 
@@ -329,6 +334,7 @@ void Resources::Initialize()
 		whiteBrick->Set("u_Material.AlbedoMap", GetTexture2D("Displacement Map"));
 		whiteBrick->Set("u_Material.Specular", GetTexture2D("Solid Grey"));
 		whiteBrick->Set("u_Material.NormalMap", GetTexture2D("Normal Map"));
+
 		materials.emplace("White Brick", whiteBrick);
 	}
 
@@ -339,6 +345,7 @@ void Resources::Initialize()
 		normalmapMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map"));
 		normalmapMat->Set("u_Material.Shininess", 0.5f);
 		normalmapMat->Set("u_Scale", 0.1f);
+
 		materials.emplace("Normal Map", normalmapMat);
 	}
 
@@ -351,6 +358,7 @@ void Resources::Initialize()
 		multiTextureMat->Set("u_Material.NormalMapB", GetTexture2D("Normal Map Default"));
 		multiTextureMat->Set("u_Material.Shininess", 0.5f);
 		multiTextureMat->Set("u_Scale", 0.1f);
+
 		materials.emplace("Multi-Texture", std::move(multiTextureMat));
 	}
 
@@ -360,6 +368,7 @@ void Resources::Initialize()
 		stoneWallMat->Set("u_Material.AlbedoMap", GetTexture2D("Stone Wall"));
 		stoneWallMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		stoneWallMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Stone Wall", std::move(stoneWallMat));
 	}
 
@@ -369,6 +378,7 @@ void Resources::Initialize()
 		pressurePlateMaterial->Set("u_Material.AlbedoMap", GetTexture2D("Pressure Plate"));
 		pressurePlateMaterial->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		pressurePlateMaterial->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Pressure Plate", std::move(pressurePlateMaterial));
 	}
 
@@ -378,6 +388,7 @@ void Resources::Initialize()
 		stoneSlabMaterial->Set("u_Material.AlbedoMap", GetTexture2D("Stone Slab 2"));
 		stoneSlabMaterial->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		stoneSlabMaterial->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Stone Slab", std::move(stoneSlabMaterial));
 	}
 
@@ -387,6 +398,7 @@ void Resources::Initialize()
 		sCageMaterial->Set("u_Material.AlbedoMap", GetTexture2D("Small Cage"));
 		sCageMaterial->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		sCageMaterial->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Small Cage", std::move(sCageMaterial));
 	}
 
@@ -396,6 +408,7 @@ void Resources::Initialize()
 		TurretProjMat->Set("u_Material.AlbedoMap", GetTexture2D("Turret Projectile"));
 		TurretProjMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		TurretProjMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Turret Projectile", std::move(TurretProjMat));
 	}
 
@@ -405,6 +418,7 @@ void Resources::Initialize()
 		turretMat->Set("u_Material.AlbedoMap", GetTexture2D("Turret"));
 		turretMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		turretMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Turret", std::move(turretMat));
 	}
 
@@ -414,6 +428,7 @@ void Resources::Initialize()
 		doorMat->Set("u_Material.AlbedoMap", GetTexture2D("Door"));
 		doorMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		doorMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Door", std::move(doorMat));
 	}
 
@@ -423,6 +438,7 @@ void Resources::Initialize()
 		spikeTrapMat->Set("u_Material.AlbedoMap", GetTexture2D("Spike Trap"));
 		spikeTrapMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		spikeTrapMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Spike Trap", std::move(spikeTrapMat));
 	}
 
@@ -433,6 +449,7 @@ void Resources::Initialize()
 		symbol1Mat->Set("u_Material.AlbedoMap", GetTexture2D("Relic 1"));
 		symbol1Mat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		symbol1Mat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Relic 1", std::move(symbol1Mat));
 	}
 	Material::Sptr symbol2Mat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -441,6 +458,7 @@ void Resources::Initialize()
 		symbol2Mat->Set("u_Material.AlbedoMap", GetTexture2D("Relic 2"));
 		symbol2Mat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		symbol2Mat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Relic 2", std::move(symbol2Mat));
 	}
 	Material::Sptr symbol3Mat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -449,6 +467,7 @@ void Resources::Initialize()
 		symbol3Mat->Set("u_Material.AlbedoMap", GetTexture2D("Relic 3"));
 		symbol3Mat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		symbol3Mat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Relic 3", std::move(symbol3Mat));
 	}
 	Material::Sptr symbol4Mat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -457,6 +476,7 @@ void Resources::Initialize()
 		symbol4Mat->Set("u_Material.AlbedoMap", GetTexture2D("Relic 4"));
 		symbol4Mat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		symbol4Mat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Relic 4", std::move(symbol4Mat));
 	}
 	Material::Sptr symbol5Mat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -465,6 +485,7 @@ void Resources::Initialize()
 		symbol5Mat->Set("u_Material.AlbedoMap", GetTexture2D("Relic 5"));
 		symbol5Mat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		symbol5Mat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Relic 5", std::move(symbol5Mat));
 	}
 
@@ -474,6 +495,7 @@ void Resources::Initialize()
 		shadowMat->Set("u_Material.AlbedoMap", GetTexture2D("Shadow"));
 		shadowMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		shadowMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Shadow", std::move(shadowMat));
 	}
 	//Tree Materials
@@ -483,6 +505,7 @@ void Resources::Initialize()
 		darkTreeMat->Set("u_Material.AlbedoMap", GetTexture2D("Dark Pine Tree"));
 		darkTreeMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		darkTreeMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Dark Pine Tree", std::move(darkTreeMat));
 	}
 	Material::Sptr lightTreeMat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -491,6 +514,7 @@ void Resources::Initialize()
 		lightTreeMat->Set("u_Material.AlbedoMap", GetTexture2D("Light Pine Tree"));
 		lightTreeMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		lightTreeMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Light Pine Tree", std::move(lightTreeMat));
 	}
 
@@ -500,6 +524,7 @@ void Resources::Initialize()
 		standingTorchMat->Set("u_Material.AlbedoMap", GetTexture2D("Standing Torch"));
 		standingTorchMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		standingTorchMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Standing Torch", std::move(standingTorchMat));
 	}
 
@@ -509,6 +534,7 @@ void Resources::Initialize()
 		boxCageMat->Set("u_Material.AlbedoMap", GetTexture2D("Box Cage"));
 		boxCageMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		boxCageMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Box Cage", std::move(boxCageMat));
 	}
 	Material::Sptr circleCageMat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -517,6 +543,7 @@ void Resources::Initialize()
 		circleCageMat->Set("u_Material.AlbedoMap", GetTexture2D("Circle Cage"));
 		circleCageMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		circleCageMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Circle Cage", std::move(circleCageMat));
 	}
 	Material::Sptr longCageMat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -525,6 +552,7 @@ void Resources::Initialize()
 		longCageMat->Set("u_Material.AlbedoMap", GetTexture2D("Long Cage"));
 		longCageMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		longCageMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Long Cage", std::move(longCageMat));
 	}
 	Material::Sptr uCageMat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -533,6 +561,7 @@ void Resources::Initialize()
 		uCageMat->Set("u_Material.AlbedoMap", GetTexture2D("U Cage"));
 		uCageMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		uCageMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("U Cage", std::move(uCageMat));
 	}
 
@@ -542,6 +571,7 @@ void Resources::Initialize()
 		graveStoneMat->Set("u_Material.AlbedoMap", GetTexture2D("Grave Stone"));
 		graveStoneMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		graveStoneMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Grave Stone", std::move(graveStoneMat));
 	}
 
@@ -551,6 +581,7 @@ void Resources::Initialize()
 		dagger->Set("u_Material.AlbedoMap", GetTexture2D("Character Dagger"));
 		dagger->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		dagger->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Character Dagger", std::move(dagger));
 	}
 
@@ -560,6 +591,7 @@ void Resources::Initialize()
 		Orb->Set("u_Material.AlbedoMap", GetTexture2D("Health Orb"));
 		Orb->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		Orb->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Health Orb", std::move(Orb));
 	}
 
@@ -569,6 +601,7 @@ void Resources::Initialize()
 		WGrate->Set("u_Material.AlbedoMap", GetTexture2D("Wall Grate"));
 		WGrate->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		WGrate->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Wall Grate", std::move(WGrate));
 	}
 
@@ -579,6 +612,7 @@ void Resources::Initialize()
 		FGrate->Set("u_Material.AlbedoMap", GetTexture2D("Floor Grate"));
 		FGrate->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		FGrate->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Floor Grate", std::move(FGrate));
 	}
 
@@ -588,6 +622,7 @@ void Resources::Initialize()
 		LCandle->Set("u_Material.AlbedoMap", GetTexture2D("Large Candle"));
 		LCandle->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		LCandle->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Large Candle", std::move(LCandle));
 	}
 
@@ -597,6 +632,7 @@ void Resources::Initialize()
 		keyMat->Set("u_Material.AlbedoMap", GetTexture2D("Key"));
 		keyMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		keyMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Key", std::move(keyMat));
 	}
 
@@ -606,6 +642,7 @@ void Resources::Initialize()
 		whiteMat->Set("u_Material.AlbedoMap", GetTexture2D("White"));
 		whiteMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		whiteMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("White", std::move(whiteMat));
 	}
 
@@ -615,6 +652,7 @@ void Resources::Initialize()
 		grayMat->Set("u_Material.AlbedoMap", GetTexture2D("Gray"));
 		grayMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		grayMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Gray", std::move(grayMat));
 	}
 
@@ -624,6 +662,7 @@ void Resources::Initialize()
 		brownMat->Set("u_Material.AlbedoMap", GetTexture2D("Brown"));
 		brownMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		brownMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Brown", std::move(brownMat));
 	}
 
@@ -633,6 +672,7 @@ void Resources::Initialize()
 		stone1Mat->Set("u_Material.AlbedoMap", GetTexture2D("StoneTex"));
 		stone1Mat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		stone1Mat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("StoneTex", std::move(stone1Mat));
 	}
 
@@ -642,6 +682,7 @@ void Resources::Initialize()
 		Wall_Mat2->Set("u_Material.AlbedoMap", GetTexture2D("Wall2"));
 		Wall_Mat2->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		Wall_Mat2->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Wall2", std::move(Wall_Mat2));
 	}
 
@@ -651,6 +692,7 @@ void Resources::Initialize()
 		Wall_Mat3->Set("u_Material.AlbedoMap", GetTexture2D("Wall_Tex3"));
 		Wall_Mat3->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		Wall_Mat3->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Wall_Tex3", std::move(Wall_Mat3));
 	}
 
@@ -660,6 +702,7 @@ void Resources::Initialize()
 		Wall_Mat4->Set("u_Material.AlbedoMap", GetTexture2D("Wall_Tex4"));
 		Wall_Mat4->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		Wall_Mat4->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Wall_Tex4", std::move(Wall_Mat4));
 	}
 
@@ -669,6 +712,7 @@ void Resources::Initialize()
 		shieldMat->Set("u_Material.AlbedoMap", GetTexture2D("ShieldTex"));
 		shieldMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		shieldMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("ShieldTex", std::move(shieldMat));
 	}
 
@@ -678,6 +722,7 @@ void Resources::Initialize()
 		staffMat->Set("u_Material.AlbedoMap", GetTexture2D("StaffTex"));
 		staffMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		staffMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("StaffTex", std::move(staffMat));
 	}
 
@@ -687,6 +732,7 @@ void Resources::Initialize()
 		swordMat->Set("u_Material.AlbedoMap", GetTexture2D("SwordTex"));
 		swordMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		swordMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("SwordTex", std::move(swordMat));
 	}
 
@@ -696,6 +742,7 @@ void Resources::Initialize()
 		leverMat->Set("u_Material.AlbedoMap", GetTexture2D("LeverTex"));
 		leverMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		leverMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("LeverTex", std::move(leverMat));
 	}
 
@@ -705,6 +752,7 @@ void Resources::Initialize()
 		intactPillarMat->Set("u_Material.AlbedoMap", GetTexture2D("Intact Pillar"));
 		intactPillarMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		intactPillarMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Intact Pillar", std::move(intactPillarMat));
 	}
 
@@ -714,6 +762,7 @@ void Resources::Initialize()
 		damagedPillarMat->Set("u_Material.AlbedoMap", GetTexture2D("Damaged Pillar"));
 		damagedPillarMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		damagedPillarMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Damaged Pillar", std::move(damagedPillarMat));
 	}
 
@@ -723,6 +772,7 @@ void Resources::Initialize()
 		destroyedPillarMat->Set("u_Material.AlbedoMap", GetTexture2D("Destroyed Pillar"));
 		destroyedPillarMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		destroyedPillarMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Destroyed Pillar", std::move(destroyedPillarMat));
 	}
 
@@ -732,6 +782,7 @@ void Resources::Initialize()
 		rockPileMat->Set("u_Material.AlbedoMap", GetTexture2D("RockPileTex"));
 		rockPileMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		rockPileMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Rock Pile", std::move(rockPileMat));
 	}
 
@@ -741,6 +792,7 @@ void Resources::Initialize()
 		barrelMat->Set("u_Material.AlbedoMap", GetTexture2D("BarrelTex"));
 		barrelMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		barrelMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Barrel", std::move(barrelMat));
 	}
 
@@ -750,6 +802,7 @@ void Resources::Initialize()
 		bucketMat->Set("u_Material.AlbedoMap", GetTexture2D("BucketTex"));
 		bucketMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		bucketMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Bucket", std::move(bucketMat));
 	}
 
@@ -759,6 +812,7 @@ void Resources::Initialize()
 		kegMat->Set("u_Material.AlbedoMap", GetTexture2D("KegTex"));
 		kegMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		kegMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Keg", std::move(kegMat));
 	}
 
@@ -767,7 +821,8 @@ void Resources::Initialize()
 		cobwebMat->Name = "Cobweb";
 		cobwebMat->Set("u_Material.Diffuse", GetTexture2D("cTex"));
 		cobwebMat->Set("u_Material.Shininess", 0.1f);
-		materials.emplace("Cob", std::move(cobwebMat));
+
+		materials.emplace("Cob", std::move(cobwebMat));  
 	}
 
 	Material::Sptr singleMushroomMat = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -775,6 +830,7 @@ void Resources::Initialize()
 		singleMushroomMat->Name = "SS";
 		singleMushroomMat->Set("u_Material.Diffuse", GetTexture2D("Shroom"));
 		singleMushroomMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("SS", std::move(singleMushroomMat));
 	}
 
@@ -783,6 +839,7 @@ void Resources::Initialize()
 		multiMushroomMat->Name = "MS";
 		multiMushroomMat->Set("u_Material.Diffuse", GetTexture2D("Shroom"));
 		multiMushroomMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("MS", std::move(multiMushroomMat));
 	}
 
@@ -791,6 +848,7 @@ void Resources::Initialize()
 		CrystalMat->Name = "Crystal";
 		CrystalMat->Set("u_Material.Diffuse", GetTexture2D("Crystal"));
 		CrystalMat->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("Crystal", std::move(CrystalMat));
 	}
 
@@ -799,7 +857,23 @@ void Resources::Initialize()
 		heal->Name = "HealingWell";
 		heal->Set("u_Material.Diffuse", GetTexture2D("HealingWell"));
 		heal->Set("u_Material.Shininess", 0.1f);
+
 		materials.emplace("HealingWell", std::move(heal));
+	}
+
+	for (auto& mat : materials)
+	{
+		if (mat.second->GetShader()->GetDebugName() == "Deferred - GBuffer Generation") 
+		{
+			mat.second->Set("u_Lights.Color", glm::vec3(1, 1, 1));
+			mat.second->Set("u_Lights.ToggleAmbience", true);
+			mat.second->Set("u_Lights.AmbienceStrength", 1.0f);
+			mat.second->Set("u_Lights.ToggleDiffuse", true);
+			mat.second->Set("u_Lights.ToggleSpecular", true);
+			mat.second->Set("u_Lights.SpecularStrength", 1.0f);
+			mat.second->Set("u_Lights.ToggleInversion", false); 
+			mat.second->Set("u_Lights.ToggleFilmGrain", false);
+		}
 	}
 
 #pragma endregion

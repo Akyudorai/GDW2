@@ -5,7 +5,7 @@ int main(int argc, char** args) {
 	Logger::Init();
 
 	// TODO: parse arguments? 
-
+	    
 	Application::Start(argc, args);
 
 	Logger::Uninitialize();

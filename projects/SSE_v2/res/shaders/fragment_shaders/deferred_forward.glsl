@@ -18,8 +18,23 @@ struct Material {
 	sampler2D MetallicShininessMap;
 	float     DiscardThreshold;
 };
+
+struct Lights {
+	vec3 Color;
+
+	bool	ToggleAmbience;
+	float	AmbienceStrength;
+	bool	ToggleDiffuse;
+	bool	ToggleSpecular;
+	float	SpecularStrength;
+
+	bool ToggleInversion;
+	bool ToggleFilmGrain;
+};
+
 // Create a uniform for the material
 uniform Material u_Material;
+uniform Lights u_Lights;
 
 #include "../fragments/frame_uniforms.glsl"
 
@@ -27,6 +42,60 @@ uniform Material u_Material;
 void main() {
 	// Get albedo from the material
 	vec4 albedoColor = texture(u_Material.AlbedoMap, inUV);
+
+	// ======================================================
+
+	vec3 result = vec3(0, 0, 0);
+	vec3 lightDir = vec3(1, 0, 0);
+
+	// Ambient
+	if (u_Lights.ToggleAmbience) {		
+		vec3 ambient = u_Lights.AmbienceStrength * u_Lights.Color; 
+		result += ambient;
+	}
+
+	// Diffuse
+	if (u_Lights.ToggleDiffuse)
+	{
+		float diff = max(dot(inNormal.xyz, lightDir), 0.0);
+		vec3 diffuse = diff * u_Lights.Color;
+		result += diffuse;
+	}
+
+	// Specular
+	if (u_Lights.ToggleSpecular)
+	{
+		vec3 viewDir = normalize(inViewPos);
+		vec3 reflectDir = reflect(-lightDir, inNormal.xyz);
+
+		float spec = pow(max(dot(viewDir, reflectDir), 0.0), 32);
+		vec3 specular = u_Lights.SpecularStrength * spec * u_Lights.Color;
+		result += specular;
+	}
+		
+	// Inversion
+	if (u_Lights.ToggleInversion)
+	{
+		albedoColor = vec4(vec3(1.0 - texture(u_Material.AlbedoMap, inUV)), 1.0);
+	}
+
+	if (u_Lights.ToggleFilmGrain)
+	{
+		float amount = 0.03;
+		float toRad = 3.14 / 180;
+		
+		float input = (inUV.x + inUV.y * u_Time) * toRad;
+		float randIntensity = fract(10000 * sin(input) * u_Time);
+
+		amount *= randIntensity;
+		albedoColor += amount;
+		//result += vec3(1, 0, 0);
+	}
+
+	// RESULT
+	albedoColor *= vec4(result, 1.0);
+
+	// ======================================================
 
 	// We can use another texture to store things like our lighting settings
 	vec4 lightingParams = texture(u_Material.MetallicShininessMap, inUV);
