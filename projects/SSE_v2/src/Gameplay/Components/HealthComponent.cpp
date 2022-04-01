@@ -45,3 +45,11 @@ void HealthComponent::DealDamage(float amount)
 		// Destroy the game object
 	}
 }
+
+void HealthComponent::Heal(float amount)
+{
+	currentHealth += amount;
+	if (currentHealth > 100) {
+		currentHealth = maximumHealth;
+	}
+}

@@ -12,17 +12,26 @@ void TriggerVolumeEnterBehaviour::Awake()
 
 void TriggerVolumeEnterBehaviour::Update(float dt)
 {
-	if (numberOfCollisions > 0 && onTriggerStayEvent) {
-		onTriggerStayEvent();
+	if (numberOfCollisions > 0 && onTriggerStayEvent.size() > 0) 
+	{
+		for (auto& e : onTriggerStayEvent) {
+			e();
+		}
 	}
 }
 
 void TriggerVolumeEnterBehaviour::OnTriggerVolumeEntered(const std::shared_ptr<Gameplay::Physics::RigidBody>& body)
 {
-	numberOfCollisions += 1;
+	if (body->GetGameObject()->Name == "Character" || body->GetGameObject()->Name == "Shadow")
+	{
+		numberOfCollisions += 1;
+	}
+	
 
-	if (numberOfCollisions > 0 && onTriggerEnterEvent) {
-		onTriggerEnterEvent();
+	if (numberOfCollisions > 0 && onTriggerEnterEvent.size() > 0) {
+		for (auto& e : onTriggerEnterEvent) {
+			e();
+		}
 	}
 
 	//LOG_INFO("Body has entered {} trigger volume: {}", GetGameObject()->Name, body->GetGameObject()->Name);
@@ -31,10 +40,15 @@ void TriggerVolumeEnterBehaviour::OnTriggerVolumeEntered(const std::shared_ptr<G
 
 void TriggerVolumeEnterBehaviour::OnTriggerVolumeLeaving(const std::shared_ptr<Gameplay::Physics::RigidBody>& body) 
 {
-	numberOfCollisions -= 1;
+	if (body->GetGameObject()->Name == "Character" || body->GetGameObject()->Name == "Shadow")
+	{
+		numberOfCollisions -= 1;
+	}
 
-	if (numberOfCollisions == 0 && onTriggerExitEvent) {
-		onTriggerExitEvent();
+	if (numberOfCollisions == 0 && onTriggerExitEvent.size() > 0) {
+		for (auto& e : onTriggerExitEvent) {
+			e();
+		}
 	}
 	
 	//LOG_INFO("Body has left {} trigger volume: {}", GetGameObject()->Name, body->GetGameObject()->Name);

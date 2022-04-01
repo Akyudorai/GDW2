@@ -186,53 +186,125 @@ void DefaultSceneLayer::_CreateScene()
 		// Interactables
 		// =========================================================================
 
-		Prefabs::Load(scene, "Pressure Plate");
+		Prefabs::Load(scene, "Spike Trap", glm::vec3(10.0f, 0.0f, 1.0f));
+		Prefabs::Load(scene, "Key", glm::vec3(-8, 11, 0));
+		Prefabs::Load(scene, "Healing Well", glm::vec3(0, -6.5f, 0));
+		Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(10, 7, 0));
+		Prefabs::Load(scene, "Crystal", glm::vec3(0, 6.5f, 0));
 
-		Prefabs::Load(scene, "Spike Trap", glm::vec3(15.0f, 15.0f, 1.0f));
-
-		GameObject::Sptr elevator = Prefabs::Load(scene, "Moving Platform", glm::vec3(-20, -20, 0));
+		GameObject::Sptr plate_door = Prefabs::Load(scene, "Cage Door", glm::vec3(-12.5f, -4, 0));
 		{
-			elevator->Get<MovingPlatformBehavior>()->SetStartPosition(glm::vec3(-20, -20, 0));
-			elevator->Get<MovingPlatformBehavior>()->SetEndPosition(glm::vec3(-20, -20, 5));
+			plate_door->SetRotation(glm::vec3(90, 0, 0));
 		}
 
-
-		GameObject::Sptr lever = Prefabs::Load(scene, "Lever");
+		GameObject::Sptr pressure_plate = Prefabs::Load(scene, "Pressure Plate", glm::vec3(-11, -10, 0));
 		{
-			lever->Get<InteractableComponent>()->onInteractionEvent.push_back([] {
-				LOG_INFO("Lever Second Interaction Event Called!");
+			pressure_plate->SetScale(glm::vec3(0.75f, 0.5f, 0.75f));
+
+			pressure_plate->Get<TriggerVolumeEnterBehaviour>()->onTriggerEnterEvent.push_back([plate_door]
+			{
+				plate_door->Get<RigidBody>()->SetCollisionGroup(Resources::Instance().NO_GROUP);
+				plate_door->Get<RigidBody>()->SetCollisionMask(Resources::Instance().NO_MASK);
+				plate_door->Get<RenderComponent>()->IsEnabled = false;
+			});
+
+			pressure_plate->Get<TriggerVolumeEnterBehaviour>()->onTriggerExitEvent.push_back([plate_door]
+			{
+				plate_door->Get<RigidBody>()->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				plate_door->Get<RigidBody>()->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+				plate_door->Get<RenderComponent>()->IsEnabled = true;
 			});
 		}
 
-		Prefabs::Load(scene, "Key");
-		Prefabs::Load(scene, "Key Door");
+		GameObject::Sptr elevator = Prefabs::Load(scene, "Moving Platform", glm::vec3(10, -12.5f, 0));
+		{
+			elevator->SetScale(glm::vec3(2, 2, 0.5f));
+
+			elevator->Get<MovingPlatformBehavior>()->SetStartPosition(glm::vec3(10, -12.5f, 0));
+			elevator->Get<MovingPlatformBehavior>()->SetEndPosition(glm::vec3(10, -12.5f, 5));
+		}
+
+		GameObject::Sptr lever_door = Prefabs::Load(scene, "Cage Door", glm::vec3(-12.5f, 8, 0));
+		{
+			lever_door->SetRotation(glm::vec3(90, 0, 0));
+		}		
+
+		GameObject::Sptr lever = Prefabs::Load(scene, "Lever", glm::vec3(-12, 5, 0));
+		{
+			lever->Get<InteractableComponent>()->onInteractionEvent.push_back([lever, lever_door] {
+				
+				if (lever->Get<InteractableComponent>()->isToggled)
+				{
+					lever_door->Get<RigidBody>()->SetCollisionGroup(Resources::Instance().NO_GROUP);
+					lever_door->Get<RigidBody>()->SetCollisionMask(Resources::Instance().NO_MASK);
+				
+					lever_door->Get<RenderComponent>()->IsEnabled = false;
+				}
+
+				else
+				{
+					lever_door->Get<RigidBody>()->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+					lever_door->Get<RigidBody>()->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+
+					lever_door->Get<RenderComponent>()->IsEnabled = true;
+				}
+			});
+		}
+
+		GameObject::Sptr keyDoor = Prefabs::Load(scene, "Key Door", glm::vec3(0, 12, 3));
+		{
+			keyDoor->SetRotation(glm::vec3(90, 0, -90));
+		}
+
+		GameObject::Sptr cobweb = Prefabs::Load(scene, "Cobweb", glm::vec3(11.5f, -6.5f, 0));
+		{
+			cobweb->SetRotation(glm::vec3(-65, 0, -90));
+		}
+
+		GameObject::Sptr wall1 = Prefabs::Load(scene, "Wall", glm::vec3(-15, 0, 0));
+		{
+			wall1->SetRotation(glm::vec3(90, 0, 0));
+			wall1->SetScale(glm::vec3(1));
+		}
+		
+		GameObject::Sptr wall2 = Prefabs::Load(scene, "Wall", glm::vec3(15, 0, 0));
+		{
+			wall2->SetRotation(glm::vec3(90, 0, 0));
+			wall2->SetScale(glm::vec3(1));
+		}
+
+		GameObject::Sptr wall3 = Prefabs::Load(scene, "Wall", glm::vec3(0, 15, 0));
+		{
+			wall3->SetRotation(glm::vec3(90, 0, 90));
+			wall3->SetScale(glm::vec3(1));
+		}
+		
 
 		// Misc
 		// =========================================================================
 		
 		// Create some lights for our scene
-		GameObject::Sptr lightParent = scene->CreateGameObject("Lights");
-
-		for (int ix = 0; ix < 50; ix++) {
-			GameObject::Sptr light = scene->CreateGameObject("Light");
-			light->SetPosition(glm::vec3(glm::diskRand(25.0f), 1.0f));
-			lightParent->AddChild(light);
+		GameObject::Sptr light = scene->CreateGameObject("Light");
+		{
+			light->SetPosition(glm::vec3(glm::vec3(0, 0, 10)));			
 
 			Light::Sptr lightComponent = light->Add<Light>();
-			lightComponent->SetColor(glm::linearRand(glm::vec3(0.0f), glm::vec3(1.0f)));
-			lightComponent->SetRadius(glm::linearRand(0.1f, 10.0f));
-			lightComponent->SetIntensity(glm::linearRand(1.0f, 2.0f));
+			lightComponent->SetColor(glm::vec4(1));
+			lightComponent->SetRadius(100);
+			lightComponent->SetIntensity(2);
 		}
+		
 
 		GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
 		{
 			// Set position in the scene
-			shadowCaster->SetPosition(glm::vec3(3.0f, 3.0f, 5.0f));
-			shadowCaster->LookAt(glm::vec3(0.0f));
-
-			// Create and attach a renderer for the monkey
+			shadowCaster->SetPosition(glm::vec3(0, -40, 0));
+			shadowCaster->SetRotation(glm::vec3(75, 0, 0));
+			
 			ShadowCamera::Sptr shadowCam = shadowCaster->Add<ShadowCamera>();
-			//shadowCam->SetOrthographic(false);
+			shadowCam->SetOrthographic(true);
+			shadowCam->Bias = 0.001f;
+			shadowCam->SetSize(glm::vec4(-20, 20, 20, -20));
 		}
 
 		// UI

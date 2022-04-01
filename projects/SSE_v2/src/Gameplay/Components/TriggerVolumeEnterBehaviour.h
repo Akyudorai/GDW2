@@ -11,9 +11,9 @@
 class TriggerVolumeEnterBehaviour : public Gameplay::IComponent {
 
 public:
-	std::function<void()> onTriggerEnterEvent;
-	std::function<void()> onTriggerStayEvent;
-	std::function<void()> onTriggerExitEvent;
+	std::vector<std::function<void()>> onTriggerEnterEvent;
+	std::vector<std::function<void()>> onTriggerStayEvent;
+	std::vector<std::function<void()>> onTriggerExitEvent;
 
 public:
 	typedef std::shared_ptr<TriggerVolumeEnterBehaviour> Sptr;

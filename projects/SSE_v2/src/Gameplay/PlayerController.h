@@ -33,6 +33,7 @@ public:
 public:
 	bool isShadow = false;
 	bool shadowIsExtended = false;
+	float movSpeed = 15.0f;
 
 protected:
 	Gameplay::GameObject::Sptr m_body = nullptr;
@@ -41,8 +42,7 @@ protected:
 	Gameplay::Physics::TriggerVolume::Sptr m_interaction = nullptr;
 	//	Light::Sptr m_light = nullptr;
 
-	float cameraLerpT = 1.0f;
-	float movSpeed = 15.0f;
+	float cameraLerpT = 1.0f;	
 	glm::vec3 cameraOffset = glm::vec3(0.0f, -7.0f, 15.0f);
 	glm::vec3 cameraRotation = glm::vec3(30.0f, 0.0f, 0.0f);
 	//	glm::vec3 lightOffset = glm::vec3(0.0f, 0.0f, 10.0f);

@@ -122,6 +122,11 @@ void Resources::Initialize()
 	textures_2D.emplace("BarrelTex", ResourceManager::CreateAsset<Texture2D>("textures/2D/BarrelTexture.png"));
 	textures_2D.emplace("BucketTex", ResourceManager::CreateAsset<Texture2D>("textures/2D/Bucket_Tex.png"));
 	textures_2D.emplace("KegTex", ResourceManager::CreateAsset<Texture2D>("textures/2D/Keg_Tex.png"));
+	textures_2D.emplace("cTex", ResourceManager::CreateAsset<Texture2D>("textures/2D/CobTex.png"));
+	textures_2D.emplace("Shroom", ResourceManager::CreateAsset<Texture2D>("textures/2D/MushroomTexture.png"));
+	textures_2D.emplace("Crystal", ResourceManager::CreateAsset<Texture2D>("textures/2D/CrystalTexture.png"));
+	textures_2D.emplace("HealingWell", ResourceManager::CreateAsset<Texture2D>("textures/2D/HealingWellTexture.png"));
+
 
 	//USER INTERFACE
 	textures_2D.emplace("Menu Gloss", ResourceManager::CreateAsset<Texture2D>("textures/UI/MenuGloss.png"));
@@ -757,6 +762,46 @@ void Resources::Initialize()
 		materials.emplace("Keg", std::move(kegMat));
 	}
 
+	Material::Sptr cobwebMat = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		cobwebMat->Name = "Cobweb";
+		cobwebMat->Set("u_Material.Diffuse", GetTexture2D("cTex"));
+		cobwebMat->Set("u_Material.Shininess", 0.1f);
+		materials.emplace("Cob", std::move(cobwebMat));
+	}
+
+	Material::Sptr singleMushroomMat = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		singleMushroomMat->Name = "SS";
+		singleMushroomMat->Set("u_Material.Diffuse", GetTexture2D("Shroom"));
+		singleMushroomMat->Set("u_Material.Shininess", 0.1f);
+		materials.emplace("SS", std::move(singleMushroomMat));
+	}
+
+	Material::Sptr multiMushroomMat = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		multiMushroomMat->Name = "MS";
+		multiMushroomMat->Set("u_Material.Diffuse", GetTexture2D("Shroom"));
+		multiMushroomMat->Set("u_Material.Shininess", 0.1f);
+		materials.emplace("MS", std::move(multiMushroomMat));
+	}
+
+	Material::Sptr CrystalMat = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		CrystalMat->Name = "Crystal";
+		CrystalMat->Set("u_Material.Diffuse", GetTexture2D("Crystal"));
+		CrystalMat->Set("u_Material.Shininess", 0.1f);
+		materials.emplace("Crystal", std::move(CrystalMat));
+	}
+
+	Material::Sptr heal = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		heal->Name = "HealingWell";
+		heal->Set("u_Material.Diffuse", GetTexture2D("HealingWell"));
+		heal->Set("u_Material.Shininess", 0.1f);
+		materials.emplace("HealingWell", std::move(heal));
+	}
+
 #pragma endregion
 
 #pragma region Meshes
@@ -804,6 +849,12 @@ void Resources::Initialize()
 	meshes.emplace("Open Barrel", ResourceManager::CreateAsset<MeshResource>("meshes/OpenBarrel.obj"));
 	meshes.emplace("Bucket", ResourceManager::CreateAsset<MeshResource>("meshes/Bucket.obj"));
 	meshes.emplace("Keg", ResourceManager::CreateAsset<MeshResource>("meshes/KegWithStand.obj"));
+	meshes.emplace("HealingWell", ResourceManager::CreateAsset<MeshResource>("meshes/HealingWell.obj"));
+	meshes.emplace("Crystal", ResourceManager::CreateAsset<MeshResource>("meshes/Crystal.obj"));
+	meshes.emplace("MS", ResourceManager::CreateAsset<MeshResource>("meshes/Mushrooms.obj"));
+	meshes.emplace("SS", ResourceManager::CreateAsset<MeshResource>("meshes/SingleMushroom.obj"));
+	meshes.emplace("Cob", ResourceManager::CreateAsset<MeshResource>("meshes/CobWeb.obj"));
+	
 
 	// Week 9
 	meshes.emplace("Monkey", ResourceManager::CreateAsset<MeshResource>("Monkey.obj"));

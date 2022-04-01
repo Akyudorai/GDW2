@@ -53,28 +53,25 @@ void SpikeTrapBehavior::Update(float deltaTime)
 	{
 		// Retract Spikes
 		if (isExtended)
-		{
-			this->GetGameObject()->Get<AudioSource>()->Play("Spikes");
+		{			
 			trigger->IsEnabled = false;
 			currentTimer = attackRate;
 			isExtended = false;
 
 			animator->SetReverse(true);
-			//animator->Play("Spikes");			
+			//animator->Play();			
 		}
 
 		// Extend Spikes
 		else
 		{
+			this->GetGameObject()->Get<AudioSource>()->Play("Spikes");
 			trigger->IsEnabled = true;
 			currentTimer = attackRate;
 			isExtended = true;
 
 			animator->SetReverse(false);
-			//animator->Play("Spikes");
-
-			//AudioEngine::Instance().GetEvent("Spikes").SetPosition(GetGameObject()->GetPosition());
-			//AudioEngine::Instance().GetEvent("Spikes").Play();
+			//animator->Play();
 		}
 	}
 }

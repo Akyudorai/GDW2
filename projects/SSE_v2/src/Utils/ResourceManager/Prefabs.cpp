@@ -30,7 +30,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 
 	if (name == "Character Body")
 	{
-		result = scene->CreateGameObject("ShadowRend");
+		result = scene->CreateGameObject("Character");
 		{
 			// Transform
 			result->SetPosition(glm::vec3(0.0f, 0.0f, 1.0f));
@@ -153,17 +153,17 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 
 			// Trigger Event
 			TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = [audio]
+			trigger->onTriggerEnterEvent.push_back([audio]
 			{
 				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 0);
 				audio->Play();
-			};
+			});
 
-			trigger->onTriggerExitEvent = [audio]
+			trigger->onTriggerExitEvent.push_back([audio]
 			{
 				AudioEngine::Instance().GetEvent("Pressure Plate").SetParameter("Powered", 1);
 				audio->Play();
-			};
+			});
 		}		
 
 		return result;
@@ -200,14 +200,15 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 
 			// Trigger Event
 			TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
-			trigger->onTriggerEnterEvent = [] {
+			trigger->onTriggerEnterEvent.push_back([] 
+			{
 
 				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
 				
 				if (!pc->isShadow) {
 					pc->GetCharacterBody()->Get<HealthComponent>()->DealDamage(10.0f);
 				}
-			};
+			});
 
 			AudioSource::Sptr audio = result->Add<AudioSource>();
 			{
@@ -231,7 +232,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		result = scene->CreateGameObject("Elevator");
 		{
 			result->SetPosition(position);
-			result->SetScale(glm::vec3(5, 7, 0.5f));
+			result->SetScale(glm::vec3(2, 2, 0.5f));
 			result->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
 
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
@@ -433,6 +434,219 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 					audio->Play();
 				}
 			});
+		}
+
+		return result;
+	}
+	
+	if (name == "Shroom Trap Multi")
+	{
+		result = scene->CreateGameObject("Shroom Trap (Multi)");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90, 0, 0));
+			result->SetScale(glm::vec3(1.2));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("MS"));
+			renderer->SetMaterial(Resources::GetMaterial("MS"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.2f, 0.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.55f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
+			volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
+
+			TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->movSpeed = 7.5f;  // Character Slow Speed
+				}
+			});
+			trigger->onTriggerStayEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->GetCharacterBody()->Get<HealthComponent>()->DealDamage(0.1f);
+				}
+			});
+			trigger->onTriggerExitEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->movSpeed = 15.0f; // Character Base Speed
+				}
+			});
+		}
+
+		return result;
+	}
+
+	if (name == "Shroom Trap Single")
+	{
+		result = scene->CreateGameObject("Shroom Trap (Single)");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90, 0, 0));
+			result->SetScale(glm::vec3(1.2));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("SS"));
+			renderer->SetMaterial(Resources::GetMaterial("SS"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.2f, 0.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.55f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
+			volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
+
+			TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->movSpeed = 7.5f;  // Character Slow Speed
+				}
+			});
+			trigger->onTriggerStayEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->GetCharacterBody()->Get<HealthComponent>()->DealDamage(0.1f);
+				}
+			});
+			trigger->onTriggerExitEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->movSpeed = 15.0f; // Character Base Speed
+				}
+			});
+		}
+
+		return result;
+	}
+
+	if (name == "Crystal")
+	{
+		result = scene->CreateGameObject("Crystal");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90, 0, -100));
+			result->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Crystal"));
+			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+		}
+
+		return result;
+	}
+
+	if (name == "Healing Well")
+	{
+		result = scene->CreateGameObject("Healing Well");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90, 0, 0));
+			result->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("HealingWell"));
+			renderer->SetMaterial(Resources::GetMaterial("HealingWell"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
+			volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
+
+			TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerStayEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->GetCharacterBody()->Get<HealthComponent>()->Heal(0.1f);
+				}
+			});
+		}
+
+		return result;
+	}
+
+	if (name == "Cobweb")
+	{
+		result = scene->CreateGameObject("Cobweb");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(0, 0, 20));
+			result->SetScale(glm::vec3(2));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Cob"));
+			renderer->SetMaterial(Resources::GetMaterial("Cob"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 0.5f, 0.0f));
+			collider->SetScale(glm::vec3(2));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
+			volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
+
+			// Trigger Event
+			TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
+			trigger->onTriggerEnterEvent.push_back([] 
+			{			
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->movSpeed = 4.0f;  // Character Slow Speed
+				}
+			});
+			trigger->onTriggerExitEvent.push_back([] 
+			{
+				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+				if (!pc->isShadow) {
+					pc->movSpeed = 15.0f;  // Character Base Speed
+				}
+			});
+		}
+
+		return result;
+	}
+
+	if (name == "Wall")
+	{
+		result = scene->CreateGameObject("Wall");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
+			result->SetScale(glm::vec3(1.0f, 1.0f, 1.67f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Stone Wall"));
+			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 		}
 
 		return result;
