@@ -17,7 +17,6 @@ void GameManagementLayer::OnAppLoad(const nlohmann::json& config)
 {
 	Application& app = Application::Get();
 
-
 }
 
 void GameManagementLayer::OnUpdate()

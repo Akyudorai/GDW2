@@ -86,6 +86,7 @@ namespace Gameplay {
 			// Delete awake to ensure derived classes override it
 
 			virtual void Awake() = 0;
+			virtual void Update(float dt) = 0;
 		protected:
 			Scene*        _scene;
 

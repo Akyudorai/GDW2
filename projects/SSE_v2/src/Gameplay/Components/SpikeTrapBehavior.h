@@ -3,6 +3,7 @@
 #include "../Physics/ICollider.h"
 #include "Gameplay/Components/AnimatorComponent.h"
 #include "Gameplay/Physics/TriggerVolume.h"
+#include "Gameplay/GameObject.h"
 
 class SpikeTrapBehavior : public Gameplay::IComponent
 {
@@ -24,8 +25,13 @@ public:
 	void SetTrigger(Gameplay::Physics::TriggerVolume::Sptr triggerRef) { trigger = triggerRef; }
 	void Update(float deltaTime);
 
+	inline void SetTarget(Gameplay::GameObject::Sptr object) { target = object; }
+	inline Gameplay::GameObject::Sptr GetTarget() { return target; }
+
 private:
 	float currentTimer = 0.0f;
+	Gameplay::GameObject::Sptr target;
+
 
 	Gameplay::AnimatorComponent::Sptr animator = nullptr;
 	Gameplay::Physics::TriggerVolume::Sptr trigger = nullptr;

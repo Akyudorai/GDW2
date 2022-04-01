@@ -31,7 +31,15 @@ protected: // Protected Vars
 protected: // Protected Funcs
 	Resources() {};
 
-public:
+public: // Public Vars
+	int PHYSICAL_MASK = 0xFFFFFFFF;
+	int PHYSICAL_GROUP = 0x01;
+	int SHADOW_MASK = 0xFFFFFFFE;
+	int SHADOW_GROUP = 0x02;
+	int NO_MASK = 0xFFFFFFFD;
+	int NO_GROUP = 0x03;
+
+public: // Public Funcs
 
 	void Initialize();
 

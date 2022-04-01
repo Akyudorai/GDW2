@@ -54,7 +54,7 @@ void PlayerController::Update(float deltaTime)
 
 
 	// If the player presses the Tab key, it pauses the game.  See Scene.cpp at line 
-	if (InputEngine::GetKeyState(GLFW_KEY_TAB) == ButtonState::Down)
+	if (InputEngine::GetKeyState(GLFW_KEY_TAB) == ButtonState::Pressed)
 	{
 		if (GameManager::GetInstance().GameInterface.m_PauseMenuPanel != nullptr) {
 			GameManager::GetInstance().SetPaused(!GameManager::GetInstance().IsPaused());
@@ -99,6 +99,7 @@ void PlayerController::HandleInput(float deltaTime)
 			}
 
 			m_body->SetPosition(m_body->GetPosition() + motion * movSpeed * deltaTime);
+			m_body->LookAt(m_body->GetPosition() + motion);
 
 			if (!AudioEngine::Instance().GetEvent("Walk").IsPlaying())
 			{
@@ -108,7 +109,6 @@ void PlayerController::HandleInput(float deltaTime)
 
 			}
 
-			m_body->LookAt(m_body->GetPosition() - motion);
 			if (glm::distance(m_body->GetPosition(), m_shadow->GetPosition()) >= 21.0f) {
 				m_shadow->Get<RenderComponent>()->IsEnabled = false;
 				//m_shadow->Get<Gameplay::Physics::RigidBody>()->IsEnabled = false;
@@ -116,7 +116,7 @@ void PlayerController::HandleInput(float deltaTime)
 		}
 		else if (isShadow && glm::distance(m_shadow->GetPosition() + motion, m_body->GetPosition()) <= 20.0f) {
 			m_shadow->SetPosition(m_shadow->GetPosition() + motion * movSpeed * deltaTime);
-			m_shadow->LookAt(m_shadow->GetPosition() - motion);
+			m_shadow->LookAt(m_shadow->GetPosition() + motion);
 
 			// Change Animation To Walk
 			if (m_shadow->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Walk") {
@@ -152,7 +152,7 @@ void PlayerController::HandleInput(float deltaTime)
 	}
 
 	// JUMP
-	if (InputEngine::GetKeyState(GLFW_KEY_SPACE) == ButtonState::Down) 
+	if (InputEngine::GetKeyState(GLFW_KEY_SPACE) == ButtonState::Pressed)
 	{
 		if (!isShadow) {
 			m_body->Get<Gameplay::Physics::RigidBody>()->ApplyImpulse(glm::vec3(0.0f, 0.0f, 5.5f));
@@ -169,7 +169,7 @@ void PlayerController::HandleInput(float deltaTime)
 	}
 
 	// SHADOW EXTENSION
-	if (InputEngine::GetKeyState(GLFW_KEY_Q) == ButtonState::Down)
+	if (InputEngine::GetKeyState(GLFW_KEY_Q) == ButtonState::Pressed)
 	{
 		// Extend Shadow		
 		isShadow = !isShadow;
@@ -191,13 +191,24 @@ void PlayerController::HandleInput(float deltaTime)
 	}
 
 	// INTERACT
-	if (InputEngine::GetKeyState(GLFW_KEY_E) == ButtonState::Down) {
+	if (InputEngine::GetKeyState(GLFW_KEY_E) == ButtonState::Pressed) {
 
 		// Ability 				
 		for (auto& object : m_interaction->GetCollisions()) {
 			bool interactable = object.lock()->GetGameObject()->Has<InteractableComponent>();
-			if (interactable && object.lock()->GetGameObject()->Get<InteractableComponent>()->onInteractionEvent) {
-				object.lock()->GetGameObject()->Get<InteractableComponent>()->onInteractionEvent();
+			
+			if (interactable) {
+
+				std::vector<std::function<void()>> interactionEvents = object.lock()->GetGameObject()->Get<InteractableComponent>()->onInteractionEvent;
+				if (interactionEvents.size() > 0)
+				{
+					for (auto& e : interactionEvents) {
+						e();
+					}
+				}
+				
+				
+				
 			}
 		}
 
@@ -211,7 +222,7 @@ void PlayerController::HandleInput(float deltaTime)
 	}
 
 	// SHADOW SWAP
-	if (InputEngine::GetKeyState(GLFW_KEY_F) == ButtonState::Down) {
+	if (InputEngine::GetKeyState(GLFW_KEY_F) == ButtonState::Pressed) {
 
 		// Shadow Swap
 		if (shadowIsExtended) {
@@ -225,7 +236,7 @@ void PlayerController::HandleInput(float deltaTime)
 	}
 
 	// SHADOW RECALL
-	if (InputEngine::GetKeyState(GLFW_KEY_R) == ButtonState::Down) {
+	if (InputEngine::GetKeyState(GLFW_KEY_R) == ButtonState::Pressed) {
 
 		// Recall
 		if (!isShadow) {

@@ -167,6 +167,7 @@ namespace Gameplay::Physics {
 
 		// Inherited from IComponent
 		virtual void Awake() override;
+		virtual void Update(float dt) override;
 		virtual void RenderImGui() override;
 		virtual nlohmann::json ToJson() const override;
 		static RigidBody::Sptr FromJson(const nlohmann::json& data);

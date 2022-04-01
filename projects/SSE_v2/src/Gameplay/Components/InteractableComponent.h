@@ -1,5 +1,6 @@
 #pragma once
 #include "IComponent.h"
+#include <vector>
 
 class InteractableComponent : public Gameplay::IComponent
 {
@@ -16,6 +17,6 @@ public:
 	static InteractableComponent::Sptr FromJson(const nlohmann::json& blob);
 
 public:
-	std::function<void()> onInteractionEvent;
+	std::vector<std::function<void()>> onInteractionEvent;
 	bool isToggled;
 };

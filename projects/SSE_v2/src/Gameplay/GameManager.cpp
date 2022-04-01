@@ -2,8 +2,6 @@
 
 namespace Gameplay
 {
-	Scene::Sptr GameManager::currentScene = nullptr;
-	GLFWwindow* GameManager::windowRef = nullptr;
 	GameInterfaceManager GameManager::GameInterface = GameInterfaceManager();
 
 	void GameManager::Update(float deltaTime)

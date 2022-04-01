@@ -17,6 +17,9 @@
 #include "../Windows/PostProcessingSettingsWindow.h"
 
 #include "Graphics/DebugDraw.h"
+#include "Utils/ResourceManager/Prefabs.h"
+#include "Gameplay/GameManager.h"
+
 
 ImGuiDebugLayer::ImGuiDebugLayer() :
 	ApplicationLayer(),
@@ -206,6 +209,40 @@ void ImGuiDebugLayer::OnRender(const Framebuffer::Sptr& prevLayer)
 					}
 				}
 				ImGui::PopItemFlag();
+				ImGui::EndMenu();
+			}
+
+			// Prefabs
+			if (ImGui::BeginMenu("Create")) 
+			{
+				if (ImGui::MenuItem("Spike Trap", NULL, false)) {
+					Prefabs::Load(app.CurrentScene(), "Spike Trap");
+				}
+
+				if (ImGui::MenuItem("Pressure Plate", NULL, false)) {
+					Prefabs::Load(app.CurrentScene(), "Pressure Plate");
+				}
+
+				if (ImGui::MenuItem("Moving Platform", NULL, false)) {
+					Prefabs::Load(app.CurrentScene(), "Moving Platform");
+				}
+
+				if (ImGui::MenuItem("Lever", NULL, false)) {
+					Prefabs::Load(app.CurrentScene(), "Lever");
+				}
+
+				if (ImGui::MenuItem("Cage Door", NULL, false)) {
+					Prefabs::Load(app.CurrentScene(), "Cage Door");
+				}
+
+				if (ImGui::MenuItem("Key", NULL, false)) {
+					Prefabs::Load(app.CurrentScene(), "Key");
+				}
+
+				if (ImGui::MenuItem("Key Door", NULL, false)) {
+					Prefabs::Load(app.CurrentScene(), "Key Door");
+				}
+
 				ImGui::EndMenu();
 			}
 

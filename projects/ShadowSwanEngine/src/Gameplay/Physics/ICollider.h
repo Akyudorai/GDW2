@@ -84,6 +84,8 @@ namespace Gameplay::Physics {
 		/// <param name="contenxt">The gameobject that this collider is an element of</param>
 		virtual void Awake(GameObject* context) {};
 
+		
+
 		/// <summary>
 		/// Gets the collider type of this collider instance
 		/// </summary>

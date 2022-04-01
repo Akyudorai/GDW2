@@ -2899,6 +2899,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		SceneManager::GameInterface.SetGameUserInterface(*gameCanvas);
 		SceneManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>());
 	}
+
 	/////////////////////////////////////////////////////////
 	//				   USER INTERFACE - Lose Screen
 	/////////////////////////////////////////////////////////

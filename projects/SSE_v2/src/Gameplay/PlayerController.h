@@ -2,13 +2,12 @@
 #include "Gameplay/GameObject.h"
 #include "Gameplay/Components/Light.h"
 #include "Gameplay/Components/HealthComponent.h"
+#include "Gameplay/Physics/TriggerVolume.h"
 
 #include "Gameplay/Components/GUI/GuiText.h"
 
 #include "NOU/CMeshRenderer.h"
 #include "NOU/Input.h"
-
-#include "GameManager.h"
 
 #include "Components/IComponent.h"
 
@@ -36,10 +35,10 @@ public:
 	bool shadowIsExtended = false;
 
 protected:
-	Gameplay::GameObject* m_body = nullptr;
-	Gameplay::GameObject* m_shadow = nullptr;
-	Gameplay::GameObject* m_camera = nullptr;
-	Gameplay::Physics::TriggerVolume* m_interaction = nullptr;
+	Gameplay::GameObject::Sptr m_body = nullptr;
+	Gameplay::GameObject::Sptr m_shadow = nullptr;
+	Gameplay::GameObject::Sptr m_camera = nullptr;
+	Gameplay::Physics::TriggerVolume::Sptr m_interaction = nullptr;
 	//	Light::Sptr m_light = nullptr;
 
 	float cameraLerpT = 1.0f;
@@ -55,10 +54,14 @@ private:
 	glm::vec3 targetEuler = glm::vec3(0.0f, 0.0f, 0.0f);
 
 public:
-	inline void SetCharacterBody(Gameplay::GameObject& body) { m_body = &body; };
-	inline void SetCharacterShadow(Gameplay::GameObject& shadow) { m_shadow = &shadow; };
-	inline void SetCamera(Gameplay::GameObject& camera) { m_camera = &camera; }
-	inline void SetInteractionCollider(Gameplay::Physics::TriggerVolume& ic) { m_interaction = &ic;  };
+	inline void SetCharacterBody(Gameplay::GameObject::Sptr body) { m_body = body; };
+	inline Gameplay::GameObject::Sptr GetCharacterBody() { return m_body; }
+	inline void SetCharacterShadow(Gameplay::GameObject::Sptr shadow) { m_shadow = shadow; };
+	inline Gameplay::GameObject::Sptr GetCharacterShadow() { return m_shadow; }
+	inline void SetCamera(Gameplay::GameObject::Sptr camera) { m_camera = camera; }
+	inline Gameplay::GameObject::Sptr GetCamera() { return m_camera; }
+	inline void SetInteractionCollider(Gameplay::Physics::TriggerVolume::Sptr ic) { m_interaction = ic;  };
+	inline Gameplay::Physics::TriggerVolume::Sptr GetInteractionCollider() { return m_interaction; }
 
 protected:
 	void HandleInput(float deltaTime);

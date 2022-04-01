@@ -2,6 +2,7 @@
 
 #include "Scene.h"
 #include "UI/GameInterfaceManager.h"
+#include "Gameplay/PlayerController.h"
 
 namespace Gameplay
 {
@@ -19,16 +20,14 @@ namespace Gameplay
 		inline bool PlayerHasKey() { return hasKey; }
 		inline void GiveKey() { hasKey = true; }
 		inline float GetGameTime() { return gameTime; }
-
-		inline Scene::Sptr GetScene() { return currentScene; }
+		inline void SetPC(PlayerController::Sptr controller) { pc = controller; }
+		inline PlayerController::Sptr GetPC() { return pc; }
 
 	public:
 		static GameInterfaceManager GameInterface;
 
 	protected:
-		static Scene::Sptr currentScene;
-		static GLFWwindow* windowRef;
-
+		PlayerController::Sptr pc;
 		bool hasKey = false;
 		bool isPaused = false;
 		float gameTime = 0.0f;
