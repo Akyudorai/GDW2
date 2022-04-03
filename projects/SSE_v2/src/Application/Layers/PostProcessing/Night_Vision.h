@@ -2,30 +2,32 @@
 #include "Application/Layers/PostProcessingLayer.h"
 #include "Graphics/ShaderProgram.h"
 #include "Graphics/Textures/Texture3D.h"
-#include "Graphics/FrameBuffer.h"
+#include "Graphics/Framebuffer.h"
 
-class NightEffect : public PostProcessingLayer::Effect {
+class NightVision : public PostProcessingLayer::Effect
+{
 public:
-	MAKE_PTRS(NightEffect);
-	Texture2D::Sptr _TexNoise;
-	Texture2D::Sptr _TexMask;
+	MAKE_PTRS(NightVision);
 
-	NightEffect();
-	NightEffect(bool active);
-	virtual ~NightEffect();
+	Texture2D::Sptr _noise;
+	Texture2D::Sptr _mask;
 
-	virtual void Apply(const Framebuffer::Sptr& gBuffer, VertexArrayObject::Sptr _quads);
+	NightVision();
+	NightVision(bool activate);
+	virtual ~NightVision();
+
+	virtual void Apply(const Framebuffer::Sptr& gBuffer) override;
 	virtual void RenderImGui() override;
 
-	NightEffect::Sptr FromJson(const nlohmann::json& data);
+	// Inherited from IResource
+
+	NightVision::Sptr FromJson(const nlohmann::json& data);
 	virtual nlohmann::json ToJson() const override;
 
 protected:
 	ShaderProgram::Sptr _shader;
 
+	float timer = 1.0f;
+	float light = 0.2f;
 	float color = 4.0f;
-	float t = 1.0f;
-	float L = 0.2f;
 };
-
-

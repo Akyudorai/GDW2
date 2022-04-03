@@ -1,62 +1,68 @@
-#include "Utils/ResourceManager/ResourceManager.h"
+#include "Night_Vision.h"
 #include "Utils/JsonGlmHelpers.h"
 #include "Utils/ImGuiHelper.h"
-#include "Night_Vision.h" 
+#include "../RenderLayer.h"
 #include "Application/Application.h"
 
+NightVision::NightVision() :
+	NightVision(true) {}
 
-NightEffect::NightEffect() :
-	NightEffect(true) {}
-
-NightEffect::NightEffect(bool active) :
+NightVision::NightVision(bool activate) :
 	PostProcessingLayer::Effect(),
 	_shader(nullptr),
-	_TexNoise(nullptr),
-	_TexMask(nullptr)
+	_noise(nullptr),
+	_mask(nullptr)
 {
-	Name = "Night Vision Effect";
+	Name = "Night Vision";
 	_format = RenderTargetType::ColorRgb8;
 
 	_shader = ResourceManager::CreateAsset<ShaderProgram>(std::unordered_map<ShaderPartType, std::string>{
 		{ ShaderPartType::Vertex, "shaders/vertex_shaders/fullscreen_quad.glsl" },
 		{ ShaderPartType::Fragment, "shaders/fragment_shaders/post_effects/Night_Vision.glsl" }
 	});
-	if (active)
-	{
-		_TexNoise = ResourceManager::CreateAsset<Texture2D>("textures/flashlight.png");
-		_TexMask = ResourceManager::CreateAsset<Texture2D>("textures/flashlight.png");
+
+	if (activate) {
+		_noise = ResourceManager::CreateAsset<Texture2D>("textures/2D/NoiseTex.png");
+		_mask = ResourceManager::CreateAsset<Texture2D>("textures/2D/MaskTex.png");
+
 	}
-
 }
-NightEffect::~NightEffect() = default;
 
-void NightEffect::Apply(const Framebuffer::Sptr & gBuffer, VertexArrayObject::Sptr _quads)
+NightVision::~NightVision() = default;
+
+void NightVision::Apply(const Framebuffer::Sptr & gBuffer)
 {
+	timer += 0.01f;
 	_shader->Bind();
-	_TexNoise->Bind(1);
-	_TexMask->Bind(2);
-	t += 0.02f;
-	_shader->SetUniform("t", t);
-	_shader->SetUniform("lumi", L);
-	_shader->SetUniform("coloramp", color);
+	_noise->Bind(1);
+	_mask->Bind(2);
+	_shader->SetUniform("iTime", timer);
+	_shader->SetUniform("luminanceThreshold", light);
+	_shader->SetUniform("colorAmplification", color);
 }
 
-void NightEffect::RenderImGui()
+void NightVision::RenderImGui()
 {
-	ImGui::SliderFloat("Time", &t, 0.0f, 12.0f);
-	ImGui::SliderFloat("Color", &color, 0.0f, 50.0f);
-	ImGui::SliderFloat("Lumi", &L, 0.0f, 50.0f);
+	/*const auto& cam = Application::Get().CurrentScene()->MainCamera;
 
+	if (cam != nullptr) {
+		ImGui::DragFloat("Focal Depth", &cam->FocalDepth, 0.1f, 0.1f, 100.0f);
+		ImGui::DragFloat("Lens Dist. ", &cam->LensDepth,  0.01f, 0.001f, 50.0f);
+		ImGui::DragFloat("Aperture   ", &cam->Aperture,   0.1f, 0.1f, 60.0f);
+	}*/
+	ImGui::SliderFloat("Strength", &timer, 0.0f, 10.0f);
+	ImGui::SliderFloat("Luminence", &light, 0.0f, 30.0f);
+	ImGui::SliderFloat("Color", &color, 0.0f, 40.0f);
 }
 
-NightEffect::Sptr NightEffect::FromJson(const nlohmann::json & data)
+NightVision::Sptr NightVision::FromJson(const nlohmann::json & data)
 {
-	NightEffect::Sptr final = std::make_shared<NightEffect>();
-	final->Enabled = JsonGet(data, "enabled", true);
-	return final;
+	NightVision::Sptr result = std::make_shared<NightVision>();
+	result->Enabled = JsonGet(data, "enabled", true);
+	return result;
 }
 
-nlohmann::json NightEffect::ToJson() const
+nlohmann::json NightVision::ToJson() const
 {
 	return {
 		{ "enabled", Enabled }
