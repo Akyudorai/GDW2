@@ -72,8 +72,8 @@ Scene::Sptr Level_Three::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		//animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		//animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(true);
@@ -110,8 +110,8 @@ Scene::Sptr Level_Three::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		//animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		//animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(true);
@@ -135,23 +135,6 @@ Scene::Sptr Level_Three::Load(GLFWwindow* window)
 	//					  ENVIRONMENT
 	/////////////////////////////////////////////////////////
 
-	// Set up all our sample objects
-	GameObject::Sptr floor = SceneManager::GetCurrentScene()->CreateGameObject("Floor");
-	{
-		MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
-		tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(100.0f), glm::vec2(8.0f)));
-		tiledMesh->GenerateMesh();
-
-		// Create and attach a RenderComponent to the object to draw our mesh
-		RenderComponent::Sptr renderer = floor->Add<RenderComponent>();
-		renderer->SetMesh(tiledMesh);
-		renderer->SetMaterial(Resources::GetMaterial("Stone Slab"));
-
-		RigidBody::Sptr physics = floor->Add<RigidBody>(/*static by default*/);
-		physics->AddCollider(BoxCollider::Create(glm::vec3(100.0f, 100.0f, 1.5f)))->SetPosition({ 0,0,-1 });
-		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
-		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
-	}
 
 	/////////////////////////////////////////////////////////
 

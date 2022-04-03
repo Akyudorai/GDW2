@@ -124,6 +124,7 @@
     <ClInclude Include="src\Gameplay\Components\InteractableComponent.h" />
     <ClInclude Include="src\Gameplay\Components\JumpBehaviour.h" />
     <ClInclude Include="src\Gameplay\Components\MaterialSwapBehaviour.h" />
+    <ClInclude Include="src\Gameplay\Components\MorphRendererComponent.h" />
     <ClInclude Include="src\Gameplay\Components\MovingPlatformBehavior.h" />
     <ClInclude Include="src\Gameplay\Components\RenderComponent.h" />
     <ClInclude Include="src\Gameplay\Components\RotatingBehaviour.h" />
@@ -152,12 +153,8 @@
     <ClInclude Include="src\Gameplay\Physics\TriggerVolume.h" />
     <ClInclude Include="src\Gameplay\PlayerController.h" />
     <ClInclude Include="src\Gameplay\Scene.h" />
-    <ClInclude Include="src\Gameplay\SceneManagement\Boss_Level.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\Level_One.h" />
-    <ClInclude Include="src\Gameplay\SceneManagement\Level_Three.h" />
-    <ClInclude Include="src\Gameplay\SceneManagement\Level_Two.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\Main_Menu.h" />
-    <ClInclude Include="src\Gameplay\SceneManagement\Sandbox_Level.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\SceneData.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\SceneManager.h" />
     <ClInclude Include="src\Gameplay\UI\GameInterfaceManager.h" />
@@ -210,6 +207,7 @@
     <ClCompile Include="src\Gameplay\Components\InteractableComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\JumpBehaviour.cpp" />
     <ClCompile Include="src\Gameplay\Components\MaterialSwapBehaviour.cpp" />
+    <ClCompile Include="src\Gameplay\Components\MorphRendererComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\MovingPlatformBehavior.cpp" />
     <ClCompile Include="src\Gameplay\Components\RenderComponent.cpp" />
     <ClCompile Include="src\Gameplay\Components\RotatingBehaviour.cpp" />
@@ -236,12 +234,8 @@
     <ClCompile Include="src\Gameplay\Physics\TriggerVolume.cpp" />
     <ClCompile Include="src\Gameplay\PlayerController.cpp" />
     <ClCompile Include="src\Gameplay\Scene.cpp" />
-    <ClCompile Include="src\Gameplay\SceneManagement\Boss_Level.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\Level_One.cpp" />
-    <ClCompile Include="src\Gameplay\SceneManagement\Level_Three.cpp" />
-    <ClCompile Include="src\Gameplay\SceneManagement\Level_Two.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\Main_Menu.cpp" />
-    <ClCompile Include="src\Gameplay\SceneManagement\Sandbox_Level.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\SceneManager.cpp" />
     <ClCompile Include="src\Graphics\DebugDraw.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />

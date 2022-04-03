@@ -120,8 +120,8 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 
 		AnimatorComponent::Sptr animator = body->Add<AnimatorComponent>();
 		std::vector<MeshResource::Sptr> walkFrames;
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		//animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		//animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(true);
@@ -158,8 +158,8 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 		renderer->SetMaterial(Resources::GetMaterial("Shadow"));
 
 		AnimatorComponent::Sptr animator = shadow->Add<AnimatorComponent>();
-		animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
-		animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
+		//animator->AddAnimation("Walk", Resources::GetAnimation("Character Walk"), 1.0f);
+		//animator->AddAnimation("Idle", Resources::GetAnimation("Character Idle"), 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(true);
@@ -257,7 +257,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 	//	Enemy::Sptr enemyScript = enemy->Add<Enemy>();
 	//	enemyScript->SetOwner(enemy);
 	//	enemyScript->SetTarget(body);
-	//	enemyScript->SetFleeTarget(shadow);
+	// enemyScript->SetFleeTarget(shadow);
 	//	/*std::vector<GameObject> navPts;
 	//	navPts.push_back(*nav1);
 	//	navPts.push_back(*nav2);
@@ -807,7 +807,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Open", frames, 1.0f);
+		//animator->AddAnimation("Open", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(false);
@@ -884,7 +884,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Open", frames, 1.0f);
+		//animator->AddAnimation("Open", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(false);
@@ -919,7 +919,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames, 1.0f);
+		//animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(false);
@@ -990,7 +990,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames, 1.0f);
+		//animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(false);
@@ -1061,7 +1061,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames, 1.0f);
+		//animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(false);
@@ -1141,7 +1141,7 @@ Scene::Sptr Sandbox_Level::Load(GLFWwindow* window)
 			file.append(".obj");
 			frames.push_back(ResourceManager::CreateAsset<MeshResource>(file));
 		}
-		animator->AddAnimation("Activate", frames, 1.0f);
+		//animator->AddAnimation("Activate", frames, 1.0f);
 
 		animator->SetRenderer(*renderer);
 		animator->SetLooping(false);

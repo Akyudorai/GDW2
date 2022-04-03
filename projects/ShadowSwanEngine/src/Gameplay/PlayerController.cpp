@@ -140,16 +140,21 @@ void PlayerController::HandleInput(float deltaTime)
 
 	glm::vec3 motion = glm::vec3(0);	
 
-	if (InputHandler::GetKey(GLFW_KEY_W)) { motion += glm::vec3(0, 0.5, 0); }
-	if (InputHandler::GetKey(GLFW_KEY_S)) { motion -= glm::vec3(0, 0.5, 0); }
-	if (InputHandler::GetKey(GLFW_KEY_A)) { motion -= glm::vec3(0.5, 0, 0); }
-	if (InputHandler::GetKey(GLFW_KEY_D)) { motion += glm::vec3(0.5, 0, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_W)) { motion += glm::vec3(0, playerSpeed, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_S)) { motion -= glm::vec3(0, playerSpeed, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_A)) { motion -= glm::vec3(playerSpeed, 0, 0); }
+	if (InputHandler::GetKey(GLFW_KEY_D)) { motion += glm::vec3(playerSpeed, 0, 0); }
 
 	if (motion != glm::vec3(0)) {
 		if (!isShadow) {
 			
+			// Change Animation to Walk
+			if (m_body->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Walk") {
+				m_body->Get<Gameplay::AnimatorComponent>()->SetAnimation("Walk");
+			}
+
 			m_body->SetPosition(m_body->GetPosition() + motion * movSpeed * deltaTime);
-			//m_body->Get<Gameplay::AnimatorComponent>()->Play("Walk");
+			
 			if (!AudioEngine::Instance().GetEvent("Walk").IsPlaying())
 			{
 				//m_body->Get<AudioSource>()->Play("Walk");
@@ -167,7 +172,12 @@ void PlayerController::HandleInput(float deltaTime)
 		else if (isShadow && glm::distance(m_shadow->GetPosition() + motion, m_body->GetPosition()) <= 20.0f) {			
 			m_shadow->SetPosition(m_shadow->GetPosition() + motion * movSpeed * deltaTime);
 			m_shadow->LookAt(m_shadow->GetPosition() + motion);			
-			//m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Walk");
+			
+			// Change Animation To Walk
+			if (m_shadow->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Walk") {
+				m_shadow->Get<Gameplay::AnimatorComponent>()->SetAnimation("Walk");
+			}
+
 			if (!AudioEngine::Instance().GetEvent("Walk").IsPlaying())
 			{
 				//m_shadow->Get<AudioSource>()->Play("Walk");
@@ -179,12 +189,18 @@ void PlayerController::HandleInput(float deltaTime)
 	}
 	else {
 		if (!isShadow) {
-			//m_body->Get<Gameplay::AnimatorComponent>()->Play("Idle");
+			// Change animation to Idle
+			if (m_body->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Idle") {
+				m_body->Get<Gameplay::AnimatorComponent>()->SetAnimation("Idle");
+			}
 			//m_body->Get<AudioSource>()->Stop();
 			AudioEngine::Instance().GetEvent("Walk").Stop();
 		}
 		else {
-			//m_shadow->Get<Gameplay::AnimatorComponent>()->Play("Idle");
+			// Change animation to Idle
+			if (m_shadow->Get<Gameplay::AnimatorComponent>()->currentAnimation != "Idle") {
+				m_shadow->Get<Gameplay::AnimatorComponent>()->SetAnimation("Idle");
+			}
 			//m_shadow->Get<AudioSource>()->Stop();
 			AudioEngine::Instance().GetEvent("Walk").Stop();
 		}
@@ -292,71 +308,3 @@ void PlayerController::HandleCamera(float deltaTime)
 	m_light->Position = Lerp(m_light->Position, ((isShadow) ? m_shadow->GetPosition() : m_body->GetPosition()) + lightOffset, cameraLerpT);
 	m_camera->GetScene()->SetupShaderAndLights();
 }
-
-//template<typename T>
-//void PlayerController::SetComponent(Component pcComponent, T* ref)
-//{
-//	switch (pcComponent) 
-//	{
-//	case PlayerControllerComponent::Body:		
-//		/*if (std::is_same_v<T, Gameplay::GameObject>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/		
-//		break;
-//	case PlayerControllerComponent::Shadow:
-//		/*if (std::is_same_v< T, Gameplay::GameObject>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::Camera:
-//		/*if (std::is_same_v<T, Gameplay::GameObject>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::InteractionBox:
-//		/*if (std::is_same_v < T, Gameplay::Physics::TriggerVolume) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::Light:
-//		/*if (std::is_same_v<T, Gameplay::Light>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::BodyHealthUI:
-//		/*if (std::is_same_v<T, GuiText>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//	case PlayerControllerComponent::ShadowHealthUI:
-//		/*if (std::is_same_v<T, GuiText>) {
-//			m_body = &ref;
-//		}
-//		else {
-//			LOG_ERROR("PlayerController::SetComponent -- Type Mismatch")
-//		}*/
-//		break;
-//
-//	default:
-//		LOG_ERROR("NO SUCH COMPONENT IN PLAYERCONTROLLER.H");
-//		break;
-//	}
-//}

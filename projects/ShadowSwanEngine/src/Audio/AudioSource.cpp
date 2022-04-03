@@ -19,7 +19,7 @@ void AudioSource::Play()
 {
 	if (strTargetEvent == "") return;
 
-	LOG_INFO("Playing Source");
+	//LOG_INFO("Playing Source");
 
 	//IsPlaying = true;
 	//AudioManager::instance().PlaySource(this, volume);
@@ -42,7 +42,7 @@ void AudioSource::Stop(bool bImmediate)
 {
 	if (strTargetEvent == "") return;
 
-	LOG_INFO("Stopping Source");
+	//LOG_INFO("Stopping Source");
 
 	//IsPlaying = false;
 	//AudioManager::instance().StopSource(this);
@@ -59,7 +59,7 @@ void AudioSource::Awake()
 {	
 	if (strTargetEvent == "") return;
 
-	LOG_INFO("AUDIO SOURCE AWAKE");
+	//LOG_INFO("AUDIO SOURCE AWAKE");
 
 	m_Position = GetGameObject()->GetPosition();
 	if (playOnAwake)

@@ -166,6 +166,11 @@ namespace Gameplay::Physics {
 				// Kinematics prefer to be driven my motion state for some reason :|
 				_body->getMotionState()->setWorldTransform(transform);
 			}
+		} else {
+			btTransform transform;
+			_CopyGameobjectTransformTo(transform);
+						
+			_body->setWorldTransform(transform);
 		}
 	}
 
@@ -235,8 +240,14 @@ namespace Gameplay::Physics {
 
 		// Copy over group and mask info
 		_body->getBroadphaseProxy()->m_collisionFilterGroup = _collisionGroup;
-		_body->getBroadphaseProxy()->m_collisionFilterMask  = _collisionMask;
+		_body->getBroadphaseProxy()->m_collisionFilterMask  = _collisionMask;	
 	}
+
+	void RigidBody::Update(float dt)
+	{		
+		
+	}
+
 
 	void RigidBody::RenderImGui()
 	{
@@ -311,7 +322,7 @@ namespace Gameplay::Physics {
 				_body->setMassProps(_mass, _inertia);
 			}
 			_isMassDirty = false;
-		}
+		}		
 	}
 
 	btBroadphaseProxy* RigidBody::_GetBroadphaseHandle() {
