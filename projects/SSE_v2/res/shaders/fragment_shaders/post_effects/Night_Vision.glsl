@@ -4,8 +4,8 @@ layout(location = 0) out vec4 outColor;
 uniform float iTime;
 
 uniform layout(binding = 0) sampler2D s_Image;
-uniform layout(binding = 1) sampler2D noiseTex;
-uniform layout(binding = 2) sampler2D maskTex;
+uniform layout(binding = 1) sampler2D TexNoise;
+uniform layout(binding = 2) sampler2D TexMask;
 uniform float luminanceThreshold = 0.2; // 0.2
 uniform float colorAmplification = 4.0; // 4.0
 uniform float effectCoverage = 1.0; // 0.5
@@ -18,8 +18,8 @@ void main ()
     vec2 uv;           
     uv.x = 0.4*sin(iTime*50.0);                                 
     uv.y = 0.4*cos(iTime*50.0);                                 
-    float m = texture2D(maskTex, inUV.st).r;
-    vec3 n = texture2D(noiseTex, 
+    float m = texture2D(TexMask, inUV.st).r;
+    vec3 n = texture2D(TexNoise, 
                  (inUV.st*3.5) + uv).rgb;
     vec3 c = texture2D(s_Image, inUV.st 
                                + (n.xy*0.005)).rgb;

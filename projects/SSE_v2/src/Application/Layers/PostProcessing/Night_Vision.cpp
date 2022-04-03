@@ -4,44 +4,42 @@
 #include "../RenderLayer.h"
 #include "Application/Application.h"
 
-NightVision::NightVision() :
-	NightVision(true) {}
+NightEffect::NightEffect() :
+	NightEffect(true) {}
 
-NightVision::NightVision(bool activate) :
+NightEffect::NightEffect(bool x) :
 	PostProcessingLayer::Effect(),
 	_shader(nullptr),
-	_noise(nullptr),
-	_mask(nullptr)
+	_TexNoise(nullptr),
+	_TexMask(nullptr)
 {
-	Name = "Night Vision";
+	Name = "NightEffect";
 	_format = RenderTargetType::ColorRgb8;
 
 	_shader = ResourceManager::CreateAsset<ShaderProgram>(std::unordered_map<ShaderPartType, std::string>{
 		{ ShaderPartType::Vertex, "shaders/vertex_shaders/fullscreen_quad.glsl" },
 		{ ShaderPartType::Fragment, "shaders/fragment_shaders/post_effects/Night_Vision.glsl" }
 	});
-
-	if (activate) {
-		_noise = ResourceManager::CreateAsset<Texture2D>("textures/2D/NoiseTex.png");
-		_mask = ResourceManager::CreateAsset<Texture2D>("textures/2D/MaskTex.png");
-
+	if (x) {
+		_TexNoise = ResourceManager::CreateAsset<Texture2D>("textures/2D/NoiseTex.png");
+		_TexMask = ResourceManager::CreateAsset<Texture2D>("textures/2D/MaskTex.png");
 	}
 }
 
-NightVision::~NightVision() = default;
+NightEffect::~NightEffect() = default;
 
-void NightVision::Apply(const Framebuffer::Sptr & gBuffer)
+void NightEffect::Apply(const Framebuffer::Sptr & gBuffer)
 {
 	timer += 0.01f;
 	_shader->Bind();
-	_noise->Bind(1);
-	_mask->Bind(2);
+	_TexNoise->Bind(1);
+	_TexMask->Bind(2);
 	_shader->SetUniform("iTime", timer);
 	_shader->SetUniform("luminanceThreshold", light);
 	_shader->SetUniform("colorAmplification", color);
 }
 
-void NightVision::RenderImGui()
+void NightEffect::RenderImGui()
 {
 	/*const auto& cam = Application::Get().CurrentScene()->MainCamera;
 
@@ -55,14 +53,14 @@ void NightVision::RenderImGui()
 	ImGui::SliderFloat("Color", &color, 0.0f, 40.0f);
 }
 
-NightVision::Sptr NightVision::FromJson(const nlohmann::json & data)
+NightEffect::Sptr NightEffect::FromJson(const nlohmann::json & data)
 {
-	NightVision::Sptr result = std::make_shared<NightVision>();
-	result->Enabled = JsonGet(data, "enabled", true);
-	return result;
+	NightEffect::Sptr final = std::make_shared<NightEffect>();
+	final->Enabled = JsonGet(data, "enabled", true);
+	return final;
 }
 
-nlohmann::json NightVision::ToJson() const
+nlohmann::json NightEffect::ToJson() const
 {
 	return {
 		{ "enabled", Enabled }
