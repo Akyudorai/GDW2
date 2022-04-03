@@ -174,10 +174,22 @@
     <ClInclude Include="src\Gameplay\Scene.h">
       <Filter>Gameplay</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\SceneManagement\Boss_Level.h">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\SceneManagement\Level_One.h">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClInclude>
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Three.h">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Two.h">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClInclude>
     <ClInclude Include="src\Gameplay\SceneManagement\Main_Menu.h">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Gameplay\SceneManagement\Sandbox_Level.h">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClInclude>
     <ClInclude Include="src\Gameplay\SceneManagement\SceneData.h">
@@ -413,10 +425,22 @@
     <ClCompile Include="src\Gameplay\Scene.cpp">
       <Filter>Gameplay</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\SceneManagement\Boss_Level.cpp">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\SceneManagement\Level_One.cpp">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClCompile>
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Three.cpp">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Two.cpp">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClCompile>
     <ClCompile Include="src\Gameplay\SceneManagement\Main_Menu.cpp">
+      <Filter>Gameplay\SceneManagement</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Gameplay\SceneManagement\Sandbox_Level.cpp">
       <Filter>Gameplay\SceneManagement</Filter>
     </ClCompile>
     <ClCompile Include="src\Gameplay\SceneManagement\SceneManager.cpp">
