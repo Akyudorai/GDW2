@@ -115,14 +115,4 @@ void DebugWindow::RenderMenuBar()
 			}
 		}
 	}
-
-	if (ImGui::Checkbox("Toggle Film Grain Effect", &renderFilmGrainEffect)) {
-		for (auto& mat : Resources::GetMaterialMap())
-		{
-			if (mat.second->GetShader()->GetDebugName() == "Deferred - GBuffer Generation")
-			{
-				mat.second->Set("u_Lights.ToggleFilmGrain", renderFilmGrainEffect);
-			}
-		}
-	}
 }

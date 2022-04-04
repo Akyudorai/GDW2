@@ -153,8 +153,12 @@
     <ClInclude Include="src\Gameplay\Physics\TriggerVolume.h" />
     <ClInclude Include="src\Gameplay\PlayerController.h" />
     <ClInclude Include="src\Gameplay\Scene.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Boss_Level.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\Level_One.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Three.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Level_Two.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\Main_Menu.h" />
+    <ClInclude Include="src\Gameplay\SceneManagement\Sandbox_Level.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\SceneData.h" />
     <ClInclude Include="src\Gameplay\SceneManagement\SceneManager.h" />
     <ClInclude Include="src\Gameplay\UI\GameInterfaceManager.h" />
@@ -234,8 +238,12 @@
     <ClCompile Include="src\Gameplay\Physics\TriggerVolume.cpp" />
     <ClCompile Include="src\Gameplay\PlayerController.cpp" />
     <ClCompile Include="src\Gameplay\Scene.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Boss_Level.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\Level_One.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Three.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Level_Two.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\Main_Menu.cpp" />
+    <ClCompile Include="src\Gameplay\SceneManagement\Sandbox_Level.cpp" />
     <ClCompile Include="src\Gameplay\SceneManagement\SceneManager.cpp" />
     <ClCompile Include="src\Graphics\DebugDraw.cpp" />
     <ClCompile Include="src\Graphics\Font.cpp" />

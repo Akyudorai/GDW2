@@ -872,7 +872,6 @@ void Resources::Initialize()
 			mat.second->Set("u_Lights.ToggleSpecular", true);
 			mat.second->Set("u_Lights.SpecularStrength", 1.0f);
 			mat.second->Set("u_Lights.ToggleInversion", false); 
-			mat.second->Set("u_Lights.ToggleFilmGrain", false);
 		}
 	}
 

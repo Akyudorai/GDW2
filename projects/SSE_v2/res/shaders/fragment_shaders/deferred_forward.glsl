@@ -29,7 +29,6 @@ struct Lights {
 	float	SpecularStrength;
 
 	bool ToggleInversion;
-	bool ToggleFilmGrain;
 };
 
 // Create a uniform for the material
@@ -77,19 +76,6 @@ void main() {
 	if (u_Lights.ToggleInversion)
 	{
 		albedoColor = vec4(vec3(1.0 - texture(u_Material.AlbedoMap, inUV)), 1.0);
-	}
-
-	if (u_Lights.ToggleFilmGrain)
-	{
-		float amount = 0.03;
-		float toRad = 3.14 / 180;
-		
-		float input = (inUV.x + inUV.y * u_Time) * toRad;
-		float randIntensity = fract(10000 * sin(input) * u_Time);
-
-		amount *= randIntensity;
-		albedoColor += amount;
-		//result += vec3(1, 0, 0);
 	}
 
 	// RESULT
