@@ -431,6 +431,25 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);  
 	}
 
+	GameObject::Sptr blockr = SceneManager::GetCurrentScene()->CreateGameObject("Block Ramp");
+	{
+		blockr->SetPosition(glm::vec3(27.0f, -45.0f, 3.0f));
+		blockr->SetRotation(glm::vec3(20.0f, 0.0f, 0.0f));
+		blockr->SetScale(glm::vec3(0.8f, 3.0f, 0.3f));
+
+		RenderComponent::Sptr renderer = blockr->Add<RenderComponent>();
+		renderer->SetMesh(Resources::GetMesh("Cube"));
+		renderer->SetMaterial(Resources::GetMaterial("Gray"));
+
+		RigidBody::Sptr physics = blockr->Add<RigidBody>(RigidBodyType::Static);
+		BoxCollider::Sptr collider = BoxCollider::Create();
+		collider->SetScale(blockr->GetScale());
+		collider->SetPosition(collider->GetPosition());
+		physics->AddCollider(collider);
+		physics->SetCollisionGroupMulti(PHYSICAL_GROUP | SHADOW_GROUP);
+		physics->SetCollisionMask(PHYSICAL_MASK | SHADOW_MASK);
+	}
+
 	GameObject::Sptr block2 = SceneManager::GetCurrentScene()->CreateGameObject("Block 2");
 	{
 		block2->SetPosition(glm::vec3(40.0f, -40.0f, 4.0f));
@@ -452,7 +471,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 	//Left Jumping Puzzle Room
 	GameObject::Sptr block3 = SceneManager::GetCurrentScene()->CreateGameObject("block3");
 	{
-		block3->SetPosition(glm::vec3(-40.0f, 9.5f, 5.5f));
+		block3->SetPosition(glm::vec3(-40.0f, 9.5f, 5.3f));
 		block3->SetScale(glm::vec3(2.0f, 2.0f, 1.0f));
 
 		RenderComponent::Sptr renderer = block3->Add<RenderComponent>();
@@ -2352,7 +2371,7 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			// Transform
 			interact_doorway->SetPosition(glm::vec3(-12.0f, 21.0f, 10.0f));
 			interact_doorway->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			interact_doorway->SetScale(glm::vec3(1.0f, 1.0f, 0.9f));
+			interact_doorway->SetScale(glm::vec3(1.0f, 1.5f, 1.5f));
 
 			// Render
 			RenderComponent::Sptr renderer = interact_doorway->Add<RenderComponent>();
@@ -2475,6 +2494,33 @@ Scene::Sptr Level_One::Load(GLFWwindow* window)
 			volume->SetCollisionMask(PHYSICAL_MASK); 
 
 			TriggerVolumeEnterBehaviour::Sptr trigger = well1->Add<TriggerVolumeEnterBehaviour>(); 
+			trigger->onTriggerStayEvent = [body] {
+				if (!SceneManager::GetCurrentScene()->PC.isShadow) {
+					body->Get<HealthComponent>()->Heal(0.8f);  //Healing number overtime
+				}
+			};
+		}
+
+		GameObject::Sptr well1 = SceneManager::GetCurrentScene()->CreateGameObject("well1");
+		{
+			well1->SetPosition(glm::vec3(15, -8, 5));
+			well1->SetRotation(glm::vec3(90, 0, 0));
+			well1->SetScale(glm::vec3(0.5));
+
+			RenderComponent::Sptr renderer = well1->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("HealingWell"));
+			renderer->SetMaterial(Resources::GetMaterial("HealingWell"));
+
+			// Trigger Volume
+			TriggerVolume::Sptr volume = well1->Add<TriggerVolume>();
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
+			volume->AddCollider(collider);
+			volume->SetCollisionGroup(PHYSICAL_GROUP);
+			volume->SetCollisionMask(PHYSICAL_MASK);
+
+			TriggerVolumeEnterBehaviour::Sptr trigger = well1->Add<TriggerVolumeEnterBehaviour>();
 			trigger->onTriggerStayEvent = [body] {
 				if (!SceneManager::GetCurrentScene()->PC.isShadow) {
 					body->Get<HealthComponent>()->Heal(0.8f);  //Healing number overtime
