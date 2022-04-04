@@ -526,6 +526,7 @@ void RenderLayer::_InitFrameUniforms()
 	// Upload frame level uniforms
 	auto& frameData = _frameUniforms->GetData();
 	frameData.u_Projection = camera->GetProjection();
+	frameData.u_InvProjection = glm::inverse(camera->GetProjection());
 	frameData.u_View = camera->GetView();
 	frameData.u_ViewProjection = camera->GetViewProjection();
 	frameData.u_CameraPos = glm::vec4(camera->GetGameObject()->GetPosition(), 1.0f);
@@ -534,6 +535,12 @@ void RenderLayer::_InitFrameUniforms()
 	frameData.u_RenderFlags = _renderFlags;
 	frameData.u_ZNear = camera->GetNearPlane();
 	frameData.u_ZFar = camera->GetFarPlane();
+
+	frameData.u_Viewport = { 0.0f, 0.0f, _primaryFBO->GetWidth(), _primaryFBO->GetHeight() };
+
+	frameData.u_Aperture = camera->Aperture;
+	frameData.u_LensDepth = camera->LensDepth;
+	frameData.u_FocalDepth = camera->FocalDepth;
 	_frameUniforms->Update();
 }
 

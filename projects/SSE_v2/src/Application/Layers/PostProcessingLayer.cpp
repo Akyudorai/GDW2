@@ -9,6 +9,7 @@
 #include "PostProcessing/OutlineEffect.h"
 #include "PostProcessing/FilmGrainEffect.h"
 #include "PostProcessing/NightEffect.h" //Night Vision post process
+#include "PostProcessing/DepthOfField.h"
 
 PostProcessingLayer::PostProcessingLayer() :
 	ApplicationLayer()
@@ -36,6 +37,7 @@ void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
 	_effects.push_back(std::make_shared<OutlineEffect>());
 	_effects.push_back(std::make_shared<NightEffect>()); 
 	_effects.push_back(std::make_shared<FilmGrainEffect>());
+	_effects.push_back(std::make_shared<DepthOfField>());
 
 	Application& app = Application::Get();
 	const glm::uvec4& viewport = app.GetPrimaryViewport();
