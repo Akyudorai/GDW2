@@ -7,8 +7,8 @@
 #include "PostProcessing/BoxFilter3x3.h"
 #include "PostProcessing/BoxFilter5x5.h"
 #include "PostProcessing/OutlineEffect.h"
-#include "PostProcessing/Night_Vision.h" 
 #include "PostProcessing/FilmGrainEffect.h"
+#include "PostProcessing/NightEffect.h" //Night Vision post process
 
 PostProcessingLayer::PostProcessingLayer() :
 	ApplicationLayer()
