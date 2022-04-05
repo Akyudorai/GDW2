@@ -82,7 +82,6 @@ void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
 {
 	// Loads some effects in
 	_effects.push_back(std::make_shared<ColorCorrectionEffect>()); //Color Correction
-	_effects.push_back(std::make_shared<NightEffect>());   //Night Vision effect
 	_effects.push_back(std::make_shared<FilmGrainEffect>());  //Film Grain
 	_effects.push_back(std::make_shared<DepthOfField>()); //depth of field
 
