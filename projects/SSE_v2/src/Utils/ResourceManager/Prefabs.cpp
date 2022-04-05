@@ -35,7 +35,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			// Transform
 			result->SetPosition(glm::vec3(0.0f, 0.0f, 1.0f));
 			result->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-			result->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+			result->SetScale(glm::vec3(0.2));
 
 			// Render Component
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
@@ -80,14 +80,14 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		return result;
 	}
 
-	if (name == "Character Shadow")
+	if (name == "Shadow")
 	{
 		result = scene->CreateGameObject("Shadow");
 		{
 			// Set position in the SceneManager::GetCurrentScene()
 			result->SetPosition(glm::vec3(0.0f, 0.0f, 1.0f));
 			result->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
-			result->SetScale(glm::vec3(0.1f, 0.1f, 0.1f));
+			result->SetScale(glm::vec3(0.2));
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
@@ -372,13 +372,12 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		{
 			// Transform
 			result->SetPosition(position);
-			result->SetRotation(glm::vec3(90.f, 0.0f, 180.0f));
 			result->SetScale(glm::vec3(1.0f, 0.5f, 0.75f));
 
 			// Render
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Door"));
-			renderer->SetMaterial(Resources::GetMaterial("Door"));
+			renderer->SetMesh(Resources::GetMesh("WallGrate"));
+			renderer->SetMaterial(Resources::GetMaterial("WallGrate"));
 
 			// Animator
 			AnimatorComponent::Sptr animator = result->Add<AnimatorComponent>();
@@ -390,7 +389,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				animator->SetPause(true);
 				animator->SetReverse(!animator->IsReversed());
 			};
-			animator->PlayAnimation("Open");
+			animator->SetAnimation("Open");
 
 			// Collider
 			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);
@@ -441,7 +440,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 	
 	if (name == "Shroom Trap Multi")
 	{
-		result = scene->CreateGameObject("Shroom Trap (Multi)");
+		result = scene->CreateGameObject("Shroom Trap Multi");
 		{
 			result->SetPosition(position);
 			result->SetRotation(glm::vec3(90, 0, 0));
@@ -541,9 +540,9 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		return result;
 	}
 
-	if (name == "Crystal")
+	if (name == "Crystaling")
 	{
-		result = scene->CreateGameObject("Crystal");
+		result = scene->CreateGameObject("Crystaling");
 		{
 			result->SetPosition(position);
 			result->SetRotation(glm::vec3(90, 0, -100));
@@ -562,7 +561,6 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		result = scene->CreateGameObject("Healing Well");
 		{
 			result->SetPosition(position);
-			result->SetRotation(glm::vec3(90, 0, 0));
 			result->SetScale(glm::vec3(0.5));
 
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
@@ -601,8 +599,8 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			result->SetScale(glm::vec3(2));
 
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
-			renderer->SetMesh(Resources::GetMesh("Cob"));
-			renderer->SetMaterial(Resources::GetMaterial("Cob"));
+			renderer->SetMesh(Resources::GetMesh("CobWeb"));
+			renderer->SetMaterial(Resources::GetMaterial("CobWeb"));
 
 			// Trigger Volume
 			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();

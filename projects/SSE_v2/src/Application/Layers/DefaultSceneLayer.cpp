@@ -144,7 +144,7 @@ void DefaultSceneLayer::_CreateScene()
 		}
 
 		GameObject::Sptr character = Prefabs::Load(scene, "Character Body");
-		GameObject::Sptr shadow = Prefabs::Load(scene, "Character Shadow");
+		GameObject::Sptr shadow = Prefabs::Load(scene, "Shadow");
 
 		GameObject::Sptr controller = scene->CreateGameObject("Controller");
 		{
@@ -170,7 +170,7 @@ void DefaultSceneLayer::_CreateScene()
 			// Create and attach a RenderComponent to the object to draw our mesh
 			RenderComponent::Sptr renderer = plane->Add<RenderComponent>();
 			renderer->SetMesh(tiledMesh);
-			renderer->SetMaterial(Resources::GetMaterial("Box"));
+			renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
 
 			// Attach a plane collider that extends infinitely along the X/Y axis
 			RigidBody::Sptr physics = plane->Add<RigidBody>(/*static by default*/);
@@ -188,9 +188,21 @@ void DefaultSceneLayer::_CreateScene()
 
 		Prefabs::Load(scene, "Spike Trap", glm::vec3(10.0f, 0.0f, 1.0f));
 		Prefabs::Load(scene, "Key", glm::vec3(-8, 11, 0));
-		Prefabs::Load(scene, "Healing Well", glm::vec3(0, -6.5f, 0));
-		Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(10, 7, 0));
-		Prefabs::Load(scene, "Crystal", glm::vec3(0, 6.5f, 0));
+		
+		GameObject::Sptr Healing1 = Prefabs::Load(scene, "Healing Well", glm::vec3(0, -6.5f, 0));
+		{
+			Healing1->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+		}
+
+		GameObject::Sptr Shroom1 = Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(10, 7, 0));
+		{
+
+		}
+
+		GameObject::Sptr C1 = Prefabs::Load(scene, "Crystaling", glm::vec3(0, 6.5f, 0));
+		{
+
+		}
 
 		GameObject::Sptr plate_door = Prefabs::Load(scene, "Cage Door", glm::vec3(-12.5f, -4, 0));
 		{
@@ -251,12 +263,12 @@ void DefaultSceneLayer::_CreateScene()
 			});
 		}
 
-		GameObject::Sptr keyDoor = Prefabs::Load(scene, "Key Door", glm::vec3(0, 12, 3));
+		GameObject::Sptr keyDoor = Prefabs::Load(scene, "Key Door", glm::vec3(0, 12, 0));
 		{
-			keyDoor->SetRotation(glm::vec3(90, 0, -90));
+			keyDoor->SetRotation(glm::vec3(90, 0, 90));
 		}
 
-		GameObject::Sptr cobweb = Prefabs::Load(scene, "Cobweb", glm::vec3(11.5f, -6.5f, 0));
+		GameObject::Sptr cobweb = Prefabs::Load(scene, "Cobweb", glm::vec3(11.5f, -6.5f, 1.0));
 		{
 			cobweb->SetRotation(glm::vec3(-65, 0, -90));
 		}
@@ -317,18 +329,18 @@ void DefaultSceneLayer::_CreateScene()
 			healthp->Get<GuiPanel>()->SetBorderRadius(0);
 			gameCanvas->AddChild(healthp);
 
-			GameObject::Sptr healthText = UIHelper::CreateText1(scene, "Body Health: ???", "Body Health Text");
-			healthText->Get<RectTransform>()->SetPosition({ 350, 180 });
-			gameCanvas->AddChild(healthText);
-
 			GameObject::Sptr shadowhp = UIHelper::CreateImage(scene, Resources::GetTexture2D("ShadowH"), "Shadow Health");
 			shadowhp->Get<RectTransform>()->SetPosition({ 170, 180 });
 			shadowhp->Get<RectTransform>()->SetSize({ 90, 40 });
 			shadowhp->Get<GuiPanel>()->SetBorderRadius(0);
 			gameCanvas->AddChild(shadowhp);
 
+			GameObject::Sptr healthText = UIHelper::CreateText1(scene, "Body Health: ???", "Body Health Text");
+			healthText->Get<RectTransform>()->SetPosition({ 170, 90 });
+			gameCanvas->AddChild(healthText);
+
 			GameObject::Sptr shadowText = UIHelper::CreateText(scene, "Shadow Health: ???", "Shadow Health Text");
-			shadowText->Get<RectTransform>()->SetPosition({ 360, 360 });
+			shadowText->Get<RectTransform>()->SetPosition({ 175, 180 });
 			gameCanvas->AddChild(shadowText);
 
 			GameManager::GameInterface.SetGameUserInterface(*gameCanvas);

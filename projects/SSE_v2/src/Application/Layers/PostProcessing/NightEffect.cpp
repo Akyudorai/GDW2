@@ -21,8 +21,8 @@ NightEffect::NightEffect(bool x) :
 		{ ShaderPartType::Fragment, "shaders/fragment_shaders/post_effects/NightEffect.glsl" }
 	});
 	if (x) {
-		_TexNoise = ResourceManager::CreateAsset<Texture2D>("textures/2D/NoiseTex.png");
-		_TexMask = ResourceManager::CreateAsset<Texture2D>("textures/2D/MaskTex.png");
+		_TexNoise = ResourceManager::CreateAsset<Texture2D>("textures/NoiseTex.png");
+		_TexMask = ResourceManager::CreateAsset<Texture2D>("textures/MaskTex.png");
 	}
 }
 

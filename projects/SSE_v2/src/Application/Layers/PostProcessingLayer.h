@@ -102,6 +102,7 @@ public:
 	// Inherited from ApplicationLayer
 
 	virtual void OnAppLoad(const nlohmann::json& config) override;
+	virtual void OnUpdate() override;
 	virtual void OnPostRender() override;
 	virtual void OnSceneLoad() override;
 	virtual void OnSceneUnload() override;
