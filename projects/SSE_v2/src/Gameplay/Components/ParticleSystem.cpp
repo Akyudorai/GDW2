@@ -35,6 +35,11 @@ void ParticleSystem::Update()
 {
 	// If we haven't previously initialized our data, initialize it now
 	if (!_hasInit) {
+		_updateShader->Bind();
+
+		int i = 0;
+		glGetIntegerv(GL_MAX_TRANSFORM_FEEDBACK_INTERLEAVED_COMPONENTS, &i);
+
 		// Allocate some temp space for particles, so we can init the emitters
 		size_t dataSize = (_maxParticles + _emitters.size()) * sizeof(ParticleData);
 		ParticleData* data = new ParticleData[_maxParticles + _emitters.size()];
@@ -48,18 +53,50 @@ void ParticleSystem::Update()
 		// We essentially use double buffering, hence the 2 buffers
 		glCreateTransformFeedbacks(2, _feedbackBuffers);
 		glCreateBuffers(2, _particleBuffers);
+		glCreateVertexArrays(2, _updateVaos);
+		glCreateVertexArrays(2, _renderVaos);
 
-		// Set up our first transform feedback buffer to write to the first buffer
-		glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, _feedbackBuffers[0]);
-		glBindBuffer(GL_ARRAY_BUFFER, _particleBuffers[0]);
-		glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_DYNAMIC_DRAW);
-		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, _particleBuffers[0]);
+		for (int ix = 0; ix < 2; ix++) {
+			glBindVertexArray(_updateVaos[ix]);
 
-		// Set up the second transform feedback buffer to write to the second buffer
-		glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, _feedbackBuffers[1]);
-		glBindBuffer(GL_ARRAY_BUFFER, _particleBuffers[1]);
-		glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_DYNAMIC_DRAW);
-		glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, _particleBuffers[1]);
+			// Set up our first transform feedback buffer to write to the first buffer
+			glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, _feedbackBuffers[ix]);
+			glBindBuffer(GL_ARRAY_BUFFER, _particleBuffers[ix]);
+			glBufferData(GL_ARRAY_BUFFER, dataSize, data, GL_DYNAMIC_DRAW);
+			glBindBufferBase(GL_TRANSFORM_FEEDBACK_BUFFER, 0, _particleBuffers[ix]);
+
+			// Enable our attributes
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glEnableVertexAttribArray(2);
+			glEnableVertexAttribArray(3);
+			glEnableVertexAttribArray(4);
+			glEnableVertexAttribArray(5);
+
+			glVertexAttribIPointer(0, 1, GL_UNSIGNED_INT, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Type)); // type
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Position)); // position
+			glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Velocity)); // velocity
+			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Color)); // color 
+			glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Lifetime)); // metadata 
+			glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Metadata)); // metadata 
+
+
+			glBindVertexArray(_renderVaos[ix]);
+			glBindBuffer(GL_ARRAY_BUFFER, _particleBuffers[ix]);
+
+			// Enable type, position and color 
+			glEnableVertexAttribArray(0);
+			glEnableVertexAttribArray(1);
+			glEnableVertexAttribArray(3);
+			glEnableVertexAttribArray(5);
+			glVertexAttribIPointer(0, 1, GL_UNSIGNED_INT, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Type)); // type
+			glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Position)); // position
+			glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Color)); // color 
+			glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Metadata)); // metadata 
+		}
+
+		glBindVertexArray(0);
+
 
 		// We create a query object to track the number of particles we're simulating
 		glGenQueries(1, &_query);
@@ -68,36 +105,19 @@ void ParticleSystem::Update()
 		delete[] data;
 	}
 
-
 	// Disable rasterization, this is update only
 	glEnable(GL_RASTERIZER_DISCARD);
 
-	// Make sure no VAOs are bound
-	glBindVertexArray(0);
-
-	// Bind the buffer and transform feedback
-	glBindBuffer(GL_ARRAY_BUFFER, _particleBuffers[_currentVertexBuffer]);
-	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, _feedbackBuffers[_currentFeedbackBuffer]);
-
-	// Enable our attributes
-	glEnableVertexAttribArray(0);
-	glEnableVertexAttribArray(1);
-	glEnableVertexAttribArray(2);
-	glEnableVertexAttribArray(3);
-	glEnableVertexAttribArray(4); 
-	glEnableVertexAttribArray(5);
-
-	glVertexAttribIPointer(0, 1, GL_UNSIGNED_INT, sizeof(ParticleData), 0); // type
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Position)); // position
-	glVertexAttribPointer(2, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Velocity)); // velocity
-	glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Color)); // color 
-	glVertexAttribPointer(4, 1, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Lifetime)); // metadata 
-	glVertexAttribPointer(5, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Metadata)); // metadata 
 
 	// Bind the update shader and send our relevant uniforms
 	_updateShader->Bind();
-	_updateShader->SetUniform("u_Gravity", _gravity); 
-	_updateShader->SetUniformMatrix("u_ModelMatrix", GetGameObject()->GetTransform()); 
+	_updateShader->SetUniform("u_Gravity", _gravity);
+	_updateShader->SetUniformMatrix("u_ModelMatrix", GetGameObject()->GetTransform());
+
+	glBindVertexArray(_updateVaos[_currentVertexBuffer]);
+
+	// Bind the buffer and transform feedback
+	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, _feedbackBuffers[_currentFeedbackBuffer]);
 
 	// Our particles are points that we're simulating
 	glBeginQuery(GL_TRANSFORM_FEEDBACK_PRIMITIVES_WRITTEN, _query);
@@ -127,12 +147,7 @@ void ParticleSystem::Update()
 	// Clean up our state
 	glBindTransformFeedback(GL_TRANSFORM_FEEDBACK, 0);
 
-	glDisableVertexAttribArray(0);
-	glDisableVertexAttribArray(1);
-	glDisableVertexAttribArray(2);
-	glDisableVertexAttribArray(3);
-	glDisableVertexAttribArray(4);
-	glDisableVertexAttribArray(5);
+	glBindVertexArray(0);
 
 	// Re-enable rasterization for later OpenGL calls
 	glDisable(GL_RASTERIZER_DISCARD);
@@ -153,44 +168,39 @@ void ParticleSystem::Render()
 		_renderShader->Bind();
 
 		// Make sure no VAOs are bound
-		glBindVertexArray(0);
+		glBindVertexArray(_renderVaos[_currentVertexBuffer]);
 
-		glEnablei(GL_BLEND, 0);
-		glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
+		//glDisable(GL_DEPTH_TEST);
+
+		glDisable(GL_BLEND);
+		//glEnablei(GL_BLEND, 0);
+		//glBlendFunc(GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA);
 
 		// Bind the current feedback buffer as our drawing buffer
-		glBindBuffer(GL_ARRAY_BUFFER, _particleBuffers[_currentVertexBuffer]); 
-
-		// Enable type, position and color 
-		glEnableVertexAttribArray(0); 
-		glEnableVertexAttribArray(1);
-		glEnableVertexAttribArray(3);
-		glVertexAttribIPointer(0, 1, GL_UNSIGNED_INT, sizeof(ParticleData), 0); // type
-		glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Position)); // position
-		glVertexAttribPointer(3, 4, GL_FLOAT, GL_FALSE, sizeof(ParticleData), (const GLvoid*)offsetof(ParticleData, Color)); // color 
+		glBindBuffer(GL_ARRAY_BUFFER, _particleBuffers[_currentVertexBuffer]);
 
 		// Draw our particles using whatever data we have in transform feedback buffer
 		glDrawTransformFeedback(GL_POINTS, _feedbackBuffers[_currentVertexBuffer]);
 
-		// Clean up after ourselves
-		glDisableVertexAttribArray(1);
-		glDisableVertexAttribArray(3);
+		glBindVertexArray(0);
+
+		glEnable(GL_DEPTH_TEST);
 	}
 }
 
-void ParticleSystem::AddEmitter(const glm::vec3& position, const glm::vec3& direction, float emitRate /*= 1.0f*/, const glm::vec4& color /*= glm::vec4(1.0f)*/)
+void ParticleSystem::AddEmitter(const glm::vec3& position, const glm::vec3& direction, float emitRate /*= 1.0f*/, const glm::vec4& color /*= glm::vec4(1.0f)*/, float size)
 {
 	LOG_ASSERT(!_hasInit, "Cannot add an emitter after the particle system has been initialized");
 
 	ParticleData emitter;
-	emitter.Type     = ParticleType::Emitter; 
-	emitter.Position = position; 
+	emitter.Type = ParticleType::Emitter;
+	emitter.Position = position;
 	emitter.Velocity = direction;
-	emitter.Lifetime = 1.0f / emitRate; 
-	emitter.Color    = color;
-	emitter.Metadata = { 1.0f / emitRate, 0.0f, 2.0f, 4.0f };
+	emitter.Lifetime = 1.0f / emitRate;
+	emitter.Color = color;
+	emitter.Metadata = { 1.0f / emitRate, size, 2.0f, 4.0f };
 
-	_emitters.push_back(emitter); 
+	_emitters.push_back(emitter);
 }
 
 void ParticleSystem::RenderImGui()
@@ -217,6 +227,7 @@ void ParticleSystem::RenderImGui()
 					emitter.Lifetime = 1.0f / spawnRate;
 					emitter.Metadata.x = emitter.Lifetime;
 				}
+				LABEL_LEFT(ImGui::DragFloat, "Size", &emitter.Metadata.y, 0.1f, 0.01f);
 				glm::vec2 lifeRange = { emitter.Metadata.z, emitter.Metadata.w };
 				if (LABEL_LEFT(ImGui::DragFloat2, "Lifetime  ", &lifeRange.x, 0.1f, 0.0f)) {
 					emitter.Metadata.z = lifeRange.x;
@@ -238,8 +249,8 @@ void ParticleSystem::RenderImGui()
 			emitter.Type = ParticleType::Emitter;
 			emitter.Position = glm::vec3(0.0f);
 			emitter.Velocity = glm::vec3(0.0f);
-			emitter.Color    = glm::vec4(1.0f);
-			emitter.Lifetime = 1.0f; 
+			emitter.Color = glm::vec4(1.0f);
+			emitter.Lifetime = 1.0f;
 			emitter.Metadata = { 1.0f, 0.0f, 1.0f, 1.0f };
 			_emitters.push_back(emitter);
 		}
@@ -250,26 +261,27 @@ void ParticleSystem::Awake()
 {
 	// There are the things we want the feedback buffers to track
 	const char const* varyings[6] = {
-		"out_Type",  
+		"out_Type",
 		"out_Position",
 		"out_Velocity",
-		"out_Color", 
+		"out_Color",
 		"out_Lifetime",
-		"out_Metadata" 
-	}; 
+		"out_Metadata"
+	};
 
 	// This is our transform feedback shader
 	_updateShader = ShaderProgram::Create();
 	_updateShader->LoadShaderPartFromFile("shaders/vertex_shaders/particles_sim_vs.glsl", ShaderPartType::Vertex);
- 	_updateShader->LoadShaderPartFromFile("shaders/geometry_shaders/particle_sim_gs.glsl", ShaderPartType::Geometry);
+	_updateShader->LoadShaderPartFromFile("shaders/geometry_shaders/particle_sim_gs.glsl", ShaderPartType::Geometry);
 	_updateShader->RegisterVaryings(varyings, 6, true); // Here we call glTransformFeedbackVaryings, and let it know we want interleaved data
-	_updateShader->Link(); 
+	_updateShader->Link();
 
 	// This shader will render the particles
 	_renderShader = ShaderProgram::Create();
 	_renderShader->LoadShaderPartFromFile("shaders/vertex_shaders/particles_render_vs.glsl", ShaderPartType::Vertex);
+	_renderShader->LoadShaderPartFromFile("shaders/geometry_shaders/particle_render_gs.glsl", ShaderPartType::Geometry);
 	_renderShader->LoadShaderPartFromFile("shaders/fragment_shaders/particles_render_fs.glsl", ShaderPartType::Fragment);
-	_renderShader->Link(); 
+	_renderShader->Link();
 }
 
 nlohmann::json ParticleSystem::ToJson() const {
@@ -308,7 +320,7 @@ ParticleSystem::Sptr ParticleSystem::FromJson(const nlohmann::json& blob) {
 			emitter.Position = JsonGet(data, "position", glm::vec3(0.0f));
 			emitter.Velocity = JsonGet(data, "velocity", glm::vec3(0.0f));
 			emitter.Lifetime = JsonGet(data, "spawn_rate", 1.0f);
-			emitter.Color    = JsonGet(data, "color", glm::vec4(1.0f));
+			emitter.Color = JsonGet(data, "color", glm::vec4(1.0f));
 			glm::vec2 lifeRange = JsonGet(data, "lifetime_range", glm::vec2(1.0f));
 			emitter.Metadata = { emitter.Lifetime, JsonGet(data, "cone_angle", 0.0f), lifeRange.x, lifeRange.y };
 
