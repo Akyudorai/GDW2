@@ -99,6 +99,7 @@ void Resources::Initialize()
 			textures_2D.emplace("Shroom", ResourceManager::CreateAsset<Texture2D>("textures/2D/MushroomTexture.png"));
 			textures_2D.emplace("Crystal", ResourceManager::CreateAsset<Texture2D>("textures/2D/CrystalTexture.png"));
 			textures_2D.emplace("HealingWell", ResourceManager::CreateAsset<Texture2D>("textures/2D/HealingWellTexture.png"));
+			textures_2D.emplace("Torch", ResourceManager::CreateAsset<Texture2D>("textures/2D/Torch.png"));
 
 
 	//USER INTERFACE
@@ -266,6 +267,16 @@ void Resources::Initialize()
 		materials.emplace("Shadow", shadowMat);
 	}
 
+	Material::Sptr grayMat = ResourceManager::CreateAsset<Material>(celShader);
+	{
+		grayMat->Name = "Gray";
+		grayMat->Set("u_Material.AlbedoMap", GetTexture2D("Gray"));
+		grayMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
+		grayMat->Set("s_ToonTerm", GetTexture1D("Toon Lut"));
+		grayMat->Set("u_Material.Shininess", 0.1f);
+		grayMat->Set("u_Material.Steps", 8);
+		materials.emplace("Gray", grayMat);
+	}
 
 	Material::Sptr displacementTest = ResourceManager::CreateAsset<Material>(displacementShader);
 	{
@@ -276,16 +287,6 @@ void Resources::Initialize()
 		displacementTest->Set("u_Material.Shininess", 0.5f);
 		displacementTest->Set("u_Scale", 0.1f);
 		materials.emplace("Displacement", displacementTest);
-	}
-
-	Material::Sptr grey = ResourceManager::CreateAsset<Material>(deferredForward);
-	{
-		grey->Name = "Grey";
-		grey->Set("u_Material.AlbedoMap", GetTexture2D("Solid Grey"));
-		grey->Set("u_Material.Specular", GetTexture2D("Solid Black"));
-		grey->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
-
-		materials.emplace("Grey", grey);
 	}
 
 	Material::Sptr whiteBrick = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -330,6 +331,16 @@ void Resources::Initialize()
 		stoneWallMat->Set("u_Material.Shininess", 0.1f);
 
 		materials.emplace("Stone Wall", std::move(stoneWallMat));
+	}
+
+	Material::Sptr TorchMat = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		TorchMat->Name = "Torch";
+		TorchMat->Set("u_Material.AlbedoMap", GetTexture2D("Torch"));
+		TorchMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
+		TorchMat->Set("u_Material.Shininess", 0.1f);
+
+		materials.emplace("Torch", std::move(TorchMat));
 	}
 
 	Material::Sptr pressurePlateMaterial = ResourceManager::CreateAsset<Material>(deferredForward);
@@ -425,15 +436,6 @@ void Resources::Initialize()
 		materials.emplace("White", std::move(whiteMat));
 	}
 
-	Material::Sptr grayMat = ResourceManager::CreateAsset<Material>(deferredForward);
-	{
-		grayMat->Name = "Gray";
-		grayMat->Set("u_Material.AlbedoMap", GetTexture2D("Gray"));
-		grayMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
-		grayMat->Set("u_Material.Shininess", 0.1f);
-
-		materials.emplace("Gray", std::move(grayMat));
-	}
 
 	Material::Sptr brownMat = ResourceManager::CreateAsset<Material>(deferredForward);
 	{
@@ -629,6 +631,7 @@ void Resources::Initialize()
 			meshes.emplace("Staff", ResourceManager::CreateAsset<MeshResource>("meshes/GoblinStaff.obj"));
 			meshes.emplace("Sword", ResourceManager::CreateAsset<MeshResource>("meshes/GoblinSword.obj"));
 			meshes.emplace("Lever", ResourceManager::CreateAsset<MeshResource>("meshes/Lever.obj"));
+			meshes.emplace("Torch", ResourceManager::CreateAsset<MeshResource>("meshes/Torch.obj"));
 	
 
 	MeshResource::Sptr planeMesh = ResourceManager::CreateAsset<MeshResource>();

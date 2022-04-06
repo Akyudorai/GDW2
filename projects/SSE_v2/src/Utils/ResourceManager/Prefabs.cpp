@@ -141,7 +141,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-			collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 			volume->AddCollider(collider);
 			volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
 			volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
@@ -194,7 +194,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-			collider->SetScale(glm::vec3(2.0f, 1.0f, 2.0f));
+			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
 			volume->AddCollider(collider);
 			volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
 			volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
@@ -223,6 +223,23 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			spikeBehavior->SetAnimator(animator);
 			spikeBehavior->SetTrigger(volume);
 			spikeBehavior->Initialize(3, 0, false);
+		}
+
+		return result;
+	}
+
+	if (name == "Torchs")
+	{
+		result = scene->CreateGameObject("Torchs");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(0.4));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Torch"));
+			renderer->SetMaterial(Resources::GetMaterial("Torch"));
 		}
 
 		return result;
@@ -562,6 +579,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		result = scene->CreateGameObject("Healing Well");
 		{
 			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90, 0, 0));
 			result->SetScale(glm::vec3(0.5));
 
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
@@ -675,6 +693,19 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			//divide by 2 for the values
 			physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
 			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+		}
+
+		return result;
+	}
+
+	if (name == "Platform")
+	{
+		result = scene->CreateGameObject("Platform");
+		{
+			result->SetPosition(position);
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Cube"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 		}
 
 		return result;

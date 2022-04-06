@@ -223,6 +223,7 @@ void DefaultSceneLayer::_CreateScene()
 		// Props
 		{
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(7, -45, 5)));
+			section1->AddChild(Prefabs::Load(scene, "Torchs", glm::vec3(7, -40, 5)));
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(-2, -23, 5)));
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(52, -23, 5)));
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(59, -43, 5)));
@@ -338,6 +339,55 @@ void DefaultSceneLayer::_CreateScene()
 				floor2->SetScale(glm::vec3(0.5f, 0.6f, 1.0f));
 				floor2->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(12.5f, 15.0f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
 				section1->AddChild(floor2);
+			}
+		}
+
+		//Platforms
+		{
+			GameObject::Sptr Platform1 = Prefabs::Load(scene, "Platform");
+			{
+				Platform1->SetPosition(glm::vec3(26.5f, -40.0f, 4.0f));
+				Platform1->SetScale(glm::vec3(4.0f, 2.5f, 0.8f));
+				section1->AddChild(Platform1);
+
+				// Collider
+				RigidBody::Sptr physics = Platform1->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform1->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			}
+
+			GameObject::Sptr Platform2 = Prefabs::Load(scene, "Platform");
+			{
+				Platform2->SetPosition(glm::vec3(27.0f, -45.0f, 3.0f));
+				Platform2->SetRotation(glm::vec3(20.0f, 0.0f, 0.0f));
+				Platform2->SetScale(glm::vec3(0.8f, 3.0f, 0.3f));
+				section1->AddChild(Platform2);
+
+				// Collider
+				RigidBody::Sptr physics = Platform2->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform2->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			}
+
+			GameObject::Sptr Platform3 = Prefabs::Load(scene, "Platform");
+			{
+				Platform3->SetPosition(glm::vec3(40.0f, -40.0f, 4.0f));
+				Platform3->SetScale(glm::vec3(4.0f, 2.5f, 0.8f));
+				section1->AddChild(Platform1);
+
+				// Collider
+				RigidBody::Sptr physics = Platform3->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform3->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
 			}
 		}
 
@@ -711,6 +761,100 @@ void DefaultSceneLayer::_CreateScene()
 				floor3->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(15.0f, 18, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
 				floor3->Get<RenderComponent>()->SetMaterial(Resources::GetMaterial("Brown"));
 				section3->AddChild(floor3);
+			}
+		}
+
+		//Platforms
+		{
+			GameObject::Sptr Platform4 = Prefabs::Load(scene, "Platform");
+			{
+				Platform4->SetPosition(glm::vec3(-40.0f, 9.5f, 5.3f));
+				Platform4->SetScale(glm::vec3(2.0f, 2.0f, 1.0f));
+				section3->AddChild(Platform4);
+
+				// Collider
+				RigidBody::Sptr physics = Platform4->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform4->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			}
+
+			GameObject::Sptr Platform5 = Prefabs::Load(scene, "Platform");
+			{
+				Platform5->SetPosition(glm::vec3(-47.0f, 9.5f, 6.6f));
+				Platform5->SetScale(glm::vec3(4.25f, 2.0f, 1.0f));
+				section3->AddChild(Platform5);
+
+				// Collider
+				RigidBody::Sptr physics = Platform5->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform5->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			}
+
+			GameObject::Sptr Platform6 = Prefabs::Load(scene, "Platform");
+			{
+				Platform6->SetPosition(glm::vec3(-55.0f, 0.0f, 7.5f));
+				Platform6->SetScale(glm::vec3(2.0f, 4.5f, 1.0f));
+				section3->AddChild(Platform6);
+
+				// Collider
+				RigidBody::Sptr physics = Platform6->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform6->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			}
+
+			GameObject::Sptr Platform7 = Prefabs::Load(scene, "Platform");
+			{
+				Platform7->SetPosition(glm::vec3(-54.5f, -12.0f, 8.5f));
+				Platform7->SetScale(glm::vec3(2.0f, 4.0f, 1.0f));
+				section3->AddChild(Platform7);
+
+				// Collider
+				RigidBody::Sptr physics = Platform7->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform7->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			}
+
+			GameObject::Sptr Platform8 = Prefabs::Load(scene, "Platform");
+			{
+				Platform8->SetPosition(glm::vec3(-46.0f, -14.0f, 10.5f));
+				Platform8->SetRotation(glm::vec3(0.0f, -11.0f, 0.0f));
+				Platform8->SetScale(glm::vec3(7.0f, 0.7f, 0.2f));
+				section3->AddChild(Platform8);
+
+				// Collider
+				RigidBody::Sptr physics = Platform8->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform8->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			}
+
+			GameObject::Sptr Platform9 = Prefabs::Load(scene, "Platform");
+			{
+				Platform9->SetPosition(glm::vec3(-37.0f, -15.5f, 12.0f));
+				Platform9->SetScale(glm::vec3(2.0f, 2.2f, 1.0f));
+				section3->AddChild(Platform9);
+
+				// Collider
+				RigidBody::Sptr physics = Platform9->Add<RigidBody>(RigidBodyType::Static);
+				BoxCollider::Sptr collider = BoxCollider::Create();
+				collider->SetScale(Platform9->GetScale());
+				physics->AddCollider(collider);
+				physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+				physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
 			}
 		}
 
@@ -1284,7 +1428,7 @@ void DefaultSceneLayer::_CreateScene()
 			gameCanvas->AddChild(healthText);
 
 			GameObject::Sptr shadowText = UIHelper::CreateText(scene, "Shadow Health: ???", "Shadow Health Text");
-			shadowText->Get<RectTransform>()->SetPosition({ 175, 180 });
+			shadowText->Get<RectTransform>()->SetPosition({ 176, 181 });
 			gameCanvas->AddChild(shadowText);
 
 			GameManager::GameInterface.SetGameUserInterface(*gameCanvas);
