@@ -665,7 +665,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 
-			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);			
+			RigidBody::Sptr physics = result->Add<RigidBody>();			
 			physics->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
 			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
 		}
