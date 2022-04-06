@@ -323,9 +323,6 @@ void Application::_Update() {
 			layer->OnUpdate();
 		}
 	}
-	//Toggle Lut
-	Application& luts = Application::Get();
-	if (InputEngine::GetKeyState(GLFW_KEY_8) == ButtonState::Pressed) luts.CurrentScene()->SetColorLUT(ResourceManager::CreateAsset<Texture3D>("luts/cool.CUBE")); //Cool Lut
 }
 
 void Application::_LateUpdate() {

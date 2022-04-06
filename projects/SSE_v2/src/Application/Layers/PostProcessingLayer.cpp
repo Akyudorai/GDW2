@@ -11,6 +11,56 @@
 #include "PostProcessing/NightEffect.h" //Night Vision post process
 #include "PostProcessing/DepthOfField.h"
 
+#include "Application/Application.h"
+
+#include <Windows.h>
+#include <GLFW/glfw3.h>
+#include <glad/glad.h>
+
+#include "Logging.h"
+#include "Gameplay/InputEngine.h"
+#include "Application/Timing.h"
+#include <filesystem>
+#include "Utils/FileHelpers.h"
+#include "Utils/ResourceManager/ResourceManager.h"
+#include "Utils/ImGuiHelper.h"
+
+// Graphics
+#include "Graphics/Buffers/IndexBuffer.h"
+#include "Graphics/Buffers/VertexBuffer.h"
+#include "Graphics/VertexArrayObject.h"
+#include "Graphics/ShaderProgram.h"
+#include "Graphics/Textures/Texture1D.h"
+#include "Graphics/Textures/Texture2D.h"
+#include "Graphics/Textures/Texture3D.h"
+#include "Graphics/Textures/TextureCube.h"
+#include "Graphics/VertexTypes.h"
+#include "Graphics/Font.h"
+#include "Graphics/GuiBatcher.h"
+#include "Graphics/Framebuffer.h"
+
+// Gameplay
+#include "Gameplay/Material.h"
+#include "Gameplay/GameObject.h"
+#include "Gameplay/Scene.h"
+
+// Components
+#include "Gameplay/Components/IComponent.h"
+#include "Gameplay/Components/Camera.h"
+#include "Gameplay/Components/RotatingBehaviour.h"
+#include "Gameplay/Components/JumpBehaviour.h"
+#include "Gameplay/Components/RenderComponent.h"
+#include "Gameplay/Components/MaterialSwapBehaviour.h"
+#include "Gameplay/Components/TriggerVolumeEnterBehaviour.h"
+#include "Gameplay/Components/SimpleCameraControl.h"
+#include "Gameplay/Components/ParticleSystem.h"
+
+// GUI
+#include "Gameplay/Components/GUI/RectTransform.h"
+#include "Gameplay/Components/GUI/GuiPanel.h"
+#include "Gameplay/Components/GUI/GuiText.h"
+#include "Gameplay/Components/ComponentManager.h"
+
 PostProcessingLayer::PostProcessingLayer() :
 	ApplicationLayer()
 {
@@ -31,13 +81,9 @@ void PostProcessingLayer::AddEffect(const Effect::Sptr& effect) {
 void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
 {
 	// Loads some effects in
-	_effects.push_back(std::make_shared<ColorCorrectionEffect>());
-	_effects.push_back(std::make_shared<BoxFilter3x3>());
-	_effects.push_back(std::make_shared<BoxFilter5x5>());
-	_effects.push_back(std::make_shared<OutlineEffect>());
-	_effects.push_back(std::make_shared<NightEffect>()); 
-	_effects.push_back(std::make_shared<FilmGrainEffect>());
-	_effects.push_back(std::make_shared<DepthOfField>());
+	_effects.push_back(std::make_shared<ColorCorrectionEffect>()); //Color Correction
+	_effects.push_back(std::make_shared<FilmGrainEffect>());  //Film Grain
+	_effects.push_back(std::make_shared<DepthOfField>()); //depth of field
 
 	Application& app = Application::Get();
 	const glm::uvec4& viewport = app.GetPrimaryViewport();
@@ -140,6 +186,12 @@ void PostProcessingLayer::OnSceneUnload()
 	for (const auto& effect : _effects) {
 		effect->OnSceneUnload();
 	}
+}
+
+void PostProcessingLayer::OnUpdate()
+{
+	Application& colorlutset = Application::Get();
+	if (InputEngine::GetKeyState(GLFW_KEY_8) == ButtonState::Pressed) colorlutset.CurrentScene()->SetColorLUT(ResourceManager::CreateAsset<Texture3D>("luts/cool.CUBE")); 
 }
 
 void PostProcessingLayer::OnWindowResize(const glm::ivec2& oldSize, const glm::ivec2& newSize)
