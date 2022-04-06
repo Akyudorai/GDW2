@@ -191,6 +191,22 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			section1->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(-10.0, -33, 8)));
 
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-11.5f, -36.5, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-9.5f, -35, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-14, -48, 5.75f)));			
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(15.75f, -47, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(14, -48, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(15.75, -37, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(3, -33.5, 5.75f)));
+			
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(46.6, -36.9, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(60.3, -22.5, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(67.6, -39.5, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(67.6, -37.7, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(66.6, -38.6, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(61.9, -46.9, 5.75f)));
+			section1->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(48.6, -46.9, 5.75f)));
+
 			section1->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(20, -40, 1)));
 			section1->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(40, -47, 1)));
 
@@ -225,7 +241,7 @@ void DefaultSceneLayer::_CreateScene()
 		// Props
 		{
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(7, -45, 5)));
-			section1->AddChild(Prefabs::Load(scene, "Torchs", glm::vec3(7, -40, 5)));
+			
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(-2, -23, 5)));
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(52, -23, 5)));
 			section1->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(59, -43, 5)));
@@ -535,6 +551,33 @@ void DefaultSceneLayer::_CreateScene()
 		{
 			section2->AddChild(Prefabs::Load(scene, "Healing Well", glm::vec3(15, -8, 5)));
 
+			section2->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(60.3f, -1.35, 5.75f)));
+			section2->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(58.2f, 0.4, 5.75f)));
+
+			GameObject::Sptr s2_torch_1 = Prefabs::Load(scene, "Torch", glm::vec3(40.75, -8.5, 5));
+			{				
+				for (auto& c : s2_torch_1->GetChildren())
+				{
+					if (c->Get<Light>() != nullptr) {
+						c->Get<Light>()->SetRadius(10);
+					}
+				}
+
+				section2->AddChild(s2_torch_1);
+			}
+
+			GameObject::Sptr s2_torch_2 = Prefabs::Load(scene, "Torch", glm::vec3(30.75, -8.5, 5));
+			{
+				for (auto& c : s2_torch_2->GetChildren())
+				{
+					if (c->Get<Light>() != nullptr) {
+						c->Get<Light>()->SetRadius(10);
+					}
+				}
+
+				section2->AddChild(s2_torch_1);
+			}
+			
 			section2->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(46.0f, -1.0f, 5.8f)));
 			section2->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(46.0f, -6.5f, 5.8f)));
 			section2->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(46.0f, -12.0f, 5.8f)));
@@ -728,6 +771,11 @@ void DefaultSceneLayer::_CreateScene()
 			section3->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(-54, -13, 5)));
 			section3->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(-51, 4, 5)));
 			section3->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(-45, 3, 5)));
+			section3->AddChild(Prefabs::Load(scene, "Torch", glm::vec3(-37.6, -3.4, 5)));
+			section3->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-53.85f, -15.3, 9.84f)));
+			section3->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-37, -17.2, 13.3f)));
+			section3->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-48.1, -20.9, 15.2f)));
+			section3->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-36.8, -22.6, 15.2f)));
 		}
 
 		// Props
@@ -937,6 +985,12 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Interactables
 		{
+			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-32.8, -38.1, 15.2f)));
+			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-42.5, -26.5, 15.2f)));
+			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-26.7, -26.5, 15.2f)));
+			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-46.9, -37.6, 15.2f)));
+			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-18.75, -41.4, 5.2f)));
+
 			GameObject::Sptr s4_plate_door = Prefabs::Load(scene, "Cage Door");
 			{
 				s4_plate_door->SetPosition(glm::vec3(-21.250f, -23.0f, 15.0f));
@@ -1394,16 +1448,6 @@ void DefaultSceneLayer::_CreateScene()
 				section6->AddChild(wall58);
 			}
 
-			GameObject::Sptr wall60 = Prefabs::Load(scene, "Wall");
-			{
-				wall60->SetPosition(glm::vec3(51.310f, 21.5f, 12.5f));
-				wall60->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-				wall60->SetScale(glm::vec3(1.0f, 1.0f, 0.8f));
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				wall60->Get<RigidBody>()->AddCollider(collider);
-				section6->AddChild(wall60);
-			}
-
 			GameObject::Sptr wall61 = Prefabs::Load(scene, "Wall");
 			{
 				wall61->SetPosition(glm::vec3(-56.25f, 29.5f, 12.5f));
@@ -1421,44 +1465,44 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Interactables
 		{
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 50.0f, 8.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 44.0f, 8.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 57.0f, 8.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -6.0f, 8.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -12.0f, 8.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 50.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 44.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 57.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -6.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -12.0f, 15.4f)));
 
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(127.130, 33.140, 10.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(138.0, 3.5, 10.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(123.0, 20.0, 10.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(117.000, 10.0, 10.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(228.000, 18.0, 10.920)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(127.130, 33.140, 17.920)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(138.0, 3.5, 17.920)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(123.0, 20.0, 17.920)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(117.000, 10.0, 17.920)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(228.000, 18.0, 17.920)));
 
-			section7->AddChild(Prefabs::Load(scene, "Healing Well", glm::vec3(255.0f, 20.0f, 8.0f)));
+			section7->AddChild(Prefabs::Load(scene, "Healing Well", glm::vec3(255.0f, 20.0f, 15.0f)));
 
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 8.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 8.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(200.0f, -5.0f, 8.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(225.0f, -3.0f, 8.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(200.0f, -5.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(225.0f, -3.0f, 15.4f)));
 
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(120, -13, 8)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(140, -10, 8)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(120, -13, 15)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(140, -10, 15)));
 		}
 
 		// Props
 		{
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(58.800, 28.450, 7.9)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(92.240, 17.290, 7.9)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(140.0, 15.0, 8.0)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(160.0, -4.5, 8.0)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(224.5, 35.0, 8.0)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(210.5, 35.0, 8.0)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(58.800, 28.450, 14.9)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(92.240, 17.290, 14.9)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(140.0, 15.0, 15.0)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(160.0, -4.5, 15.0)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(224.5, 35.0, 15.0)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(210.5, 35.0, 15.0)));
 		}
 
 		// Floors
 		{
 			GameObject::Sptr s7_floor_1 = Prefabs::Load(scene, "Floor");
 			{
-				s7_floor_1->SetPosition(glm::vec3(125.920f, 29.600f, 8.0f));
+				s7_floor_1->SetPosition(glm::vec3(125.920f, 29.600f, 15.0f));
 				s7_floor_1->SetScale(glm::vec3(1.1f, 2.3f, 1.0f));
 				s7_floor_1->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(24.0f, 50.0f, 2.5f)))->SetPosition({ 0.3,-7.0,-2.3 });
 				section7->AddChild(s7_floor_1);
@@ -1466,7 +1510,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			GameObject::Sptr s7_floor_2 = Prefabs::Load(scene, "Floor");
 			{
-				s7_floor_2->SetPosition(glm::vec3(72.610f, 33.0f, 8.0f));
+				s7_floor_2->SetPosition(glm::vec3(72.610f, 33.0f, 15.0f));
 				s7_floor_2->SetScale(glm::vec3(1.040f, 1.150f, 1.0f));
 				s7_floor_2->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(30.0f, 18.0f, 3.0f)))->SetPosition({ 2.0,-5.0,-2.3 });
 				section7->AddChild(s7_floor_2);
@@ -1474,7 +1518,7 @@ void DefaultSceneLayer::_CreateScene()
 
 			GameObject::Sptr s7_floor_3= Prefabs::Load(scene, "Floor");
 			{
-				s7_floor_3->SetPosition(glm::vec3(228.030f, 25.440f, 8.0f));
+				s7_floor_3->SetPosition(glm::vec3(228.030f, 25.440f, 15.0f));
 				s7_floor_3->SetScale(glm::vec3(3.0f, 2.0f, 1.0f));
 				s7_floor_3->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(65.0f, 50.0f, 2.5f)))->SetPosition({ -20.0,-15.0,-2.3 });
 				section7->AddChild(s7_floor_3);
@@ -1726,17 +1770,28 @@ void DefaultSceneLayer::_CreateScene()
 
 
 #pragma endregion
+
 		// Misc
 		// =========================================================================
 		
 		// Create some lights for our scene
-		GameObject::Sptr light = scene->CreateGameObject("Light");
+		GameObject::Sptr skylight_1 = scene->CreateGameObject("Sky Light");
 		{
-			light->SetPosition(glm::vec3(glm::vec3(0, 0, 10)));			
+			skylight_1->SetPosition(glm::vec3(glm::vec3(0, 0, 100)));
 
-			Light::Sptr lightComponent = light->Add<Light>();
-			lightComponent->SetColor(glm::vec4(1));
-			lightComponent->SetRadius(100);
+			Light::Sptr lightComponent = skylight_1->Add<Light>();
+			lightComponent->SetColor(glm::vec3(0.3686, 0.3451, 0.3451));
+			lightComponent->SetRadius(10000);
+			lightComponent->SetIntensity(2);
+		}
+
+		GameObject::Sptr skylight_2 = scene->CreateGameObject("Sky Light");
+		{
+			skylight_2->SetPosition(glm::vec3(glm::vec3(175, 50, 100)));
+
+			Light::Sptr lightComponent = skylight_2->Add<Light>();
+			lightComponent->SetColor(glm::vec3(0.3686, 0.3451, 0.3451));
+			lightComponent->SetRadius(10000);
 			lightComponent->SetIntensity(2);
 		}
 		

@@ -100,7 +100,7 @@ void Resources::Initialize()
 			textures_2D.emplace("Crystal", ResourceManager::CreateAsset<Texture2D>("textures/2D/CrystalTexture.png"));
 			textures_2D.emplace("HealingWell", ResourceManager::CreateAsset<Texture2D>("textures/2D/HealingWellTexture.png"));
 			textures_2D.emplace("Torch", ResourceManager::CreateAsset<Texture2D>("textures/2D/Torch.png"));
-
+			textures_2D.emplace("Candle", ResourceManager::CreateAsset<Texture2D>("textures/2D/SmallCandleTexture.png"));
 
 	//USER INTERFACE
 			textures_2D.emplace("Upper", ResourceManager::CreateAsset<Texture2D>("textures/UI/UpperGraphic.png"));
@@ -588,6 +588,16 @@ void Resources::Initialize()
 		materials.emplace("HealingWell", std::move(heal));
 	}
 
+	Material::Sptr candleMat = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		candleMat->Name = "Candle";
+		candleMat->Set("u_Material.AlbedoMap", GetTexture2D("Candle"));
+		candleMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
+		candleMat->Set("u_Material.Shininess", 0.1f);
+		
+		materials.emplace("Candle", std::move(candleMat));
+	}
+
 	for (auto& mat : materials)
 	{
 		if (mat.second->GetShader()->GetDebugName() == "Deferred - GBuffer Generation") 
@@ -632,7 +642,7 @@ void Resources::Initialize()
 			meshes.emplace("Sword", ResourceManager::CreateAsset<MeshResource>("meshes/GoblinSword.obj"));
 			meshes.emplace("Lever", ResourceManager::CreateAsset<MeshResource>("meshes/Lever.obj"));
 			meshes.emplace("Torch", ResourceManager::CreateAsset<MeshResource>("meshes/Torch.obj"));
-	
+			meshes.emplace("Candle", ResourceManager::CreateAsset<MeshResource>("meshes/SmallCandle.obj"));
 
 	MeshResource::Sptr planeMesh = ResourceManager::CreateAsset<MeshResource>();
 	{
