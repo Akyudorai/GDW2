@@ -6,6 +6,7 @@
 #include "Gameplay/GameManager.h"
 
 #include "Utils/ResourceManager/Resources.h"
+#include "Utils/GlmDefines.h"
 
 // Components
 #include "Gameplay/Components/RenderComponent.h"
@@ -540,9 +541,9 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		return result;
 	}
 
-	if (name == "Crystaling")
+	if (name == "Crystal")
 	{
-		result = scene->CreateGameObject("Crystaling");
+		result = scene->CreateGameObject("Crystal");
 		{
 			result->SetPosition(position);
 			result->SetRotation(glm::vec3(90, 0, -100));
@@ -645,6 +646,178 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
+
+			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);			
+			physics->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+		}
+
+		return result;
+	}
+
+	if (name == "Floor")
+	{
+		result = scene->CreateGameObject("Floor");
+		{
+			MeshResource::Sptr tiledMesh = ResourceManager::CreateAsset<MeshResource>();
+			tiledMesh->AddParam(MeshBuilderParam::CreatePlane(ZERO, UNIT_Z, UNIT_X, glm::vec2(50.0), glm::vec2(8.0f)));
+			tiledMesh->GenerateMesh();
+
+			result->SetPosition(position);
+			result->SetScale(glm::vec3(1.0f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(tiledMesh);
+			renderer->SetMaterial(Resources::GetMaterial("StoneTex"));
+
+			RigidBody::Sptr physics = result->Add<RigidBody>();
+			//physics->AddCollider(BoxCollider::Create(glm::vec3(9.0f, 15.75f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+			//divide by 2 for the values
+			physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+		}
+
+		return result;
+	}
+
+	if (name == "Shield")
+	{
+		result = scene->CreateGameObject("Shield");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(0));
+			result->SetScale(glm::vec3(0.25f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Shield"));
+			renderer->SetMaterial(Resources::GetMaterial("ShieldTex"));
+		}
+
+		return result;
+	}
+
+	if (name == "Staff")
+	{
+		result = scene->CreateGameObject("Staff");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(0));
+			result->SetScale(glm::vec3(1.2f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Staff"));
+			renderer->SetMaterial(Resources::GetMaterial("StaffTex"));
+		}
+
+		return result;
+	}
+
+	if (name == "Sword")
+	{
+		result = scene->CreateGameObject("Sword");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(0));
+			result->SetScale(glm::vec3(0.1f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Sword"));
+			renderer->SetMaterial(Resources::GetMaterial("SwordTex"));
+		}
+		return result;
+	}
+
+	if (name == "Pillar")
+	{
+		result = scene->CreateGameObject("Pillar");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(1));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Intact Pillar"));
+			renderer->SetMaterial(Resources::GetMaterial("Intact Pillar"));
+		}
+
+		return result;
+	}
+
+	if (name == "Damaged Pillar")
+	{
+		result = scene->CreateGameObject("Damaged Pillar");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(1));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Damaged Pillar"));
+			renderer->SetMaterial(Resources::GetMaterial("Damaged Pillar"));
+		}
+
+		return result;
+	}
+
+	if (name == "Destroyed Pillar")
+	{
+		result = scene->CreateGameObject("Destroyed Pillar");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(1));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Destroyed Pillar"));
+			renderer->SetMaterial(Resources::GetMaterial("Destroyed Pillar"));
+		}
+
+		return result;
+	}
+
+	if (name == "Floor Grate")
+	{
+		result = scene->CreateGameObject("Floor Grate");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(0.3f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Floor Grate"));
+			renderer->SetMaterial(Resources::GetMaterial("Floor Grate"));
+		}
+
+		return result;
+	}
+
+	if (name == "Rocks")
+	{
+		result = scene->CreateGameObject("Rock Pile");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.0f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(1.25f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Rock Pile"));
+			renderer->SetMaterial(Resources::GetMaterial("Rock Pile"));
+		}
+
+		return result;
+	}
+
+	if (name == "Gravestone")
+	{
+		result = scene->CreateGameObject("Grave Stone 1");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.0f, 0.0f, -90.0f));
+			result->SetScale(glm::vec3(0.3f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Grave Stone"));
+			renderer->SetMaterial(Resources::GetMaterial("Grave Stone"));
 		}
 
 		return result;
