@@ -247,10 +247,10 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			{
 				c_Light->SetPosition(glm::vec3(0, 3.25, 0));
 
-				Light::Sptr light = c_Light->Add<Light>();
+				/*Light::Sptr light = c_Light->Add<Light>();
 				light->SetColor(glm::vec3(1, 0.5764, 0.18));
 				light->SetIntensity(2);
-				light->SetRadius(10);				
+				light->SetRadius(10);*/				
 
 				result->AddChild(c_Light);
 			}
@@ -637,10 +637,10 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			{
 				c_Light->SetPosition(glm::vec3(0, 7, 0));
 
-				Light::Sptr light = c_Light->Add<Light>();
+				/*Light::Sptr light = c_Light->Add<Light>();
 				light->SetColor(glm::vec3(0, 0.3215, 1.0));
 				light->SetIntensity(10);
-				light->SetRadius(1);
+				light->SetRadius(1);*/
 
 				// Trigger Volume
 				TriggerVolume::Sptr volume = result->Add<TriggerVolume>();

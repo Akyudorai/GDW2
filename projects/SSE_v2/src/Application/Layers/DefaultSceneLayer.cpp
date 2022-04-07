@@ -989,7 +989,11 @@ void DefaultSceneLayer::_CreateScene()
 			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-42.5, -26.5, 15.2f)));
 			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-26.7, -26.5, 15.2f)));
 			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-46.9, -37.6, 15.2f)));
-			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-18.75, -41.4, 5.2f)));
+			GameObject::Sptr s4_candle_1  = Prefabs::Load(scene, "Candle", glm::vec3(-18.75, -41.4, 5.2f));
+			{
+
+				section4->AddChild(s4_candle_1);
+			}
 
 			GameObject::Sptr s4_plate_door = Prefabs::Load(scene, "Cage Door");
 			{
