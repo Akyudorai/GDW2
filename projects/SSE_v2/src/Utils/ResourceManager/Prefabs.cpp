@@ -395,7 +395,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.0f, 0.0f));
-			collider->SetScale(glm::vec3(1.0f, 4.0f, 3.5f));
+			collider->SetScale(glm::vec3(1.92f, 4.0f, 12.95f));
 			physics->AddCollider(collider);
 			physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
 			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
