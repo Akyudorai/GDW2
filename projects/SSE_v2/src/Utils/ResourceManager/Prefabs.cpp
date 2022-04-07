@@ -17,9 +17,11 @@
 #include "Gameplay/PlayerController.h"
 #include "Gameplay/Components/InteractableComponent.h"
 #include "Gameplay/Components/MovingPlatformBehavior.h"
+#include "Gameplay/Components/Light.h"
 
 // Physics
 #include "Gameplay/Physics/Colliders/BoxCollider.h"
+#include "Gameplay/Physics/Colliders/SphereCollider.h"
 #include "Gameplay/Physics/TriggerVolume.h"
 
 using namespace Gameplay;
@@ -228,9 +230,38 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		return result;
 	}
 
-	if (name == "Torchs")
+	if (name == "Candle")
 	{
-		result = scene->CreateGameObject("Torchs");
+		result = scene->CreateGameObject("Candle");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(0.4));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Candle"));
+			renderer->SetMaterial(Resources::GetMaterial("Candle"));
+
+			GameObject::Sptr c_Light = scene->CreateGameObject("Light");
+			{
+				c_Light->SetPosition(glm::vec3(0, 3.25, 0));
+
+				/*Light::Sptr light = c_Light->Add<Light>();
+				light->SetColor(glm::vec3(1, 0.5764, 0.18));
+				light->SetIntensity(2);
+				light->SetRadius(10);*/				
+
+				result->AddChild(c_Light);
+			}
+		}
+
+		return result;
+	}
+
+	if (name == "Torch")
+	{
+		result = scene->CreateGameObject("Torch");
 		{
 			result->SetPosition(position);
 			result->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
@@ -240,6 +271,38 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Torch"));
 			renderer->SetMaterial(Resources::GetMaterial("Torch"));
+
+			GameObject::Sptr c_Light = scene->CreateGameObject("Light");
+			{
+				c_Light->SetPosition(glm::vec3(0, 20, 0));
+
+				Light::Sptr light = c_Light->Add<Light>();
+				light->SetColor(glm::vec3(1, 0.5674, 0.18));
+				light->SetIntensity(10);
+				light->SetRadius(15);
+
+				// Trigger Volume
+				TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
+				SphereCollider::Sptr collider = SphereCollider::Create();
+				collider->SetPosition(collider->GetPosition());
+				collider->SetRadius(7);
+				volume->AddCollider(collider);
+				volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
+				volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
+
+				// Trigger Event
+				TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
+				trigger->onTriggerStayEvent.push_back([]
+				{
+					PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+					if (!pc->isShadow) {
+						pc->GetCharacterShadow()->Get<HealthComponent>()->DealDamage(0.1f);
+					}
+				});
+
+				result->AddChild(c_Light);
+			}
 		}
 
 		return result;
@@ -569,6 +632,38 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Crystal"));
 			renderer->SetMaterial(Resources::GetMaterial("Crystal"));
+
+			GameObject::Sptr c_Light = scene->CreateGameObject("Light");
+			{
+				c_Light->SetPosition(glm::vec3(0, 7, 0));
+
+				/*Light::Sptr light = c_Light->Add<Light>();
+				light->SetColor(glm::vec3(0, 0.3215, 1.0));
+				light->SetIntensity(10);
+				light->SetRadius(1);*/
+
+				// Trigger Volume
+				TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
+				SphereCollider::Sptr collider = SphereCollider::Create();
+				collider->SetPosition(collider->GetPosition());
+				collider->SetRadius(3.5f);
+				volume->AddCollider(collider);
+				volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
+				volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
+
+				// Trigger Event
+				TriggerVolumeEnterBehaviour::Sptr trigger = result->Add<TriggerVolumeEnterBehaviour>();
+				trigger->onTriggerStayEvent.push_back([]
+				{
+					PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
+
+					if (pc->isShadow) {
+						//pc->GetCharacterShadow()->Get<HealthComponent>()->DealDamage(0.1f);
+					}
+				});
+
+				result->AddChild(c_Light);
+			}
 		}
 
 		return result;
@@ -665,9 +760,9 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			renderer->SetMesh(Resources::GetMesh("Stone Wall"));
 			renderer->SetMaterial(Resources::GetMaterial("Stone Wall"));
 
-			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);			
+			RigidBody::Sptr physics = result->Add<RigidBody>();			
 			physics->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
-			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);			
 		}
 
 		return result;
