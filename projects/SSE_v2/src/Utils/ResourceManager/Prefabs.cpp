@@ -949,5 +949,43 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		return result;
 	}
 
+	if (name == "Objective")
+	{
+		result = scene->CreateGameObject("Objective");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Character Dagger"));
+			renderer->SetMaterial(Resources::GetMaterial("Character Dagger"));
+
+			// Collider
+			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+
+			// Interaction Event
+			InteractableComponent::Sptr interactable = result->Add<InteractableComponent>();
+			interactable->onInteractionEvent.push_back([result] {
+				result->Get<RenderComponent>()->IsEnabled = false;
+				
+				GameManager::GetInstance().SetPaused(true);
+				GameManager::GetInstance().SetGameOver(true);
+
+				if (GameManager::GetInstance().GameInterface.m_WinPanel != nullptr) {					
+					GameManager::GetInstance().GameInterface.ToggleWinPanel(true);					
+				}
+
+				if (GameManager::GetInstance().GameInterface.m_GameUserInterface != nullptr) {
+					GameManager::GetInstance().GameInterface.ToggleGameUserInterface(false);
+				}
+			});
+		}
+
+		return result;
+	}
+
 	return result;
 }

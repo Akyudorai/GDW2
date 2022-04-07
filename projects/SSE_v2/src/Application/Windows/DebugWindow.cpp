@@ -111,7 +111,17 @@ void DebugWindow::RenderMenuBar()
 		{
 			if (mat.second->GetShader()->GetDebugName() == "Deferred - GBuffer Generation")
 			{				
-				mat.second->Set("u_Lights.ToggleInversion", renderInversionEffect);
+				mat.second->Set("u_Effects.ToggleInversion", renderInversionEffect);
+			}
+		}
+	}
+
+	if (ImGui::Checkbox("Toggle Textures", &renderTextures)) {
+		for (auto& mat : Resources::GetMaterialMap())
+		{
+			if (mat.second->GetShader()->GetDebugName() == "Deferred - GBuffer Generation")
+			{
+				mat.second->Set("u_Effects.ToggleTextures", renderTextures);
 			}
 		}
 	}

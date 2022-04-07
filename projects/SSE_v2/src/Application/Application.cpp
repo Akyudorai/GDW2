@@ -70,6 +70,8 @@
 #include "Layers/PostProcessingLayer.h"
 #include "Layers/AudioLayer.h"
 #include "Layers/GameManagementLayer.h"
+#include "Layers/GameSceneLayer.h"
+#include "Layers/MenuSceneLayer.h"
 
 Application* Application::_singleton = nullptr;
 std::string Application::_applicationName = "Into The Abyss";
@@ -171,7 +173,9 @@ void Application::_Run()
 		_layers.push_back(std::make_shared<ImGuiDebugLayer>());
 	}
 
-	_layers.push_back(std::make_shared<DefaultSceneLayer>());
+	//_layers.push_back(std::make_shared<DefaultSceneLayer>());
+	_layers.push_back(std::make_shared<MenuSceneLayer>());
+	_layers.push_back(std::make_shared<GameSceneLayer>());	
 
 	// Either load the settings, or use the defaults
 	_ConfigureSettings();

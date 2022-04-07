@@ -24,6 +24,6 @@ protected:
 	bool renderSpecularLighting;
 	float spec_Strength;
 	bool renderInversionEffect;
-	bool renderFilmGrainEffect;
+	bool renderTextures;
 
 };

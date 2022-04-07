@@ -608,7 +608,8 @@ void Resources::Initialize()
 			mat.second->Set("u_Lights.ToggleDiffuse", true);
 			mat.second->Set("u_Lights.ToggleSpecular", true);
 			mat.second->Set("u_Lights.SpecularStrength", 1.0f);
-			mat.second->Set("u_Lights.ToggleInversion", false); 
+			mat.second->Set("u_Effects.ToggleInversion", false); 
+			mat.second->Set("u_Effects.ToggleTextures", true);
 		}
 	}
 

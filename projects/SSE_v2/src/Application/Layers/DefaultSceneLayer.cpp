@@ -1538,6 +1538,8 @@ void DefaultSceneLayer::_CreateScene()
 
 		// Interactables
 		{
+			section7->AddChild(Prefabs::Load(scene, "Objective", glm::vec3(218, 48.15, 16.15)));
+
 			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 50.0f, 15.4f)));
 			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 44.0f, 15.4f)));
 			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 57.0f, 15.4f)));
@@ -1869,20 +1871,26 @@ void DefaultSceneLayer::_CreateScene()
 		}
 		
 
-		GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
-		{
-			// Set position in the scene
-			shadowCaster->SetPosition(glm::vec3(0, -40, 0));
-			shadowCaster->SetRotation(glm::vec3(75, 0, 0));
-			
-			ShadowCamera::Sptr shadowCam = shadowCaster->Add<ShadowCamera>();
-			shadowCam->SetOrthographic(true);
-			shadowCam->Bias = 0.001f;
-			shadowCam->SetSize(glm::vec4(-20, 20, 20, -20));
-		}
+		//GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
+		//{
+		//	// Set position in the scene
+		//	shadowCaster->SetPosition(glm::vec3(0, -40, 0));
+		//	shadowCaster->SetRotation(glm::vec3(75, 0, 0));
+		//	
+		//	ShadowCamera::Sptr shadowCam = shadowCaster->Add<ShadowCamera>();
+		//	shadowCam->SetOrthographic(true);
+		//	shadowCam->Bias = 0.001f;
+		//	shadowCam->SetSize(glm::vec4(-20, 20, 20, -20));
+		//}
 
 		// UI
 		// =========================================================================
+		
+#pragma region User Interface
+
+		GameObject::Sptr ui = scene->CreateGameObject("User Interface");
+
+		// Gameplay Information (Health, Time, etc)
 		GameObject::Sptr gameCanvas = scene->CreateGameObject("Game Canvas");
 		{
 			GameObject::Sptr healthp = UIHelper::CreateImage(scene, Resources::GetTexture2D("CharacterH"), "Health");
@@ -1907,14 +1915,111 @@ void DefaultSceneLayer::_CreateScene()
 
 			GameManager::GameInterface.SetGameUserInterface(*gameCanvas);
 			GameManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>());
+
+			ui->AddChild(gameCanvas);
 		}
 
-		//Particles
-		GameObject::Sptr particles = scene->CreateGameObject("Particles");
+		// When the player dies
+		GameObject::Sptr loseCanvas = scene->CreateGameObject("Lose Screen");
 		{
-			ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>();
-			particleManager->AddEmitter(glm::vec3(0.0f), glm::vec3(0.0f, -1.0f, 10.0f), 10.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+			RectTransform::Sptr transform = loseCanvas->Add<RectTransform>();
+			transform->SetMin({ 16, 16 });
+			transform->SetMax({ 900, 900 });
+			transform->SetPosition({ 400, 400 });
+
+			GameObject::Sptr lossImage = UIHelper::CreateImage(scene, Resources::GetTexture2D("Lose"), "Lose Screen");
+			lossImage->Get<RectTransform>()->SetPosition({ 380, 400 });
+			lossImage->Get<RectTransform>()->SetSize({ 250, 200 });
+			lossImage->Get<GuiPanel>()->SetBorderRadius(0);
+			loseCanvas->AddChild(lossImage);
+
+			loseCanvas->IsActive = false;
+			GameManager::GameInterface.SetLosePanel(*loseCanvas);
+			ui->AddChild(loseCanvas);
 		}
+
+		// When the player wins
+		GameObject::Sptr winCanvas = scene->CreateGameObject("Win Canvas");
+		{
+			RectTransform::Sptr transform = winCanvas->Add<RectTransform>();
+			transform->SetMin({ 16, 16 });
+			transform->SetMax({ 900, 900 });
+			transform->SetPosition({ 400, 400 });
+
+			GameObject::Sptr winImage = UIHelper::CreateImage(scene, Resources::GetTexture2D("Lose"), "Win Screen");
+			winImage->Get<RectTransform>()->SetPosition({ 380, 400 });
+			winImage->Get<RectTransform>()->SetSize({ 250, 200 });
+			winImage->Get<GuiPanel>()->SetBorderRadius(0);
+			winCanvas->AddChild(winImage);
+
+			winCanvas->IsActive = false;
+			GameManager::GameInterface.SetWinPanel(*winCanvas);
+			ui->AddChild(winCanvas);
+		}
+
+		// When the game is paused
+		GameObject::Sptr pauseCanvas = scene->CreateGameObject("Pause Canvas");
+		{
+			RectTransform::Sptr transform = pauseCanvas->Add<RectTransform>();
+			transform->SetMin({ 16, 16 });
+			transform->SetMax({ 350, 500 });
+			transform->SetPosition({ 400, 500 });
+
+			GuiPanel::Sptr backgroundPanel = pauseCanvas->Add<GuiPanel>();
+			backgroundPanel->SetColor(glm::vec4(0.3f, 0.3f, 0.3f, 0.5f));
+
+			GameObject::Sptr pa = UIHelper::CreateImage(scene, Resources::GetTexture2D("Pause"), "Pausing");
+			pa->Get<RectTransform>()->SetPosition({ 163, 40 });
+			pa->Get<RectTransform>()->SetSize({ 100, 50 });
+			pa->Get<GuiPanel>()->SetBorderRadius(0);
+			pauseCanvas->AddChild(pa);
+
+			GameObject::Sptr resume = UIHelper::CreateImage(scene, Resources::GetTexture2D("R"), "Resume");
+			resume->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 120 });
+			resume->Get<RectTransform>()->SetSize({ 50, 20 });
+			resume->Get<GuiPanel>()->SetBorderRadius(0);
+			pauseCanvas->AddChild(resume);
+
+			GameObject::Sptr restart = UIHelper::CreateImage(scene, Resources::GetTexture2D("Re"), "Restart");
+			restart->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 200 });
+			restart->Get<RectTransform>()->SetSize({ 50, 20 });
+			restart->Get<GuiPanel>()->SetBorderRadius(0);
+			pauseCanvas->AddChild(restart);
+
+			GameObject::Sptr Options1 = UIHelper::CreateImage(scene, Resources::GetTexture2D("Options"), "Options");
+			Options1->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 280 });
+			Options1->Get<RectTransform>()->SetSize({ 50, 20 });
+			Options1->Get<GuiPanel>()->SetBorderRadius(0);
+			pauseCanvas->AddChild(Options1);
+
+			GameObject::Sptr quit = UIHelper::CreateImage(scene, Resources::GetTexture2D("Return"), "Quit");
+			quit->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 360 });
+			quit->Get<RectTransform>()->SetSize({ 50, 20 });
+			quit->Get<GuiPanel>()->SetBorderRadius(0);
+			pauseCanvas->AddChild(quit);
+
+			GameObject::Sptr exit = UIHelper::CreateImage(scene, Resources::GetTexture2D("Exit"), "Exit");
+			exit->Get<RectTransform>()->SetPosition({ transform->GetPosition().x / 2.5f, 440 });
+			exit->Get<RectTransform>()->SetSize({ 50, 20 });
+			exit->Get<GuiPanel>()->SetBorderRadius(0);
+			pauseCanvas->AddChild(exit);
+
+			pauseCanvas->IsActive = false;
+			GameManager::GameInterface.SetPausePanel(*pauseCanvas);
+			ui->AddChild(pauseCanvas);
+		}
+
+
+
+#pragma endregion
+		
+
+		////Particles
+		//GameObject::Sptr particles = scene->CreateGameObject("Particles");
+		//{
+		//	ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>();
+		//	particleManager->AddEmitter(glm::vec3(0.0f), glm::vec3(0.0f, -1.0f, 10.0f), 10.0f, glm::vec4(0.0f, 1.0f, 0.0f, 1.0f));
+		//}
 
 		GuiBatcher::SetDefaultTexture(ResourceManager::CreateAsset<Texture2D>("textures/ui-sprite.png"));
 		GuiBatcher::SetDefaultBorderRadius(8);

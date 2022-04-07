@@ -27,21 +27,34 @@ struct Lights {
 	bool	ToggleDiffuse;
 	bool	ToggleSpecular;
 	float	SpecularStrength;
+};
 
+struct Effects {
 	bool ToggleInversion;
+	bool ToggleTextures;
 };
 
 // Create a uniform for the material
 uniform Material u_Material;
 uniform Lights u_Lights;
+uniform Effects u_Effects;
 
 #include "../fragments/frame_uniforms.glsl"
 
 // https://learnopengl.com/Advanced-Lighting/Advanced-Lighting
 void main() {
-	// Get albedo from the material
-	vec4 albedoColor = texture(u_Material.AlbedoMap, inUV);
 
+	// Get albedo from the material
+	// ======================================================
+
+	vec4 albedoColor;
+	if (u_Effects.ToggleTextures) {
+		albedoColor = texture(u_Material.AlbedoMap, inUV);
+	} else {
+		albedoColor = vec4(0.5, 0.5, 0.5, 1.0);
+	}
+	
+	// Process Lighting 
 	// ======================================================
 
 	vec3 result = vec3(0, 0, 0);
@@ -71,12 +84,17 @@ void main() {
 		vec3 specular = u_Lights.SpecularStrength * spec * u_Lights.Color;
 		result += specular;
 	}
-		
-	// Inversion
-	if (u_Lights.ToggleInversion)
+
+	// Shader Effects
+	// ======================================================
+	
+	if (u_Effects.ToggleInversion)
 	{
 		albedoColor = vec4(vec3(1.0 - texture(u_Material.AlbedoMap, inUV)), 1.0);
 	}
+
+	// Result
+	// ======================================================
 
 	// RESULT
 	albedoColor *= vec4(result, 1.0);
