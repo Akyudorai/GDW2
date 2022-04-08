@@ -186,9 +186,9 @@ void MenuSceneLayer::LoadScene()
 			light->SetPosition(glm::vec3(glm::vec3(0, 0, 1)));
 
 			Light::Sptr lightComponent = light->Add<Light>();
-			lightComponent->SetColor(glm::vec3(1));
+			lightComponent->SetColor(glm::vec3(0.5f, 0.7f, 1.0f));
 			lightComponent->SetRadius(1);
-			lightComponent->SetIntensity(10);
+			lightComponent->SetIntensity(17);
 		}
 
 
@@ -208,50 +208,26 @@ void MenuSceneLayer::LoadScene()
 		GameObject::Sptr menuCanvas = scene->CreateGameObject("Menu Canvas");
 		{
 			GameObject::Sptr t = UIHelper::CreateImage(scene, Resources::GetTexture2D("TitleT"), "title");
-			t->Get<RectTransform>()->SetPosition({ 550, 82 });
-			t->Get<RectTransform>()->SetSize({ 100, 40 });
+			t->Get<RectTransform>()->SetPosition({ 1100, 120 });
+			t->Get<RectTransform>()->SetSize({ 120, 60 });
 			t->Get<GuiPanel>()->SetBorderRadius(0);
 			menuCanvas->AddChild(t);
 
 			GameObject::Sptr upperGraphic = UIHelper::CreateImage(scene, Resources::GetTexture2D("Upper"), "Upper Graphic");
-			upperGraphic->Get<RectTransform>()->SetPosition({ 550, 180 });
-			upperGraphic->Get<RectTransform>()->SetSize({ 80, 60 });
+			upperGraphic->Get<RectTransform>()->SetPosition({ 1090, 280 });
+			upperGraphic->Get<RectTransform>()->SetSize({ 100, 80 });
 			upperGraphic->Get<GuiPanel>()->SetBorderRadius(0);
 			menuCanvas->AddChild(upperGraphic);
 
-			GameObject::Sptr button1 = UIHelper::CreateImage(scene, Resources::GetTexture2D("New"), "New Game");
-			button1->Get<RectTransform>()->SetPosition({ 550, 260 });
-			button1->Get<RectTransform>()->SetSize({ 60, 30 });
+			GameObject::Sptr button1 = UIHelper::CreateImage(scene, Resources::GetTexture2D("MainMenu"), "MainMenu");
+			button1->Get<RectTransform>()->SetPosition({ 1090, 500 });
+			button1->Get<RectTransform>()->SetSize({ 100, 50 });
 			button1->Get<GuiPanel>()->SetBorderRadius(0);
 			menuCanvas->AddChild(button1);
 
-			GameObject::Sptr button2 = UIHelper::CreateImage(scene, Resources::GetTexture2D("ChooseLevel"), "ChooseLevel");
-			button2->Get<RectTransform>()->SetPosition({ 550, 360 });
-			button2->Get<RectTransform>()->SetSize({ 60, 30 });
-			button2->Get<GuiPanel>()->SetBorderRadius(0);
-			menuCanvas->AddChild(button2);
-
-			GameObject::Sptr b3 = UIHelper::CreateImage(scene, Resources::GetTexture2D("Options"), "Options");
-			b3->Get<RectTransform>()->SetPosition({ 550, 460 });
-			b3->Get<RectTransform>()->SetSize({ 60, 30 });
-			b3->Get<GuiPanel>()->SetBorderRadius(0);
-			menuCanvas->AddChild(b3);
-
-			GameObject::Sptr b4 = UIHelper::CreateImage(scene, Resources::GetTexture2D("Credits"), "Credits");
-			b4->Get<RectTransform>()->SetPosition({ 550, 560 });
-			b4->Get<RectTransform>()->SetSize({ 60, 30 });
-			b4->Get<GuiPanel>()->SetBorderRadius(0);
-			menuCanvas->AddChild(b4);
-
-			GameObject::Sptr b5 = UIHelper::CreateImage(scene, Resources::GetTexture2D("Exit"), "Exit");
-			b5->Get<RectTransform>()->SetPosition({ 550, 660 });
-			b5->Get<RectTransform>()->SetSize({ 60, 30 });
-			b5->Get<GuiPanel>()->SetBorderRadius(0);
-			menuCanvas->AddChild(b5);
-
 			GameObject::Sptr lowerGraphic = UIHelper::CreateImage(scene, Resources::GetTexture2D("Lower"), "Lower Graphic");
-			lowerGraphic->Get<RectTransform>()->SetPosition({ 550, 740 });
-			lowerGraphic->Get<RectTransform>()->SetSize({ 80, 60 });
+			lowerGraphic->Get<RectTransform>()->SetPosition({ 1090, 700 });
+			lowerGraphic->Get<RectTransform>()->SetSize({ 100, 80 });
 			lowerGraphic->Get<GuiPanel>()->SetBorderRadius(0);
 			menuCanvas->AddChild(lowerGraphic);
 		}
