@@ -45,23 +45,17 @@ void PlayerController::Update(float deltaTime)
 	// Detect for Death
 	if (m_body->Get<HealthComponent>()->GetCurrentHealth() <= 0 || m_shadow->Get<HealthComponent>()->GetCurrentHealth() <= 0)
 	{
-		if (GameManager::GetInstance().GameInterface.m_LosePanel != nullptr)
-		{
-			GameManager::GetInstance().GameInterface.ToggleLosePanel(true);
-			GameManager::GetInstance().SetPaused(true);
+		GameManager::GetInstance().SetPaused(true);
+		GameManager::GetInstance().SetGameOver(true);
+
+		if (GameManager::GetInstance().GameInterface.m_PauseMenuPanel != nullptr) {			
+			GameManager::GetInstance().GameInterface.ToggleLosePanel(true);			
+		}
+
+		if (GameManager::GetInstance().GameInterface.m_GameUserInterface != nullptr) {
+			GameManager::GetInstance().GameInterface.ToggleGameUserInterface(false);
 		}
 	}
-
-
-	// If the player presses the Tab key, it pauses the game.  See Scene.cpp at line 
-	if (InputEngine::GetKeyState(GLFW_KEY_TAB) == ButtonState::Pressed)
-	{
-		if (GameManager::GetInstance().GameInterface.m_PauseMenuPanel != nullptr) {
-			GameManager::GetInstance().SetPaused(!GameManager::GetInstance().IsPaused());
-			GameManager::GetInstance().GameInterface.TogglePausePanel(GameManager::GetInstance().IsPaused());
-		}
-	}
-
 
 	// If we're paused, we dont want our player to be able to do anything else after this point
 	if (GameManager::GetInstance().IsPaused()) return;

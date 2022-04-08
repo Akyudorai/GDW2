@@ -395,7 +395,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 2.0f, 0.0f));
-			collider->SetScale(glm::vec3(1.0f, 4.0f, 3.5f));
+			collider->SetScale(glm::vec3(1.92f, 4.0f, 12.95f));
 			physics->AddCollider(collider);
 			physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
 			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
@@ -944,6 +944,44 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Grave Stone"));
 			renderer->SetMaterial(Resources::GetMaterial("Grave Stone"));
+		}
+
+		return result;
+	}
+
+	if (name == "Objective")
+	{
+		result = scene->CreateGameObject("Objective");
+		{
+			result->SetPosition(position);
+			result->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("Character Dagger"));
+			renderer->SetMaterial(Resources::GetMaterial("Character Dagger"));
+
+			// Collider
+			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			physics->AddCollider(collider);
+
+			// Interaction Event
+			InteractableComponent::Sptr interactable = result->Add<InteractableComponent>();
+			interactable->onInteractionEvent.push_back([result] {
+				result->Get<RenderComponent>()->IsEnabled = false;
+				
+				GameManager::GetInstance().SetPaused(true);
+				GameManager::GetInstance().SetGameOver(true);
+
+				if (GameManager::GetInstance().GameInterface.m_WinPanel != nullptr) {					
+					GameManager::GetInstance().GameInterface.ToggleWinPanel(true);					
+				}
+
+				if (GameManager::GetInstance().GameInterface.m_GameUserInterface != nullptr) {
+					GameManager::GetInstance().GameInterface.ToggleGameUserInterface(false);
+				}
+			});
 		}
 
 		return result;

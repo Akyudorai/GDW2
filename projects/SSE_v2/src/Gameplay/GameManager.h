@@ -15,6 +15,10 @@ namespace Gameplay
 		void Update(float deltaTime);
 		void Reset();
 
+		inline bool IsMainMenu() { return isMainMenu; }
+		inline void SetIsMainMenu(bool state) { isMainMenu = state; }
+		inline bool IsGameOver() { return isGameOver; }
+		inline void SetGameOver(bool state) { isGameOver = state; }
 		inline bool IsPaused() { return isPaused; }
 		inline void SetPaused(bool state) { isPaused = state; }
 		inline bool PlayerHasKey() { return hasKey; }
@@ -31,5 +35,7 @@ namespace Gameplay
 		bool hasKey = false;
 		bool isPaused = false;
 		float gameTime = 0.0f;
+		bool isGameOver = false;
+		bool isMainMenu = false;
 	};
 }

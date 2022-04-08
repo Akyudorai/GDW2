@@ -84,6 +84,7 @@ void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
 	_effects.push_back(std::make_shared<ColorCorrectionEffect>()); //Color Correction
 	_effects.push_back(std::make_shared<FilmGrainEffect>());  //Film Grain
 	_effects.push_back(std::make_shared<DepthOfField>()); //depth of field
+	GetEffect<DepthOfField>()->Enabled = false;
 
 	Application& app = Application::Get();
 	const glm::uvec4& viewport = app.GetPrimaryViewport();
