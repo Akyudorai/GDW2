@@ -685,7 +685,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			TriggerVolume::Sptr volume = result->Add<TriggerVolume>();
 			BoxCollider::Sptr collider = BoxCollider::Create();
 			collider->SetPosition(collider->GetPosition() + glm::vec3(0.0f, 1.5f, 0.0f));
-			collider->SetScale(glm::vec3(2.0f, 1.8f, 2.0f));
+			collider->SetScale(glm::vec3(3.0f));
 			volume->AddCollider(collider);
 			volume->SetCollisionGroup(Resources::Instance().PHYSICAL_GROUP);
 			volume->SetCollisionMask(Resources::Instance().PHYSICAL_MASK);
@@ -696,7 +696,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
 
 				if (!pc->isShadow) {
-					pc->GetCharacterBody()->Get<HealthComponent>()->Heal(0.1f);
+					pc->GetCharacterBody()->Get<HealthComponent>()->Heal(0.5f);
 				}
 			});
 		}

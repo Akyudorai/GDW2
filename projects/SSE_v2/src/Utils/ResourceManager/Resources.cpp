@@ -105,21 +105,16 @@ void Resources::Initialize()
 	//USER INTERFACE
 			textures_2D.emplace("Upper", ResourceManager::CreateAsset<Texture2D>("textures/UI/UpperGraphic.png"));
 			textures_2D.emplace("Lower", ResourceManager::CreateAsset<Texture2D>("textures/UI/LowerGraphic.png"));
-			textures_2D.emplace("New", ResourceManager::CreateAsset<Texture2D>("textures/UI/NewGame.png"));
-			textures_2D.emplace("Options", ResourceManager::CreateAsset<Texture2D>("textures/UI/Options.png"));
-			textures_2D.emplace("ChooseLevel", ResourceManager::CreateAsset<Texture2D>("textures/UI/ChooseLevel.png"));
-			textures_2D.emplace("Credits", ResourceManager::CreateAsset<Texture2D>("textures/UI/Credits.png"));
-			textures_2D.emplace("Exit", ResourceManager::CreateAsset<Texture2D>("textures/UI/ExitGame.png"));
-			textures_2D.emplace("R", ResourceManager::CreateAsset<Texture2D>("textures/UI/Resume.png"));
-			textures_2D.emplace("Re", ResourceManager::CreateAsset<Texture2D>("textures/UI/Restart.png"));
-			textures_2D.emplace("Return", ResourceManager::CreateAsset<Texture2D>("textures/UI/ReturntoMainMenu.png"));
+			textures_2D.emplace("MainMenu", ResourceManager::CreateAsset<Texture2D>("textures/UI/MainMenu.png"));
 			textures_2D.emplace("TitleT", ResourceManager::CreateAsset<Texture2D>("textures/UI/Title.png"));
 			textures_2D.emplace("Pause", ResourceManager::CreateAsset<Texture2D>("textures/UI/Paused.png"));
 			textures_2D.emplace("LS", ResourceManager::CreateAsset<Texture2D>("textures/UI/LogoScreen.png"));
 			textures_2D.emplace("Lose", ResourceManager::CreateAsset<Texture2D>("textures/UI/LoseScreen.png"));
 			textures_2D.emplace("CharacterH", ResourceManager::CreateAsset<Texture2D>("textures/UI/CharacterHealth.png"));
 			textures_2D.emplace("ShadowH", ResourceManager::CreateAsset<Texture2D>("textures/UI/AntiformHealth.png"));
-
+			textures_2D.emplace("Legend", ResourceManager::CreateAsset<Texture2D>("textures/UI/Legend.png"));
+			textures_2D.emplace("Controls", ResourceManager::CreateAsset<Texture2D>("textures/UI/Controls.png"));
+			textures_2D.emplace("WinScreen", ResourceManager::CreateAsset<Texture2D>("textures/UI/WinScreen.png"));
 
 	// WEEK 9
 	textures_2D.emplace("Box Diffuse", ResourceManager::CreateAsset<Texture2D>("textures/box-diffuse.png"));
@@ -425,17 +420,6 @@ void Resources::Initialize()
 
 		materials.emplace("Key", std::move(keyMat));
 	}
-
-	Material::Sptr whiteMat = ResourceManager::CreateAsset<Material>(deferredForward);
-	{
-		whiteMat->Name = "White";
-		whiteMat->Set("u_Material.AlbedoMap", GetTexture2D("White"));
-		whiteMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
-		whiteMat->Set("u_Material.Shininess", 0.1f);
-
-		materials.emplace("White", std::move(whiteMat));
-	}
-
 
 	Material::Sptr brownMat = ResourceManager::CreateAsset<Material>(deferredForward);
 	{

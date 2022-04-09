@@ -104,23 +104,23 @@ namespace Gameplay
 
 	void GameManager::Update(float deltaTime)
 	{
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_5) == ButtonState::Pressed)
+		if (InputEngine::GetKeyState(GLFW_KEY_F10) == ButtonState::Pressed)
 		{
 			leaderboard.Debug();
 		}
 
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_6) == ButtonState::Pressed)
+		if (InputEngine::GetKeyState(GLFW_KEY_F11) == ButtonState::Pressed)
 		{
 			leaderboard.Sort();
 		}
 
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_4) == ButtonState::Pressed)
+		if (InputEngine::GetKeyState(GLFW_KEY_F12) == ButtonState::Pressed)
 		{
 			leaderboard.Push(Highscore(7));
 		}
 
 		// If the player presses the Numpad 7, switch to Game Scene.
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_7) == ButtonState::Pressed)
+		if (InputEngine::GetKeyState(GLFW_KEY_F1) == ButtonState::Pressed)
 		{
 			Application& app = Application::Get();
 
@@ -140,8 +140,8 @@ namespace Gameplay
 
 		}
 
-		// If the player presses the Numpad 8 key, switch to Menu Scene.
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_8) == ButtonState::Pressed)
+		// If the player presses the F2 Key, switch to Menu Scene.
+		if (InputEngine::GetKeyState(GLFW_KEY_F2) == ButtonState::Pressed) 
 		{
 			Application& app = Application::Get();
 
@@ -161,8 +161,8 @@ namespace Gameplay
 
 		}
 
-		// If the player presses the Numpad 9 key when game is over, it restarts the game.
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_9) == ButtonState::Pressed)
+		// If the player presses the F3 key when game is over, it restarts the game.
+		if (InputEngine::GetKeyState(GLFW_KEY_F3) == ButtonState::Pressed) 
 		{
 			if (IsGameOver()) {
 				Reset();
@@ -184,61 +184,6 @@ namespace Gameplay
 
 			if (GameInterface.m_PauseMenuPanel != nullptr) {				
 				GameInterface.TogglePausePanel(IsPaused());
-			}
-		}
-
-		// REMOVE ONCE UI FIXES ARE DONE
-		// If the player presses the Numpad 1 key, it causes a win event.
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_1) == ButtonState::Pressed)
-		{
-			if (GameInterface.m_WinPanel != nullptr) {
-				SetPaused(true);
-				GameInterface.ToggleWinPanel(true);				
-			}
-
-			if (GameInterface.m_GameUserInterface != nullptr)
-			{
-				GameInterface.ToggleGameUserInterface(false);
-			}
-		}
-
-		// REMOVE ONCE UI FIXES ARE DONE
-		// If the player presses the Numpad 1 key, it causes a loss event.
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_2) == ButtonState::Pressed)
-		{
-			if (GameInterface.m_PauseMenuPanel != nullptr) {
-				SetPaused(true);
-				GameInterface.ToggleLosePanel(true);
-			}
-
-			if (GameInterface.m_GameUserInterface != nullptr)
-			{
-				GameInterface.ToggleGameUserInterface(false);
-			}
-		}
-
-		// REMOVE ONCE UI FIXES ARE DONE
-		// Clear all UI except for Game UI
-		if (InputEngine::GetKeyState(GLFW_KEY_KP_0) == ButtonState::Pressed)
-		{
-			SetPaused(false);
-			SetGameOver(false);
-			
-			if (GameInterface.m_GameUserInterface != nullptr)
-			{
-				GameInterface.ToggleGameUserInterface(true);
-			}
-
-			if (GameInterface.m_PauseMenuPanel != nullptr) {				
-				GameInterface.ToggleLosePanel(false);
-			}
-
-			if (GameInterface.m_WinPanel != nullptr) {				
-				GameInterface.ToggleWinPanel(false);
-			}
-
-			if (GameInterface.m_PauseMenuPanel != nullptr) {				
-				GameInterface.TogglePausePanel(false);
 			}
 		}
 	}
