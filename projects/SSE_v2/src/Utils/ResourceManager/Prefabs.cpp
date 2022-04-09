@@ -296,7 +296,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				{
 					PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
 
-					if (!pc->isShadow) {
+					if (pc->isShadow) {
 						pc->GetCharacterShadow()->Get<HealthComponent>()->DealDamage(0.1f);
 					}
 				});

@@ -4,8 +4,36 @@
 #include "UI/GameInterfaceManager.h"
 #include "Gameplay/PlayerController.h"
 
+#include <vector>
+
 namespace Gameplay
 {
+	struct Highscore
+	{
+	public:
+		float CompletionTime = 0;
+	
+	public:
+		Highscore(float val) {
+			CompletionTime = val;
+		}
+	};
+
+	class Leaderboard
+	{
+	private:
+		std::vector<Highscore> HighScores = std::vector<Highscore>();
+
+	public:
+		Leaderboard();
+		void Push(Highscore score);
+		void Sort();
+		void Debug();
+
+		void Save();
+		void Load();
+	};
+
 	class GameManager
 	{
 	public:
@@ -29,6 +57,7 @@ namespace Gameplay
 
 	public:
 		static GameInterfaceManager GameInterface;
+		static Leaderboard leaderboard;
 
 	protected:
 		PlayerController::Sptr pc;
