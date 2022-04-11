@@ -59,7 +59,7 @@ void SpikeTrapBehavior::Update(float deltaTime)
 			isExtended = false;
 
 			animator->SetReverse(true);
-			//animator->Play();			
+			animator->PlayAnimation("Spikes");
 		}
 
 		// Extend Spikes
@@ -71,7 +71,7 @@ void SpikeTrapBehavior::Update(float deltaTime)
 			isExtended = true;
 
 			animator->SetReverse(false);
-			//animator->Play();
+			animator->PlayAnimation("Spikes");
 		}
 	}
 }

@@ -296,7 +296,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				{
 					PlayerController::Sptr pc = GameManager::GetInstance().GetPC();
 
-					if (pc->isShadow) { 
+					if (pc->isShadow) {
 						pc->GetCharacterShadow()->Get<HealthComponent>()->DealDamage(0.1f);
 					}
 				});
@@ -475,8 +475,8 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			// Collider
 			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);
 			BoxCollider::Sptr collider = BoxCollider::Create();
-			collider->SetScale(glm::vec3(1.5f, 3.8f, 4.3f));
-			collider->SetPosition(collider->GetPosition() + glm::vec3(0, 0, 0));
+			collider->SetScale(glm::vec3(1.5f, 5.0f, 10.0f)); 
+			collider->SetPosition(collider->GetPosition() + glm::vec3(0, 7, 0));  
 			physics->AddCollider(collider);
 			physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
 			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);

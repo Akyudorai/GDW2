@@ -132,8 +132,6 @@ void GameSceneLayer::LoadScene()
 		// Since the skybox I used was for Y-up, we need to rotate it 90 deg around the X-axis to convert it to z-up 
 		scene->SetSkyboxRotation(glm::rotate(MAT4_IDENTITY, glm::half_pi<float>(), glm::vec3(1.0f, 0.0f, 0.0f)));
 
-		// Configure the color correction LUT
-		scene->SetColorLUT(Resources::GetTexture3D("Cool Lut"));
 
 		// Character
 		// =========================================================================
@@ -1370,7 +1368,9 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr keyDoor = Prefabs::Load(scene, "Key Door", glm::vec3(-12.0f, 21.0f, 10.0f));
 			{
-				keyDoor->SetRotation(glm::vec3(90, 0, 0));
+				keyDoor->SetPosition(glm::vec3(-12.0f, 21.0f, 10.0f));
+				keyDoor->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
+				keyDoor->SetScale(glm::vec3(1.0f, 1.5f, 1.5f));
 				section6->AddChild(keyDoor);
 			}
 		}
