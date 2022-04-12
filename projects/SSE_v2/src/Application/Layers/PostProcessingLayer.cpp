@@ -81,10 +81,11 @@ void PostProcessingLayer::AddEffect(const Effect::Sptr& effect) {
 void PostProcessingLayer::OnAppLoad(const nlohmann::json& config)
 {
 	// Loads some effects in
-	//_effects.push_back(std::make_shared<ColorCorrectionEffect>()); //Color Correction
+	_effects.push_back(std::make_shared<ColorCorrectionEffect>()); //Color Correction
 	_effects.push_back(std::make_shared<FilmGrainEffect>());  //Film Grain
 	_effects.push_back(std::make_shared<DepthOfField>()); //depth of field
 	GetEffect<DepthOfField>()->Enabled = false;
+	GetEffect<ColorCorrectionEffect>()->Enabled = false;
 
 	Application& app = Application::Get();
 	const glm::uvec4& viewport = app.GetPrimaryViewport();
@@ -191,8 +192,7 @@ void PostProcessingLayer::OnSceneUnload()
 
 void PostProcessingLayer::OnUpdate()
 {
-	Application& colorlutset = Application::Get();
-	if (InputEngine::GetKeyState(GLFW_KEY_8) == ButtonState::Pressed) colorlutset.CurrentScene()->SetColorLUT(ResourceManager::CreateAsset<Texture3D>("luts/cool.CUBE")); 
+	
 }
 
 void PostProcessingLayer::OnWindowResize(const glm::ivec2& oldSize, const glm::ivec2& newSize)

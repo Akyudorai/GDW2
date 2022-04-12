@@ -40,6 +40,16 @@ void ColorCorrectionEffect::RenderImGui()
 	LABEL_LEFT(ImGui::SliderFloat, "Strength", &_strength, 0, 1);
 }
 
+void ColorCorrectionEffect::SetColorLut(Texture3D::Sptr lut)  
+{
+	Lut = lut;
+}
+
+Texture3D::Sptr ColorCorrectionEffect::GetColorLut() 
+{
+	return Lut; 
+}
+
 ColorCorrectionEffect::Sptr ColorCorrectionEffect::FromJson(const nlohmann::json& data)
 {
 	ColorCorrectionEffect::Sptr result = std::make_shared<ColorCorrectionEffect>(false);

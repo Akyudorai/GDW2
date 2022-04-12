@@ -14,6 +14,8 @@ public:
 
 	virtual void Apply(const Framebuffer::Sptr& gBuffer) override;
 	virtual void RenderImGui() override;
+	void SetColorLut(Texture3D::Sptr lut);  
+	Texture3D::Sptr GetColorLut();  
 
 	// Inherited from IResource
 

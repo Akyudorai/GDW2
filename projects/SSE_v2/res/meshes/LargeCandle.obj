@@ -1,6 +1,6 @@
 # Blender v3.0.0 OBJ File: 'Large Candle.blend'
 # www.blender.org
-mtllib Large Candle.mtl
+mtllib LargeCandle.mtl
 o Cylinder
 v 0.024638 0.145395 -2.868610
 v 0.431652 0.121020 -2.481728

@@ -153,6 +153,13 @@ void GameSceneLayer::LoadScene()
 			shadow->SetPosition(glm::vec3(0.0f, -40.0f, 5.4f));
 		}
 
+
+		GameObject::Sptr enemy = Prefabs::Load(scene, "Mage Enemy");
+		{
+			enemy->SetPosition(glm::vec3(8.0f, -38.0f, 5.0f));
+			enemy->SetRotation(glm::vec3(90.0f, 0.0f, -120.0f)); 
+		}
+
 		GameObject::Sptr controller = scene->CreateGameObject("Controller");
 		{
 			PlayerController::Sptr pc = controller->Add<PlayerController>();
@@ -249,7 +256,84 @@ void GameSceneLayer::LoadScene()
 
 			section1->AddChild(Prefabs::Load(scene, "Floor Grate", glm::vec3(14.75f, -36.f, 5.71f)));
 			section1->AddChild(Prefabs::Load(scene, "Pillar", glm::vec3(65.8f, -46.15f, 5.48f)));
-			section1->AddChild(Prefabs::Load(scene, "Gravestone", glm::vec3(7.13f, -33.16f, 5.45f)));
+
+			GameObject::Sptr gravex = Prefabs::Load(scene, "Gravestone");
+			{
+				gravex->SetPosition(glm::vec3(7.13f, -33.16f, 5.45f));
+				gravex->SetRotation(glm::vec3(90.0f, 0.0f, -90.0f));
+				section1->AddChild(gravex);
+			}
+
+			GameObject::Sptr grave1 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave1->SetPosition(glm::vec3(50.0f, -33.16f, 5.45f));
+				grave1->SetRotation(glm::vec3(90.0f, 0.0f, -60.0f));
+				section1->AddChild(grave1);
+			}
+
+			GameObject::Sptr grave2 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave2->SetPosition(glm::vec3(40.0f, 0.0f, 5.45f));
+				grave2->SetRotation(glm::vec3(90.0f, 0.0f, -50.0f));
+				section1->AddChild(grave2);
+			}
+
+			GameObject::Sptr grave3 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave3->SetPosition(glm::vec3(0.0f, -10.0f, 4.3f));
+				grave3->SetRotation(glm::vec3(90.0f, -30.0f, -50.0f));
+				section1->AddChild(grave3);
+			}
+
+			GameObject::Sptr grave4 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave4->SetPosition(glm::vec3(-40.0f, -38.0f, 15.0f));
+				grave4->SetRotation(glm::vec3(90.0f, 0.0f, 90.0f));
+				section1->AddChild(grave4);
+			}
+
+			GameObject::Sptr grave5 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave5->SetPosition(glm::vec3(-35.0f, -25.0, 13.0f));
+				grave5->SetRotation(glm::vec3(90.0f, 0.0f, -60.0f));
+				section1->AddChild(grave5);
+			}
+
+			GameObject::Sptr grave6 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave6->SetPosition(glm::vec3(-65.0f, 16.0, 13.0f));
+				grave6->SetRotation(glm::vec3(90.0f, 0.0f, 50.0f));
+				section1->AddChild(grave6);
+			}
+
+			GameObject::Sptr grave7 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave7->SetPosition(glm::vec3(-18.0f, 29.0f, 13.0f));
+				grave7->SetRotation(glm::vec3(90.0f, 0.0f, -90.0f));
+				section1->AddChild(grave7);
+			}
+
+			GameObject::Sptr grave8 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave8->SetPosition(glm::vec3(80.0f, 26.0f, 13.0f));
+				grave8->SetRotation(glm::vec3(90.0f, 0.0f, -135.0f));
+				section1->AddChild(grave8);
+			}
+
+			GameObject::Sptr grave9 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave9->SetPosition(glm::vec3(135.0, 55.0f, 13.0f));
+				grave9->SetRotation(glm::vec3(90.0f, 0.0f, -135.0f));
+				section1->AddChild(grave9);
+			}
+
+			GameObject::Sptr grave10 = Prefabs::Load(scene, "Gravestone");
+			{
+				grave10->SetPosition(glm::vec3(180.0, -4.0f, 13.0f));
+				grave10->SetRotation(glm::vec3(90.0f, 0.0f, -90.0f));
+				section1->AddChild(grave10);
+			}
+
 
 			GameObject::Sptr swordProp_1 = Prefabs::Load(scene, "Sword");
 			{
@@ -486,7 +570,7 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr wall7 = Prefabs::Load(scene, "Wall");
 			{
-				wall7->SetPosition(glm::vec3(-9.95f, -50.0f, 4.0f));
+				wall7->SetPosition(glm::vec3(-9.95f, -49.660f, 4.0f));
 				wall7->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				wall7->SetScale(glm::vec3(1.0f, 1.0f, 0.35f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
@@ -498,7 +582,7 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr wall8 = Prefabs::Load(scene, "Wall");
 			{
-				wall8->SetPosition(glm::vec3(10.0f, -50.0f, 4.0f));
+				wall8->SetPosition(glm::vec3(10.0f, -49.660f, 4.0f));
 				wall8->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				wall8->SetScale(glm::vec3(1.0f, 1.0f, 0.5f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
@@ -558,7 +642,7 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr wall59 = Prefabs::Load(scene, "Wall");
 			{
-				wall59->SetPosition(glm::vec3(32.810f, -36.58f, 4.5f));
+				wall59->SetPosition(glm::vec3(32.810f, -36.58f, 4.0f));
 				wall59->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				wall59->SetScale(glm::vec3(1.0f, 1.0f, 0.89f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
@@ -609,7 +693,7 @@ void GameSceneLayer::LoadScene()
 				section2->AddChild(s2_torch_1);
 			}
 
-			GameObject::Sptr s2_torch_2 = Prefabs::Load(scene, "Torch", glm::vec3(30.75, -8.5, 5));
+			GameObject::Sptr s2_torch_2 = Prefabs::Load(scene, "Torch", glm::vec3(10.00, -8.5, 5));
 			{
 				for (auto& c : s2_torch_2->GetChildren())
 				{
@@ -824,6 +908,7 @@ void GameSceneLayer::LoadScene()
 			section3->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(-51, 4, 5)));
 			section3->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(-45, 3, 5)));
 			section3->AddChild(Prefabs::Load(scene, "Torch", glm::vec3(-37.6, -3.4, 5)));
+			section3->AddChild(Prefabs::Load(scene, "Torch", glm::vec3(-40, -32, 15)));
 			section3->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-53.85f, -15.3, 9.84f)));
 			section3->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-37, -17.2, 13.3f)));
 			section3->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-48.1, -20.9, 15.2f)));
@@ -1050,7 +1135,6 @@ void GameSceneLayer::LoadScene()
 			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-32.8, -38.1, 15.2f)));
 			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-42.5, -26.5, 15.2f)));
 			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-26.7, -26.5, 15.2f)));
-			section4->AddChild(Prefabs::Load(scene, "Candle", glm::vec3(-46.9, -37.6, 15.2f)));
 			GameObject::Sptr s4_candle_1 = Prefabs::Load(scene, "Candle", glm::vec3(-18.75, -41.4, 5.2f));
 			{
 
@@ -1059,7 +1143,8 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr s4_plate_door = Prefabs::Load(scene, "Cage Door");
 			{
-				s4_plate_door->SetPosition(glm::vec3(-21.250f, -23.0f, 15.0f));
+				s4_plate_door->SetPosition(glm::vec3(-21.250f, -24.5f, 15.0f));
+				s4_plate_door->SetScale(glm::vec3(0.25, 0.125, 0.1));
 				s4_plate_door->SetRotation(glm::vec3(90, 0, 90));
 				section4->AddChild(s4_plate_door);
 			}
@@ -1088,21 +1173,24 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr s4_lever_door_1 = Prefabs::Load(scene, "Cage Door");
 			{
-				s4_lever_door_1->SetPosition(glm::vec3(-0.5f, -31.5f, 5.0f));
+				s4_lever_door_1->SetPosition(glm::vec3(-0.5f, -31.2f, 5.0f));
+				s4_lever_door_1->SetScale(glm::vec3(0.25, 0.125, 0.06));
 				s4_lever_door_1->SetRotation(glm::vec3(90, 0, 90));
 				section4->AddChild(s4_lever_door_1);
 			}
 
 			GameObject::Sptr s4_lever_door_2 = Prefabs::Load(scene, "Cage Door");
 			{
-				s4_lever_door_1->SetPosition(glm::vec3(-16.0f, -44.5f, 5.0f));
+				s4_lever_door_2->SetPosition(glm::vec3(-15.9f, -45.5f, 5.0f));
+				s4_lever_door_2->SetScale(glm::vec3(0.25f, 0.14f, 0.05f));
 				s4_lever_door_2->SetRotation(glm::vec3(90, 0, 0));
 				section4->AddChild(s4_lever_door_2);
 			}
 
 			GameObject::Sptr s4_lever_door_3 = Prefabs::Load(scene, "Cage Door");
 			{
-				s4_lever_door_1->SetPosition(glm::vec3(-24.25f, -39.0f, 15.0f));
+				s4_lever_door_3->SetPosition(glm::vec3(-24.25f, -39.0f, 15.0f));
+				s4_lever_door_3->SetScale(glm::vec3(0.25f, 0.125f, 0.155f));
 				s4_lever_door_3->SetRotation(glm::vec3(90, 0, 90));
 				section4->AddChild(s4_lever_door_3);
 			}
@@ -1149,8 +1237,8 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr s4_elevator = Prefabs::Load(scene, "Moving Platform", glm::vec3(-26.75f, -44.75f, 15.0f));
 			{
-				s4_elevator->Get<MovingPlatformBehavior>()->SetStartPosition(glm::vec3(-26.75f, -44.75f, 15.0f));
-				s4_elevator->Get<MovingPlatformBehavior>()->SetEndPosition(glm::vec3(-26.75f, -46.75f, 5.5f));
+				s4_elevator->Get<MovingPlatformBehavior>()->SetStartPosition(glm::vec3(-24.0f, -44.75f, 15.0f));
+				s4_elevator->Get<MovingPlatformBehavior>()->SetEndPosition(glm::vec3(-24.0f, -44.75f, 4.0f));
 				section4->AddChild(s4_elevator);
 			}
 		}
@@ -1161,16 +1249,9 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr swordProp_7 = Prefabs::Load(scene, "Sword");
 			{
-				swordProp_7->SetPosition(glm::vec3(-31.46f, -28.f, 17.18f));
+				swordProp_7->SetPosition(glm::vec3(-31.46f, -28.f, 16.0f));
 				swordProp_7->SetRotation(glm::vec3(-124.0f, 0.0f, 90.0f));
 				section4->AddChild(swordProp_7);
-			}
-
-			GameObject::Sptr staffProp_6 = Prefabs::Load(scene, "Staff");
-			{
-				staffProp_6->SetPosition(glm::vec3(-19.36f, -42.0f, 5.3f));
-				staffProp_6->SetRotation(glm::vec3(-34.f, 90.0f, 173.0f));
-				section4->AddChild(staffProp_6);
 			}
 
 			GameObject::Sptr rocks_4 = Prefabs::Load(scene, "Rocks");
@@ -1189,14 +1270,6 @@ void GameSceneLayer::LoadScene()
 				floor10->SetScale(glm::vec3(0.67f, 0.4f, 1.0f));
 				floor10->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(16.75f, 10.0f, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
 				section4->AddChild(floor10);
-			}
-
-			GameObject::Sptr s4_floor_2 = Prefabs::Load(scene, "Floor");
-			{
-				s4_floor_2->SetPosition(glm::vec3(-24, -43, 5));
-				s4_floor_2->SetScale(glm::vec3(0.36f, 0.28f, 1.0f));
-				s4_floor_2->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(1)))->SetPosition(glm::vec3(-24, -43, 5));
-				section4->AddChild(s4_floor_2);
 			}
 		}
 
@@ -1285,16 +1358,6 @@ void GameSceneLayer::LoadScene()
 				collider->SetScale(glm::vec3(1.47f, 14.42f, 12.09f));
 				section4->AddChild(wall37);
 			}
-
-			GameObject::Sptr s4_wall_1 = Prefabs::Load(scene, "Wall");
-			{
-				s4_wall_1->SetPosition(glm::vec3(-23.5f, -40, 5));
-				s4_wall_1->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-				s4_wall_1->SetScale(glm::vec3(1.0f, 1.35f, 0.56f));
-				BoxCollider::Sptr collider = BoxCollider::Create();
-				s4_wall_1->Get<RigidBody>()->AddCollider(collider);
-				section4->AddChild(s4_wall_1);
-			}
 		}
 
 
@@ -1313,8 +1376,8 @@ void GameSceneLayer::LoadScene()
 		{
 			GameObject::Sptr staffProp_7 = Prefabs::Load(scene, "Staff");
 			{
-				staffProp_7->SetPosition(glm::vec3(-28.39f, 3.f, 16.98f));
-				staffProp_7->SetRotation(glm::vec3(90.f, -24.0f, 0.0f));
+				staffProp_7->SetPosition(glm::vec3(-28.39f, 3.f, 15.0f));
+				staffProp_7->SetRotation(glm::vec3(90.f, -60.0f, 0.0f));
 				section5->AddChild(staffProp_7);
 			}
 		}
@@ -1375,6 +1438,21 @@ void GameSceneLayer::LoadScene()
 			}
 		}
 
+		GameObject::Sptr keyplat = Prefabs::Load(scene, "Platform");
+		{
+			keyplat->SetPosition(glm::vec3(-72.0f, 20.5f, 14.0f));
+			keyplat->SetScale(glm::vec3(2.0f, 2.0f, 1.0f));
+			section6->AddChild(keyplat);
+
+			// Collider
+			RigidBody::Sptr physics = keyplat->Add<RigidBody>(RigidBodyType::Static);
+			BoxCollider::Sptr collider = BoxCollider::Create();
+			collider->SetScale(keyplat->GetScale()); 
+			physics->AddCollider(collider);
+			physics->SetCollisionGroupMulti(Resources::Instance().PHYSICAL_GROUP | Resources::Instance().SHADOW_GROUP);
+			physics->SetCollisionMask(Resources::Instance().PHYSICAL_MASK | Resources::Instance().SHADOW_MASK);
+		}
+
 		// Props
 		{
 			section6->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(-50, 25, 13)));
@@ -1382,17 +1460,21 @@ void GameSceneLayer::LoadScene()
 			section6->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(10, 25, 13)));
 			section6->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(40, 15, 13)));
 			section6->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(35, 29, 13)));
+			section6->AddChild(Prefabs::Load(scene, "Torch", glm::vec3(-45, 20, 13)));
+			section6->AddChild(Prefabs::Load(scene, "Torch", glm::vec3(10, 20, 13)));
+			section6->AddChild(Prefabs::Load(scene, "Torch", glm::vec3(60, 20, 13)));
+			section6->AddChild(Prefabs::Load(scene, "Torch", glm::vec3(235, 20, 13)));
 
 			GameObject::Sptr staffProp_8 = Prefabs::Load(scene, "Staff");
 			{
-				staffProp_8->SetPosition(glm::vec3(-43.81f, 26.83f, 16.f));
+				staffProp_8->SetPosition(glm::vec3(-43.81f, 26.83f, 14.0f));
 				staffProp_8->SetRotation(glm::vec3(0.f, 90.0f, -81.0f));
 				section6->AddChild(staffProp_8);
 			}
 
 			GameObject::Sptr shieldProp_9 = Prefabs::Load(scene, "Shield");
 			{
-				shieldProp_9->SetPosition(glm::vec3(-57.87f, 25.28f, 14.f));
+				shieldProp_9->SetPosition(glm::vec3(-57.87f, 25.28f, 14.0f));
 				shieldProp_9->SetRotation(glm::vec3(0.f, 0.0f, -69.0f));
 				shieldProp_9->SetScale(glm::vec3(0.35f));
 				section6->AddChild(shieldProp_9);
@@ -1408,7 +1490,7 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr swordProp_8 = Prefabs::Load(scene, "Sword");
 			{
-				swordProp_8->SetPosition(glm::vec3(-26.76f, 22.72f, 15.89f));
+				swordProp_8->SetPosition(glm::vec3(-26.76f, 22.72f, 14.0f));
 				swordProp_8->SetRotation(glm::vec3(0.0f, 0.0f, 115.0f));
 				section6->AddChild(swordProp_8);
 			}
@@ -1464,7 +1546,7 @@ void GameSceneLayer::LoadScene()
 		{
 			GameObject::Sptr wall45 = Prefabs::Load(scene, "Wall");
 			{
-				wall45->SetPosition(glm::vec3(-24.78f, 31.22f, 12.5f));
+				wall45->SetPosition(glm::vec3(-24.78f, 32.100f, 12.5f));
 				wall45->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				wall45->SetScale(glm::vec3(1.00f, 0.94f, 0.95f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
@@ -1488,7 +1570,7 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr wall52 = Prefabs::Load(scene, "Wall");
 			{
-				wall52->SetPosition(glm::vec3(-74.0f, 20.75f, 12.5f));
+				wall52->SetPosition(glm::vec3(-74.0f, 21.80f, 12.5f));
 				wall52->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
 				wall52->SetScale(glm::vec3(1.0f, 1.0f, 0.625f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
@@ -1543,7 +1625,7 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr wall61 = Prefabs::Load(scene, "Wall");
 			{
-				wall61->SetPosition(glm::vec3(-56.25f, 29.5f, 12.5f));
+				wall61->SetPosition(glm::vec3(-56.25f, 32.100f, 12.0f));
 				wall61->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				wall61->SetScale(glm::vec3(1.0f, 1.0f, 1.1f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
@@ -1560,65 +1642,120 @@ void GameSceneLayer::LoadScene()
 
 		// Interactables
 		{
-			section7->AddChild(Prefabs::Load(scene, "Objective", glm::vec3(218, 48.15, 16.15)));
+			section7->AddChild(Prefabs::Load(scene, "Objective", glm::vec3(218, 48.15, 15.0)));
 
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 50.0f, 15.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 44.0f, 15.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 57.0f, 15.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -6.0f, 15.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -12.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 50.0f, 13.8f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 44.0f, 13.8f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(120.0f, 57.0f, 13.8f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -6.0f, 13.8f)));
+			section7->AddChild(Prefabs::Load(scene, "Spike Trap", glm::vec3(170.0f, -12.0f, 13.8f)));
 
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(127.130, 33.140, 17.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(138.0, 3.5, 17.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(123.0, 20.0, 17.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(117.000, 10.0, 17.920)));
-			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(228.000, 18.0, 17.920)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(127.130, 33.140, 15)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(138.0, 3.5, 15)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(123.0, 20.0, 15)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(117.000, 10.0, 15)));
+			section7->AddChild(Prefabs::Load(scene, "Cobweb", glm::vec3(228.000, 18.0, 15)));
 
-			section7->AddChild(Prefabs::Load(scene, "Healing Well", glm::vec3(255.0f, 20.0f, 15.0f)));
+			section7->AddChild(Prefabs::Load(scene, "Healing Well", glm::vec3(255.0f, 20.0f, 13.0f)));
 
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 15.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 15.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(200.0f, -5.0f, 15.4f)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(225.0f, -3.0f, 15.4f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 13.0f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(118.0f, -5.0f, 13.0f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(200.0f, -5.0f, 13.0f)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Multi", glm::vec3(225.0f, -3.0f, 13.0f)));
 
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(120, -13, 15)));
-			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(140, -10, 15)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(120, -13, 13)));
+			section7->AddChild(Prefabs::Load(scene, "Shroom Trap Single", glm::vec3(140, -10, 13)));
 		}
 
 		// Props
 		{
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(58.800, 28.450, 14.9)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(92.240, 17.290, 14.9)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(140.0, 15.0, 15.0)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(160.0, -4.5, 15.0)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(224.5, 35.0, 15.0)));
-			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(210.5, 35.0, 15.0)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(58.800, 28.450, 13)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(92.240, 17.290, 13)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(140.0, 15.0, 13)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(160.0, -4.5, 13)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(224.5, 35.0, 13)));
+			section7->AddChild(Prefabs::Load(scene, "Crystal", glm::vec3(210.5, 35.0, 13)));
+
+			section7->AddChild(Prefabs::Load(scene, "Rocks", glm::vec3(30.0, 22.0, 13.2)));  
+			section7->AddChild(Prefabs::Load(scene, "Rocks", glm::vec3(110.0, 22.0, 13.2)));
+			section7->AddChild(Prefabs::Load(scene, "Rocks", glm::vec3(135.0, 30.0, 13.2)));
+			section7->AddChild(Prefabs::Load(scene, "Rocks", glm::vec3(150.0, -10.0, 13.2)));
+			section7->AddChild(Prefabs::Load(scene, "Rocks", glm::vec3(210.0, 10.0, 13.2)));
+			section7->AddChild(Prefabs::Load(scene, "Rocks", glm::vec3(225.0, 50.0, 13.2)));
 		}
 
 		// Floors
 		{
-			GameObject::Sptr s7_floor_1 = Prefabs::Load(scene, "Floor");
+			GameObject::Sptr floorz = Prefabs::Load(scene, "Floor");
 			{
-				s7_floor_1->SetPosition(glm::vec3(125.920f, 29.600f, 15.0f));
-				s7_floor_1->SetScale(glm::vec3(1.1f, 2.3f, 1.0f));
-				s7_floor_1->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(24.0f, 50.0f, 2.5f)))->SetPosition({ 0.3,-7.0,-2.3 });
-				section7->AddChild(s7_floor_1);
+				floorz->SetPosition(glm::vec3(71.5f, 27.0f, 13.0f));
+				floorz->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floorz->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floorz); 
 			}
 
-			GameObject::Sptr s7_floor_2 = Prefabs::Load(scene, "Floor");
+			GameObject::Sptr floory = Prefabs::Load(scene, "Floor");
 			{
-				s7_floor_2->SetPosition(glm::vec3(72.610f, 33.0f, 15.0f));
-				s7_floor_2->SetScale(glm::vec3(1.040f, 1.150f, 1.0f));
-				s7_floor_2->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(30.0f, 18.0f, 3.0f)))->SetPosition({ 2.0,-5.0,-2.3 });
-				section7->AddChild(s7_floor_2);
+				floory->SetPosition(glm::vec3(120.0, 27.0f, 13.0f));
+				floory->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floory->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floory); 
 			}
 
-			GameObject::Sptr s7_floor_3 = Prefabs::Load(scene, "Floor");
+			GameObject::Sptr floorx = Prefabs::Load(scene, "Floor");
 			{
-				s7_floor_3->SetPosition(glm::vec3(228.030f, 25.440f, 15.0f));
-				s7_floor_3->SetScale(glm::vec3(3.0f, 2.0f, 1.0f));
-				s7_floor_3->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(65.0f, 50.0f, 2.5f)))->SetPosition({ -20.0,-15.0,-2.3 });
-				section7->AddChild(s7_floor_3);
+				floorx->SetPosition(glm::vec3(125.3, 57.0f, 13.0f));
+				floorx->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floorx->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floorx);
+			}
+
+			GameObject::Sptr floora = Prefabs::Load(scene, "Floor");
+			{
+				floora->SetPosition(glm::vec3(130.5, -6.0f, 13.0f));
+				floora->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floora->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floora);
+			}
+
+			GameObject::Sptr floorb = Prefabs::Load(scene, "Floor");
+			{
+				floorb->SetPosition(glm::vec3(173.0f, -6.0f, 13.0f));
+				floorb->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floorb->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floorb);
+			}
+
+			GameObject::Sptr floorc = Prefabs::Load(scene, "Floor");
+			{
+				floorc->SetPosition(glm::vec3(215.5f, -6.0f, 13.0f));
+				floorc->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floorc->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floorc); 
+			}
+
+			GameObject::Sptr floord = Prefabs::Load(scene, "Floor");
+			{
+				floord->SetPosition(glm::vec3(215.5f, 24.0f, 13.0f));
+				floord->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floord->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floord);
+			}
+
+			GameObject::Sptr floore = Prefabs::Load(scene, "Floor");
+			{
+				floore->SetPosition(glm::vec3(215.5f, 54.0f, 13.0f));
+				floore->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floore->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floore);
+			}
+
+			GameObject::Sptr floorf = Prefabs::Load(scene, "Floor");
+			{
+				floorf->SetPosition(glm::vec3(258.0f, 24.0f, 13.0f));
+				floorf->SetScale(glm::vec3(0.85f, 0.6f, 1.0f));
+				floorf->Get<RigidBody>()->AddCollider(BoxCollider::Create(glm::vec3(21.25f, 15, 1.5f)))->SetPosition({ 0.3,-0.1,-2.3 });
+				section7->AddChild(floorf);
 			}
 		}
 
@@ -1736,9 +1873,9 @@ void GameSceneLayer::LoadScene()
 
 			GameObject::Sptr wall73 = Prefabs::Load(scene, "Wall");
 			{
-				wall73->SetPosition(glm::vec3(32.870f, -36.850f, 3.960f));
+				wall73->SetPosition(glm::vec3(157.7f, -19.730f, 12.470f));
 				wall73->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
-				wall73->SetScale(glm::vec3(1.0f, 1.0f, 0.9f));
+				wall73->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall73->Get<RigidBody>()->AddCollider(collider);
 				section7->AddChild(wall73);
@@ -1871,39 +2008,31 @@ void GameSceneLayer::LoadScene()
 		// Misc
 		// =========================================================================
 
-		// Create some lights for our scene
-		GameObject::Sptr skylight_1 = scene->CreateGameObject("Sky Light");
+		GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
 		{
-			skylight_1->SetPosition(glm::vec3(glm::vec3(0, 0, 100)));
-
-			Light::Sptr lightComponent = skylight_1->Add<Light>();
-			lightComponent->SetColor(glm::vec3(0.3686, 0.3451, 0.3451));
-			lightComponent->SetRadius(10000);
-			lightComponent->SetIntensity(2);
+			// Set position in the scene
+			shadowCaster->SetPosition(glm::vec3(0, -43, 25));
+			shadowCaster->SetScale(glm::vec3(5, 5, 1));
+			shadowCaster->SetRotation(glm::vec3(75, 0, 0));
+			
+			ShadowCamera::Sptr shadowCam = shadowCaster->Add<ShadowCamera>();
+			shadowCam->SetOrthographic(true);
+			shadowCam->Bias = 0.001f;
+			shadowCam->SetSize(glm::vec4(-20, 20, 20, -20)); 
 		}
 
-		GameObject::Sptr skylight_2 = scene->CreateGameObject("Sky Light");
+		GameObject::Sptr shadowCaster3 = scene->CreateGameObject("Shadow Light");
 		{
-			skylight_2->SetPosition(glm::vec3(glm::vec3(175, 50, 100)));
+			// Set position in the scene
+			shadowCaster3->SetPosition(glm::vec3(150, -15, 25));
+			shadowCaster3->SetScale(glm::vec3(5, 5, 1));
+			shadowCaster3->SetRotation(glm::vec3(75, 0, 0));
 
-			Light::Sptr lightComponent = skylight_2->Add<Light>();
-			lightComponent->SetColor(glm::vec3(0.3686, 0.3451, 0.3451));
-			lightComponent->SetRadius(10000);
-			lightComponent->SetIntensity(2);
+			ShadowCamera::Sptr shadowCam2 = shadowCaster3->Add<ShadowCamera>();
+			shadowCam2->SetOrthographic(true);
+			shadowCam2->Bias = 0.001f;
+			shadowCam2->SetSize(glm::vec4(-20, 20, 20, -20));
 		}
-
-
-		//GameObject::Sptr shadowCaster = scene->CreateGameObject("Shadow Light");
-		//{
-		//	// Set position in the scene
-		//	shadowCaster->SetPosition(glm::vec3(0, -40, 0));
-		//	shadowCaster->SetRotation(glm::vec3(75, 0, 0));
-		//	
-		//	ShadowCamera::Sptr shadowCam = shadowCaster->Add<ShadowCamera>();
-		//	shadowCam->SetOrthographic(true);
-		//	shadowCam->Bias = 0.001f;
-		//	shadowCam->SetSize(glm::vec4(-20, 20, 20, -20));
-		//}
 
 		// UI
 		// =========================================================================
@@ -1911,35 +2040,6 @@ void GameSceneLayer::LoadScene()
 #pragma region User Interface
 
 		GameObject::Sptr ui = scene->CreateGameObject("User Interface");
-
-		// Gameplay Information (Health, Time, etc)
-		GameObject::Sptr gameCanvas = scene->CreateGameObject("Game Canvas");
-		{
-			GameObject::Sptr healthp = UIHelper::CreateImage(scene, Resources::GetTexture2D("CharacterH"), "Health");
-			healthp->Get<RectTransform>()->SetPosition({ 170, 90 });
-			healthp->Get<RectTransform>()->SetSize({ 90, 40 });
-			healthp->Get<GuiPanel>()->SetBorderRadius(0);
-			gameCanvas->AddChild(healthp);
-
-			GameObject::Sptr shadowhp = UIHelper::CreateImage(scene, Resources::GetTexture2D("ShadowH"), "Shadow Health");
-			shadowhp->Get<RectTransform>()->SetPosition({ 170, 180 });
-			shadowhp->Get<RectTransform>()->SetSize({ 90, 40 });
-			shadowhp->Get<GuiPanel>()->SetBorderRadius(0);
-			gameCanvas->AddChild(shadowhp);
-
-			GameObject::Sptr healthText = UIHelper::CreateText1(scene, "Body Health: ???", "Body Health Text");
-			healthText->Get<RectTransform>()->SetPosition({ 170, 90 });
-			gameCanvas->AddChild(healthText);
-
-			GameObject::Sptr shadowText = UIHelper::CreateText(scene, "Shadow Health: ???", "Shadow Health Text");
-			shadowText->Get<RectTransform>()->SetPosition({ 176, 181 });
-			gameCanvas->AddChild(shadowText);
-
-			GameManager::GameInterface.SetGameUserInterface(*gameCanvas);
-			GameManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>());
-
-			ui->AddChild(gameCanvas);
-		}
 
 		// When the player dies
 		GameObject::Sptr loseCanvas = scene->CreateGameObject("Lose Screen");
@@ -1985,7 +2085,7 @@ void GameSceneLayer::LoadScene()
 			RectTransform::Sptr transform = pauseCanvas->Add<RectTransform>();
 			transform->SetMin({ 16, 16 });
 			transform->SetMax({ 350, 500 });
-			transform->SetPosition({ 400, 400 });
+			transform->SetPosition({ 400, 500 });
 
 			GameObject::Sptr pa = UIHelper::CreateImage(scene, Resources::GetTexture2D("Pause"), "Pausing");
 			pa->Get<RectTransform>()->SetPosition({ 550, -50 });
@@ -2012,7 +2112,46 @@ void GameSceneLayer::LoadScene()
 			ui->AddChild(pauseCanvas);
 		}
 
+		// Gameplay Information 
+		GameObject::Sptr gameCanvas = scene->CreateGameObject("Game Canvas");
+		{
+			GameObject::Sptr healthText = UIHelper::CreateText1(scene, "Body Health: ???", "Body Health Text"); 
+			healthText->Get<RectTransform>()->SetPosition({ 171, 91 }); 
+			gameCanvas->AddChild(healthText); 
 
+			GameObject::Sptr shadowText = UIHelper::CreateText(scene, "Shadow Health: ???", "Shadow Health Text"); 
+			shadowText->Get<RectTransform>()->SetPosition({ 176, 181 }); 
+			gameCanvas->AddChild(shadowText); 
+
+			GameObject::Sptr healthp = UIHelper::CreateImage(scene, Resources::GetTexture2D("CharacterH"), "Health");
+			healthp->Get<RectTransform>()->SetPosition({ 170, 90 });
+			healthp->Get<RectTransform>()->SetSize({ 90, 40 });
+			healthp->Get<GuiPanel>()->SetBorderRadius(0);
+			gameCanvas->AddChild(healthp);
+
+			GameObject::Sptr shadowhp = UIHelper::CreateImage(scene, Resources::GetTexture2D("ShadowH"), "Shadow Health");
+			shadowhp->Get<RectTransform>()->SetPosition({ 170, 180 });
+			shadowhp->Get<RectTransform>()->SetSize({ 90, 40 });
+			shadowhp->Get<GuiPanel>()->SetBorderRadius(0);
+			gameCanvas->AddChild(shadowhp);
+
+			GameManager::GameInterface.SetGameUserInterface(*gameCanvas);
+			GameManager::GameInterface.InitializeGameUserInterface(*healthText->Get<GuiText>(), *shadowText->Get<GuiText>());
+
+			ui->AddChild(gameCanvas);
+		}
+
+		GameObject::Sptr particles = scene->CreateGameObject("Particles");
+		{
+			ParticleSystem::Sptr particleManager = particles->Add<ParticleSystem>(); 
+			particleManager->AddEmitter(glm::vec3(15, -8, 5), glm::vec3(0.0f, -1.0f, 10.0f), 5.0f, glm::vec4(0.5f, 0.7f, 1.0f, 0.3f));
+		}
+
+		GameObject::Sptr particles2 = scene->CreateGameObject("Particles");
+		{
+			ParticleSystem::Sptr particleManager = particles2->Add<ParticleSystem>();
+			particleManager->AddEmitter(glm::vec3(255.0f, 20.0f, 13.0f), glm::vec3(0.0f, -1.0f, 10.0f), 5.0f, glm::vec4(0.5f, 0.7f, 1.0f, 0.3f));
+		}
 
 #pragma endregion
 

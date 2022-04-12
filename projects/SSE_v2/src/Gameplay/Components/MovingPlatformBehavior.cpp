@@ -50,13 +50,13 @@ void MovingPlatformBehavior::Update(float deltaTime)
 	{
 		glm::vec3 position = Lerp(startPosition, endPosition, timer);
 		this->GetGameObject()->SetPosition(position);
-		collider->SetPosition(glm::vec3(0.0f, 0.0f, -(startPosition.z - position.z)));
+		collider->SetPosition(glm::vec3(2.85f, 0.0f, -(startPosition.z - position.z)));
 	}
 	else
 	{
 		glm::vec3 position = Lerp(endPosition, startPosition, timer);
 		this->GetGameObject()->SetPosition(position);
-		collider->SetPosition(glm::vec3(0.0f, 0.0f, -(startPosition.z - position.z)));
+		collider->SetPosition(glm::vec3(2.85f, 0.0f, -(startPosition.z - position.z)));
 	}
 }
 

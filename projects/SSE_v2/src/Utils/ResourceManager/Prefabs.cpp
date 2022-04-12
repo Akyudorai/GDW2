@@ -124,6 +124,24 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 
 		return result;
 	}
+
+	if (name == "Mage Enemy")
+	{
+		result = scene->CreateGameObject("Mage Enemy");
+		{
+			// Set position in the SceneManager::GetCurrentScene()
+			result->SetPosition(glm::vec3(position)); 
+			result->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
+			result->SetScale(glm::vec3(0.2));
+
+			// Create and attach a renderer for the monkey
+			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
+			renderer->SetMesh(Resources::GetMesh("MageEnemy"));
+			renderer->SetMaterial(Resources::GetMaterial("MageEnemy"));
+		}
+
+		return result;
+	}
 	
 	if (name == "Pressure Plate") {
 
@@ -236,7 +254,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		{
 			result->SetPosition(position);
 			result->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			result->SetScale(glm::vec3(0.4));
+			result->SetScale(glm::vec3(0.15));
 
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
@@ -278,7 +296,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 
 				Light::Sptr light = c_Light->Add<Light>();
 				light->SetColor(glm::vec3(1, 0.5674, 0.18));
-				light->SetIntensity(10);
+				light->SetIntensity(20);
 				light->SetRadius(15);
 
 				// Trigger Volume
@@ -313,12 +331,12 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		result = scene->CreateGameObject("Elevator");
 		{
 			result->SetPosition(position);
-			result->SetScale(glm::vec3(2, 2, 0.5f));
-			result->SetRotation(glm::vec3(0.f, 0.0f, 0.0f));
+			result->SetScale(glm::vec3(5, 3, 0.5f));
+			result->SetRotation(glm::vec3(0.0f, 0.0f, 0.0f));
 
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Cube"));
-			renderer->SetMaterial(Resources::GetMaterial("Brown"));
+			renderer->SetMaterial(Resources::GetMaterial("Gray"));
 
 			// Collider
 			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static);
@@ -938,8 +956,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		result = scene->CreateGameObject("Grave Stone 1");
 		{
 			result->SetPosition(position);
-			result->SetRotation(glm::vec3(90.0f, 0.0f, -90.0f));
-			result->SetScale(glm::vec3(0.3f));
+			result->SetScale(glm::vec3(0.35f));
 
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Grave Stone"));
@@ -955,7 +972,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 		{
 			result->SetPosition(position);
 			result->SetRotation(glm::vec3(90.f, 0.0f, 0.0f));
-			result->SetScale(glm::vec3(0.3f, 0.3f, 0.3f));
+			result->SetScale(glm::vec3(0.4));
 
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("Character Dagger"));

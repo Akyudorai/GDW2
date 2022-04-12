@@ -76,15 +76,15 @@
 Application* Application::_singleton = nullptr;
 std::string Application::_applicationName = "Into The Abyss";
 
-#define DEFAULT_WINDOW_WIDTH 1280
-#define DEFAULT_WINDOW_HEIGHT 720
+#define DEFAULT_WINDOW_WIDTH 1920
+#define DEFAULT_WINDOW_HEIGHT 1080
 
 Application::Application() :
 	_window(nullptr),
 	_windowSize({DEFAULT_WINDOW_WIDTH, DEFAULT_WINDOW_HEIGHT}),
 	_isRunning(false),
 	_isEditor(true),
-	_windowTitle("INFR - 2350U"),
+	_windowTitle("Into The Abyss"),
 	_currentScene(nullptr),
 	_targetScene(nullptr)
 { }

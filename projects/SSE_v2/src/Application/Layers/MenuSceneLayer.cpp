@@ -188,7 +188,7 @@ void MenuSceneLayer::LoadScene()
 			Light::Sptr lightComponent = light->Add<Light>();
 			lightComponent->SetColor(glm::vec3(0.5f, 0.7f, 1.0f));
 			lightComponent->SetRadius(1);
-			lightComponent->SetIntensity(17);
+			lightComponent->SetIntensity(30);
 		}
 
 

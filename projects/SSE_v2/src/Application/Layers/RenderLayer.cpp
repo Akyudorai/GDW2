@@ -281,8 +281,8 @@ void RenderLayer::_AccumulateLighting()
 		_shadowShader->SetUniformMatrix("u_ViewToShadow", viewToShadow); 
 
 		// Get color and normalize it (strip the alpha)
-		glm::vec4 color = shadowCam->GetColor();
-		color *= color.w;
+		glm::vec3 color = shadowCam->GetColor();
+		color *= color.z; 
 
 		_shadowShader->SetUniform("u_LightDirViewspace", lightDirViewSpace);
 		_shadowShader->SetUniform("u_ShadowBias", shadowCam->Bias);

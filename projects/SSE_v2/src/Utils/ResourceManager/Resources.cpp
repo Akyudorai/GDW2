@@ -100,7 +100,8 @@ void Resources::Initialize()
 			textures_2D.emplace("Crystal", ResourceManager::CreateAsset<Texture2D>("textures/2D/CrystalTexture.png"));
 			textures_2D.emplace("HealingWell", ResourceManager::CreateAsset<Texture2D>("textures/2D/HealingWellTexture.png"));
 			textures_2D.emplace("Torch", ResourceManager::CreateAsset<Texture2D>("textures/2D/Torch.png"));
-			textures_2D.emplace("Candle", ResourceManager::CreateAsset<Texture2D>("textures/2D/SmallCandleTexture.png"));
+			textures_2D.emplace("Candle", ResourceManager::CreateAsset<Texture2D>("textures/2D/LargeCandleTexture.png"));
+			textures_2D.emplace("MageEnemy", ResourceManager::CreateAsset<Texture2D>("textures/2D/MageEnemy.png"));
 
 	//USER INTERFACE
 			textures_2D.emplace("Upper", ResourceManager::CreateAsset<Texture2D>("textures/UI/UpperGraphic.png"));
@@ -176,6 +177,8 @@ void Resources::Initialize()
 #pragma region 3D Textures
 
 	textures_3D.emplace("Cool Lut", ResourceManager::CreateAsset<Texture3D>("luts/cool.CUBE"));
+	textures_3D.emplace("CoolLutGDW", ResourceManager::CreateAsset<Texture3D>("luts/ColorLutCool.CUBE"));
+	textures_3D.emplace("WarmLutGDW", ResourceManager::CreateAsset<Texture3D>("luts/ColorLutWarm.CUBE"));
 
 #pragma endregion
 
@@ -268,8 +271,8 @@ void Resources::Initialize()
 		grayMat->Set("u_Material.AlbedoMap", GetTexture2D("Gray"));
 		grayMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
 		grayMat->Set("s_ToonTerm", GetTexture1D("Toon Lut"));
-		grayMat->Set("u_Material.Shininess", 0.1f);
-		grayMat->Set("u_Material.Steps", 8);
+		grayMat->Set("u_Material.Shininess", 0.3f);
+		grayMat->Set("u_Material.Steps", 16);
 		materials.emplace("Gray", grayMat);
 	}
 
@@ -582,6 +585,16 @@ void Resources::Initialize()
 		materials.emplace("Candle", std::move(candleMat));
 	}
 
+	Material::Sptr enemyMat = ResourceManager::CreateAsset<Material>(deferredForward);
+	{
+		enemyMat->Name = "MageEnemy";
+		enemyMat->Set("u_Material.AlbedoMap", GetTexture2D("MageEnemy"));
+		enemyMat->Set("u_Material.NormalMap", GetTexture2D("Normal Map Default"));
+		enemyMat->Set("u_Material.Shininess", 0.1f);
+
+		materials.emplace("MageEnemy", std::move(enemyMat)); 
+	}
+
 	for (auto& mat : materials)
 	{
 		if (mat.second->GetShader()->GetDebugName() == "Deferred - GBuffer Generation") 
@@ -590,7 +603,7 @@ void Resources::Initialize()
 			mat.second->Set("u_Lights.ToggleAmbience", true);
 			mat.second->Set("u_Lights.AmbienceStrength", 1.0f);
 			mat.second->Set("u_Lights.ToggleDiffuse", true);
-			mat.second->Set("u_Lights.ToggleSpecular", true);
+			mat.second->Set("u_Lights.ToggleSpecular", false); 
 			mat.second->Set("u_Lights.SpecularStrength", 1.0f);
 			mat.second->Set("u_Effects.ToggleInversion", false); 
 			mat.second->Set("u_Effects.ToggleTextures", true);
@@ -627,7 +640,8 @@ void Resources::Initialize()
 			meshes.emplace("Sword", ResourceManager::CreateAsset<MeshResource>("meshes/GoblinSword.obj"));
 			meshes.emplace("Lever", ResourceManager::CreateAsset<MeshResource>("meshes/Lever.obj"));
 			meshes.emplace("Torch", ResourceManager::CreateAsset<MeshResource>("meshes/Torch.obj"));
-			meshes.emplace("Candle", ResourceManager::CreateAsset<MeshResource>("meshes/SmallCandle.obj"));
+			meshes.emplace("Candle", ResourceManager::CreateAsset<MeshResource>("meshes/LargeCandle.obj"));
+			meshes.emplace("MageEnemy", ResourceManager::CreateAsset<MeshResource>("meshes/MageEnemy.obj"));
 
 	MeshResource::Sptr planeMesh = ResourceManager::CreateAsset<MeshResource>();
 	{
@@ -675,20 +689,6 @@ void Resources::Initialize()
 		}
 
 		animations.emplace("Character Idle", std::move(IdleAnimation));
-	}
-
-	std::vector<MeshResource::Sptr> JumpAnimation;
-	{
-		for (int i = 0; i < 6; ++i)
-		{
-			std::string file;
-			file.append("animations/character_jump/Jump");
-			file.append(std::to_string((i + 1)));
-			file.append(".obj");
-			IdleAnimation.push_back(ResourceManager::CreateAsset<MeshResource>(file));
-		}
-
-		animations.emplace("Character Jump", std::move(JumpAnimation));
 	}
 
 	std::vector<MeshResource::Sptr> DoorAnimation;

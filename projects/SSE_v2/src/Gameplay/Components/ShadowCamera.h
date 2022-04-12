@@ -58,11 +58,11 @@ public:
 	/// by the color from the projection mask
 	/// </summary>
 	/// <param name="value">The color of the light</param>
-	void SetColor(const glm::vec4& value);
+	void SetColor(const glm::vec3& value); 
 	/// <summary>
 	/// Gets the color of this light
 	/// </summary>
-	const glm::vec4& GetColor() const;
+	const glm::vec3& GetColor() const;
 
 	/// <summary>
 	/// Resizes this light's depth buffer, both dimensions must be non-zero
@@ -118,7 +118,7 @@ protected:
 	// The image to project from this light
 	Texture2D::Sptr   _projectionMask;
 	// The color of the light
-	glm::vec4         _color;
+	glm::vec3          _color;
 	// The resolution of _depthBuffer in pixels
 	glm::ivec2        _bufferResolution;
 	// The projection matrix of the light

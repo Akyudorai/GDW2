@@ -5,9 +5,11 @@
 
 #include "Application/Layers/GameSceneLayer.h"
 #include "Application/Layers/MenuSceneLayer.h"
-
+#include "Utils/ResourceManager/Resources.h" 
 #include <fstream>
 #include <iostream>
+#include "Application/Layers/PostProcessingLayer.h"
+#include "Application/Layers/PostProcessing/ColorCorrectionEffect.h"
 
 namespace Gameplay
 {
@@ -184,6 +186,41 @@ namespace Gameplay
 
 			if (GameInterface.m_PauseMenuPanel != nullptr) {				
 				GameInterface.TogglePausePanel(IsPaused());
+			}
+		}
+
+		
+		if (InputEngine::GetKeyState(GLFW_KEY_8) == ButtonState::Pressed)
+		{
+			Application& app = Application::Get();
+	
+			if (app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->GetColorLut() != Resources::Instance().GetTexture3D("WarmLutGDW") || 
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->Enabled == false) 
+			{
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->SetColorLut(Resources::Instance().GetTexture3D("WarmLutGDW"));
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->Enabled = true;
+			}
+			
+			else 
+			{
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->Enabled = false;
+			}
+		}
+
+		if (InputEngine::GetKeyState(GLFW_KEY_9) == ButtonState::Pressed)
+		{
+			Application& app = Application::Get();
+
+			if (app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->GetColorLut() != Resources::Instance().GetTexture3D("CoolLutGDW") ||
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->Enabled == false)
+			{
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->SetColorLut(Resources::Instance().GetTexture3D("CoolLutGDW"));
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->Enabled = true;
+			}
+
+			else
+			{
+				app.GetLayer<PostProcessingLayer>()->GetEffect<ColorCorrectionEffect>()->Enabled = false;
 			}
 		}
 	}

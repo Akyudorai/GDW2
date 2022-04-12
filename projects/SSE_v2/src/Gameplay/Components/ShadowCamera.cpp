@@ -10,7 +10,7 @@ ShadowCamera::ShadowCamera() :
 	Flags(ShadowFlags::None),
 	Bias(0.00001f),
 	NormalBias(0.0001f),
-	Intensity(1.0f),
+	Intensity(1.5f),
 	Range(100.0f),
 	Orthographic(false),
 	Size(-1.0f, 1.0f, 1.0f, -1.0f),		// x = L, y = R, z = B, w = T
@@ -19,7 +19,7 @@ ShadowCamera::ShadowCamera() :
 	Planes(glm::vec2(0.1f, 1000.0f)),	// x = near plane, y = far plane
 	_depthBuffer(nullptr),
 	_projectionMask(nullptr),
-	_color(glm::vec4(1.0f)),
+	_color(glm::vec3(0.5f, 0.7f, 1.0f)),
 	_bufferResolution(glm::ivec2(512)), 
 	_projectionMatrix(glm::perspective(glm::radians(90.0f), 1.0f, 0.1f, 100.0f))
 { }
@@ -31,11 +31,11 @@ void ShadowCamera::Awake()
 	Refresh();
 }
 
-void ShadowCamera::SetColor(const glm::vec4& value) {
+void ShadowCamera::SetColor(const glm::vec3& value) { 
 	_color = value;
 }
 
-const glm::vec4& ShadowCamera::GetColor() const {
+const glm::vec3& ShadowCamera::GetColor() const {
 	return _color;
 }
 
