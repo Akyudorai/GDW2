@@ -566,6 +566,8 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				if (!pc->isShadow) {
 					pc->movSpeed = 7.5f;  // Character Slow Speed
 				}
+
+				AudioEngine::Instance().GetEvent("Wind").Play();
 			});
 			trigger->onTriggerStayEvent.push_back([] 
 			{
@@ -582,6 +584,8 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				if (!pc->isShadow) {
 					pc->movSpeed = 15.0f; // Character Base Speed
 				}
+
+				AudioEngine::Instance().GetEvent("Wind").StopImmediately();
 			});
 		}
 
@@ -617,6 +621,9 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				if (!pc->isShadow) {
 					pc->movSpeed = 7.5f;  // Character Slow Speed
 				}
+
+				AudioEngine::Instance().GetEvent("Wind").Play();
+
 			});
 			trigger->onTriggerStayEvent.push_back([] 
 			{
@@ -633,6 +640,8 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				if (!pc->isShadow) {
 					pc->movSpeed = 15.0f; // Character Base Speed
 				}
+
+				AudioEngine::Instance().GetEvent("Wind").StopImmediately();
 			});
 		}
 

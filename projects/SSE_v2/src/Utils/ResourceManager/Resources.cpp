@@ -745,8 +745,12 @@ void Resources::Initialize()
 
 	engine.LoadBank("Music");
 	engine.LoadBus("Music", "bus:/Music");
-	engine.CreateSoundEvent("Test", "event:/Music/Level 02");
 	engine.CreateSoundEvent("Mohit", "event:/Music/Mohit");
+	engine.CreateSoundEvent("Level One", "event:/Music/LevelMusic");
+	engine.CreateSoundEvent("Wind", "event:/Music/Wind");
+
+	engine.LoadBank("VO");
+	engine.CreateSoundEvent("Dialogue", "event:/VO/Dialogue_mixdown");
 
 #pragma endregion
 }
