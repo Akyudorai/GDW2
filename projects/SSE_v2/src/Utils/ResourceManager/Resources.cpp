@@ -176,6 +176,8 @@ void Resources::Initialize()
 #pragma region 3D Textures
 
 	textures_3D.emplace("Cool Lut", ResourceManager::CreateAsset<Texture3D>("luts/cool.CUBE"));
+	
+	
 
 #pragma endregion
 
@@ -747,6 +749,9 @@ void Resources::Initialize()
 	engine.LoadBus("Music", "bus:/Music");
 	engine.CreateSoundEvent("Test", "event:/Music/Level 02");
 	engine.CreateSoundEvent("Mohit", "event:/Music/Mohit");
+
+	engine.LoadBank("VO");
+	engine.CreateSoundEvent("Dialogue", "event:/VO/Dialogue_mixdown");
 
 #pragma endregion
 }
