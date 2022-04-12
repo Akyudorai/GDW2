@@ -1908,6 +1908,12 @@ void GameSceneLayer::LoadScene()
 		// UI
 		// =========================================================================
 
+#pragma region Audio
+
+		AudioEngine::Instance().GetEvent("Level One").Play();
+
+#pragma endregion
+
 #pragma region User Interface
 
 		GameObject::Sptr ui = scene->CreateGameObject("User Interface");
