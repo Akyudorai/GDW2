@@ -1768,6 +1768,8 @@ void GameSceneLayer::LoadScene()
 				wall62->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall62->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.350f, 2.360f, -3.450f));
+				collider->SetScale(glm::vec3(1.5f, 5.0f, 50.0f));
 				section7->AddChild(wall62);
 			}
 
@@ -1778,6 +1780,8 @@ void GameSceneLayer::LoadScene()
 				wall63->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall63->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(-0.420f, 3.470f, -3.730f));
+				collider->SetScale(glm::vec3(1.5f, 5.0f, 50.0f));
 				section7->AddChild(wall63);
 			}
 
@@ -1788,6 +1792,8 @@ void GameSceneLayer::LoadScene()
 				wall64->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall64->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(31.0f, 2.310f, 29.980f));
+				collider->SetScale(glm::vec3(1.0f, 5.0f, 17.5f));
 				section7->AddChild(wall64);
 			}
 
@@ -1798,8 +1804,11 @@ void GameSceneLayer::LoadScene()
 				wall65->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall65->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(36.770f, 3.120f, 15.190f));
+				collider->SetScale(glm::vec3(15.000f, 5.000f, 1.500f));
 				section7->AddChild(wall65);
 			}
+
 
 			GameObject::Sptr wall66 = Prefabs::Load(scene, "Wall");
 			{
@@ -1808,6 +1817,8 @@ void GameSceneLayer::LoadScene()
 				wall66->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall66->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(-1.460f, 4.850f, 53.350f));
+				collider->SetScale(glm::vec3(1.750f, 5.0f, 16.500f));
 				section7->AddChild(wall66);
 			}
 
@@ -1818,6 +1829,8 @@ void GameSceneLayer::LoadScene()
 				wall67->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall67->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(-59.750f, 3.130f, 14.800f));
+				collider->SetScale(glm::vec3(30.440f, 4.6f, 1.0f));
 				section7->AddChild(wall67);
 			}
 
@@ -1828,6 +1841,8 @@ void GameSceneLayer::LoadScene()
 				wall68->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall68->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(-45.390f, 1.880f, 15.030f));
+				collider->SetScale(glm::vec3(16.200f, 4.610f, 1.5f));
 				section7->AddChild(wall68);
 			}
 
@@ -1838,6 +1853,8 @@ void GameSceneLayer::LoadScene()
 				wall69->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall69->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(31.990f, 4.140f, -36.0f));
+				collider->SetScale(glm::vec3(1.5f, 5.0f, 34.0f));
 				section7->AddChild(wall69);
 			}
 
@@ -1848,6 +1865,8 @@ void GameSceneLayer::LoadScene()
 				wall70->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall70->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(29.660f, 2.210f, 16.2f));
+				collider->SetScale(glm::vec3(32.0f, 5.0f, 1.0f));
 				section7->AddChild(wall70);
 			}
 
@@ -1858,6 +1877,8 @@ void GameSceneLayer::LoadScene()
 				wall71->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall71->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(32.130f, 1.540f, 45.090f));
+				collider->SetScale(glm::vec3(33.0f, 7.0f, 1.0f));
 				section7->AddChild(wall71);
 			}
 
@@ -1868,16 +1889,20 @@ void GameSceneLayer::LoadScene()
 				wall72->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall72->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(80.650f, 5.0f, 90.1f));
+				collider->SetScale(glm::vec3(1.5f, 5.0f, 17.0f));
 				section7->AddChild(wall72);
 			}
 
 			GameObject::Sptr wall73 = Prefabs::Load(scene, "Wall");
 			{
-				wall73->SetPosition(glm::vec3(157.7f, -19.730f, 12.470f));
+				wall73->SetPosition(glm::vec3(32.870f, -36.850f, 3.960f));
 				wall73->SetRotation(glm::vec3(90.f, 0.0f, 90.0f));
 				wall73->SetScale(glm::vec3(1.0f, 1.0f, 1.0f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall73->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(82.580f, 14.010f, 200.0f));
+				collider->SetScale(glm::vec3(17.0f, 5.0f, 1.0f));
 				section7->AddChild(wall73);
 			}
 
@@ -1888,6 +1913,8 @@ void GameSceneLayer::LoadScene()
 				wall74->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall74->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(28.270f, 6.500f, 60.350f));
+				collider->SetScale(glm::vec3(1.500f, 3.840f, 16.260f));
 				section7->AddChild(wall74);
 			}
 
@@ -1898,6 +1925,8 @@ void GameSceneLayer::LoadScene()
 				wall75->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall75->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.320f, 4.0f, -17.060f));
+				collider->SetScale(glm::vec3(1.5f, 1.0f, 67.0f));
 				section7->AddChild(wall75);
 			}
 
@@ -1908,6 +1937,8 @@ void GameSceneLayer::LoadScene()
 				wall76->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall76->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+				collider->SetScale(glm::vec3(0.0f, 0.0f, 0.0f));
 				section7->AddChild(wall76);
 			}
 
@@ -1918,6 +1949,8 @@ void GameSceneLayer::LoadScene()
 				wall77->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall77->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+				collider->SetScale(glm::vec3(0.0f, 0.0f, 0.0f));
 				section7->AddChild(wall77);
 			}
 
@@ -1928,6 +1961,8 @@ void GameSceneLayer::LoadScene()
 				wall78->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall78->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(32.160f, 4.0f, 48.230f));
+				collider->SetScale(glm::vec3(1.5f, 5.0f, 17.0f));
 				section7->AddChild(wall78);
 			}
 
@@ -1938,6 +1973,8 @@ void GameSceneLayer::LoadScene()
 				wall79->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall79->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(-47.860f, 4.0f, 29.600f));
+				collider->SetScale(glm::vec3(1.5f, 5.0f, 17.0f));
 				section7->AddChild(wall79);
 			}
 
@@ -1948,6 +1985,8 @@ void GameSceneLayer::LoadScene()
 				wall80->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall80->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(31.650f, 5.0f, 23.600f));
+				collider->SetScale(glm::vec3(1.5f, 5.0f, 9.0f));
 				section7->AddChild(wall80);
 			}
 
@@ -1958,6 +1997,8 @@ void GameSceneLayer::LoadScene()
 				wall81->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall81->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+				collider->SetScale(glm::vec3(0.0f, 0.0f, 0.0f));
 				section7->AddChild(wall81);
 			}
 
@@ -1968,6 +2009,8 @@ void GameSceneLayer::LoadScene()
 				wall82->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall82->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+				collider->SetScale(glm::vec3(0.0f, 0.0f, 0.0f));
 				section7->AddChild(wall82);
 			}
 
@@ -1978,6 +2021,8 @@ void GameSceneLayer::LoadScene()
 				wall83->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall83->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+				collider->SetScale(glm::vec3(0.0f, 0.0f, 0.0f));
 				section7->AddChild(wall83);
 			}
 
@@ -1988,6 +2033,8 @@ void GameSceneLayer::LoadScene()
 				wall84->SetScale(glm::vec3(1));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall84->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+				collider->SetScale(glm::vec3(0.0f, 0.0f, 0.0f));
 				section7->AddChild(wall84);
 			}
 
@@ -1998,9 +2045,12 @@ void GameSceneLayer::LoadScene()
 				wall85->SetScale(glm::vec3(1, 1, 0.55f));
 				BoxCollider::Sptr collider = BoxCollider::Create();
 				wall85->Get<RigidBody>()->AddCollider(collider);
+				collider->SetPosition(glm::vec3(0.0f, 0.0f, 0.0f));
+				collider->SetScale(glm::vec3(0.0f, 0.0f, 0.0f));
 				section7->AddChild(wall85);
 			}
 		}
+
 
 
 #pragma endregion
@@ -2040,6 +2090,7 @@ void GameSceneLayer::LoadScene()
 #pragma region Audio
 
 		AudioEngine::Instance().GetEvent("Level One").Play();
+		AudioEngine::Instance().GetEvent("Level One").SetVolume(0.1f);
 
 #pragma endregion
 

@@ -199,8 +199,6 @@ void MenuSceneLayer::LoadScene()
 		AudioEngine::Instance().GetEvent("Mohit").SetVolume(0.25f);
 		AudioEngine::Instance().GetEvent("Mohit").Play();
 
-		AudioEngine::Instance().GetEvent("Dialogue").Play();
-
 #pragma endregion
 
 #pragma region User Interface

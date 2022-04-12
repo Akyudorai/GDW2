@@ -134,10 +134,30 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 			result->SetRotation(glm::vec3(90.f, 0.0f, -90.0f));
 			result->SetScale(glm::vec3(0.2));
 
+			// Collider
+			RigidBody::Sptr physics = result->Add<RigidBody>(RigidBodyType::Static); 
+			BoxCollider::Sptr collider = BoxCollider::Create(); 
+			physics->AddCollider(collider); 
+
 			// Create and attach a renderer for the monkey
 			RenderComponent::Sptr renderer = result->Add<RenderComponent>();
 			renderer->SetMesh(Resources::GetMesh("MageEnemy"));
 			renderer->SetMaterial(Resources::GetMaterial("MageEnemy"));
+
+			AudioSource::Sptr audio = result->Add<AudioSource>();
+			{
+				audio->LoadEvent("Dialogue");
+				AudioEngine::Instance().GetEvent("Dialogue").SetVolume(3.0f);
+				audio->Init({ false });
+			}
+
+			// Interaction Event
+			InteractableComponent::Sptr interactable = result->Add<InteractableComponent>();
+			interactable->onInteractionEvent.push_back([interactable, audio]
+				{
+					interactable->isToggled = !interactable->isToggled;
+					audio->Play();
+				});
 		}
 
 		return result;
@@ -567,7 +587,9 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 					pc->movSpeed = 7.5f;  // Character Slow Speed
 				}
 
+				
 				AudioEngine::Instance().GetEvent("Wind").Play();
+				AudioEngine::Instance().GetEvent("Wind").SetVolume(5.0f);
 			});
 			trigger->onTriggerStayEvent.push_back([] 
 			{
@@ -623,6 +645,7 @@ GameObject::Sptr Prefabs::Load(Scene::Sptr scene, std::string name, glm::vec3 po
 				}
 
 				AudioEngine::Instance().GetEvent("Wind").Play();
+				AudioEngine::Instance().GetEvent("Wind").SetVolume(5.0f); 
 
 			});
 			trigger->onTriggerStayEvent.push_back([] 
